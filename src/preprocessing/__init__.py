@@ -24,7 +24,11 @@ def stretch_interpolate_matrix(arr: np.array, target_width: int) -> np.array:
     return np.apply_along_axis(lambda arr: stretch_interpolate(arr, target_length=target_width),
                                axis=1,
                                arr=arr)
-
+def sample_rows(X, y=None, n=200):
+    if n>=X.shape[0]:
+        return X, y if y is not None else X
+    index = np.random.choice(X.shape[0], n, replace=False)
+    return X[index], y[index] if y is not None else X[index]
 
 class TargetEncoder:
     def __init__(self, column: np.array):
@@ -32,7 +36,7 @@ class TargetEncoder:
         try:
             self.categorical: np.array = self.column.astype("int")
         except ValueError:
-            self.categorical: np.array = self.column.astype('category').cat.codes
+            self.categorical: np.array = pd.Series(self.column, dtype="category").cat.codes.values
         self.__scaler = MinMaxScaler()
 
     def get_categorical_column(self, prefix: str = None):
