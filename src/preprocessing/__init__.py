@@ -74,9 +74,9 @@ class TargetEncoder:
             ).cat.codes.values
         self.__scaler = MinMaxScaler()
 
-    def get_categorical_column(self, prefix: str = None):
+    def get_categorical_column(self, prefix: str = None) -> np.array:
         if prefix:
-            return prefix + self.categorical
+            return np.char.add(f"{prefix}_", self.categorical.astype('str'))
         return self.categorical
 
     def get_0_1_scaled(self):
