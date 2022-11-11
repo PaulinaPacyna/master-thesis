@@ -285,9 +285,9 @@ The time index $T$ can represent any collection with natural order. It can relat
 \chapter{Related works}
 In this chapter we would like to describe several algorithms used in time series classification. We will also recall theoretical definitions and distinctions used to describe transfer learning. 
 
-\subsection{Dynamic Time Warping with k-Nearest Neighbour}
+\section{Dynamic Time Warping with k-Nearest Neighbour}
 The Dynamic Time Warping with k-Nearest Neighbour classifier uses a distance based algorithm with a specific distance measure. A DWT distance between time series $X^1$, $X^2$ of equal lengths is:
-$$DTW(X^1, X^2) = \min\{ \sum_{i=1}^S dist(x^1_{e_i}, x^2_{f_i}):(e_i)_{i=1}^S, (f_i)_{i=1}^ s\in 2^T\}$$
+$$DTW(X^1, X^2) = \min\{ \sum_{i=1}^S dist(x^1_{e_i}, x^2_{f_i}):(e_i)_{i=1}^S, (f_i)_{i=1}^S\in 2^T\}$$
 subject to:
 \begin{itemize}
 \item $e_1 = 1, f_1 = 1, e_S= N, f_S = N$
@@ -296,6 +296,25 @@ subject to:
 The measure defined above, used in k-Nearest Neighbour classifier is often used as a benchmark classifier. 
 \subsection{Multi Layer Perceptron}
 The Multi Layer Perceptron (MLP) is the first artificial neural network architecture proposed and can be used for time series classification task. 
+%A MLP network can be formally defined as a function depending on a set \textit{weights} $\theta_i$. 
+%$$MLP(X; \theta_1,\dots , \theta_M, \beta_1,\dots , \beta_M) = f_M( \beta_M +  \theta_M \cdot (f_{M-1}( \beta_{M-1} +  \theta_{M-1} \cdot (\dots f_1( \beta_1 +  \theta_1 \cdot X)))))$$
+The MLP network can be formally defined as a composition of $layer$ functions. The output of the function is a vector that usually models the probability distribution over the set of classes.
+$$MLP(X; \theta_1,\dots , \theta_M, \beta_1,\dots , \beta_M) = L_M(\dots L_2(L_1(X;\theta_1, \beta_1);\theta_2, \beta_2);\theta_M, \beta_M)$$
+Each layer $L_i: R^M \rightarrow R^N$ is a function that depends on the parameters $\theta \in r^{M\times N}, \beta in R^N$
+$$L_i(X, ; \theta_i, \beta_i) = f_i(X \theta_i  + \beta_i)$$
+Function $f_i: R^N \rightarrow R^N$ is an arbitrary chosen non-linear function. The number of layers and dimensions of weights are also an arbitrary choice, except for the weights is last and first later. The weights is last and first later have to match the dimensionality of input time series (the length of time series) and number of classes. 
+
+The disadvantage of using Multi Layer Perceptrons for time series classification is that the input size is fixed. All time series is the training data must have the same length. In transfer learning, this means that if we want to reuse the source network (or a set of first layers from the network), the target dataset must consists of time series of the same length. 
+
+The MLP architecture fails at understanding the temporal dependencies. Each input values in the time series is treated separately, because it is multiplied by a separate row in the weight matrix. 
+
+\section{Convolutional Neural Networks}
+Convolutional Neural Networks are widely used in image recognition. A convolution applied for a time series can be interpreted as sliding a filter over the time series. A convolutional layer is a set of functions called convolutions or filters. The filter is applied at a given point, taking into account values that surrounds the point. 
+
+In the first layer of convolutional neural networks used for univariate time series classification, the filter is one-dimensional. The output of the first for one time series layer has dimensions (length of time series - the length of the filter - 1, number of filters). Below we define the value of the output for filter $i$  
+$$ y_{t, i} = f_i([\theta_1^i, \dots , \theta_M^i] * [X_{t}, \dots, X_{t+M-1}])$$ 
+The function $f_i$ and weights $\theta = [\theta_1^i, \dots , \theta_M^i]$ are different for each filter.
+The same filter is applied over the whole length of time series. This is called \textit{weight sharing} and it enables the 
 
 \section{Example section}
 
