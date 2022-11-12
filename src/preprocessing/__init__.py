@@ -22,7 +22,7 @@ def read_univariate_ts(path: str, return_data_type="nested_univ") -> Tuple[np.ar
 
 
 def stretch_interpolate(
-        df: np.array, target_length: int = 600, type_: str = "linear"
+    df: np.array, target_length: int = 600, type_: str = "linear"
 ) -> np.array:
     interpolator = interp1d(np.arange(len(df)), df, kind=type_)
     new_index = np.linspace(0, len(df) - 1, target_length)
@@ -36,7 +36,7 @@ def random_sub_interval(df: np.array, target_length: int = 600):
     if length_df == target_length:
         return df
     start = np.random.randint(length_df - target_length + 1)
-    return df[start: start + target_length]
+    return df[start : start + target_length]
 
 
 def normalize_length(df: np.array, target_length: int = 600):
@@ -76,7 +76,7 @@ class TargetEncoder:
 
     def get_categorical_column(self, prefix: str = None) -> np.array:
         if prefix:
-            return np.char.add(f"{prefix}_", self.categorical.astype('str'))
+            return np.char.add(f"{prefix}_", self.categorical.astype("str"))
         return self.categorical
 
     def get_0_1_scaled(self):
@@ -84,3 +84,16 @@ class TargetEncoder:
 
     def reverse_0_1_scale(self, X: np.array):
         return self.__scaler.inverse_transform(X)
+
+
+def create_concatenated_dataset():
+    X_final = []
+    y_final = []
+    for path in get_paths():
+        X, y = load_from_tsfile(path)
+        y = TargetEncoder(y).get_categorical_column(prefix=path.split(os.sep)[2])
+        X_final.append(X)
+        y_final.append(y)
+    X_final = np.concatenate(X_final)
+    y_final = np.concatenate(y_final)
+    return X_final, y_final
