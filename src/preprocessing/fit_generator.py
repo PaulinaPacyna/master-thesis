@@ -1,6 +1,6 @@
 import numpy as np
 import keras
-
+import sklearn
 from preprocessing.utils import TargetEncoder
 
 
@@ -15,8 +15,8 @@ class DataGenerator(keras.utils.Sequence):
         self.X = X
         self.lengths = self.__get_lengths()
         self.batches = np.unique(self.lengths).tolist()
-        self.encoder = TargetEncoder(y)
-        self.y = self.encoder.categorical
+        self.encoder = sklearn.preprocessing.OneHotEncoder(categories='auto')
+        self.y = self.encoder.fit_transform(y.reshape(-1, 1)).toarray()
         self.on_epoch_end()
 
     def __get_lengths(self):
