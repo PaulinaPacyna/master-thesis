@@ -164,7 +164,9 @@
 \newcommand{\type}{Master} % Master OR Engineer
 \newcommand{\supervisor}{dr inż. Promotor X} % TITLE AND NAME OF THE SUPERVISOR
 
+%---------------------------Moje ustawienia-----------------------------
 
+\DeclareMathOperator{\real}{\mathbb{R}}
 
 \begin{document}
 \sloppy
@@ -273,11 +275,11 @@ WARNING!  In a diploma thesis which is a team project: Description of the work d
 \chapter{Foundations}
 \section{Time series classification}
 Time series is an ordered collection of observations indexed by time. 
-$$X = (x_t)_{t\in T} = (x_1, ... , x_T),\ x_t\in R$$
+$$X = (x_t)_{t\in T} = (x_1, ... , x_T),\ x_t\in \real$$
 The time index $T$ can represent any collection with natural order. It can relate to point in time when the measurement was observed, or it can represent a point in space measured along X axis. We assume that indices are spaced evenly in the set $T$. The realisation or observation $x_t$ in the times series is a numerical value describing the phenomena we observe, for example amplitude of a sound, stock price or y-coordinate. Time series classification is a problem of finding the optimal mapping between a set of time series and corresponding classes.
 
 %Time series classification can be formulated as follows:
-%Given a dataset  $D = {(X_i, y_i)}_{i=1}^N$, where $X_i \in 2^R$ is a time series and $y_i\in {1, ..., N} = C$, we would like to find a function (called classifier) $f_\theta :2^R \leftarrow C$ such that 
+%Given a dataset  $D = {(X_i, y_i)}_{i=1}^N$, where $X_i \in 2^\real$ is a time series and $y_i\in {1, ..., N} = C$, we would like to find a function (called classifier) $f_\theta :2^\real \leftarrow C$ such that 
 %$$f_\theta (X_i) = y_i$$. 
 \section{Transfer learning}
 
@@ -294,15 +296,15 @@ subject to:
 \item $|e_{i+1} - e_i | \leq 1$, $|f_{i+1} - f_i | \leq 1$
 \end{itemize}
 The measure defined above, used in k-Nearest Neighbour classifier is often used as a benchmark classifier. 
-\subsection{Multi Layer Perceptron}
+\section{Multi Layer Perceptron}
 The Multi Layer Perceptron (MLP) is the first artificial neural network architecture proposed and can be used for time series classification task. 
 %A MLP network can be formally defined as a function depending on a set \textit{weights} $\theta_i$. 
 %$$MLP(X; \theta_1,\dots , \theta_M, \beta_1,\dots , \beta_M) = f_M( \beta_M +  \theta_M \cdot (f_{M-1}( \beta_{M-1} +  \theta_{M-1} \cdot (\dots f_1( \beta_1 +  \theta_1 \cdot X)))))$$
 The MLP network can be formally defined as a composition of $layer$ functions. The output of the function is a vector that usually models the probability distribution over the set of classes.
 $$MLP(X; \theta_1,\dots , \theta_M, \beta_1,\dots , \beta_M) = L_M(\dots L_2(L_1(X;\theta_1, \beta_1);\theta_2, \beta_2);\theta_M, \beta_M)$$
-Each layer $L_i: R^M \rightarrow R^N$ is a function that depends on the parameters $\theta \in r^{M\times N}, \beta in R^N$
+Each layer $L_i: \real^M \rightarrow \real^N$ is a function that depends on the parameters $\theta \in r^{M\times N}, \beta in \real^N$
 $$L_i(X, ; \theta_i, \beta_i) = f_i(X \theta_i  + \beta_i)$$
-Function $f_i: R^N \rightarrow R^N$ is an arbitrary chosen non-linear function. The number of layers and dimensions of weights are also an arbitrary choice, except for the weights is last and first later. The weights is last and first later have to match the dimensionality of input time series (the length of time series) and number of classes. 
+Function $f_i: \real^N \rightarrow \real^N$ is an arbitrary chosen non-linear function. The number of layers and dimensions of weights are also an arbitrary choice, except for the weights is last and first later. The weights is last and first later have to match the dimensionality of input time series (the length of time series) and number of classes. 
 
 The disadvantage of using Multi Layer Perceptrons for time series classification is that the input size is fixed. All time series is the training data must have the same length. In transfer learning, this means that if we want to reuse the source network (or a set of first layers from the network), the target dataset must consists of time series of the same length. 
 
@@ -311,238 +313,23 @@ The MLP architecture fails at understanding the temporal dependencies. Each inpu
 \section{Convolutional Neural Networks}
 Convolutional Neural Networks are widely used in image recognition. A convolution applied for a time series can be interpreted as sliding a filter over the time series. A convolutional layer is a set of functions called convolutions or filters. The filter is applied at a given point, taking into account values that surrounds the point. 
 
+To define the convolution operation, let's assume the input is a matrix $X \in \real^{(N_1, \dots, N_K)}$. In case of images, number of dimensions $K$ is often equal to $3$ (height, width, channels), for univariate series we can assume just one dimension, and for multivariate time series wee need two dimensions - (feature, time). 
+The filter consist of a matrix of weights $M \in \real^{(P_1, \dots, P_K)}$. 
+Usually, $P_i$ are odd numbers, so that we can index the matrix with symmetrical numbers: $ (\frac{-P_i+1}{2},  \frac{-P_i+3}{2}, \dots, 0, \dots, \frac{P_i-1}{2})$. The $0$ index marks the center of the matrix. 
+%TODO - powolac sie czemu nieparzyscie
+
+Finally the convolution $*$ is defined as follows:
+$$(X*M)_{i_1, \dots, i_M} = \sum_{k_1=\frac{-P_1+1}{2}}^{\frac{P_1-1}{2}} \cdots \sum_{k_M=\frac{-P_K+1}{2}}^{\frac{P_K-1}{2}} M_{k_1, \dots, k_M} X_{i_1 + k_1, \dots, i_M + k_M}$$
+
 In the first layer of convolutional neural networks used for univariate time series classification, the filter is one-dimensional. The output of the first for one time series layer has dimensions (length of time series - the length of the filter - 1, number of filters). Below we define the value of the output for filter $i$  
 $$ y_{t, i} = f_i([\theta_1^i, \dots , \theta_M^i] * [X_{t}, \dots, X_{t+M-1}])$$ 
 The function $f_i$ and weights $\theta = [\theta_1^i, \dots , \theta_M^i]$ are different for each filter.
-The same filter is applied over the whole length of time series. This is called \textit{weight sharing} and it enables the 
+The same filter is applied over the whole length of time series. This is called \textit{weight sharing} and it enables the patterns regardless of the position in the time series. 
 
-\section{Example section}
+The architecture of the convolutional layer is not dependent of the number of size of the input data. Regardless the size of input data, number of filters and size of filters remain the same, only the output sizes depends on the input size. Therefore, if the convolutional layer is   succeeded by layers with the same property, like other convolutional layers or Global Pooling with Dense Layer (see section \ref{FCN}), the whole network may be invariant to the input sizes. Such networks may be interesting in terms of transfer learning, as the sizes of time series in the source task and in the target task do not have to match.  
 
-\begin{definition}[Definition]
-	%
-	A \emph{definition} is a statement of the meaning of a term (a word, phrase, or other set of symbols).
-	%
-\end{definition}
+\section{Fully Connected Networks}\label{FCN}
 
-\subsection{Example subsection}
-
-It's the deepest deph of sectioning allowed by rector.
-
-\begin{definition}[Equation]
-	%
-	In mathematics, an \emph{equation} is a statement of an equality containing one or more variables.
-	%
-\end{definition}
-%
-\begin{example}
-This is an example of an equation:
-\begin{equation}
-	%
-	2+2=4.
-	%
-\end{equation}
-%
-Equation without a number:
-\begin{equation*}
-	%
-	2+2=4,
-	%
-\end{equation*}
-or:
-\[
-2+2=4.
-\]
-
-It is worthwhile to peruse other mathematical environments like  \emph{multline}, \emph{align} and their versions with a star (, i.e. without numeration). The description of their use can be found at  \url{https://texdoc.org/serve/amsldoc.pdf/0} starting from the end of the third page.
-
-Equation \eqref{equation} is false. References (and some other things) work properly after compliling \TeX ~ file twice.
-
-\begin{equation}\label{equation}
-	%
-	\int \limits_{0}^{1} x \; dx = \frac{3}{2}.
-	%
-\end{equation}
-
-\end{example}
-
-Theorem \ref{Pitagoras} is a very interensting result.
-
-\begin{theorem}[Pythagoras' Theorem]\label{Pitagoras}
-	%
-	Let $c$ represent the length of the hypotenuse and $a$ and $b$ the lengths of the triangle's other two sides. Then:
-	%
-\begin{equation*}
-	%
-	a^2 + b^2 = c^2.
-	%
-\end{equation*}
-%
-\end{theorem}
-
-\begin{proof}
-	%
-	The proof has been presented in \cite{Ktos} and \cite{Innyktos}. We can write then \cite{Ktos, Innyktos}.
-	%
-\end{proof}
-
-\begin{corollary}
-	%
-	The use of the term \emph{corollary}, rather than \emph{proposition} or \emph{theorem}, is intrinsically subjective.
-	%
-\end{corollary}
-
-
-
-
-\begin{remark}
-	%
-	You can find a rather comprehensive list of available symbols at \url{https://www3.nd.edu/~nmark/UsefulFacts/LaTeX_symbols.pdf}.
-	
-	If you want to find a symbol by its shape, you can use the following site: \url{https://detexify.kirelabs.org/classify.html}. 
-	%
-\end{remark}
-
-\begin{lemma}[Someone's Lemma]
-	%
-	Ten lemat jest nie na temat.
-	%
-\end{lemma}
-\begin{proof} Dowód przez indukcję.
-\end{proof}
-
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumyeirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diamvoluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumyeirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diamvoluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-
-
-
-\section{Floats -- tables and figures}
-
-\begin{table}% label has to be after caption, otherwise numeration is wrong
-\caption[Short caption]{Additional options}
-\label{opcje}
-\centering
-\begin{tabular}{|c|p{0.8\textwidth}|}
-\hline
-symbol & effect \\ \hline
-\texttt{h} & Place the float here, i.e., approximately at the same point it occurs in the source text (however, not exactly at the spot) \\
-\texttt{t} & Position at the top of the page \\
-\texttt{b} & Position at the bottom of the page \\
-\texttt{p} & Put on a special page for floats only \\
-\texttt{!} & Override internal parameters LaTeX uses for determining "good" float positions \\ 
-\texttt{H} & Places the float at precisely the location in the \LaTeX ~ code. Requires the float package,[1] i.e., \texttt{\textbackslash usepackage\{float\}}. This is somewhat equivalent to !ht.\\ \hline
-\end{tabular}
-\end{table}
-
-Place labels after captions or you get the wrong labelling.
-
-In Table \ref{opcje} there are additional options for \texttt{table} and \texttt{figure} environments.
-
-\begin{figure}[h!]
-
-\begin{center}
-    \setlength{\unitlength}{1mm}
-
-    \begin{picture}(40, 30)
-        \put(20,1){\line(0,1){20}} % line
-
-        % bottom
-        \put(20,1){\circle*{2}}
-        \put(25,1){0}
-
-        % top
-        \put(20,21){\circle*{2}}
-        \put(25,21){1}
-    \end{picture}
-
-\end{center}
-\caption{Example figure -- it has been drawn by \LaTeX ~default tools}
-\end{figure}
-
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elit, sed diam nonumyeirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diamvoluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumyeirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diamvoluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-
-
-
-
-\chapter{The next chapter}
-
-Lorem ipsum dolor sit amet, consetetur sadipscing elit, sed diam nonumyeirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diamvoluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumyeirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diamvoluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-
-
-\section{Matrices}
-
-Simple matrix:
-\begin{equation*}
-	\begin{matrix}
-	a & b & c & d \\
-	d & e & f & g \\
-	1 & 1 & 1 & 1
-	\end{matrix}
-\end{equation*}
-%
-Matrix with parentheses:
-%
-\begin{equation*}
-	A = 
-	\begin{pmatrix}
-	a & b & c & d \\
-	d & e & f & g \\
-	1 & 1 & 1 & 1
-	\end{pmatrix}
-\end{equation*}
-%
-Matrix with brackets:
-%
-\begin{equation*}
-	\begin{bmatrix}
-	a & b & c & d \\
-	d & e & f & g \\
-	1 & 1 & 1 & 1
-	\end{bmatrix}
-\end{equation*}
-%
-You can also use more general environment:
-%
-\begin{equation*}
-	\renewcommand{\arraystretch}{0.8}
-	\begin{array}{ccc}
-	1 & 0 & 0 \\
-	0 & 1 & 0 \\
-	0 & 0 & 1 \\
-	\end{array}
-\end{equation*}
-%
-Matrix with braces:
-%
-\begin{equation*}
-	\left\{
-	\renewcommand{\arraystretch}{0.8}
-	\begin{array}{ccc}
-	1 & 0 & 0 \\
-	0 & 1 & 0 \\
-	0 & 0 & 1 \\
-	\end{array}\right\}
-\end{equation*}
-
-\begin{definition}
-	%
-	Let $A\neq \emptyset$, $n \in \mathbb{N}$. Every function $f\colon A^n \to A$ is called an \emph{$n$-ary operation} or \emph{działaniem} określonym na $A$.
-	$0$-ary operations are constant functions.
-	%
-\end{definition}
-
-
-\begin{definition}[Algebra]
-	%
-	The ordered pair $(A,F)$, where $A\neq \emptyset$ is a set and $F$ is a family of operations defined on $A$, shall be called an \emph{algebra} (or \emph{$F$-algebra}). The set $A$ is called \emph{the set of elements}, \emph{support} or \emph{universe} of an algebra $(A,F)$ and $F$ is called \emph{the set of elementary operations}.
-	%
-\end{definition}
-
-\begin{proposition}
-	%
-	I state that, having passed to the limit, the only thing left me me is to camp at said limit or return, or, maybe, search for a pass or an exit to other areas.
-	%
-\end{proposition}
 
 
 
@@ -566,38 +353,38 @@ Matrix with braces:
 
 
 % ----------------------- LIST OF SYMBOLS AND ABBREVIATIONS ------------------
-\chapter*{List of symbols and abbreviations}
-
-\begin{tabular}{cl}
-nzw. & nadzwyczajny \\
-* & star operator \\
-$\widetilde{}$ & tilde 
-\end{tabular}
-\\
-If you don't need it, delete it.
-\thispagestyle{empty}
-
-
-% ----------------------------  LIST OF FIGURES --------------------------------
-\listoffigures
-\thispagestyle{empty}
-If you don't need it, delete it.
-
-
-% -----------------------------  LIST OF TABLES --------------------------------
-\renewcommand{\listtablename}{Spis tabel}
-\listoftables
-\thispagestyle{empty}
-If you don't need it, delete it.
-
-% -----------------------------  LIST OF APPENDICES ---------------------------
-\chapter*{List of appendices}
-\begin{enumerate}
-\item Appendix 1
-\item Appendix 2
-\item In case of no appendices, delete this part.
-\end{enumerate}
-\thispagestyle{empty}
+%\chapter*{List of symbols and abbreviations}
+%
+%\begin{tabular}{cl}
+%nzw. & nadzwyczajny \\
+%* & star operator \\
+%$\widetilde{}$ & tilde 
+%\end{tabular}
+%\\
+%If you don't need it, delete it.
+%\thispagestyle{empty}
+%
+%
+%% ----------------------------  LIST OF FIGURES --------------------------------
+%\listoffigures
+%\thispagestyle{empty}
+%If you don't need it, delete it.
+%
+%
+%% -----------------------------  LIST OF TABLES --------------------------------
+%\renewcommand{\listtablename}{Spis tabel}
+%\listoftables
+%\thispagestyle{empty}
+%If you don't need it, delete it.
+%
+%% -----------------------------  LIST OF APPENDICES ---------------------------
+%\chapter*{List of appendices}
+%\begin{enumerate}
+%\item Appendix 1
+%\item Appendix 2
+%\item In case of no appendices, delete this part.
+%\end{enumerate}
+%\thispagestyle{empty}
 
 
 \end{document}
