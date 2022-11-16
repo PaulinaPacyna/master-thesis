@@ -282,13 +282,12 @@ The time index $T$ can represent any collection with natural order. It can relat
 %Given a dataset  $D = {(X_i, y_i)}_{i=1}^N$, where $X_i \in 2^\real$ is a time series and $y_i\in {1, ..., N} = C$, we would like to find a function (called classifier) $f_\theta :2^\real \leftarrow C$ such that 
 %$$f_\theta (X_i) = y_i$$. 
 \section{Transfer learning}
-
-
+Transfer learning is a technique that attempts to apply knowledge learned  while solving one task to enhance the learning process for another task. Formally, the problem can be described using the notions of tasks and domains \cite{survey_transfer_learning}. A \textit{Domain} is a pair $(\mathcal{X}, P(\mathcal{X}))$, where $\mathcal{X}$ is the feature space (e.g. the time series observations, and $P(\mathcal{X})$ is the probability distribution over the feature space.
 \chapter{Related works}
 In this chapter we would like to describe several algorithms used in time series classification. We will also recall theoretical definitions and distinctions used to describe transfer learning. 
 
 \section{Dynamic Time Warping with k-Nearest Neighbour}
-The Dynamic Time Warping with k-Nearest Neighbour classifier uses a distance based algorithm with a specific distance measure. A DWT distance between time series $X^1$, $X^2$ of equal lengths is:
+The Dynamic Time Warping \cite{bake_off} with k-Nearest Neighbour classifier uses a distance based algorithm with a specific distance measure. A DWT distance between time series $X^1$, $X^2$ of equal lengths is:
 $$DTW(X^1, X^2) = \min\{ \sum_{i=1}^S dist(x^1_{e_i}, x^2_{f_i}):(e_i)_{i=1}^S, (f_i)_{i=1}^S\in 2^T\}$$
 subject to:
 \begin{itemize}
@@ -297,18 +296,18 @@ subject to:
 \end{itemize}
 The measure defined above, used in k-Nearest Neighbour classifier is often used as a benchmark classifier. 
 \section{Multi Layer Perceptron}
-The Multi Layer Perceptron (MLP) is the first artificial neural network architecture proposed and can be used for time series classification task. 
+The Multi Layer Perceptron (MLP) is the first artificial neural network architecture proposed in \cite{dl_tsc} and can be used for time series classification task. 
 %A MLP network can be formally defined as a function depending on a set \textit{weights} $\theta_i$. 
 %$$MLP(X; \theta_1,\dots , \theta_M, \beta_1,\dots , \beta_M) = f_M( \beta_M +  \theta_M \cdot (f_{M-1}( \beta_{M-1} +  \theta_{M-1} \cdot (\dots f_1( \beta_1 +  \theta_1 \cdot X)))))$$
 The MLP network can be formally defined as a composition of $layer$ functions. The output of the function is a vector that usually models the probability distribution over the set of classes.
 $$MLP(X; \theta_1,\dots , \theta_M, \beta_1,\dots , \beta_M) = L_M(\dots L_2(L_1(X;\theta_1, \beta_1);\theta_2, \beta_2);\theta_M, \beta_M)$$
 Each layer $L_i: \real^M \rightarrow \real^N$ is a function that depends on the parameters $\theta \in r^{M\times N}, \beta in \real^N$
 $$L_i(X, ; \theta_i, \beta_i) = f_i(X \theta_i  + \beta_i)$$
-Function $f_i: \real^N \rightarrow \real^N$ is an arbitrary chosen non-linear function. The number of layers and dimensions of weights are also an arbitrary choice, except for the weights is last and first later. The weights is last and first later have to match the dimensionality of input time series (the length of time series) and number of classes. 
+Function $f_i: \real^N \rightarrow \real^N$ is an arbitrary chosen non-linear function. The number of layers and dimensions of weights are also an arbitrary choice, except for the weights is first and last later. The weights in first and last layer have to match the dimensionality of input data (e.g. the length of time series) and number of classes. The output of the last layer is interpreted as a probability distribution over the set of classes. 
 
 The disadvantage of using Multi Layer Perceptrons for time series classification is that the input size is fixed. All time series is the training data must have the same length. In transfer learning, this means that if we want to reuse the source network (or a set of first layers from the network), the target dataset must consists of time series of the same length. 
 
-The MLP architecture fails at understanding the temporal dependencies. Each input values in the time series is treated separately, because it is multiplied by a separate row in the weight matrix. 
+The MLP architecture fails at understanding the temporal dependencies \cite{dl_tsc}. Each input values in the time series is treated separately, because it is multiplied by a separate row in the weight matrix. 
 
 \section{Convolutional Neural Networks}
 Convolutional Neural Networks are widely used in image recognition. A convolution applied for a time series can be interpreted as sliding a filter over the time series. A convolutional layer is a set of functions called convolutions or filters. The filter is applied at a given point, taking into account values that surrounds the point. 
@@ -321,12 +320,12 @@ Usually, $P_i$ are odd numbers, so that we can index the matrix with symmetrical
 Finally the convolution $*$ is defined as follows:
 $$(X*M)_{i_1, \dots, i_M} = \sum_{k_1=\frac{-P_1+1}{2}}^{\frac{P_1-1}{2}} \cdots \sum_{k_M=\frac{-P_K+1}{2}}^{\frac{P_K-1}{2}} M_{k_1, \dots, k_M} X_{i_1 + k_1, \dots, i_M + k_M}$$
 
-In the first layer of convolutional neural networks used for univariate time series classification, the filter is one-dimensional. The output of the first for one time series layer has dimensions (length of time series - the length of the filter - 1, number of filters). Below we define the value of the output for filter $i$  
-$$ y_{t, i} = f_i([\theta_1^i, \dots , \theta_M^i] * [X_{t}, \dots, X_{t+M-1}])$$ 
-The function $f_i$ and weights $\theta = [\theta_1^i, \dots , \theta_M^i]$ are different for each filter.
+In case of univariate time series the first layer of convolutional neural network is one-dimensional. The output of the first layer has dimensions (length of time series - the length of the filter - 1, number of filters). Below we define the value of the output for filter $i$  
+$$ y_{t, i} = f_i([\theta_{\frac{-M+1}{2}}^i, \dots , \theta_{\frac{M-1}{2}}^i] * [X_{t_+\frac{-M+1}{2}}, \dots, X_{t+\frac{M-1}{2}}])$$ 
+The weights $\theta^i$ are different for each filter.
 The same filter is applied over the whole length of time series. This is called \textit{weight sharing} and it enables the patterns regardless of the position in the time series. 
 
-The architecture of the convolutional layer is not dependent of the number of size of the input data. Regardless the size of input data, number of filters and size of filters remain the same, only the output sizes depends on the input size. Therefore, if the convolutional layer is   succeeded by layers with the same property, like other convolutional layers or Global Pooling with Dense Layer (see section \ref{FCN}), the whole network may be invariant to the input sizes. Such networks may be interesting in terms of transfer learning, as the sizes of time series in the source task and in the target task do not have to match.  
+The architecture of the convolutional layer is not dependent of the size of the input data. Regardless the size of input data, number of filters and size of filters remain the same, only the output sizes depends on the input size. Therefore, if the convolutional layer is  succeeded by layers with the same property, like other convolutional layers or Global Pooling with Dense Layer (see section \ref{FCN}), the whole network may be invariant to the input sizes \cite{dl_tsc}. Such networks may be interesting in terms of transfer learning, as the sizes of time series in the source task and in the target task do not have to match.  
 
 \section{Fully Connected Networks}\label{FCN}
 
@@ -340,12 +339,14 @@ The architecture of the convolutional layer is not dependent of the number of si
 % FOR AMBITIOUS ONES - USE BIBTEX
 
 
-\begin{thebibliography}{20} % IF YOU HAVE MORE REFERENCES, WRITE THE BIGGER NUMBER
+\begin{thebibliography}{50} % IF YOU HAVE MORE REFERENCES, WRITE THE BIGGER NUMBER
 
-\bibitem[1]{Ktos} A. Author, \emph{Title of a book}, Publisher, year, page--page.
-\bibitem[2]{Innyktos} J. Bobkowski, S. Dobkowski, Title of an article, \emph{Magazine X, No. 7}, year, PAGE--PAGE.
-\bibitem[3]{B} C. Brink, Power structures, \emph{Algebra Universalis 30(2)}, 1993, 177--216.
-\bibitem[4]{H} F. Burris, H. P. Sankappanavar, \emph{A Course of Universal Algebra}, Springer-Verlag, New York, 1981.
+\bibitem[1]{bake_off}Bagnall, A., Lines, J., Bostrom, A. et al. The great time series classification bake off: a review and experimental evaluation of recent algorithmic advances. Data Min Knowl Disc 31, 606–660 (2017). \url{https://doi.org/10.1007/s10618-016-0483-9}
+\bibitem[2]{dl_tsc} Ismail Fawaz, H., Forestier, G., Weber, J. et al. Deep learning for time series classification: a review. Data Min Knowl Disc 33, 917–963 (2019). \url{https://doi.org/10.1007/s10618-019-00619-1}
+\bibitem[3]{imagnet} Huh, Minyoung \& Agrawal, Pulkit \& Efros, Alexei. (2016). What makes ImageNet good for transfer learning?. 
+\bibitem[4]{survey_transfer_learning} Weiss, K., Khoshgoftaar, T.M. \& Wang, D. A survey of transfer learning. J Big Data 3, 9 (2016). \url{https://doi.org/10.1186/s40537-016-0043-6}
+
+
 \end{thebibliography}
 \pagenumbering{gobble}
 \thispagestyle{empty}
