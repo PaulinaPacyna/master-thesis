@@ -167,6 +167,7 @@
 %---------------------------Moje ustawienia-----------------------------
 
 \DeclareMathOperator{\real}{\mathbb{R}}
+\DeclareMathOperator{\natur}{\mathbb{N}}
 
 \begin{document}
 \sloppy
@@ -270,9 +271,8 @@ What is the thesis about? What is the content of it? What is the Author's contri
 \par
 WARNING!  In a diploma thesis which is a team project: Description of the work division in the team, including the scope of each co-author’s contribution to the practical part (Team Programming Project) and the descriptive part of the diploma thesis. 
 \par
-
-
-\chapter{Foundations}
+\chapter{Related works}
+In this chapter we would like to describe several algorithms used in time series classification. We will also recall theoretical definitions and distinctions used to describe transfer learning. 
 \section{Time series classification}
 Time series is an ordered collection of observations indexed by time. 
 $$X = (x_t)_{t\in T} = (x_1, ... , x_T),\ x_t\in \real$$
@@ -281,12 +281,8 @@ The time index $T$ can represent any collection with natural order. It can relat
 %Time series classification can be formulated as follows:
 %Given a dataset  $D = {(X_i, y_i)}_{i=1}^N$, where $X_i \in 2^\real$ is a time series and $y_i\in {1, ..., N} = C$, we would like to find a function (called classifier) $f_\theta :2^\real \leftarrow C$ such that 
 %$$f_\theta (X_i) = y_i$$. 
-\section{Transfer learning}
-Transfer learning is a technique that attempts to apply knowledge learned  while solving one task to enhance the learning process for another task. Formally, the problem can be described using the notions of tasks and domains \cite{survey_transfer_learning}. A \textit{Domain} is a pair $(\mathcal{X}, P(\mathcal{X}))$, where $\mathcal{X}$ is the feature space (e.g. the time series observations, and $P(\mathcal{X})$ is the probability distribution over the feature space.
-\chapter{Related works}
-In this chapter we would like to describe several algorithms used in time series classification. We will also recall theoretical definitions and distinctions used to describe transfer learning. 
 
-\section{Dynamic Time Warping with k-Nearest Neighbour}
+\subsection{Dynamic Time Warping with k-Nearest Neighbour}
 The Dynamic Time Warping \cite{bake_off} with k-Nearest Neighbour classifier uses a distance based algorithm with a specific distance measure. A DWT distance between time series $X^1$, $X^2$ of equal lengths is:
 $$DTW(X^1, X^2) = \min\{ \sum_{i=1}^S dist(x^1_{e_i}, x^2_{f_i}):(e_i)_{i=1}^S, (f_i)_{i=1}^S\in 2^T\}$$
 subject to:
@@ -295,7 +291,7 @@ subject to:
 \item $|e_{i+1} - e_i | \leq 1$, $|f_{i+1} - f_i | \leq 1$
 \end{itemize}
 The measure defined above, used in k-Nearest Neighbour classifier is often used as a benchmark classifier. 
-\section{Multi Layer Perceptron}
+\subsection{Multi Layer Perceptron}
 The Multi Layer Perceptron (MLP) is the first artificial neural network architecture proposed in \cite{dl_tsc} and can be used for time series classification task. 
 %A MLP network can be formally defined as a function depending on a set \textit{weights} $\theta_i$. 
 %$$MLP(X; \theta_1,\dots , \theta_M, \beta_1,\dots , \beta_M) = f_M( \beta_M +  \theta_M \cdot (f_{M-1}( \beta_{M-1} +  \theta_{M-1} \cdot (\dots f_1( \beta_1 +  \theta_1 \cdot X)))))$$
@@ -309,45 +305,55 @@ The disadvantage of using Multi Layer Perceptrons for time series classification
 
 The MLP architecture fails at understanding the temporal dependencies \cite{dl_tsc}. Each input values in the time series is treated separately, because it is multiplied by a separate row in the weight matrix. 
 
-\section{Convolutional Neural Networks}
+\subsection{Convolutional Neural Networks}
 Convolutional Neural Networks are widely used in image recognition. A convolution applied for a time series can be interpreted as sliding a filter over the time series. A convolutional layer is a set of functions called convolutions or filters. The filter is applied at a given point, taking into account values that surrounds the point. 
 
-To define the convolution operation, let's assume the input is a matrix $X \in \real^{(N_1, \dots, N_K)}$. In case of images, number of dimensions $K$ is often equal to $3$ (height, width, channels), for univariate series we can assume just one dimension, and for multivariate time series wee need two dimensions - (feature, time). 
+To define the convolution operation, let's assume the input is a matrix $X \in \real^{(N_1, \dots, N_K)}$. In case of images, number of dimensions $K$ is often equal to $3$ (height, width, channels), for univariate time series we can assume just one dimension, and for multivariate time series wee need two dimensions - (feature, time). 
 The filter consist of a matrix of weights $M \in \real^{(P_1, \dots, P_K)}$. 
-Usually, $P_i$ are odd numbers, so that we can index the matrix with symmetrical numbers: $ (\frac{-P_i+1}{2},  \frac{-P_i+3}{2}, \dots, 0, \dots, \frac{P_i-1}{2})$. The $0$ index marks the center of the matrix. 
+Usually, $P_l$ are odd numbers, so that we can index the matrix with symmetrical numbers: $ (\frac{-P_l+1}{2},  \frac{-P_l+3}{2}, \dots, 0, \dots, \frac{P_l-1}{2})$. The $0$ index marks the center of the matrix. 
 %TODO - powolac sie czemu nieparzyscie
 
 Finally the convolution $*$ is defined as follows:
-$$(X*M)_{i_1, \dots, i_M} = \sum_{k_1=\frac{-P_1+1}{2}}^{\frac{P_1-1}{2}} \cdots \sum_{k_M=\frac{-P_K+1}{2}}^{\frac{P_K-1}{2}} M_{k_1, \dots, k_M} X_{i_1 + k_1, \dots, i_M + k_M}$$
+$$(X*M)_{i_1, \dots, i_K} = \sum_{l_1=\frac{-P_1+1}{2}}^{\frac{P_1-1}{2}} \cdots \sum_{l_K=\frac{-P_K+1}{2}}^{\frac{P_K-1}{2}} M_{l_1, \dots, l_K} X_{i_1 + l_1, \dots, i_K + l_K}$$
+
+The result of the convolution is passed elementwise to a nonlinear function. The nonlinear function together with the convolution operation will be called a filter.
 
 In case of univariate time series the first layer of convolutional neural network is one-dimensional. The output of the first layer has dimensions (length of time series - the length of the filter - 1, number of filters). Below we define the value of the output for filter $i$  
-$$ y_{t, i} = f_i([\theta_{\frac{-M+1}{2}}^i, \dots , \theta_{\frac{M-1}{2}}^i] * [X_{t_+\frac{-M+1}{2}}, \dots, X_{t+\frac{M-1}{2}}])$$ 
+$$ y_{t, i} = f_i([\theta_{\frac{-M+1}{2}}^i, \dots , \theta_{\frac{M-1}{2}}^i] \cdot [X_{t_+\frac{-M+1}{2}}, \dots, X_{t+\frac{M-1}{2}}]),$$ 
+where $\cdot$ is a dot product
 The weights $\theta^i$ are different for each filter.
 The same filter is applied over the whole length of time series. This is called \textit{weight sharing} and it enables the patterns regardless of the position in the time series. 
 
 The architecture of the convolutional layer is not dependent of the size of the input data. Regardless the size of input data, number of filters and size of filters remain the same, only the output sizes depends on the input size. Therefore, if the convolutional layer is  succeeded by layers with the same property, like other convolutional layers or Global Pooling with Dense Layer (see section \ref{FCN}), the whole network may be invariant to the input sizes \cite{dl_tsc}. Such networks may be interesting in terms of transfer learning, as the sizes of time series in the source task and in the target task do not have to match.  
 
-\section{Fully Connected Networks}\label{FCN}
+\subsection{Fully Connected Networks}\label{FCN}
 
 
 
+\section{Transfer learning}
+Transfer learning is a technique that attempts to apply knowledge learned  while solving one task to enhance the learning process for another task. Formally, the problem can be described using the notions of tasks and domains \cite{survey_transfer_learning, comp_survey_transfer_leaerning}. A \textit{Domain} is a pair $\mathcal{D}=(\mathcal{X}, P(\mathcal{X}))$, where $\mathcal{X}$ is the feature space (e.g. the time series observations, and $P(\mathcal{X})$ is the probability distribution over the feature space. A \textit{Task} is a pair of label space $\mathcal{Y}$ and the decision function $f$, $\mathcal{T} = (\mathcal{Y}, f)$. The decision function $f$ is learned from $\mathcal{X}, P(\mathcal{X}), \mathcal{Y}$ in the learning process.
 
+Transfer learning attempts to utilize knowledge  domain/domains and task/tasks. Formally, given $S \in \natur$ source domains and source tasks ($\{(\mathcal{D}_i^S,\mathcal{T}_i^S: \i=1, \dots, S \}$) and $T \in \natur$ target domains and target tasks ($\{(\mathcal{D}_i^T,\mathcal{T}_i^T: \i=1, \dots, S \}$) transfer learning utilizes knowledge learned from source domains and tasks to improve the learning process of decision functions in target tasks $\mathcal{T}_i^T$
+\subsection{Types of transfer learning}
 
+\subsection{Characteristics of a good source domain}
 
+In the field of image processing, it is very common to use convolutional neural networks pre-trained with the ImageNet dataset \cite{imagnet}.  ImageNet is a large dataset of human-annotated images. It contains 1 milion labeled images of 1000 classes. The label space consists of fine grained classes such as breeds of dogs and cats, but also coarse-grained classes like \textit{red wine} and \textit{traffic light}. As transfer learning based on this dataset became more popular and successful, a question arisen: Which features of this dataset makes it so good for this task?.
+
+A study conducted in \cite{imagnet} attempts to answer this question. The first hypothesis is that the volume of the dataset is relevant to train accurate, general classfiers. The authors compared models pretrained on the original dataset and models based on sampled subsets (reduced 2, 4 8 and 20 times).The results shown that the more training examples, the better results. The accuracy of the initial classifier occured to be more dependent on the size of dataset than the accuracy of classifiers fine-tuned from the former classifier.
+
+Next experiments answer considerations on the label space. The authors examine if the granularity of the label space is essential for the problem. To compare the results, the label space is clustered and 127 classes are derived from the initial 1000 classes. Pre-training with the reduced label space has a minimal negative impact on accuracy of classifiers fine-tuned from this classifier. This suggest that such a fine division may not be needed.
+
+Finally, the last question is if we train the classfier on the reduced label space with 127 classes, will it be able to distinguish between the fine-grained classes. To examine that, the authors extracted features from the first layers of the networks trained on recuded label space. Then, the authors performed classfication with 1-NN and 5-NN models on the extracted feature space, but with 1000 classes. The fidings are that the k-NN classifier performs $15\%$ worse on reduced dataset vs normal dataset. This shows that CNNs are capable of implicitly learning representative features.     
 % ------------------------------- BIBLIOGRAPHY ---------------------------
 % LEXICOGRAPHICAL ORDER BY AUTHORS' LAST NAMES
 % FOR AMBITIOUS ONES - USE BIBTEX
 
 
-\begin{thebibliography}{50} % IF YOU HAVE MORE REFERENCES, WRITE THE BIGGER NUMBER
-
-\bibitem[1]{bake_off}Bagnall, A., Lines, J., Bostrom, A. et al. The great time series classification bake off: a review and experimental evaluation of recent algorithmic advances. Data Min Knowl Disc 31, 606–660 (2017). \url{https://doi.org/10.1007/s10618-016-0483-9}
-\bibitem[2]{dl_tsc} Ismail Fawaz, H., Forestier, G., Weber, J. et al. Deep learning for time series classification: a review. Data Min Knowl Disc 33, 917–963 (2019). \url{https://doi.org/10.1007/s10618-019-00619-1}
-\bibitem[3]{imagnet} Huh, Minyoung \& Agrawal, Pulkit \& Efros, Alexei. (2016). What makes ImageNet good for transfer learning?. 
-\bibitem[4]{survey_transfer_learning} Weiss, K., Khoshgoftaar, T.M. \& Wang, D. A survey of transfer learning. J Big Data 3, 9 (2016). \url{https://doi.org/10.1186/s40537-016-0043-6}
+\bibliographystyle{plain} % We choose the "plain" reference style
+\bibliography{refs} % Entries are in the refs.bib file
 
 
-\end{thebibliography}
 \pagenumbering{gobble}
 \thispagestyle{empty}
 
