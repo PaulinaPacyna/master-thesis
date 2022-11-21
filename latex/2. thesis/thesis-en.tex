@@ -159,10 +159,10 @@
 
 % -------------------------- USER SETTINGS ---------------------------
 
-\newcommand{\tytul}{POLISH TITLE}
-\renewcommand{\title}{ENGLISH TITLE}
+\newcommand{\tytul}{Zastosowanie techniki transfer learning wzadaniuklasyfikacjiszeregów czasowych}
+\renewcommand{\title}{Transfer learning for time series classification}
 \newcommand{\type}{Master} % Master OR Engineer
-\newcommand{\supervisor}{dr inż. Promotor X} % TITLE AND NAME OF THE SUPERVISOR
+\newcommand{\supervisor}{Agnieszka Jastrzębska, PhD} % TITLE AND NAME OF THE SUPERVISOR
 
 %---------------------------Moje ustawienia-----------------------------
 
@@ -272,34 +272,34 @@ What is the thesis about? What is the content of it? What is the Author's contri
 WARNING!  In a diploma thesis which is a team project: Description of the work division in the team, including the scope of each co-author’s contribution to the practical part (Team Programming Project) and the descriptive part of the diploma thesis. 
 \par
 \chapter{Related works}
-In this chapter we would like to describe several algorithms used in time series classification. We will also recall theoretical definitions and distinctions used to describe transfer learning. 
+In this chapter, we describe several algorithms used in time series classification. We will also recall theoretical definitions and distinctions used to describe transfer learning. 
 \section{Time series classification}
 Time series is an ordered collection of observations indexed by time. 
 $$X = (x_t)_{t\in T} = (x_1, ... , x_T),\ x_t\in \real$$
-The time index $T$ can represent any collection with natural order. It can relate to point in time when the measurement was observed, or it can represent a point in space measured along X axis. We assume that indices are spaced evenly in the set $T$. The realisation or observation $x_t$ in the times series is a numerical value describing the phenomena we observe, for example amplitude of a sound, stock price or y-coordinate. Time series classification is a problem of finding the optimal mapping between a set of time series and corresponding classes.
+The time index $T$ can represent any collection with the natural order. It can relate to a point in time when the measurement was observed or represent a point in space measured along the X-axis. We assume that indices are spaced evenly in the set $T$. The realization or observation $x_t$ in the times series is a numerical value describing the phenomena we observe, for example, the amplitude of a sound, stock price, or y-coordinate. Time series classification is a problem of finding the optimal mapping between a set of time series and corresponding classes.
 
 %Time series classification can be formulated as follows:
 %Given a dataset  $D = {(X_i, y_i)}_{i=1}^N$, where $X_i \in 2^\real$ is a time series and $y_i\in {1, ..., N} = C$, we would like to find a function (called classifier) $f_\theta :2^\real \leftarrow C$ such that 
 %$$f_\theta (X_i) = y_i$$. 
 
 \subsection{Dynamic Time Warping with k-Nearest Neighbour}
-The Dynamic Time Warping \cite{bake_off} with k-Nearest Neighbour classifier uses a distance based algorithm with a specific distance measure. A DWT distance between time series $X^1$, $X^2$ of equal lengths is:
+The Dynamic Time Warping \cite{bake_off} with k-Nearest Neighbour classifier uses a distance-based algorithm with a specific distance measure. A DWT distance between time series $X^1$, $X^2$ of equal lengths is:
 $$DTW(X^1, X^2) = \min\{ \sum_{i=1}^S dist(x^1_{e_i}, x^2_{f_i}):(e_i)_{i=1}^S, (f_i)_{i=1}^S\in 2^T\}$$
 subject to:
 \begin{itemize}
 \item $e_1 = 1, f_1 = 1, e_S= N, f_S = N$
 \item $|e_{i+1} - e_i | \leq 1$, $|f_{i+1} - f_i | \leq 1$
 \end{itemize}
-The measure defined above, used in k-Nearest Neighbour classifier is often used as a benchmark classifier. 
+The measure defined above, used in the k-Nearest Neighbour classifier, is often used as a benchmark classifier. 
 \subsection{Multi Layer Perceptron}
 The Multi Layer Perceptron (MLP) is the first artificial neural network architecture proposed in \cite{dl_tsc} and can be used for time series classification task. 
 %A MLP network can be formally defined as a function depending on a set \textit{weights} $\theta_i$. 
 %$$MLP(X; \theta_1,\dots , \theta_M, \beta_1,\dots , \beta_M) = f_M( \beta_M +  \theta_M \cdot (f_{M-1}( \beta_{M-1} +  \theta_{M-1} \cdot (\dots f_1( \beta_1 +  \theta_1 \cdot X)))))$$
-The MLP network can be formally defined as a composition of $layer$ functions. The output of the function is a vector that usually models the probability distribution over the set of classes.
+Formally, the MLP network can be defined as a composition of $layer$ functions. The network returns a vector that usually represents the probability distribution over the set of classes.
 $$MLP(X; \theta_1,\dots , \theta_M, \beta_1,\dots , \beta_M) = L_M(\dots L_2(L_1(X;\theta_1, \beta_1);\theta_2, \beta_2);\theta_M, \beta_M)$$
 Each layer $L_i: \real^M \rightarrow \real^N$ is a function that depends on the parameters $\theta \in r^{M\times N}, \beta in \real^N$
 $$L_i(X, ; \theta_i, \beta_i) = f_i(X \theta_i  + \beta_i)$$
-Function $f_i: \real^N \rightarrow \real^N$ is an arbitrary chosen non-linear function. The number of layers and dimensions of weights are also an arbitrary choice, except for the weights is first and last later. The weights in first and last layer have to match the dimensionality of input data (e.g. the length of time series) and number of classes. The output of the last layer is interpreted as a probability distribution over the set of classes. 
+Function $f_i: \real^N \rightarrow \real^N$ is an arbitrary chosen non-linear function. The number of layers and dimension of weights in hidden layers is also arbitrary. The weights in first and last layer have to match the dimensionality of input data (e.g. the length of time series) and number of classes. The output of the last layer is interpreted as a probability distribution over the set of classes. 
 
 The disadvantage of using Multi Layer Perceptrons for time series classification is that the input size is fixed. All time series is the training data must have the same length. In transfer learning, this means that if we want to reuse the source network (or a set of first layers from the network), the target dataset must consists of time series of the same length. 
 
@@ -327,7 +327,7 @@ The same filter is applied over the whole length of time series. This is called 
 The architecture of the convolutional layer is not dependent of the size of the input data. Regardless the size of input data, number of filters and size of filters remain the same, only the output sizes depends on the input size. Therefore, if the convolutional layer is  succeeded by layers with the same property, like other convolutional layers or Global Pooling with Dense Layer (see section \ref{FCN}), the whole network may be invariant to the input sizes \cite{dl_tsc}. Such networks may be interesting in terms of transfer learning, as the sizes of time series in the source task and in the target task do not have to match.  
 
 \subsection{Fully Connected Networks}\label{FCN}
-
+Fully Convolutional Networks are convolutional network used in time series classification \cite{dl_tsc}. FCN networks consists of blocks of convolutional layers proceeded by global pooling over the time axis and a dense layer. Because the architecture convolutional layers does not depend on the size of input data and the convolutional layer are followed by pooling over the time axis, the whole networks is capable of processing data of variable lengths.
 
 
 \section{Transfer learning}
