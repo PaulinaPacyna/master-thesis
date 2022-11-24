@@ -326,8 +326,20 @@ The same filter is applied over the whole length of time series. This is called 
 
 The architecture of the convolutional layer is not dependent of the size of the input data. Regardless the size of input data, number of filters and size of filters remain the same, only the output sizes depends on the input size. Therefore, if the convolutional layer is  succeeded by layers with the same property, like other convolutional layers or Global Pooling with Dense Layer (see section \ref{FCN}), the whole network may be invariant to the input sizes \cite{dl_tsc}. Such networks may be interesting in terms of transfer learning, as the sizes of time series in the source task and in the target task do not have to match.  
 
-\subsection{Fully Connected Networks}\label{FCN}
-Fully Convolutional Networks are convolutional network used in time series classification \cite{dl_tsc}. FCN networks consists of blocks of convolutional layers proceeded by global pooling over the time axis and a dense layer. Because the architecture convolutional layers does not depend on the size of input data and the convolutional layer are followed by pooling over the time axis, the whole networks is capable of processing data of variable lengths.
+\subsection{Fully Convolutional Networks}\label{FCN}
+Fully Convolutional Networks are convolutional networks used in time series classification. A sample architecture of a Fully Convolutional Network proposed is in \cite{dl_tsc}. The first layers in the network are 3 blocks of convolutional layers with ReLU activation function followed by batch normalisation layers. The output of the last block is passed to a global pooling layer. The global pooling layer averages the output through the time axis, resulting in a vector of length equal to the number of feature maps in the last convolutional layer. The averaged vector is passed to a block of 2 fully connected layers. Figure \ref{FCN_img} shows a visualisation of the network.\\
+
+\begin{figure}[!ht]
+\centering
+\includegraphics[width=13cm]{imgs/FCN.png}
+\label{FCN_img}
+\caption{Architecture of a Fully Convolutional Network. Source: \cite{dl_tsc}}
+\end{figure}
+
+
+
+
+Because the architecture of convolutional layers does not depend on the size of input data and the convolutional layer are followed by pooling over the time axis, the whole networks is capable of processing data of variable lengths.
 
 
 \section{Transfer learning}
@@ -338,13 +350,15 @@ Transfer learning attempts to utilize knowledge  domain/domains and task/tasks. 
 
 \subsection{Characteristics of a good source domain}
 
-In the field of image processing, it is very common to use convolutional neural networks pre-trained with the ImageNet dataset \cite{imagnet}.  ImageNet is a large dataset of human-annotated images. It contains 1 milion labeled images of 1000 classes. The label space consists of fine grained classes such as breeds of dogs and cats, but also coarse-grained classes like \textit{red wine} and \textit{traffic light}. As transfer learning based on this dataset became more popular and successful, a question arisen: Which features of this dataset makes it so good for this task?.
+In the field of image processing, it is very common to use convolutional neural networks \mbox{pre-trained} with the ImageNet dataset \cite{imagnet}.  ImageNet is a large dataset of human-annotated images. It contains 1 milion labeled images of 1000 classes. The label space consists of fine grained classes such as breeds of dogs and cats, but also coarse-grained classes like \textit{red wine} and \textit{traffic light}. As transfer learning based on this dataset became more popular and successful, a question arisen: Which features of this dataset makes it so good for this task?.
 
 A study conducted in \cite{imagnet} attempts to answer this question. The first hypothesis is that the volume of the dataset is relevant to train accurate, general classfiers. The authors compared models pretrained on the original dataset and models based on sampled subsets (reduced 2, 4 8 and 20 times).The results shown that the more training examples, the better results. The accuracy of the initial classifier occured to be more dependent on the size of dataset than the accuracy of classifiers fine-tuned from the former classifier.
 
 Next experiments answer considerations on the label space. The authors examine if the granularity of the label space is essential for the problem. To compare the results, the label space is clustered and 127 classes are derived from the initial 1000 classes. Pre-training with the reduced label space has a minimal negative impact on accuracy of classifiers fine-tuned from this classifier. This suggest that such a fine division may not be needed.
 
-Finally, the last question is if we train the classfier on the reduced label space with 127 classes, will it be able to distinguish between the fine-grained classes. To examine that, the authors extracted features from the first layers of the networks trained on recuded label space. Then, the authors performed classfication with 1-NN and 5-NN models on the extracted feature space, but with 1000 classes. The fidings are that the k-NN classifier performs $15\%$ worse on reduced dataset vs normal dataset. This shows that CNNs are capable of implicitly learning representative features.     
+Finally, the last question is if we train the classfier on the reduced label space with 127 classes, will it be able to distinguish between the fine-grained classes. To examine that, the authors extracted features from the first layers of the networks trained on recuded label space. Then, the authors performed classfication with 1-NN and 5-NN models on the extracted feature space, but with 1000 classes. The fidings are that the k-NN classifier performs $15\%$ worse on reduced dataset vs normal dataset. This shows that CNNs are capable of implicitly learning representative features distinctive beetween similar classes even when trained on coarse-grained classes.     
+
+While the article \cite{imagnet} does not conclude which single feature of ImageNet dataset makes it so efficient as a source dataset for transfer learning, it is clear that all properties of this dataset are important for the accuracy of the t. 
 % ------------------------------- BIBLIOGRAPHY ---------------------------
 % LEXICOGRAPHICAL ORDER BY AUTHORS' LAST NAMES
 % FOR AMBITIOUS ONES - USE BIBTEX
