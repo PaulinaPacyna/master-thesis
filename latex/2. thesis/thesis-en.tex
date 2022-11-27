@@ -159,7 +159,7 @@
 
 % -------------------------- USER SETTINGS ---------------------------
 
-\newcommand{\tytul}{Zastosowanie techniki transfer learning wzadaniuklasyfikacjiszeregów czasowych}
+\newcommand{\tytul}{Zastosowanie techniki transfer learning w zadaniu klasyfikacji szeregów czasowych}
 \renewcommand{\title}{Transfer learning for time series classification}
 \newcommand{\type}{Master} % Master OR Engineer
 \newcommand{\supervisor}{Agnieszka Jastrzębska, PhD} % TITLE AND NAME OF THE SUPERVISOR
@@ -201,11 +201,13 @@
 \begin{center}
 \title
 \end{center}
-Loremmmm ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumyeirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diamvoluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+The task of classifying time series is an important problem in the field of data mining. Time series occur every time we want to measure some phenomenon that changes over time. A time series can describe for example the amplitude of a heartbeat sound, stock prices or hand movement along an axis when serving in tennis. Such time series can express different characteristics of the phenomenon. Those characteristics are called \textit{classes}. For example the heartbeat sound amplitude can represent (belong to) one of two classes: \textit{healthy} and \textit{unhealthy}. Time series classification  to learn the distinctive features of a time series and build a model that can distinguish between those classes.
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumyeirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diamvoluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.\\
+The time series classification problem was initially solved using classical algorithms such as the k-nearest neighbor classifier with distance measures suited for time series, like DTW. Still, the advantages of using deep learning algorithms in the context of time series classification have recently begun to be recognized. Neural networks are capable of detecting shapes that distinguish a class or to understand ordered temporal relationships. 
 
-\noindent \textbf{Keywords:} keyword1, keyword2, ...
+Transfer learning practically is used when there is limited data to train. Transfer learning attempts to apply patterns learned from one dataset to improve learning when creating a model for another dataset. A common practice is to prepare a source classifier trained on a large, easily available amount of data for one task and then use this model or parts of it for a detailed task with a smaller amount of data. Models trained using this method often have a shorter training time, faster accuracy increase and can generalize more easily on the test set.
+
+\noindent \textbf{Keywords:} time series, classification, transfer learning, deep learning, ...
 \end{abstract}
 }
 
@@ -219,11 +221,15 @@ Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumyeirmod t
 \tytul
 \end{center}
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumyeirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diamvoluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
+Zadanie klasyfikacji szeregów czasowych jest ważnym problemem w dziedzinie eksploracji danych. Szeregi czasowe występują za każdym razem, gdy chcemy zmierzyć jakieś zjawisko, które zmienia się w czasie. Szereg czasowy może opisywać np. amplitudę dźwięku bicia serca, ceny akcji czy ruch ręki wzdłuż osi podczas serwu w tenisie. Takie szeregi czasowe mogą wyrażać różne cechy zjawiska. Te cechy nazywane są \textit{klasami}. Na przykład amplituda dźwięku bicia serca może reprezentować (należeć do) jednej z dwóch klas:  \textit{norma} i \textit{choroba}. Klasyfikacja szeregów czasowych polega na rozpoznawaniu charakterystycznych cech szeregu czasowego i budowanie modelu, który potrafi rozróżniać klasy.
 
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumyeirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diamvoluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.\\
+Problem klasyfikacji szeregów czasowych był początkowo rozwiązywany za pomocą klasycznych algorytmów, takich jak klasyfikator k-najbliższych sąsiadów w połączeniu z miarami podobieństwa dla szeregów, jak DTW. Q ostatnim czasie zaczęto dostrzegać zalety stosowania algorytmów głębokiego uczenia w kontekście klasyfikacji szeregów czasowych. Sieci neuronowe są w stanie wykryć kształty wyróżniające daną klasę lub zrozumieć relacje między obserwacjami w czasie. 
 
-\noindent \textbf{Słowa kluczowe:} slowo1, slowo2, ...
+Uczenie transferowe jest stosowane w przypadku ograniczonej ilości danych do tranowania modelu. Uczenie transferowe próbuje zastosować wzorce wyuczone z jednego zbioru danych, aby poprawić uczenie podczas tworzenia modelu dla innego zbioru danych. Częstą praktyką jest przygotowanie źródłowego klasyfikatora wytrenowanego na dużej, łatwo dostępnej ilości danych dla jednego zadania, a następnie wykorzystanie tego modelu lub jego części do szczegółowego zadania z mniejszą ilością danych. Modele wytrenowane tą metodą często mają krótszy czas trenowania, szybszy wzrost dokładności i lepsze, ogólniejsze wyniki na zbiorze testowym.
+
+ 
+
+\noindent \textbf{Słowa kluczowe:} szeregi czasowe, klasyfikacja, transfer learning ...
 \end{abstract}
 }
 
@@ -276,7 +282,7 @@ In this chapter, we describe several algorithms used in time series classificati
 \section{Time series classification}
 Time series is an ordered collection of observations indexed by time. 
 $$X = (x_t)_{t\in T} = (x_1, ... , x_T),\ x_t\in \real$$
-The time index $T$ can represent any collection with the natural order. It can relate to a point in time when the measurement was observed or represent a point in space measured along the X-axis. We assume that indices are spaced evenly in the set $T$. The realization or observation $x_t$ in the times series is a numerical value describing the phenomena we observe, for example, the amplitude of a sound, stock price, or y-coordinate. Time series classification is a problem of finding the optimal mapping between a set of time series and corresponding classes.
+The time index $T$ can represent any collection with the natural order. We assume that indices are spaced evenly in the set $T$. The realization or observation $x_t$ in the times series is a numerical value describing the phenomena we observe, for example, the amplitude of a sound, stock price, or y-coordinate. Time series classification is a problem of finding the optimal mapping between a set of time series and corresponding classes.
 
 %Time series classification can be formulated as follows:
 %Given a dataset  $D = {(X_i, y_i)}_{i=1}^N$, where $X_i \in 2^\real$ is a time series and $y_i\in {1, ..., N} = C$, we would like to find a function (called classifier) $f_\theta :2^\real \leftarrow C$ such that 
@@ -291,6 +297,14 @@ subject to:
 \item $|e_{i+1} - e_i | \leq 1$, $|f_{i+1} - f_i | \leq 1$
 \end{itemize}
 The measure defined above, used in the k-Nearest Neighbour classifier, is often used as a benchmark classifier. 
+The list of indices $[(e_1, f_1), \dots, (e_S, f_S)]$ is called the warping paths. An illustration of this measure is displayed on figure \ref{dtw_img}
+\begin{figure}
+\centering
+\includegraphics[width=10cm]{imgs/dtw.jpg}
+\label{dtw_img}
+\caption{The Dynamic Time warping distance between the series above is equal to 1. We show the warping path in the distance matrix and connections indicated by the dynamic warping path.}
+\end{figure}
+
 \subsection{Multi Layer Perceptron}
 The Multi Layer Perceptron (MLP) is the first artificial neural network architecture proposed in \cite{dl_tsc} and can be used for time series classification task. 
 %A MLP network can be formally defined as a function depending on a set \textit{weights} $\theta_i$. 
@@ -301,7 +315,7 @@ Each layer $L_i: \real^M \rightarrow \real^N$ is a function that depends on the 
 $$L_i(X, ; \theta_i, \beta_i) = f_i(X \theta_i  + \beta_i)$$
 Function $f_i: \real^N \rightarrow \real^N$ is an arbitrary chosen non-linear function. The number of layers and dimension of weights in hidden layers is also arbitrary. The weights in first and last layer have to match the dimensionality of input data (e.g. the length of time series) and number of classes. The output of the last layer is interpreted as a probability distribution over the set of classes. 
 
-The disadvantage of using Multi Layer Perceptrons for time series classification is that the input size is fixed. All time series is the training data must have the same length. In transfer learning, this means that if we want to reuse the source network (or a set of first layers from the network), the target dataset must consists of time series of the same length. 
+The disadvantage of using Multi Layer Perceptrons for time series classification is that the input size is fixed. All time series is the training data must have the same length. In transfer learning, this means that if we want to reuse the source network (or a set of first layers from the network), the time series in the target dataset must have the same length as in the source dataset. 
 
 The MLP architecture fails at understanding the temporal dependencies \cite{dl_tsc}. Each input values in the time series is treated separately, because it is multiplied by a separate row in the weight matrix. 
 
@@ -318,7 +332,7 @@ $$(X*M)_{i_1, \dots, i_K} = \sum_{l_1=\frac{-P_1+1}{2}}^{\frac{P_1-1}{2}} \cdots
 
 The result of the convolution is passed elementwise to a nonlinear function. The nonlinear function together with the convolution operation will be called a filter.
 
-In case of univariate time series the first layer of convolutional neural network is one-dimensional. The output of the first layer has dimensions (length of time series - the length of the filter - 1, number of filters). Below we define the value of the output for filter $i$  
+In case of univariate time series the first layer of convolutional neural network is one-dimensional. The output of the first layer has dimensions (length of time series - the length of the filter + 1, number of filters). Below we define the value of the output for filter $i$  
 $$ y_{t, i} = f_i([\theta_{\frac{-M+1}{2}}^i, \dots , \theta_{\frac{M-1}{2}}^i] \cdot [X_{t_+\frac{-M+1}{2}}, \dots, X_{t+\frac{M-1}{2}}]),$$ 
 where $\cdot$ is a dot product
 The weights $\theta^i$ are different for each filter.
