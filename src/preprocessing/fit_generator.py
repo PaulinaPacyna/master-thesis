@@ -31,9 +31,9 @@ class DataGenerator(keras.utils.Sequence):
 
         length = self.batches[index]
         index = self.lengths == length
-        X_batch = self.X[index]
+        X_batch = np.vstack(self.X[index])
         y_batch = self.y[index]
-        return np.vstack(X_batch), y_batch
+        return np.array(X_batch, dtype=np.float16), np.array(y_batch, dtype=np.float16)
 
     def on_epoch_end(self):
         'Updates indexes after each epoch'
