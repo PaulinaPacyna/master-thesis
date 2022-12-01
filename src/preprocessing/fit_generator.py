@@ -2,7 +2,7 @@ import numpy as np
 import keras
 import sklearn
 from sklearn.preprocessing import OneHotEncoder
-
+import logging
 from preprocessing.utils import normalize_length
 try:
     from keras.utils.all_utils import Sequence
@@ -60,11 +60,11 @@ class ConstantLengthDataGenerator(Sequence):
 
     def __len__(self):
         """Denotes the number of batches per epoch"""
-        return int(self.X.shape[0]/self.max_batch_size * 6.5/7)
+        return int(self.X.shape[0]/self.max_batch_size*7/6.4)
 
     def __iter__(self):
         return self
-    def __getitem(self, i):
+    def __getitem__(self, i):
         return next(self)
 
     def __next__(self):
@@ -75,13 +75,14 @@ class ConstantLengthDataGenerator(Sequence):
             index = np.random.choice(self.indices, batch_size, replace=False)
             self.indices = np.array(list(set(self.indices) - set(index)))
         except ValueError:
-            raise StopIteration()
+            index = np.array(list(set(self.indices)))
+            logging.warning("Indices exahusted")
         X_batch = np.vstack([normalize_length(series, target_length=series_length) for series in self.X[index]])
         y_batch = self.y[index]
         return np.array(X_batch, dtype=self.dtype), np.array(y_batch, dtype=self.dtype)
 
     def on_epoch_end(self):
-        self.indices = set(range(X.shape[0]))
+        self.indices = range(self.X.shape[0])
 
 
 if __name__ == '__main__':
