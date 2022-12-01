@@ -4,9 +4,12 @@ import sklearn
 from sklearn.preprocessing import OneHotEncoder
 
 from preprocessing.utils import normalize_length
+try:
+    from keras.utils.all_utils import Sequence
+except:
+    from keras.utils import Sequence
 
-
-class VariableLengthDataGenerator(keras.utils.Sequence):
+class VariableLengthDataGenerator(Sequence):
     def __init__(self, X: np.array,
                  y: np.array,
                  shuffle=True):
@@ -40,7 +43,7 @@ class VariableLengthDataGenerator(keras.utils.Sequence):
             np.random.shuffle(self.batches)
 
 
-class ConstantLengthDataGenerator(keras.utils.Sequence):
+class ConstantLengthDataGenerator(Sequence):
     def __init__(self, X: np.array,
                  y: np.array,
                  shuffle=True,
@@ -57,10 +60,12 @@ class ConstantLengthDataGenerator(keras.utils.Sequence):
 
     def __len__(self):
         """Denotes the number of batches per epoch"""
-        return NotImplementedError()
+        return int(self.X.shape[0]/self.max_batch_size * 6.5/7)
 
     def __iter__(self):
         return self
+    def __getitem(self, i):
+        return next(self)
 
     def __next__(self):
         """Generate one batch of data"""
