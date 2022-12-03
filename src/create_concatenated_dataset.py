@@ -5,7 +5,7 @@ import numpy as np
 from src.preprocessing import get_paths, TargetEncoder, read_univariate_ts
 
 
-def create_concatenated(root_data_path='data/') -> (np.array, np.array):
+def create_concatenated(root_data_path="data/") -> (np.array, np.array):
     X_final = []
     y_final = []
     for path in get_paths(root_data_path):
@@ -14,14 +14,14 @@ def create_concatenated(root_data_path='data/') -> (np.array, np.array):
 
         X_final.append(X)
         y_final.append(y)
-    return np.concatenate(X_final, dtype = 'object'), np.concatenate(y_final)
+    return np.concatenate(X_final, dtype="object"), np.concatenate(y_final)
 
 
-def save_datasets(X_final, y_final, SAVING_DATA_PATH='data/concatenated/'):
+def save_datasets(X_final, y_final, SAVING_DATA_PATH="data/concatenated/"):
     os.makedirs(SAVING_DATA_PATH, exist_ok=True)
-    with open(os.path.join(SAVING_DATA_PATH, 'X.npy'), 'wb') as file:
+    with open(os.path.join(SAVING_DATA_PATH, "X.npy"), "wb") as file:
         np.save(file, X_final)
-    with open(os.path.join(SAVING_DATA_PATH, 'y.npy'), 'wb') as file:
+    with open(os.path.join(SAVING_DATA_PATH, "y.npy"), "wb") as file:
         np.save(file, y_final)
 
 

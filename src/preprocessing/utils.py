@@ -8,6 +8,7 @@ from scipy.interpolate import interp1d
 from sklearn.preprocessing import MinMaxScaler
 from sktime.datasets import load_from_tsfile
 
+
 def get_paths(root="data", file_format="ts", task="TRAIN"):
     return [
         os.path.join(root, file_format, dataset, f"{dataset}_{task}.{file_format}")
@@ -15,7 +16,9 @@ def get_paths(root="data", file_format="ts", task="TRAIN"):
     ]
 
 
-def read_univariate_ts(path: str, return_data_type="nested_univ") -> (np.array, np.array):
+def read_univariate_ts(
+    path: str, return_data_type="nested_univ"
+) -> (np.array, np.array):
     X, y = load_from_tsfile(path, return_data_type=return_data_type)
     return X["dim_0"], y
 
@@ -83,5 +86,3 @@ class TargetEncoder:
 
     def reverse_0_1_scale(self, X: np.array):
         return self.__scaler.inverse_transform(X)
-
-
