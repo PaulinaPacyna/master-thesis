@@ -1,9 +1,6 @@
-from typing import Tuple
 import os
-import scipy.io.arff
 import pandas as pd
 import numpy as np
-from numpy.lib.recfunctions import structured_to_unstructured
 from scipy.interpolate import interp1d
 from sklearn.preprocessing import MinMaxScaler
 from sktime.datasets import load_from_tsfile
@@ -51,10 +48,7 @@ def normalize_length(df: np.array, target_length: int = 600):
 
 
 def stretch_interpolate_matrix(arr: np.array, target_width: int) -> np.array:
-    return np.apply_along_axis(
-        lambda arr: stretch_interpolate(arr, target_length=target_width),
-        axis=1,
-        arr=arr,
+    return np.vstack([stretch_interpolate(series, target_length=target_width) for series in arr]
     )
 
 
