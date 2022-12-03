@@ -47,17 +47,21 @@ class VariableLengthDataGenerator(Sequence):
 
 class ConstantLengthDataGenerator(Sequence):
     def __init__(
-        self, X: np.array, y: np.array, shuffle=True, batch_size=32, dtype=np.float16, max_length=2*11
+            self, X: np.array, y: np.array, shuffle=True, batch_size=32, dtype=np.float16, max_length=2 * 11
     ):
         """Initialization"""
         self.shuffle = shuffle
-        self.X = X
+        self.X = self.__normalize_rows(X)
         self.y: np.array = y
         self.indices = range(X.shape[0])
         self.max_batch_size = batch_size
-        self.possible_lengths = [2 ** i for i in range(4, 11) if 2**i <= max_length]
+        self.possible_lengths = [2 ** i for i in range(4, 11) if 2 ** i <= max_length]
         self.dtype = dtype
         self.__y_inverse_probabilities = self.__calculate_y_inverse_probabilities()
+
+    @staticmethod
+    def __normalize_rows(X) -> np.array:
+        return np.array([(row - np.mean(row)) / (np.std(row)) for row in X], dtype=np.object_)
 
     def __len__(self):
         """Denotes the number of batches per epoch"""
@@ -70,9 +74,10 @@ class ConstantLengthDataGenerator(Sequence):
         return next(self)
 
     def __calculate_y_inverse_probabilities(self):
-        y = self.y.reshape(-1).to_list()
-        count_dict = Counter()
+        y = self.y.reshape(-1).tolist()
+        count_dict = Counter(y)
         counts = np.array([count_dict[item] for item in y])
+        assert not (counts == 0).any()
         inverse_counts = 1 / counts
         return inverse_counts / sum(inverse_counts)
 
@@ -92,16 +97,16 @@ class ConstantLengthDataGenerator(Sequence):
             ]
         )
         y_batch = self.y[index]
-        return np.array(X_batch, dtype=self.dtype), np.array(y_batch, dtype=self.dtype)
+        return np.array(X_batch, dtype=self.dtype), np.array(y_batch)
 
     def on_epoch_end(self):
         self.indices = range(self.X.shape[0])
 
 
 if __name__ == "__main__":
-    X = np.load("./data/concatenated/X.npy", allow_pickle=True)
+    X = np.load("../data/concatenated/X.npy", allow_pickle=True)
     y = OneHotEncoder(sparse=False).fit_transform(
-        np.load("./data/concatenated/y.npy", allow_pickle=True)
+        np.load("../data/concatenated/y.npy", allow_pickle=True)
     )
     data_gen = ConstantLengthDataGenerator(X, y)
     sum_x = 0
