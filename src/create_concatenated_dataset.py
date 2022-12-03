@@ -11,7 +11,8 @@ def create_concatenated(root_data_path="data/") -> (np.array, np.array):
     for path in get_paths(root_data_path):
         X, y = read_univariate_ts(path)
         y = TargetEncoder(y).get_categorical_column(prefix=path.split(os.sep)[1])
-
+        for series in X: # TODO handle nans via interpolation
+            assert not np.isnan(series).any()
         X_final.append(X)
         y_final.append(y)
     return np.concatenate(X_final, dtype="object"), np.concatenate(y_final)

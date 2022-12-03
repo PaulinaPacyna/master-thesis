@@ -16,7 +16,7 @@ def get_paths(root="data", file_format="ts", task="TRAIN"):
 def read_univariate_ts(
     path: str, return_data_type="nested_univ"
 ) -> (np.array, np.array):
-    X, y = load_from_tsfile(path, return_data_type=return_data_type)
+    X, y = load_from_tsfile(path, return_data_type=return_data_type, replace_missing_vals_with="0.0")
     return X["dim_0"], y
 
 
