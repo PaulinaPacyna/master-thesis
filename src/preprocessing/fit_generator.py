@@ -74,9 +74,9 @@ class ConstantLengthDataGenerator(Sequence):
         return next(self)
 
     def __calculate_y_inverse_probabilities(self):
-        y = self.y.reshape(-1).tolist()
-        count_dict = Counter(y)
-        counts = np.array([count_dict[item] for item in y])
+        y_hashed = np.apply_along_axis(lambda x: hash(tuple(x)), axis=1, arr=self.y).tolist()
+        count_dict = Counter(y_hashed)
+        counts = np.array([count_dict[item] for item in y_hashed])
         assert not (counts == 0).any()
         inverse_counts = 1 / counts
         return inverse_counts / sum(inverse_counts)
