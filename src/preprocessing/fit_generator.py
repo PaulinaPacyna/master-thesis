@@ -47,7 +47,7 @@ class VariableLengthDataGenerator(Sequence):
 
 class ConstantLengthDataGenerator(Sequence):
     def __init__(
-            self, X: np.array, y: np.array, shuffle=True, batch_size=32, dtype=np.float16, max_length=2 * 11
+            self, X: np.array, y: np.array, shuffle=True, batch_size=32, dtype=np.float16, max_length=2 ** 11
     ):
         """Initialization"""
         self.shuffle = shuffle
