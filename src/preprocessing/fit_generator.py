@@ -55,7 +55,7 @@ class ConstantLengthDataGenerator(Sequence):
         self.y: np.array = y
         self.indices = range(X.shape[0])
         self.max_batch_size = batch_size
-        self.possible_lengths = [2 ** i for i in range(4, 11) if 2 ** i <= max_length]
+        self.possible_lengths = [2 ** i for i in range(4, 11) if 2 ** i <= max_length] or [max_length]
         self.dtype = dtype
         self.__y_inverse_probabilities = self.__calculate_y_inverse_probabilities()
 
