@@ -54,7 +54,7 @@ class ConstantLengthDataGenerator(Sequence):
         self.X = self.__normalize_rows(X)
         self.y: np.array = y
         self.indices = range(X.shape[0])
-        self.max_batch_size = batch_size
+        self.batch_size = batch_size
         self.possible_lengths = [2 ** i for i in range(int(np.log2(min_length)), int(np.log2(max_length))+1)]
         self.dtype = dtype
         self.__y_inverse_probabilities = self.__calculate_y_inverse_probabilities()
@@ -65,7 +65,7 @@ class ConstantLengthDataGenerator(Sequence):
 
     def __len__(self):
         """Denotes the number of batches per epoch"""
-        return int(self.X.shape[0] / self.max_batch_size * 7 / 5)
+        return self.X.shape[0] * 10
 
     def __iter__(self):
         return self
@@ -84,9 +84,7 @@ class ConstantLengthDataGenerator(Sequence):
     def __next__(self):
         """Generate one batch of data"""
         series_length = np.random.choice(self.possible_lengths)
-        batch_size = (
-            self.max_batch_size if series_length <= 256 else self.max_batch_size // 2
-        )
+        batch_size = self.batch_size
         index = np.random.choice(
             self.indices, batch_size, p=self.__y_inverse_probabilities
         )
