@@ -65,7 +65,7 @@ class ConstantLengthDataGenerator(Sequence):
 
     def __len__(self):
         """Denotes the number of batches per epoch"""
-        return self.X.shape[0] / self.batch_size * 2
+        return self.X.shape[0] // self.batch_size * 2
 
     def __iter__(self):
         return self
