@@ -1,12 +1,11 @@
-from typing import Tuple
 import os
-import scipy.io.arff
 import pandas as pd
 import numpy as np
-from numpy.lib.recfunctions import structured_to_unstructured
 from scipy.interpolate import interp1d
 from sklearn.preprocessing import MinMaxScaler
 from sktime.datasets import load_from_tsfile
+import matplotlib.pyplot as plt
+
 
 def get_paths(root="data", file_format="ts", task="TRAIN"):
     return [
@@ -15,13 +14,15 @@ def get_paths(root="data", file_format="ts", task="TRAIN"):
     ]
 
 
-def read_univariate_ts(path: str, return_data_type="nested_univ") -> (np.array, np.array):
-    X, y = load_from_tsfile(path, return_data_type=return_data_type)
+def read_univariate_ts(
+        path: str, return_data_type="nested_univ"
+) -> (np.array, np.array):
+    X, y = load_from_tsfile(path, return_data_type=return_data_type, replace_missing_vals_with="0.0")
     return X["dim_0"], y
 
 
 def stretch_interpolate(
-    df: np.array, target_length: int = 600, type_: str = "linear"
+        df: np.array, target_length: int = 600, type_: str = "linear"
 ) -> np.array:
     interpolator = interp1d(np.arange(len(df)), df, kind=type_)
     new_index = np.linspace(0, len(df) - 1, target_length)
@@ -35,7 +36,7 @@ def random_sub_interval(df: np.array, target_length: int = 600):
     if length_df == target_length:
         return df
     start = np.random.randint(length_df - target_length + 1)
-    return df[start : start + target_length]
+    return df[start: start + target_length]
 
 
 def normalize_length(df: np.array, target_length: int = 600):
@@ -48,11 +49,8 @@ def normalize_length(df: np.array, target_length: int = 600):
 
 
 def stretch_interpolate_matrix(arr: np.array, target_width: int) -> np.array:
-    return np.apply_along_axis(
-        lambda arr: stretch_interpolate(arr, target_length=target_width),
-        axis=1,
-        arr=arr,
-    )
+    return np.vstack([stretch_interpolate(series, target_length=target_width) for series in arr]
+                     )
 
 
 def sample_rows(X, y=None, n=200):
@@ -85,3 +83,8 @@ class TargetEncoder:
         return self.__scaler.inverse_transform(X)
 
 
+def plot(X, y):
+    color = TargetEncoder(y).get_0_1_scaled()
+    plt.figure(figsize=(15, 15))
+    for i in range(len(X)):
+        plt.plot(X[i, :], c=plt.cm.rainbow(color[i]))

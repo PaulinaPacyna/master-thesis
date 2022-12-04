@@ -356,7 +356,13 @@ Fully Convolutional Networks are convolutional networks used in time series clas
 
 
 Because the architecture of convolutional layers does not depend on the size of input data and the convolutional layers are followed by pooling over the time axis, the whole network is capable of processing data of variable lengths.
+\subsection{Encoder network}
+The Encoder Network is a deep convolutional network proposed by \cite{encoder}. The first layers of the network are similar to the FCN architecture. The network consists of three convolutional layer followed by an attention layer instead of the Global Average Pooling layer. Another novelty introduced in this network comparing with the FCN architecture is adding a DropOut leayer and replacing the ReLU activation function with PReLU (Parametrized ReLU, thus adding another parameter to the network. The network ends with a Dense layer predicting the distribution over the classes.
+ The attention layer, first proposed in \cite{attention}, assigns weights to each element of the input representing the importance for the prediciton. The weights representing the attention are normalized using softmax function and then applied on the input data. The weigths  are learned by the network.
+ 
+The network is invariant to the input length. Similarly as former architecture, it enables weight sharing thus learning shapelets. 
 
+The authors decribe two approaches of training the network: an end-to-end approach and a transfer learning approach. 
 
 \section{Transfer learning}
 Transfer learning is a technique that attempts to apply knowledge learned  while solving one task to enhance the learning process for another task. Formally, the problem can be described using the notions of tasks and domains \cite{survey_transfer_learning, comp_survey_transfer_leaerning}. A \textit{Domain} is a pair $\mathcal{D}=(\mathcal{X}, P(\mathcal{X}))$, where $\mathcal{X}$ is the feature space (e.g. the time series observations, and $P(\mathcal{X})$ is the probability distribution over the feature space. A \textit{Task} is a pair of label space $\mathcal{Y}$ and the decision function $f$, $\mathcal{T} = (\mathcal{Y}, f)$. The decision function $f$ is learned from $\mathcal{X}, P(\mathcal{X}), \mathcal{Y}$ in the learning process.
