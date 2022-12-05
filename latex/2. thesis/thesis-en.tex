@@ -352,15 +352,18 @@ Fully Convolutional Networks are convolutional networks used in time series clas
 \caption{Architecture of a Fully Convolutional Network. Source: \cite{dl_tsc}}
 \end{figure}
 
-
-
-
 Because the architecture of convolutional layers does not depend on the size of input data and the convolutional layers are followed by pooling over the time axis, the whole network is capable of processing data of variable lengths.
-\subsection{Encoder network}
+\subsection{Residual Network}
+The Residual Network was first proposed in \cite{residual}. The Residual Network is a relatively deep architecture compared to other neural networks used for time series classification. 
+
+A residual connection addresses the vanishing gradient problem occuring in networks composed of many layers \cite{resnet}. The vanishing gradient occurs in the backpropagation process. When the gradient is passes from the last layer to the first, it may be decreasing towards zero. This causes the first layers of the network to learn slowly. The residual connection between layers passes the input directly from one layer to another, skipping a few layers. This way if the network is struggling with vanishing gradient, this shortcut connection may help the network to converge. 
+
+The architecture of the Residual Network is conceptually similar to the FCN network. Instead of three convolutional layers, the Residual Network begins with three blocks of convolutional layers, connected with residual connections. Each block consists of three convolutional layers. The three blocks, which consist of nine convolutional layers and three residual connections in total, are followed by a Global Average Pooling layer and a Dense layer. The networks' diagram is shown below (Figure ).
+\subsection{Encoder Network}
 The Encoder Network is a deep convolutional network proposed by \cite{encoder}. The first layers of the network are similar to the FCN architecture. The network consists of three convolutional layer followed by an attention layer instead of the Global Average Pooling layer. Another novelty introduced in this network comparing with the FCN architecture is adding a DropOut leayer and replacing the ReLU activation function with PReLU (Parametrized ReLU, thus adding another parameter to the network. The network ends with a Dense layer predicting the distribution over the classes.
- The attention layer, first proposed in \cite{attention}, assigns weights to each element of the input representing the importance for the prediciton. The weights representing the attention are normalized using softmax function and then applied on the input data. The weigths  are learned by the network.
+ The attention layer, first proposed in \cite{attention}, assigns weights to each element of the input representing the importance for the prediciton. The weights representing the attention are normalized using softmax function and then applied on the input data. The weigths  are learned by the network. The outputs of the attention layer can be interpreted as a universal representation of the input time series, that will be able to adapt to and represent unseen data \cite{encoder}.
  
-The network is invariant to the input length. Similarly as former architecture, it enables weight sharing thus learning shapelets. 
+As opposed to the FCN network architecture, the Encoder network is not invariant to the input size. The Dense layer parameters depend on the output size of the attention layer and implicilitely on the output size of convolutional layers.  Similarly as former architecture, the convolutional layers enable weight sharing thus learning shapelets independently of their position in the time series. 
 
 The authors decribe two approaches of training the network: an end-to-end approach and a transfer learning approach. 
 
