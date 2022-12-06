@@ -85,6 +85,6 @@ class TargetEncoder:
 
 def plot(X, y):
     color = TargetEncoder(y).get_0_1_scaled()
-    plt.figure(figsize=(15, 15))
+    plt.figure(figsize=(15, 10))
     for i in range(len(X)):
         plt.plot(X[i, :], c=plt.cm.rainbow(color[i]))
