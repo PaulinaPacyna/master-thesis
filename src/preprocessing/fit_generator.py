@@ -47,7 +47,14 @@ class VariableLengthDataGenerator(Sequence):
 
 class ConstantLengthDataGenerator(Sequence):
     def __init__(
-            self, X: np.array, y: np.array, shuffle=True, batch_size=32, dtype=np.float16, min_length=2 ** 4, max_length=2 ** 11
+            self, X: np.array,
+            y: np.array,
+            shuffle=True,
+            batch_size=32,
+            dtype=np.float16,
+            min_length=2 ** 4,
+            max_length=2 ** 11,
+            augmentation=False
     ):
         """Initialization"""
         self.shuffle = shuffle
@@ -55,9 +62,20 @@ class ConstantLengthDataGenerator(Sequence):
         self.y: np.array = y
         self.indices = range(X.shape[0])
         self.batch_size = batch_size
-        self.possible_lengths = [2 ** i for i in range(int(np.log2(min_length)), int(np.log2(max_length))+1)]
+        self.possible_lengths = [2 ** i for i in range(int(np.log2(min_length)), int(np.log2(max_length)) + 1)]
         self.dtype = dtype
         self.__y_inverse_probabilities = self.__calculate_y_inverse_probabilities()
+        self.__augmentation = augmentation
+
+    def __augment(self, X: np.array):
+        if not self.__augmentation:
+            return X
+        else:
+            if np.random.random() < 0.5:
+                X *= -1
+            if np.random.random() < 0.5:
+                X = np.flip(X, axis=1)
+            return X
 
     @staticmethod
     def __normalize_rows(X) -> np.array:
@@ -95,7 +113,9 @@ class ConstantLengthDataGenerator(Sequence):
             ]
         )
         y_batch = self.y[index]
-        return np.array(X_batch, dtype=self.dtype), np.array(y_batch)
+        X_batch, y_batch = np.array(X_batch, dtype=self.dtype), np.array(y_batch)
+        X_batch = self.__augment(X_batch)
+        return X_batch, y_batch
 
     def on_epoch_end(self):
         self.indices = range(self.X.shape[0])
