@@ -10,6 +10,7 @@
 \usepackage[T1]{fontenc}
 \usepackage[english, polish]{babel}
 
+\usepackage{placeins}
 
 \usepackage{amsmath, amsfonts, amsthm, latexsym} % MOSTLY MATHEMATICAL SYMBOLS
 
@@ -45,7 +46,6 @@
 \fancyhead[LO]{\sc \nouppercase{\rightmark}}
 % lewa pagina: zawartość \leftmark do prawego, wewnętrznego (marginesu) 
 \fancyhead[RE]{\sc \leftmark}
-
 \renewcommand{\chaptermark}[1]{\markboth{\thechapter.\ #1}{}}
 
 % HEAD RULE - IT'S A LINE WHICH SEPARATES HEADER AND FOOTER FROM CONTENT
@@ -169,6 +169,7 @@
 \DeclareMathOperator{\real}{\mathbb{R}}
 \DeclareMathOperator{\natur}{\mathbb{N}}
 
+\setlength{\headheight}{14.0pt}
 \begin{document}
 \sloppy
 \selectlanguage{english}
@@ -301,13 +302,19 @@ subject to:
 \item $|e_{i+1} - e_i | \leq 1$, $|f_{i+1} - f_i | \leq 1$
 \end{itemize}
 The measure defined above, used in the k-Nearest Neighbour classifier, is often used as a benchmark classifier. 
-The list of indices $[(e_1, f_1), \dots, (e_S, f_S)]$ is called the warping path. An illustration of this measure is displayed on figure \ref{fig:dtw_img}
+The list of indices $[(e_1, f_1), \dots, (e_S, f_S)]$ is called the warping path. An illustration of this measure is displayed on figure
+
+\FloatBarrier
+
+\ref{fig:dtw_img}
 \begin{figure}
 \centering
 \includegraphics[width=10cm]{imgs/dtw.jpg}
 \caption{The Dynamic Time warping distance between the series above is equal to 1. We show the warping path in the distance matrix and connections indicated by the dynamic warping path.}
 \label{fig:dtw_img}
 \end{figure}
+
+\FloatBarrier
 
 \subsection{Multi Layer Perceptron}
 The Multi Layer Perceptron (MLP) is the first artificial neural network architecture proposed in \cite{dl_tsc} and can be used for time series classification task. 
@@ -339,7 +346,26 @@ The result of the convolution is passed elementwise to a nonlinear function. The
 In the case of univariate time series, the first layer of the convolutional neural network is one-dimensional. The output of the first layer has dimensions (length of time series - the length of the filter + 1, number of filters). Below we define the value of the output for filter $i$  
 $$ y_{t, i} = f_i([\theta_{\frac{-M+1}{2}}^i, \dots , \theta_{\frac{M-1}{2}}^i] \cdot [X_{t_+\frac{-M+1}{2}}, \dots, X_{t+\frac{M-1}{2}}]),$$ 
 where $\cdot$ is a dot product and $t \in T$ is the time index.
+In figures and we show results of applying two different filter to a time series.
 
+
+\FloatBarrier
+
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=16cm]{imgs/convolution_output_growth.png}
+\caption{Result of applying slope detecting filter to a time series. Red regions indicate higher value of the output convolution.}
+\label{fig:convolution_output_growth}
+\end{figure}
+\FloatBarrier
+\begin{figure}[h!]
+\centering
+\includegraphics[width=16cm]{imgs/convolution_output_hills.png}
+\caption{Result of applying a "peak" detecting filter to a time series. Red regions indicate higher value of the output convolution.}
+\label{fig:convolution_output_hill}
+\end{figure}
+
+\FloatBarrier
 
 The weights $\theta^i$ are different for each filter.
 The same filter is applied over the whole length of the time series. This is called \textit{weight sharing} and it enables the network to learn patterns regardless of the position in the time series. 
@@ -349,38 +375,50 @@ The architecture of the convolutional layer is not dependent on the size of the 
 \subsection{Fully Convolutional Networks}\label{FCN}
 Fully Convolutional Networks are convolutional networks used in time series classification. A sample architecture of a Fully Convolutional Network proposed is in \cite{dl_tsc}. The first layers in the network are 3 blocks of convolutional layers with ReLU activation function followed by batch normalization layers. The output of the last block is passed to a global pooling layer. The global pooling layer averages the output through the time axis, resulting in a vector of length equal to the number of feature maps in the last convolutional layer. The averaged vector is passed to a block of 2 fully connected layers. Figure \ref{fig:FCN_img} shows a visualisation of the network.\\
 
-\begin{figure}[!ht]
+\FloatBarrier
+
+\begin{figure}[h!]
 \centering
 \includegraphics[width=14cm]{imgs/FCN.png}
 \caption{Architecture of a Fully Convolutional Network. Source: \cite{dl_tsc}}
 \label{fig:FCN_img}
 \end{figure}
 
+\FloatBarrier
+
 Because the architecture of convolutional layers does not depend on the size of input data and the convolutional layers are followed by pooling over the time axis, the whole network is capable of processing data of variable lengths.
 \subsection{Residual Network}
 The Residual Network was first proposed in \cite{residual}. The Residual Network is a relatively deep architecture compared to other neural networks used for time series classification. 
 
-A residual connection addresses the vanishing gradient problem occuring in networks composed of many layers \cite{resnet}. The vanishing gradient occurs in the backpropagation process. When the gradient is passes from the last layer to the first, it may be decreasing towards zero. This causes the first layers of the network to learn slowly. The residual connection between layers passes the input directly from one layer to another, skipping a few layers. This way if the network is struggling with vanishing gradient, this shortcut connection may help the network to converge. 
+A residual connection addresses the vanishing gradient problem occuring in networks composed of many layers \cite{residual}. The vanishing gradient problem occurs in the backpropagation process. When the gradient is passes from the last layer to the first, it may be decreasing towards zero. This causes the first layers of the network to learn slowly. The residual connection between layers passes the input directly from one layer to another, skipping a few layers. This way if the network is struggling with vanishing gradient, this shortcut connection may help the network to converge. 
 
 The architecture of the Residual Network is conceptually similar to the FCN network. Instead of three convolutional layers, the Residual Network begins with three blocks of convolutional layers, connected with residual connections. Each block consists of three convolutional layers. The three blocks, which consist of nine convolutional layers and three residual connections in total, are followed by a Global Average Pooling layer and a Dense layer. The networks' diagram is shown below (Figure \ref{fig:Resnet_img}).
 
 
-\begin{figure}[!ht]
+\FloatBarrier
+
+\begin{figure}[h!]
 \centering
 \includegraphics[width=14cm]{imgs/resnet.png}
 \caption{Architecture of a Residual Network. Source: \cite{dl_tsc}}
 \label{fig:Resnet_img}
 \end{figure}
 
+\FloatBarrier
+
 \subsection{Encoder Network}
  The Encoder Network is a deep convolutional network proposed by \cite{encoder}. The first layers of the network are similar to the FCN architecture. The network consists of three convolutional layer followed by an attention layer instead of the Global Average Pooling layer. Another novelty introduced in this network comparing with the FCN architecture is adding a DropOut leayer and replacing the ReLU activation function with PReLU (Parametrized ReLU, thus adding another parameter to the network. The network ends with a Dense layer predicting the distribution over the classes. The architecture is shown below (Figure \ref{fig:encoder_img}).
+ 
+\FloatBarrier
 
-\begin{figure}[!ht]
+\begin{figure}[h!]
 \centering
 \includegraphics[width=14cm]{imgs/encoder.png}
 \caption{Architecture of an Encoder Network. Source: \cite{dl_tsc}}
 \label{fig:encoder_img}
 \end{figure}
+
+\FloatBarrier
 
 The attention layer, first proposed in \cite{attention}, assigns weights to each element of the input representing the importance for the prediciton. The weights representing the attention are normalized using softmax function and then applied on the input data. The weigths  are learned by the network. The outputs of the attention layer can be interpreted as a universal representation of the input time series, that will be able to adapt to and represent unseen data \cite{encoder}.
  
@@ -412,6 +450,8 @@ Transfer learning can be categorized based on the algorithm/approach used. There
 \subsection{Characteristics of a good source domain}
 
 In the field of image processing, it is very common to use convolutional neural networks \mbox{pre-trained} with the ImageNet dataset \cite{imagnet}.  ImageNet is a large dataset of human-annotated images. It contains 1 million labeled images of 1000 classes. The label space consists of fine-grained classes such as breeds of dogs and cats, but also coarse-grained classes like \textit{red wine} and \textit{traffic light}. Example pictures from this dataset are shown below \. As transfer learning based on this dataset became more popular and successful, a question arose: Which features of this dataset make it so good for this task?
+\FloatBarrier
+
 \begin{figure}[h!]
 \centering
 \includegraphics[height=5cm]{imgs/lamp.jpeg} 
@@ -421,7 +461,11 @@ In the field of image processing, it is very common to use convolutional neural 
 \label{fig:image_net}
 \end{figure}
 
-A study conducted in \cite{imagnet} attempts to answer this question. The first hypothesis is that the volume of the dataset is relevant to train accurate, general classifiers. The authors compared models pretrained on the original dataset and models based on sampled subsets (reduced 2, 4 8 and 20 times). The results show that the more training examples, the better results. The accuracy of the initial classifier occurred to be more dependent on the size of dataset than the accuracy of classifiers fine-tuned from the base classifier. It is natural, that the base classifier's accuracy will depend on the dataset size. Still, the classifier fine-tuned from the base classifier seems to cope with the reduced dataset and the impact on the accuracy is less detrimental. This is visible on the figure \ref{fig:size_acc_img}
+\FloatBarrier
+
+A study conducted in \cite{imagnet} attempts to answer this question. The first hypothesis is that the volume of the dataset is relevant to train accurate, general classifiers. The authors compared models pretrained on the original dataset and models based on sampled subsets (reduced 2, 4 8 and 20 times). The results show that the more training examples, the better results. The accuracy of the initial classifier occurred to be more dependent on the size of dataset than the accuracy of classifiers fine-tuned from the base classifier. It is natural, that the base classifier's accuracy will depend on the dataset size. Still, the classifier fine-tuned from the base classifier seems to cope with the reduced dataset and the impact on the accuracy is less detrimental. This is visible on the figure \ref{fig:size_acc_img}.
+
+\FloatBarrier
 
 
 \begin{figure}[h!]
@@ -430,16 +474,36 @@ A study conducted in \cite{imagnet} attempts to answer this question. The first 
 \caption{Accuracy of the base classifier (black) and classifiers fine-tuned from the base classifier. Image source: \cite{imagnet}}
 \label{fig:size_acc_img}
 \end{figure}
+\FloatBarrier
+
 Next experiments examine the label space. The authors study if the granularity of the label space is essential for the problem. To compare the results, the label space is clustered and 127 classes are derived from the initial 1000 classes. Pre-training with the reduced label space has a minimal negative impact on the accuracy of classifiers fine-tuned from this classifier. This suggests that such a fine division may not be needed.
 
-Finally, the last question is if we train the classifier on the reduced label space with 127 classes, will it be able to distinguish between the fine-grained classes? To examine that, the authors extracted features from the first layers of the networks trained on reduced label space. Then, the authors performed classification with 1-NN and 5-NN models on the extracted feature space, but with 1000 classes. The findings are that the k-NN classifier performs $15\%$ worse on reduced dataset vs normal dataset. This shows that CNNs are capable of implicitly learning representative features distinctive between similar classes even when trained on coarse-grained classes.     
+Finally, the last question is if we train the classifier on the reduced label space with 127 classes, will it be able to distinguish between the fine-grained classes? To examine that, the authors extracted features from the first layers of the networks trained on reduced label space. Then, the authors performed classification with 1-NN and 5-NN models on the extracted feature space, but with 1000 classes. The findings are that the k-NN classifier performs $15\%$ worse on reduced dataset versus normal dataset. This shows that CNNs are capable of implicitly learning representative features distinctive between similar classes even when trained on coarse-grained classes.     
 
-While the article \cite{imagnet} does not conclude which single feature of ImageNet dataset makes it so efficient as a source dataset for transfer learning, it is clear that all properties of this dataset are important for the accuracy of the classifier. 
+While the article \cite{imagnet} does not conclude which single feature of ImageNet dataset makes it so efficient as a source dataset for transfer learning, it is clear that all properties of this dataset are important for the accuracy of the classifier. We will try to recreate the properties of ImageNet dataset when creating the source dataset from time series.
+
+\subsection{Negative transfer}
+Negative transfer is a problem in the transfer learning process, when the target classifies achieves worse accuracy than without using transfer learning. Transfer learning for time series has been investigated in \cite{transfer_learning_time_series}. The authors of the paper tested transfer learning on all 85 datasets from the UCR archive. In the first approach, called \textit{naive transfer learning}, the authors used all pairs of datasets. One dataset from the pair was used as a source dataset, to prepare the source classifier for transfer learning. The second dataset was used to fine-tuned the former classifier. The architecture used in this approach was the Fully Connected Network, described in section \ref{FCN}.  All layers except for the last one were transferred from the source classifier to the target classifier. The authors compared the accuracy of a finetuned classifier versus the accuracy of a classifier trained without the use of transfer learning. 
+
+With respect to different datasets, target classifiers' accuracies exhibited a high variance. There were cases where the fine-tuned classifiers suffered from transfer learning. On the other hand, for each target dataset there was always a source dataset benefical for the classification results. It is shown on the picture \ref{fig:tr_learning_min_max}, where for each target dataset, the maximum, median and minimum accuracies for different experiments values were plotted.
+
+\FloatBarrier
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=10cm]{imgs/max_min_transfer_learning.png}
+\caption{Image source: \cite{transfer_learning_time_series}}
+\label{fig:tr_learning_min_max}
+\end{figure}
+\FloatBarrier
+To improve the transfer learning process, the authors proposed a method of choosing the source dataset based on the DWT distance.
+ 
 % ------------------------------- BIBLIOGRAPHY ---------------------------
 % LEXICOGRAPHICAL ORDER BY AUTHORS' LAST NAMES
 % FOR AMBITIOUS ONES - USE BIBTEX
 
-
+\
 \bibliographystyle{plain} % We choose the "plain" reference style
 \bibliography{refs} % Entries are in the refs.bib file
 
