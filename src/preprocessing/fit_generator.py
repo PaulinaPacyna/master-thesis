@@ -47,14 +47,15 @@ class VariableLengthDataGenerator(Sequence):
 
 class ConstantLengthDataGenerator(Sequence):
     def __init__(
-            self, X: np.array,
-            y: np.array,
-            shuffle=True,
-            batch_size=32,
-            dtype=np.float16,
-            min_length=2 ** 4,
-            max_length=2 ** 11,
-            augmentation=False
+        self,
+        X: np.array,
+        y: np.array,
+        shuffle=True,
+        batch_size=32,
+        dtype=np.float16,
+        min_length=2**4,
+        max_length=2**11,
+        augmentation=False,
     ):
         """Initialization"""
         self.shuffle = shuffle
@@ -62,7 +63,10 @@ class ConstantLengthDataGenerator(Sequence):
         self.y: np.array = y
         self.indices = range(X.shape[0])
         self.batch_size = batch_size
-        self.possible_lengths = [2 ** i for i in range(int(np.log2(min_length)), int(np.log2(max_length)) + 1)]
+        self.possible_lengths = [
+            2**i
+            for i in range(int(np.log2(min_length)), int(np.log2(max_length)) + 1)
+        ]
         self.dtype = dtype
         self.__y_inverse_probabilities = self.__calculate_y_inverse_probabilities()
         self.__augmentation = augmentation
@@ -79,7 +83,9 @@ class ConstantLengthDataGenerator(Sequence):
 
     @staticmethod
     def __normalize_rows(X) -> np.array:
-        return np.array([(row - np.mean(row)) / (np.std(row)) for row in X], dtype=np.object_)
+        return np.array(
+            [(row - np.mean(row)) / (np.std(row)) for row in X], dtype=np.object_
+        )
 
     def __len__(self):
         """Denotes the number of batches per epoch"""
@@ -92,7 +98,9 @@ class ConstantLengthDataGenerator(Sequence):
         return next(self)
 
     def __calculate_y_inverse_probabilities(self):
-        y_hashed = np.apply_along_axis(lambda x: hash(tuple(x)), axis=1, arr=self.y).tolist()
+        y_hashed = np.apply_along_axis(
+            lambda x: hash(tuple(x)), axis=1, arr=self.y
+        ).tolist()
         count_dict = Counter(y_hashed)
         counts = np.array([count_dict[item] for item in y_hashed])
         assert not (counts == 0).any()
