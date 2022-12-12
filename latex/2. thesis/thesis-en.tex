@@ -170,6 +170,10 @@
 \DeclareMathOperator{\natur}{\mathbb{N}}
 
 \setlength{\headheight}{14.0pt}
+\usepackage{listings}
+%\setlength\parskip{\baselineskip}
+%\usepackage{parskip}
+%--------------------------Start---------------------------------------
 \begin{document}
 \sloppy
 \selectlanguage{english}
@@ -294,7 +298,7 @@ The time index $T$ can represent any collection with the natural order. We assum
 %$$f_\theta (X_i) = y_i$$. 
 
 \subsection{Dynamic Time Warping with k-Nearest Neighbour}
-The Dynamic Time Warping \cite{bake_off} with k-Nearest Neighbour classifier uses a distance-based algorithm with a specific distance measure. A DWT distance between time series $X^1$, $X^2$ of equal lengths is defined as follows:
+The Dynamic Time Warping \cite{bake_off} with k-Nearest Neighbour classifier uses a distance-based algorithm with a specific distance measure. A DTW distance between time series $X^1$, $X^2$ of equal lengths is defined as follows:
 $$DTW(X^1, X^2) = \min\{ \sum_{i=1}^S dist(x^1_{e_i}, x^2_{f_i}):(e_i)_{i=1}^S, (f_i)_{i=1}^S\in 2^T\}$$
 subject to:
 \begin{itemize}
@@ -320,7 +324,7 @@ The list of indices $[(e_1, f_1), \dots, (e_S, f_S)]$ is called the warping path
 The Multi Layer Perceptron (MLP) is the first artificial neural network architecture proposed in \cite{dl_tsc} and can be used for time series classification task. 
 %A MLP network can be formally defined as a function depending on a set \textit{weights} $\theta_i$. 
 %$$MLP(X; \theta_1,\dots , \theta_M, \beta_1,\dots , \beta_M) = f_M( \beta_M +  \theta_M \cdot (f_{M-1}( \beta_{M-1} +  \theta_{M-1} \cdot (\dots f_1( \beta_1 +  \theta_1 \cdot X)))))$$
-Formally, the MLP network can be defined as a composition of $layer$ functions. The network returns a vector that usually represents the probability distribution over the set of classes.
+Formally, the MLP network can be defined as a composition of functions (called \textit{dense layers} or \textit{layers}). The network returns a vector that usually represents the probability distribution over the set of classes.
 $$MLP(X; \theta_1,\dots , \theta_M, \beta_1,\dots , \beta_M) = L_M(\dots L_2(L_1(X;\theta_1, \beta_1);\theta_2, \beta_2);\theta_M, \beta_M)$$
 Each layer $L_i: \real^M \rightarrow \real^N$ is a function that depends on the parameters $\theta \in r^{M\times N}, \beta \in \real^N$
 $$L_i(X ; \theta_i, \beta_i) = f_i(X \theta_i  + \beta_i)$$
@@ -373,7 +377,9 @@ The same filter is applied over the whole length of the time series. This is cal
 The architecture of the convolutional layer is not dependent on the size of the input data. Regardless of the size of the input data, the number of filters and size of filters remain the same, only the output sizes depend on the input size. Therefore, if the convolutional layer is  succeeded by layers with the same property, like other convolutional layers or Global Pooling with Dense Layer (see section \ref{FCN}), the whole network may be invariant to the input sizes \cite{dl_tsc}. Such networks may be interesting in terms of transfer learning, as the sizes of time series in the source task and in the target task do not have to match.  
 
 \subsection{Fully Convolutional Networks}\label{FCN}
-Fully Convolutional Networks are convolutional networks used in time series classification. A sample architecture of a Fully Convolutional Network proposed is in \cite{dl_tsc}. The first layers in the network are 3 blocks of convolutional layers with ReLU activation function followed by batch normalization layers. The output of the last block is passed to a global pooling layer. The global pooling layer averages the output through the time axis, resulting in a vector of length equal to the number of feature maps in the last convolutional layer. The averaged vector is passed to a block of 2 fully connected layers. Figure \ref{fig:FCN_img} shows a visualisation of the network.\\
+Fully Convolutional Networks are convolutional networks used in time series classification. A sample architecture of a Fully Convolutional Network proposed is in \cite{dl_tsc}. The first layers in the network are 3 blocks of convolutional layers with ReLU activation function followed by batch normalization layers. The output of the last block is passed to a global pooling layer. The global pooling layer averages the output through the time axis, resulting in a vector of length equal to the number of feature maps in the last convolutional layer. The averaged vector is passed to a block of 2 fully connected layers. Figure \ref{fig:FCN_img} shows a visualisation of the network.
+
+
 
 \FloatBarrier
 
@@ -424,7 +430,12 @@ The attention layer, first proposed in \cite{attention}, assigns weights to each
  
 As opposed to the FCN network architecture, the Encoder network is not invariant to the input size. The Dense layer parameters depend on the output size of the attention layer and implicilitely on the output size of convolutional layers.  Similarly as former architecture, the convolutional layers enable weight sharing thus learning shapelets independently of their position in the time series. 
 
-The authors decribe two approaches of training the network: an end-to-end approach and a transfer learning approach. 
+\section{Preprocessing and augmenting time series}
+Data preprocessing is the process of preparing, cleansing and manipulating the data in order to optimize the training process. Data augmentation is a process used to increase the amount and variability of data. Data augmentation is beneficial when there is limited amount of data, as it can prevent overfitting.
+A lot of classical and deep learning models were invented and designed together with the data preprocessing and augmenting step \cite{bake_off, dl_tsc}. An example of such method is Window Slicing (\cite{dl_tsc}). This method extracts subsequences of of the original series. The resulting subsequences are then concatenenated with a downsampled copy and a copy that was smoothed. This method is used in Multi-scale Convolutional Neural Network (\cite{multiscale}) and Time Le-Net (\cite{lenet}).
+
+Another preprocessing and augmentation method proposed together with the Time Le-Net model was Window Warping. It aims at making the model more robust to perturbations in the time axis, by training the network on \textit{squeezed} or \textit{dilated} series together with the original series. 
+% TODO szczegoły
 
 \section{Transfer learning}
 Transfer learning is a technique that attempts to apply knowledge learned  while solving one task to enhance the learning process for another task. Formally, the problem can be described using the notions of tasks and domains \cite{survey_transfer_learning, comp_survey_transfer_leaerning}. A \textit{Domain} is a pair $\mathcal{D}=(\mathcal{X}, P(\mathcal{X}))$, where $\mathcal{X}$ is the feature space (e.g. the time series observations, and $P(\mathcal{X})$ is the probability distribution over the feature space. A \textit{Task} is a pair of label space $\mathcal{Y}$ and the decision function $f$, $\mathcal{T} = (\mathcal{Y}, f)$. The decision function $f$ is learned from $\mathcal{X}, P(\mathcal{X}), \mathcal{Y}$ in the learning process.
@@ -482,7 +493,9 @@ Finally, the last question is if we train the classifier on the reduced label sp
 
 While the article \cite{imagnet} does not conclude which single feature of ImageNet dataset makes it so efficient as a source dataset for transfer learning, it is clear that all properties of this dataset are important for the accuracy of the classifier. We will try to recreate the properties of ImageNet dataset when creating the source dataset from time series.
 
-\subsection{Negative transfer}
+
+\label{Negative_transfer}
+\subsection{Negative transfer in naive transfer learning approach}
 Negative transfer is a problem in the transfer learning process, when the target classifies achieves worse accuracy than without using transfer learning. Transfer learning for time series has been investigated in \cite{transfer_learning_time_series}. The authors of the paper tested transfer learning on all 85 datasets from the UCR archive. In the first approach, called \textit{naive transfer learning}, the authors used all pairs of datasets. One dataset from the pair was used as a source dataset, to prepare the source classifier for transfer learning. The second dataset was used to fine-tuned the former classifier. The architecture used in this approach was the Fully Connected Network, described in section \ref{FCN}.  All layers except for the last one were transferred from the source classifier to the target classifier. The authors compared the accuracy of a finetuned classifier versus the accuracy of a classifier trained without the use of transfer learning. 
 
 With respect to different datasets, target classifiers' accuracies exhibited a high variance. There were cases where the fine-tuned classifiers suffered from transfer learning. On the other hand, for each target dataset there was always a source dataset benefical for the classification results. It is shown on the picture \ref{fig:tr_learning_min_max}, where for each target dataset, the maximum, median and minimum accuracies for different experiments values were plotted.
@@ -497,12 +510,58 @@ With respect to different datasets, target classifiers' accuracies exhibited a h
 \label{fig:tr_learning_min_max}
 \end{figure}
 \FloatBarrier
-To improve the transfer learning process, the authors proposed a method of choosing the source dataset based on the DWT distance.
- 
+A negative transfer learning effect can be minimized or avoided by optimally choosing the source dataset/datasets. To improve the transfer learning process, the authors proposed a method of choosing the source dataset based on the DTW distance. This method will be described in \ref{DTW_choosing}.
+
+\label{DTW_choosing}
+\section{Inter-dataset similarity based on Dynamic Time Warping Barycenter Averaging}
+Choosing the source dataset for transfer learning randomly, or by trial and error, can lead to the \textit{Negative transfer} problem, described in the previous chapter (\ref{Negative_transfer}). In \cite{transfer_learning_time_series}, the authors proposed a inter-dataset similarity measure, that is used to optimally choose the source dataset for transfer learning. The first step of the method is to compute a \textit{prototype} time series per each class, for every dataset that is considered. This reduces the volume of the data, that will be used is the next step. The next step is to compute the distances between each pair of datasets, choosing the minimum DTW distance between prototypes of each classes in both datasets. We proceed to describe the algorithm in detail below.
+
+The first step of the algorithm is the data reduction step. Below we present the pseudocode in python.
+\begin{lstlisting}[language=Python]
+def get_prototypes(X, y):
+	prototypes = []
+	for class in set(y):
+		X_class = X[y==class]
+		medoid = get_medoid(X_class)
+		prototype = DTW_averaging(data=X_class, init=medoid)
+		prototypes.append(prototype)
+	return prototypes
+
+\end{lstlisting} 
+We assume that the \texttt{get\_medoid} function, given a set of time series $\mathcal{X}$, returns a medoid with respect to the DTW distance, precisely:
+$$medoid = \arg\min_{X \in \mathcal{X}} \sum_{\bar{X}\in \mathcal{X}} DTW(X, \bar{X})$$
+The \texttt{DTW\_averaging} function performs a DTW barycenter averaging. The result of this function is a times series, that similarly to the medoid, minimizes the sum of DTW distances to each time series from the dataset. The difference between a DTW barycenter average and a medoid is that we do not restrict the result to be in from the original dataset, thus allowing to minimize the sum of distances more. The algorithm is described in detail in \cite{dtw_dba}.
+This way we reduce the dataset to one prototype time series per each class. 
+
+%\pagebreak
+The next step is to compute the distance between datasets.
+\begin{lstlisting}[language=Python]
+def dist(X_1, y_1, X_2, y_2):
+	distance = float("Inf")
+	prototypes_1 = get_prototypes(X_1, y_1)
+	prototypes_2 = get_prototypes(X_2, y_2)
+	for prototype_1 in prototypes_1:
+		for prototype_2 in prototypes_2:
+			dtw_prototypes = DTW(prototype_1 prototype_2)
+			dist = min(dist, dtw_prototypes)
+	return dist
+\end{lstlisting}
+The distance is computed pairwise for all available datasets (using train splits). The authors compare the transfer learning performance of with randomly choosen source dataset versus choosing the source dataset that minimizes the former distance to the target dataset. The results are shown below (Figure \ref{fig:smart_transfer_learning}).
+\FloatBarrier
+
+
+\begin{figure}[h!]
+\centering
+\includegraphics[width=10cm]{imgs/smart_transfer_learning.png}
+\caption{Image source: \cite{transfer_learning_time_series}}
+\label{fig:smart_transfer_learning}
+\end{figure}
+\FloatBarrier
+
+The result show that choosing the source dataset for transfer learning based on similarity to the target dataset may lead to benefits. In this work we will try to construct the dataset artificially, by combining, preprocessing and augmenting the datasets from UCR archive, to mimic the properties of ImageNet dataset. Therefore we won't rather use this similarity to choose one particular dataset. We will take the inter-dataset distance into account when adjusting the distribution of classes in the artificial dataset, to favour classes similar to the target dataset.
 % ------------------------------- BIBLIOGRAPHY ---------------------------
 % LEXICOGRAPHICAL ORDER BY AUTHORS' LAST NAMES
 % FOR AMBITIOUS ONES - USE BIBTEX
-
 \
 \bibliographystyle{plain} % We choose the "plain" reference style
 \bibliography{refs} % Entries are in the refs.bib file
