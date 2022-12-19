@@ -208,11 +208,11 @@
 \begin{center}
 \title
 \end{center}
-The task of classifying time series is an important problem in the field of data mining. Time series occur every time we want to measure some phenomenon that changes over time. A time series can describe for example the amplitude of a heartbeat sound, stock prices or hand movement along an axis when serving in tennis. Such time series can express different characteristics of the phenomenon. Those characteristics are called \textit{classes}. For example, the heartbeat sound amplitude can represent (belong to) one of two classes: \textit{healthy} and \textit{unhealthy}. Time series classification attempts to learn the distinctive features of a time series and build a model that can distinguish between those classes.
+The task of classifying time series is an important problem in the field of data mining. Most phenomena that change over time can be described in terms of time series. A time series can describe, for example, the amplitude of a heartbeat sound, stock prices, or hand movement along an axis when serving in tennis. Time series can express different characteristics of the phenomenon. Those characteristics are called \textit{classes}. For example, the heartbeat sound amplitude can represent (belong to) one of two classes: \textit{healthy} and \textit{unhealthy}. Time series classification attempts to learn the distinctive features of a time series and build a model that can distinguish between those classes.
 
-The time series classification problem was initially solved using classical algorithms such as the k-nearest neighbor classifier with distance measures suited for time series, like Dynamic Time Warping. Still, the advantages of using deep learning algorithms in the context of time series classification have recently begun to be recognized. Neural networks are capable of detecting shapes that distinguish a class or understanding ordered temporal relationships. 
+The time series classification problem was initially solved using classical algorithms such as the k-nearest neighbor classifier with distance measures suited for time series, like Dynamic Time Warping. The advantages of using deep learning algorithms in the context of time series classification have recently begun to be recognized. Neural networks can detect shapes that distinguish a class or understand ordered temporal relationships. 
 
-Transfer learning practically is used when there is limited data to train. Transfer learning attempts to apply patterns learned from one dataset to improve learning when creating a model for another dataset. A common practice is to prepare a source classifier trained on a large, easily available amount of data for one task and then use this model or parts of it for a detailed task with a smaller amount of data. Models trained using this method often have a shorter training time, faster accuracy increase, and can generalize more easily on the test set.
+Transfer learning is practically used when there is limited data to train. Transfer learning attempts to apply patterns learned from one dataset to improve learning when creating a model for another dataset. A common practice is to prepare a source classifier trained on a large, readily available amount of data for one task and then use this model or parts of it for a detailed task with a smaller amount of data. Models trained using this method often have a shorter training time, faster accuracy increase, and can generalize more easily on the test set.
 
 \noindent \textbf{Keywords:} time series, classification, transfer learning, deep learning, ...
 \end{abstract}
@@ -279,19 +279,31 @@ Metoda transfer learning jest stosowane w przypadku ograniczonej ilości danych 
 \chapter*{Introduction}
 %\markboth{}{Introduction}
 %\addcontentsline{toc}{chapter}{Introduction}
-Time series classification was initially approached using classical machine learning algorithms. The paper \cite{bake_off} categorizes the commonly used algorithms into several categories. The first category are time domain distance based algorithms. Those algorithms use various distance measures adjusted for time series domain to capture similarity between pairs of time series. The distance measure is then combined with a distance-based classifier. A flagship example of an algorithm belonging to this class of algorithms is Dynamic Time Warping distance with k-Nearest Neighbour classifier, often used as a benchmark classifier. Another category of classifiers mentioned in \cite{bake_off} are dictionary, shapelet and interval based classifiers. All of them try to extract features distinctive for the class of the time series. The dictionary based classifiers encode the time series into a dictionary of \textit{words} representing the time series. Shapelet based algorithms focus on subseries of the time series that are discriminatory of class membership. Interval based algorithms extract features from selected intevals of the time series. With the rise of popularity of deep learning algorithms researchers made an attempt to replace the former, hand-extracted features with deep learning classifiers. A few years after the article \cite{dl_tsc} was published. It contains a review of deep learning algorithms applied to the task of time series classification. The usage of deep learning algorithms enabled the possibility to utilize transfer learning. 
+Time series classification was initially approached using classical machine learning algorithms. The paper \cite{bake_off} categorizes the commonly used algorithms into several categories. The first category is time-domain distance-based algorithms. Those algorithms use various distance measures adjusted for the time series domain to capture the similarity between pairs of time series. The distance measure is then combined with a distance-based classifier. A flagship example of an algorithm belonging to this class of algorithms is Dynamic Time Warping distance with the k-Nearest Neighbour classifier. The DTW-1-NN classifier is often used as a benchmark classifier. Another category of classifiers mentioned in \cite{bake_off} are dictionary, shapelet and interval based classifiers. All try to extract distinctive features for the time series class. The dictionary-based classifiers encode the time series into a dictionary of \textit{words} representing the time series. Shapelet-based algorithms focus on subseries of the time series that are discriminatory of class membership. Interval-based algorithms extract features from selected intevals of the time series. 
 
-Transfer learning is widely used in image recognition and natural language processing.  The authors of paper \cite{dl_tsc} extended their previous finding by a study on application of transfer learning. The authors examine knowledge transerability on 85 dataset from UCR archive, by pre-training a model on one dataset and fine-tuning on another. The authors examine if the accuracy improved for all pairs of datasets in UCR archive.
+With the rise of the popularity of deep learning algorithms, researchers attempted to replace the former, hand-extracted features with deep learning classifiers. A few years after the article \cite{dl_tsc} was published. It contains a review of deep learning algorithms applied to the time series classification task. The usage of deep learning algorithms enabled the possibility to utilize transfer learning. 
 
-Transfer learning for deep learning is usually done by training the network on a big, diverse dataset and utilizing first layers of the network when training on another dataset. In image recognition or natural language processing it is common to pre-train the source network on ImageNet dataset or Wikipedia dataset respectively. Such diverse, dataset with labels does not exists for time series. In this thesis, we will attempt to create such dataset from 85 smaller datasets available on the UCR archive. We will try to mimic good properties of a transfer learning source dataset by preprocessing, upsampling and augmenting the dataset. We will also study it transfer learning on a diverse helps to generalize to new training data and improve the training process on the target dataset. Similarly as in \cite{imagnet}, we will experiment to find which features of the source dataset (classes diversity, dataset size, augmentation, preprocessing) are fundamental for the transfer learning process.
+Transfer learning is widely used in image recognition and natural language processing.  The authors of paper \cite{dl_tsc} extended their previous finding by a study on the application of transfer learning. The authors examine knowledge transferability on 85 datasets from the UCR archive by pre-training a model on one dataset and fine-tuning it on another. The authors examine if the accuracy improved for all pairs of datasets in the UCR archive.
+
+Transfer learning for deep learning is usually done by training the network on a big, diverse dataset and utilizing the first layers of the network when training on another dataset. In image recognition or natural language processing, it is common to pre-train the source network on the ImageNet dataset or Wikipedia dataset, respectively. Such a diverse dataset with labels does not exist for time series. In this thesis, we will attempt to create an artificial, diverse dataset from 85 smaller datasets available on the UCR archive. We will try to mimic the good properties of a transfer learning source dataset by preprocessing, upsampling, and augmenting the dataset. We will also study if transfer learning on a diverse helps to generalize new training data and improve the training process on the target dataset. Similarly, as in \cite{imagnet}, we will experiment to find which features of the source dataset (classes diversity, dataset size, augmentation, preprocessing) are fundamental for the transfer learning process.
 %What is the thesis about? What is the content of it? What is the Author's contribution to it?
 %\par
 %WARNING!  In a diploma thesis which is a team project: Description of the work division in the team, including the scope of each co-author’s contribution to the practical part (Team Programming Project) and the descriptive part of the diploma thesis. 
 %\par
 \chapter{Related works}
 In this chapter, we describe several algorithms used in time series classification. We will also recall theoretical definitions used to describe transfer learning. 
+
+
+
+\section{Time series classification}
+A time series is an ordered collection of observations indexed by time. 
+$$X = (x_t)_{t\in T} = (x_1, ... , x_T),\ x_t\in \real$$
+The time index $T$ can represent any collection with the natural order. We assume that indices are spaced evenly in the set $T$. The realization or observation $x_t$ in the times series is a numerical value describing the phenomena we observe, for example, the amplitude of a sound, stock price, or y-coordinate. Time series classification is a problem of finding the optimal mapping between a set of time series and corresponding classes.
+ 
+
+
 \section{UCR archive}
-The URC (University of California, Riverside) archive in a time series classification archive introduced in 2002 by Dau, Keogh et al \cite{UCR_archive}. At the moment of writing this thesis, it consists of 128 univariate time series datasets. The time series describe various phenomenons, like readings from a device or sensor, motion recordings or food spectrographs. The summary of types of the time series is listed below (Table \ref{table:ucr_summary}). We also show a few samples of the time series from different datasets below (Figure \ref{fig:UCR_samples}).
+The URC (University of California, Riverside) archive is a time series classification archive introduced in 2002 by Dau, Keogh et al. \cite{UCR_archive}. At moment of writing this thesis, it consists of 128 univariate time series datasets. The time series describes various phenomena, like readings from a device or sensor, motion recordings, or food spectrographs. The summary of the time series types is listed below (Table \ref{table:ucr_summary}). We also show a few time series samples from different datasets below (Figure \ref{fig:UCR_samples}).
 \begin{table}[!h]
 \centering
 \tabcolsep=0.11cm
@@ -332,29 +344,19 @@ Trajectory                           & 3                           \\ \bottomrul
 \caption{Example time series from the UCR archive. The images belong to the following categories: Food, ECG, Image, Device}
 \label{fig:UCR_samples}
 \end{figure}
-All datasets together contain 1118 unique labels. Most of the datasets differentiate between two labels and have several dozen of rows per class. The series length vary from 8 to almost 3 thousands. Below we show four histograms summarizing number of classes per dataset, lengths of the series and number of observations per class and per dataset. (Figure \ref{fig:histograms})
+All datasets together contain 1118 unique labels. Most of the datasets differentiate between two labels and have several dozen rows per class. The series length varies from 8 to almost 3 thousand. Below we show four histograms summarizing the number of classes per dataset, the lengths of the series, and the number of observations per class and per dataset. (Figure \ref{fig:histograms})
 \begin{figure}[h!]
 \centering
 \includegraphics[width=7.9cm]{imgs/lengths_of_the_series_in_the_datasets.png} 
 \includegraphics[width=7.9cm]{imgs/number_of_classes_per_dataset.png} 
 \includegraphics[width=7.9cm]{imgs/number_of_observations_per_class.png} 
 \includegraphics[width=7.9cm]{imgs/number_of_observations_per_dataset.png} 
-\caption{Summary of the UCR archive. The first plot is a histogram of time series length. The second histogram shows number of classes in datasets. The two last histograms summarize number of rows per class or per dataset}
+\caption{Summary of the UCR archive. The first plot is a histogram of time series length. The second histogram shows the number of classes in datasets. The two last histograms summarize the number of rows per class or per dataset}
 \label{fig:histograms}
 \end{figure}
-The datasets in the archive are already splitted in train and test datasets.  Most of the time series are already z-normalized.  However the authors recommend testing on additional test/train splits and preprocessing the time series accordingly to the method used.
+The datasets in the archive are already split into train and test datasets.  Most of the time series are already z-normalized.  However, the authors recommend testing on additional test/train splits and preprocessing the time series accordingly to the method used.
 
-The authors of \cite{UCR_article} composed a set of best practices for the dataset users when conducting experiments on the time series archive. The first of recommendation is to avoid \textit{cherry-picking}, which is testing the method on only a subset on the time series. It is recommended to report the results on all datasets. The second recommendation is to tune hyperparameters using only train dataset. Another recommendation is to avoid claiming that the improvement is caused by a certain feature of the algorithm without extensive tests of the feature. To illustrate why it is important, the authors bring up an example of attaching accuracy improvement in classifiers based on wavelet transform to the multi-resolution property of the transformation. The authors show, that in certain cases, the accuracy gain is caused by the fact that wavelet transform is implicitly smoothing the time series, thus the classifier could be improved by simply smoothing the time series. The authors recommend checking that removing the feature worsen the performance or comparing against a different method but with the same property.
-
-
-\section{Time series classification}
-A time series is an ordered collection of observations indexed by time. 
-$$X = (x_t)_{t\in T} = (x_1, ... , x_T),\ x_t\in \real$$
-The time index $T$ can represent any collection with the natural order. We assume that indices are spaced evenly in the set $T$. The realization or observation $x_t$ in the times series is a numerical value describing the phenomena we observe, for example, the amplitude of a sound, stock price, or y-coordinate. Time series classification is a problem of finding the optimal mapping between a set of time series and corresponding classes.
-
-%Time series classification can be formulated as follows:
-%Given a dataset  $D = {(X_i, y_i)}_{i=1}^N$, where $X_i \in 2^\real$ is a time series and $y_i\in {1, ..., N} = C$, we would like to find a function (called classifier) $f_\theta :2^\real \leftarrow C$ such that 
-%$$f_\theta (X_i) = y_i$$. 
+The authors of \cite{UCR_article} composed a set of best practices for the dataset users when conducting experiments on the time series archive. The first recommendation is to avoid \textit{cherry-picking}, which tests the method on only a subset of the time series. It is recommended to report the results on all datasets. The second recommendation is to tune hyperparameters using only the train dataset. Another recommendation is to avoid claiming that the improvement is caused by a particular feature of the algorithm without extensive tests of the feature. To illustrate why it is crucial, the authors bring up an example of attaching accuracy improvement in classifiers based on wavelet transform to the multi-resolution property of the transformation. The authors show that in some cases, the accuracy gain is caused by the fact that the wavelet transform is implicitly smoothing the time series, thus the classifier could be improved by simply smoothing the time series. The authors recommend checking whether removing the feature worsens the performance or comparing it against a different method but with the same property. %TODO skrocic
 
 \subsection{Dynamic Time Warping with k-Nearest Neighbour}
 The Dynamic Time Warping \cite{bake_off} with k-Nearest Neighbour classifier uses a distance-based algorithm with a specific distance measure. A DTW distance between time series $X^1$, $X^2$ of equal lengths is defined as follows:
@@ -365,7 +367,7 @@ subject to:
 \item $|e_{i+1} - e_i | \leq 1$, $|f_{i+1} - f_i | \leq 1$
 \end{itemize}
 The measure defined above, used in the k-Nearest Neighbour classifier, is often used as a benchmark classifier. 
-The list of indices $[(e_1, f_1), \dots, (e_S, f_S)]$ is called the warping path. An illustration of this measure is displayed on figure
+The list of indices $[(e_1, f_1), \dots, (e_S, f_S)]$ is called the warping path. An illustration of this measure is displayed on figure %TODO wywalic
 
 \FloatBarrier
 
@@ -380,21 +382,21 @@ The list of indices $[(e_1, f_1), \dots, (e_S, f_S)]$ is called the warping path
 \FloatBarrier
 
 \subsection{Multi Layer Perceptron}
-The Multi Layer Perceptron (MLP) is the first artificial neural network architecture proposed in \cite{dl_tsc} and can be used for time series classification task. 
+The Multi Layer Perceptron (MLP) is the first artificial neural network architecture proposed in \cite{dl_tsc} and can be used for time series classification tasks. 
 %A MLP network can be formally defined as a function depending on a set \textit{weights} $\theta_i$. 
 %$$MLP(X; \theta_1,\dots , \theta_M, \beta_1,\dots , \beta_M) = f_M( \beta_M +  \theta_M \cdot (f_{M-1}( \beta_{M-1} +  \theta_{M-1} \cdot (\dots f_1( \beta_1 +  \theta_1 \cdot X)))))$$
 Formally, the MLP network can be defined as a composition of functions (called \textit{dense layers} or \textit{layers}). The network returns a vector that usually represents the probability distribution over the set of classes.
 $$MLP(X; \theta_1,\dots , \theta_M, \beta_1,\dots , \beta_M) = L_M(\dots L_2(L_1(X;\theta_1, \beta_1);\theta_2, \beta_2);\theta_M, \beta_M)$$
 Each layer $L_i: \real^M \rightarrow \real^N$ is a function that depends on the parameters $\theta \in r^{M\times N}, \beta \in \real^N$
 $$L_i(X ; \theta_i, \beta_i) = f_i(X \theta_i  + \beta_i)$$
-The function $f_i: \real^N \rightarrow \real^N$ is an arbitrarily chosen non-linear function. The number of layers and dimension of weights in hidden layers are also arbitrary. The weights in the first and last layer have to match the dimensionality of input data (e.g. the length of the time series) and the number of classes. The output of the last layer is interpreted as a probability distribution over the set of classes. 
+The function $f_i: \real^N \rightarrow \real^N$ is an arbitrarily chosen non-linear function. The number of layers and dimension of weights in hidden layers is also arbitrary. The weights in the first and last layer have to match the dimensionality of input data (e.g. the length of the time series) and the number of classes. The output of the last layer is interpreted as a probability distribution over the set of classes. 
 
-The disadvantage of using Multi Layer Perceptrons for time series classification is that the input size is fixed. All time series is the training data must have the same length. In transfer learning, this means that if we want to reuse the source network (or a set of first layers from the network), the time series in the target dataset must have the same length as in the source dataset. 
+The disadvantage of using Multi Layer Perceptrons for time series classification is that the input size is fixed. All time series in the training data must have the same length. In transfer learning, this means that if we want to reuse the source network (or a set of first layers from the network), the time series in the target dataset must have the same length as in the source dataset. 
 
 The MLP architecture fails at understanding the temporal dependencies \cite{dl_tsc}. Each input value in the time series is treated separately because it is multiplied by a separate row in the weight matrix. 
 
 \subsection{Convolutional Neural Networks}
-Convolutional Neural Networks are widely used in image recognition. A convolution applied for a time series can be interpreted as sliding a filter over the time series. A convolutional layer is a set of functions called convolutions or filters. The filter is applied at a given point, taking into account the values that surround the point. 
+Convolutional Neural Networks are widely used in image recognition. A convolution applied for a time series can be interpreted as sliding a filter over the time series. A convolutional layer is a set of functions called convolutions or filters. The filter is applied at a given point, using the values surrounding the point. 
 
 To define the convolution operation, let's assume the input is a matrix $X \in \real^{(N_1, \dots, N_K)}$. In the case of images, the number of dimensions $K$ is often equal to $3$ (height, width, channels), for univariate time series we can assume just one dimension, and for multivariate time series we need two dimensions - (feature, time). 
 The filter consists of a matrix of weights $M \in \real^{(P_1, \dots, P_K)}$. 
@@ -404,39 +406,38 @@ Usually, $P_l$ are odd numbers, so that we can index the matrix with symmetrical
 Finally the convolution $*$ is defined as follows:
 $$(X*M)_{i_1, \dots, i_K} = \sum_{l_1=\frac{-P_1+1}{2}}^{\frac{P_1-1}{2}} \cdots \sum_{l_K=\frac{-P_K+1}{2}}^{\frac{P_K-1}{2}} M_{l_1, \dots, l_K} X_{i_1 + l_1, \dots, i_K + l_K}$$
 
-The result of the convolution is passed elementwise to a nonlinear function. The nonlinear function together with the convolution operation will be called a filter.
-
+The result of the convolution is passed elementwise to a nonlinear function. The nonlinear function, together with the convolution operation, will be called a filter. 
 In the case of univariate time series, the first layer of the convolutional neural network is one-dimensional. The output of the first layer has dimensions (length of time series - the length of the filter + 1, number of filters). Below we define the value of the output for filter $i$  
 $$ y_{t, i} = f_i([\theta_{\frac{-M+1}{2}}^i, \dots , \theta_{\frac{M-1}{2}}^i] \cdot [X_{t_+\frac{-M+1}{2}}, \dots, X_{t+\frac{M-1}{2}}]),$$ 
 where $\cdot$ is a dot product and $t \in T$ is the time index.
-In figures and we show results of applying two different filter to a time series.
-
+In figures \ref{fig:convolution_output_growth, fig:convolution_output_hill} and we show the results of applying two different filters to a time series.
+% TODO ctrl f czy wszystkie figures maja \ref
 
 \FloatBarrier
 
 \begin{figure}[h!t]
 \centering
 \includegraphics[width=16cm]{imgs/convolution_output_growth.png}
-\caption{Result of applying slope detecting filter to a time series. Red regions indicate higher value of the output convolution.}
+\caption{Result of applying slope detecting filter to a time series. Red regions indicate a higher value of the output convolution.}
 \label{fig:convolution_output_growth}
 \end{figure}
 \FloatBarrier
 \begin{figure}[h!]
 \centering
 \includegraphics[width=16cm]{imgs/convolution_output_hills.png}
-\caption{Result of applying a "peak" detecting filter to a time series. Red regions indicate higher value of the output convolution.}
+\caption{Result of applying a "peak" detecting filter to a time series. Red regions indicate a higher value of the output convolution.}
 \label{fig:convolution_output_hill}
 \end{figure}
 
 \FloatBarrier
 
 The weights $\theta^i$ are different for each filter.
-The same filter is applied over the whole length of the time series. This is called \textit{weight sharing} and it enables the network to learn patterns regardless of the position in the time series. 
+The same filter is applied over the whole length of the time series. This is called \textit{weight sharing}, enabling the network to learn patterns regardless of the position in the time series. 
 
-The architecture of the convolutional layer is not dependent on the size of the input data. Regardless of the size of the input data, the number of filters and size of filters remain the same, only the output sizes depend on the input size. Therefore, if the convolutional layer is  succeeded by layers with the same property, like other convolutional layers or Global Pooling with Dense Layer (see section \ref{FCN}), the whole network may be invariant to the input sizes \cite{dl_tsc}. Such networks may be interesting in terms of transfer learning, as the sizes of time series in the source task and in the target task do not have to match.  
+The architecture of the convolutional layer is not dependent on the input data size. Regardless of the size of the input data, the number of filters and size of filters remain the same, and only the output sizes depend on the input size. Therefore, if the convolutional layer is  succeeded by layers with the same property, like other convolutional layers or Global Pooling with Dense Layer (see section \ref{FCN}), the whole network may be invariant to the input sizes \cite{dl_tsc}. Such networks may be interesting in transfer learning, as the sizes of time series in the source and target tasks do not have to match.  
 
 \subsection{Fully Convolutional Networks}\label{FCN}
-Fully Convolutional Networks are convolutional networks used in time series classification. A sample architecture of a Fully Convolutional Network proposed is in \cite{dl_tsc}. The first layers in the network are 3 blocks of convolutional layers with ReLU activation function followed by batch normalization layers. The output of the last block is passed to a global pooling layer. The global pooling layer averages the output through the time axis, resulting in a vector of length equal to the number of feature maps in the last convolutional layer. The averaged vector is passed to a block of 2 fully connected layers. Figure \ref{fig:FCN_img} shows a visualisation of the network.
+Fully Convolutional Networks are convolutional networks used in time series classification. A sample architecture of a Fully Convolutional Network proposed is in \cite{dl_tsc}. The first layers in the network are 3 blocks of convolutional layers with ReLU activation function followed by batch normalization layers. The output of the last block is passed to a global pooling layer. The global pooling layer averages the output through the time axis, resulting in a vector of length equal to the number of feature maps in the last convolutional layer. The averaged vector is passed to a block of 2 fully connected layers. Figure \ref{fig:FCN_img} shows a visualization of the network.
 
 
 
@@ -455,7 +456,7 @@ Because the architecture of convolutional layers does not depend on the size of 
 \subsection{Residual Network}
 The Residual Network was first proposed in \cite{residual}. The Residual Network is a relatively deep architecture compared to other neural networks used for time series classification. 
 
-A residual connection addresses the vanishing gradient problem occuring in networks composed of many layers \cite{residual}. The vanishing gradient problem occurs in the backpropagation process. When the gradient is passes from the last layer to the first, it may be decreasing towards zero. This causes the first layers of the network to learn slowly. The residual connection between layers passes the input directly from one layer to another, skipping a few layers. This way if the network is struggling with vanishing gradient, this shortcut connection may help the network to converge. 
+A residual connection addresses the vanishing gradient problem occurring in networks composed of many layers \cite{residual}. The vanishing gradient problem occurs in the backpropagation process. When the gradient passes from the last layer to the first, it may decrease toward zero. This causes the first layers of the network to learn slowly. The residual connection between layers passes the input directly from one layer to another, skipping a few layers. This way, if the network is struggling with a vanishing gradient, this shortcut connection may help the network to converge. 
 
 The architecture of the Residual Network is conceptually similar to the FCN network. Instead of three convolutional layers, the Residual Network begins with three blocks of convolutional layers, connected with residual connections. Each block consists of three convolutional layers. The three blocks, which consist of nine convolutional layers and three residual connections in total, are followed by a Global Average Pooling layer and a Dense layer. The networks' diagram is shown below (Figure \ref{fig:Resnet_img}).
 
@@ -472,7 +473,7 @@ The architecture of the Residual Network is conceptually similar to the FCN netw
 \FloatBarrier
 
 \subsection{Encoder Network}
- The Encoder Network is a deep convolutional network proposed by \cite{encoder}. The first layers of the network are similar to the FCN architecture. The network consists of three convolutional layer followed by an attention layer instead of the Global Average Pooling layer. Another novelty introduced in this network comparing with the FCN architecture is adding a DropOut leayer and replacing the ReLU activation function with PReLU (Parametrized ReLU, thus adding another parameter to the network. The network ends with a Dense layer predicting the distribution over the classes. The architecture is shown below (Figure \ref{fig:encoder_img}).
+ The Encoder Network is a deep convolutional network proposed by \cite{encoder}. The first layers of the network are similar to the FCN architecture. The network consists of three convolutional layers followed by an attention layer instead of the Global Average Pooling layer. Another novelty introduced in this network compared with the FCN architecture is adding a DropOut layer and replacing the ReLU activation function with PReLU (Parametrized ReLU), thus adding another parameter to the network. The network ends with a Dense layer predicting the distribution over the classes. The architecture is shown below (Figure \ref{fig:encoder_img}).
  
 \FloatBarrier
 
@@ -485,24 +486,24 @@ The architecture of the Residual Network is conceptually similar to the FCN netw
 
 \FloatBarrier
 
-The attention layer, first proposed in \cite{attention}, assigns weights to each element of the input representing the importance for the prediciton. The weights representing the attention are normalized using softmax function and then applied on the input data. The weigths  are learned by the network. The outputs of the attention layer can be interpreted as a universal representation of the input time series, that will be able to adapt to and represent unseen data \cite{encoder}.
+The attention layer, first proposed in \cite{attention}, assigns weights to each input element representing the importance of the prediction. The weights representing the attention are normalized using the softmax function and then applied to the input data. The weights  are learned by the network. The outputs of the attention layer can be interpreted as a universal representation of the input time series that can adapt to and represent unseen data \cite{encoder}.
  
-As opposed to the FCN network architecture, the Encoder network is not invariant to the input size. The Dense layer parameters depend on the output size of the attention layer and implicilitely on the output size of convolutional layers.  Similarly as former architecture, the convolutional layers enable weight sharing thus learning shapelets independently of their position in the time series. 
+As opposed to the FCN network architecture, the Encoder network is not invariant to the input size. The Dense layer parameters depend on the output size of the attention layer and implicitly on the output size of convolutional layers.  Similarly, as in the former architecture, the convolutional layers enable weight sharing, thus learning shapelets independently of their position in the time series. 
 
 \section{Preprocessing and augmenting time series}
-Data preprocessing is the process of preparing, cleansing and manipulating the data in order to optimize the training process. Data augmentation is a process used to increase the amount and variability of data. Data augmentation is beneficial when there is limited amount of data, as it can prevent overfitting.
-A lot of classical and deep learning models were invented and designed together with the data preprocessing and augmenting step \cite{bake_off, dl_tsc}. An example of such method is Window Slicing (\cite{dl_tsc}). This method extracts subsequences of of the original series. The resulting subsequences are then concatenenated with a downsampled copy and a copy that was smoothed. This method is used in Multi-scale Convolutional Neural Network (\cite{multiscale}) and Time Le-Net (\cite{timelenet}).
+Data preprocessing is the process of preparing, cleansing, and manipulating the data to optimize the training process. Data augmentation is a process used to increase the amount and variability of data. Data augmentation is beneficial when there is a limited amount of data, as it can prevent overfitting.
+Many classical and deep learning models were invented and designed together with the data preprocessing and augmenting step \cite{bake_off, dl_tsc}. One such method is Window Slicing (\cite{dl_tsc}). This method extracts subsequences of the original series. The resulting subsequences are then concatenenated with a downsampled copy and smoothed copy. This method is used in Multi-scale Convolutional Neural Network (\cite{multiscale}) and Time Le-Net (\cite{timelenet}).
 
-Another preprocessing and augmentation method proposed together with the former method in Time Le-Net model was Window Warping. It aims at making the model more robust to perturbations in the time axis, by training the network on \textit{squeezed} or \textit{dilated} series together with the original series. The \textit{dilated}/\textit{squeezed} time series is two times longer/shorter than the original time series. It is extracted from the original time series by linear interpolation. %TODO napewno?
-The dilated, squezzed and original time series are concatenated, forming a vector 3.5 longer than the original time series. In the Time Le-Net model this vector undergoes the Window Slicing preprocessing step before training.
+Another preprocessing and augmentation method proposed together with the former method in the Time Le-Net model was Window Warping. It aims at making the model more robust to perturbations in the time axis by training the network on \textit{squeezed} or \textit{dilated} series together with the original series. The \textit{dilated}/\textit{squeezed} time series is two times longer/shorter than the original time series.  
+The dilated, squeezed, and original time series are concatenated, forming a vector 3.5 longer than the original time series. In the Time Le-Net model, this vector undergoes the Window Slicing preprocessing step before training.
 
-Data augmentation may be also achieved as a by-product of Generative Adversarial Networks. TimeGAN network is an example of Generative Adversarial Network suitable for processing time series. 
+Data augmentation may also be achieved as a by-product of Generative Adversarial Networks. TimeGAN network is an example of a Generative Adversarial Network suitable for processing time series. 
 % TODO szczegoły
 
 \section{Transfer learning}
-Transfer learning is a technique that attempts to apply knowledge learned  while solving one task to enhance the learning process for another task. Formally, the problem can be described using the notions of tasks and domains \cite{survey_transfer_learning, comp_survey_transfer_leaerning}. A \textit{Domain} is a pair $\mathcal{D}=(\mathcal{X}, P(\mathcal{X}))$, where $\mathcal{X}$ is the feature space (e.g. the time series observations, and $P(\mathcal{X})$ is the probability distribution over the feature space. A \textit{Task} is a pair of label space $\mathcal{Y}$ and the decision function $f$, $\mathcal{T} = (\mathcal{Y}, f)$. The decision function $f$ is learned from $\mathcal{X}, P(\mathcal{X}), \mathcal{Y}$ in the learning process.
+Transfer learning is a technique that attempts to apply knowledge learned  while solving one task to enhance the learning process for another task. Formally, the problem can be described using the notions of tasks and domains \cite{survey_transfer_learning, comp_survey_transfer_leaerning}. A \textit{Domain} is a pair $\mathcal{D}=(\mathcal{X}, P(\mathcal{X}))$, where $\mathcal{X}$ is the feature space (e.g., the time series observations, and $P(\mathcal{X})$ is the probability distribution over the feature space. A \textit{Task} is a pair of label space $\mathcal{Y}$ and the decision function $f$, $\mathcal{T} = (\mathcal{Y}, f)$. The decision function $f$ is learned from $\mathcal{X}, P(\mathcal{X}), \mathcal{Y}$ in the learning process.
 
-Transfer learning attempts to utilize knowledge  domain/domains and task/tasks. Formally, given $S \in \natur$ source domains and source tasks ($\{(\mathcal{D}_i^S,\mathcal{T}_i^S): i=1, \dots, S \}$) and $T \in \natur$ target domains and target tasks ($\{(\mathcal{D}_i^T,\mathcal{T}_i^T): i=1, \dots, S \}$) transfer learning utilizes knowledge learned from source domains and tasks to improve the learning process of decision functions in target tasks $\mathcal{T}_i^T$
+Transfer learning attempts to utilize knowledge from different domain/domains and task/tasks. Formally, given $S \in \natur$ source domains and source tasks ($\{(\mathcal{D}_i^S,\mathcal{T}_i^S): i=1, \dots, S \}$) and $T \in \natur$ target domains and target tasks ($\{(\mathcal{D}_i^T,\mathcal{T}_i^T): i=1, \dots, S \}$) transfer learning utilizes knowledge learned from source domains and tasks to improve the learning process of decision functions in target tasks $\mathcal{T}_i^T$
 \subsection{Transfer learning categorization}
 Transfer learning can be categorized from different points of view \cite{comp_survey_transfer_leaerning}. One of the ways in which we can divide transfer learning algorithms is based on the availability of the labels:
 \begin{itemize}
@@ -510,19 +511,19 @@ Transfer learning can be categorized from different points of view \cite{comp_su
 \item \textbf{transductive} transfer learning - labels are available only in the domain dataset
 \item \textbf{unsupervised} transfer learning - no labels available in either dataset
 \end{itemize}
-Another way of dividing transfer learning methods is by comparing the distribution of feature space and labels. If the source and training dataset consists of the same features, belonging to a similar distribution ($\mathcal{D^S} = \mathcal{(X, P(X))^S} = \mathcal{(X, P(X))^T} = \mathcal{D^T})$) and the label spaces are equal ($\mathcal{Y^S} = \mathcal{Y^T} $), then the task can be described as homogeneous transfer learning. If at least one of the former assumptions does not hold, the transfer learning setting is called heterogeneous. 
+Another way of dividing transfer learning methods is by comparing feature space distribution and labels. If the source and training dataset consists of the same features, belonging to a similar distribution ($\mathcal{D^S} = \mathcal{(X, P(X))^S} = \mathcal{(X, P(X))^T} = \mathcal{D^T})$) and the label spaces are equal ($\mathcal{Y^S} = \mathcal{Y^T} $), then the task can be described as homogeneous transfer learning. If at least one of the former assumptions does not hold, the transfer learning setting is heterogeneous. 
 
 Transfer learning can be categorized based on the algorithm/approach used. There are four main categories \cite{deep_tranfer_learning} used in deep learning:
 \begin{itemize}
 	\item \textbf{instance} based transfer learning - target dataset is enriched by instance from the source dataset belonging to the target distribution.
 	\item \textbf{mapping} based transfer learning - source and target dataset are mapped to one domain. The distribution is adjusted in both datasets.
 	\item \textbf{network} based transfer learning - target classifier uses parts of the network from the source classifier $f$.
-	\item \textbf{adversarial} based transfer learning - an adversarial network tries to distinguish between the two datasets. If the network fails at this task, then it means that the datasets are similar and the netowork extracted features similar between source and target datasets. 
+	\item \textbf{adversarial} based transfer learning - an adversarial network tries to distinguish between the two datasets. If the network fails at this task, then it means that the datasets are similar and the network extracted features similar between source and target datasets. 
 \end{itemize}
 
 \subsection{Characteristics of a good source domain}
 
-In the field of image processing, it is very common to use convolutional neural networks \mbox{pre-trained} with the ImageNet dataset \cite{imagnet}.  ImageNet is a large dataset of human-annotated images. It contains 1 million labeled images of 1000 classes. The label space consists of fine-grained classes such as breeds of dogs and cats, but also coarse-grained classes like \textit{red wine} and \textit{traffic light}. Example pictures from this dataset are shown below \. As transfer learning based on this dataset became more popular and successful, a question arose: Which features of this dataset make it so good for this task?
+In the field of image processing, it is widespread to use convolutional neural networks \mbox{pre-trained} with the ImageNet dataset \cite{imagnet}.  ImageNet is a large dataset of human-annotated images. It contains 1 million labeled images of 1000 classes. The label space consists of fine-grained classes such as breeds of dogs and cats and coarse-grained classes like \textit{red wine} and \textit{traffic light}. Example pictures from this dataset are shown below \. As transfer learning based on this dataset became more popular and successful, a question arose: Which features of this dataset make it so suitable for this task?
 \FloatBarrier
 
 \begin{figure}[h!]
@@ -530,13 +531,13 @@ In the field of image processing, it is very common to use convolutional neural 
 \includegraphics[height=5cm]{imgs/lamp.jpeg} 
 \includegraphics[height=5cm]{imgs/bird1.jpeg} 
 \includegraphics[height=5cm]{imgs/bird2.jpeg} 
-\caption{Sample images from the ImageNet dataset, with examples of very similar (fine-grained) classes like two birds of different breeds and coarse-grained classes, like a lamp and a bird. \href{https://www.kaggle.com/competitions/imagenet-object-localization-challenge/data}{Source: url}}
+\caption{Sample images from the ImageNet dataset, with examples of similar (fine-grained) classes like two birds of different breeds and coarse-grained classes, like a lamp and a bird. \href{https://www.kaggle.com/competitions/imagenet-object-localization-challenge/data}{Source: url}}
 \label{fig:image_net}
 \end{figure}
 
 \FloatBarrier
 
-A study conducted in \cite{imagnet} attempts to answer this question. The first hypothesis is that the volume of the dataset is relevant to train accurate, general classifiers. The authors compared models pretrained on the original dataset and models based on sampled subsets (reduced 2, 4 8 and 20 times). The results show that the more training examples, the better results. The accuracy of the initial classifier occurred to be more dependent on the size of dataset than the accuracy of classifiers fine-tuned from the base classifier. It is natural, that the base classifier's accuracy will depend on the dataset size. Still, the classifier fine-tuned from the base classifier seems to cope with the reduced dataset and the impact on the accuracy is less detrimental. This is visible on the figure \ref{fig:size_acc_img}.
+A study conducted in \cite{imagnet} attempts to answer this question. The first hypothesis is that the volume of the dataset is relevant to train accurate, general classifiers. The authors compared models that were pretrained on the original dataset and those based on sampled subsets (reduced 2, 4 8 and 20 times). The results show that the more training examples, the better results. The accuracy of the initial classifier occurred to be more dependent on the size of the dataset than the accuracy of classifiers fine-tuned from the base classifier. It is natural that the base classifier's accuracy will depend on the dataset size. Still, the classifier fine-tuned from the base classifier seems to cope with the reduced dataset, and the impact on the accuracy is less detrimental. This is visible in figure \ref{fig:size_acc_img}.
 
 \FloatBarrier
 
@@ -549,18 +550,18 @@ A study conducted in \cite{imagnet} attempts to answer this question. The first 
 \end{figure}
 \FloatBarrier
 
-Next experiments examine the label space. The authors study if the granularity of the label space is essential for the problem. To compare the results, the label space is clustered and 127 classes are derived from the initial 1000 classes. Pre-training with the reduced label space has a minimal negative impact on the accuracy of classifiers fine-tuned from this classifier. This suggests that such a fine division may not be needed.
+Next experiments examine the label space. The authors study if the granularity of the label space is essential for the problem. To compare the results, the label space is clustered, and 127 classes are derived from the initial 1000 classes. Pre-training with the reduced label space has a minimal negative impact on the accuracy of classifiers fine-tuned from this classifier. This suggests that such a fine division may not be needed.
 
-Finally, the last question is if we train the classifier on the reduced label space with 127 classes, will it be able to distinguish between the fine-grained classes? To examine that, the authors extracted features from the first layers of the networks trained on reduced label space. Then, the authors performed classification with 1-NN and 5-NN models on the extracted feature space, but with 1000 classes. The findings are that the k-NN classifier performs $15\%$ worse on reduced dataset versus normal dataset. This shows that CNNs are capable of implicitly learning representative features distinctive between similar classes even when trained on coarse-grained classes.     
+Finally, the last question is if we train the classifier on the reduced label space with 127 classes, will it be able to distinguish between the fine-grained classes? To examine that, the authors extracted features from the first layers of the networks trained on reduced label space. Then, the authors performed classification with 1-NN and 5-NN models on the extracted feature space but with 1000 classes. The findings are that the k-NN classifier performs $15\%$ worse on a reduced dataset versus the normal dataset. This shows that CNNs are capable of implicitly learning representative features distinctive between similar classes, even when trained on coarse-grained classes.     
 
-While the article \cite{imagnet} does not conclude which single feature of ImageNet dataset makes it so efficient as a source dataset for transfer learning, it is clear that all properties of this dataset are important for the accuracy of the classifier. We will try to recreate the properties of ImageNet dataset when creating the source dataset from time series.
+While the article \cite{imagnet} does not conclude which single feature of the ImageNet dataset makes it so efficient as a source dataset for transfer learning, it is clear that all properties of this dataset are essential for the accuracy of the classifier. We will try to recreate the properties of the ImageNet dataset when creating the source dataset from time series.
 
 
 \label{Negative_transfer}
 \subsection{Negative transfer in naive transfer learning approach}
-Negative transfer is a problem in the transfer learning process, when the target classifies achieves worse accuracy than without using transfer learning. Transfer learning for time series has been investigated in \cite{transfer_learning_time_series}. The authors of the paper tested transfer learning on all 85 datasets from the UCR archive. In the first approach, called \textit{naive transfer learning}, the authors used all pairs of datasets. One dataset from the pair was used as a source dataset, to prepare the source classifier for transfer learning. The second dataset was used to fine-tune the former classifier. The architecture used in this approach was the Fully Connected Network, described in section \ref{FCN}.  All layers except for the last one were transferred from the source classifier to the target classifier. The authors compared the accuracy of a finetuned classifier versus the accuracy of a classifier trained without the use of transfer learning. 
+Negative transfer is a problem in the transfer learning process when the target classifies achieve worse accuracy than without using transfer learning. Transfer learning for time series has been investigated in \cite{transfer_learning_time_series}. The paper's authors tested transfer learning on all 85 datasets from the UCR archive. In the first approach, called \textit{naive transfer learning}, the authors used all pairs of datasets. One dataset from the pair was used as a source dataset to prepare the source classifier for transfer learning. The second dataset was used to fine-tune the former classifier. The architecture used in this approach was the Fully Connected Network, described in section \ref{FCN}.  All layers except for the last one were transferred from the source classifier to the target classifier. The authors compared the accuracy of a fine-tuned classifier to that of a classifier trained without transfer learning. 
 
-With respect to different source datasets, target classifiers' accuracies exhibited a high variance. There were cases where the fine-tuned classifiers suffered from transfer learning. On the other hand, for each target dataset there was always a source dataset benefical for the classification results. It is shown on the picture \ref{fig:tr_learning_min_max}, where for each target dataset, the maximum, median and minimum accuracies for different experiments values were plotted.
+With respect to different source datasets, target classifiers' accuracies exhibited a high variance. There were cases where the fine-tuned classifiers suffered from transfer learning. On the other hand, for each target dataset, there was always a source dataset beneficial for the classification results. It is shown in the picture \ref{fig:tr_learning_min_max}, where for each target dataset, the maximum, median, and minimum accuracies for the different experiments were plotted.
 
 \FloatBarrier
 
@@ -576,19 +577,19 @@ A negative transfer learning effect can be minimized or avoided by optimally cho
 
 \label{DTW_choosing}
 \section{Inter-dataset similarity based on Dynamic Time Warping Barycenter Averaging}
-Choosing the source dataset for transfer learning randomly, or by trial and error, can lead to the \textit{Negative transfer} problem, described in the previous chapter (\ref{Negative_transfer}). In \cite{transfer_learning_time_series}, the authors proposed a inter-dataset similarity measure, that is used to optimally choose the source dataset for transfer learning. The first step of the method is to compute a \textit{prototype} time series per each class, for every dataset that is considered. This reduces the volume of the data, that will be used is the next step. The next step is to compute the distances between each pair of datasets, choosing the minimum DTW distance between prototypes of each classes in both datasets. We proceed to describe the algorithm in detail below.
+Choosing the source dataset for transfer learning randomly, or by trial and error, can lead to the \textit{Negative transfer} problem, described in the previous chapter (\ref{Negative_transfer}). In \cite{transfer_learning_time_series}, the authors proposed an inter-dataset similarity measure, that is used to optimally choose the source dataset for transfer learning. The first step of the method is to compute a \textit{prototype} time series per each class, for every dataset that is considered. This reduces the volume of the data, that will be used is the next step. The next step is to compute the distances between each pair of datasets, choosing the minimum DTW distance between prototypes of each class in both datasets. We proceed to describe the algorithm in detail below.
 
 The algorithm uses DTW barycenter averaging \cite{dtw_dba}.  The result of this method is a times series that minimizes the sum of DTW distances to each time series from the dataset.
 $$DTW_average = \arg\min_{X \in \real^T} \sum_{\bar{X}\in \mathcal{X}} DTW(X, \bar{X})$$
 The resulting time series does not need to belong to the original dataset $\mathcal(X)$.
 
-The first step of the algorithm is the data reduction step. For each class in the dataset $\{(X_i, y_i): i=1, \dots , N\}$, $y_i=c \in \{ 1, \dots, C\}$ the prototype time series $P_c$ is defined as the result of DTW barycenter averaging performed on the subset of $\mathcal{X}$ corresponding to class $c$. In result, the original dataset is reduced to $C$ observations.
+The first step of the algorithm is the data reduction step. For each class in the dataset $\{(X_i, y_i): i=1, \dots , N\}$, $y_i=c \in \{ 1, \dots, C\}$ the prototype time series $P_c$ is defined as the result of DTW barycenter averaging performed on the subset of $\mathcal{X}$ corresponding to class $c$. As a result, the original dataset is reduced to $C$ observations.
 
 
 %\pagebreak
-The next step is to compute the distance between target dataset and all possible source datasets. Te distance between two datasets is the minimum DTW distance between each pair of prototypes from the reduced datasets. The whole algorithm is described in detail in \cite{transfer_learning_time_series}.
+The next step is to compute the distance between the target dataset and all possible source datasets. The distance between two datasets is the minimum DTW distance between each pair of prototypes from the reduced datasets. The whole algorithm is described in detail in \cite{transfer_learning_time_series}.
 
-In \cite{transfer_learning_time_series} the distance was computed pairwise for all available datasets (using train splits). The authors compare the transfer learning performance of with randomly choosen source dataset versus choosing the source dataset that minimizes the former distance to the target dataset. The results are shown below (Figure \ref{fig:smart_transfer_learning}).
+In \cite{transfer_learning_time_series} the distance was computed pairwise for all available datasets (using train splits). The authors compare the transfer learning performance with a randomly chosen source dataset versus choosing the source dataset that minimizes the former distance to the target dataset. The results are shown below (Figure \ref{fig:smart_transfer_learning}).
 \FloatBarrier
 
 
@@ -600,7 +601,7 @@ In \cite{transfer_learning_time_series} the distance was computed pairwise for a
 \end{figure}
 \FloatBarrier
 
-The result show that choosing the source dataset for transfer learning based on similarity to the target dataset may lead to benefits. In this work we will try to construct the dataset artificially, by combining, preprocessing and augmenting the datasets from UCR archive, to mimic the properties of ImageNet dataset. The artificial dataset will be composed of multiple dataset. Therefore we rather won't use this similarity to choose one particular dataset. We will take the inter-dataset distance into account when adjusting the distribution of classes in the artificial dataset, to favour classes similar to the target dataset.
+The result shows that choosing the source dataset for transfer learning based on similarity to the target dataset may lead to benefits. In this work we will try to construct the dataset artificially, by combining, preprocessing, and augmenting the datasets from the UCR archive, to mimic the properties of the ImageNet dataset. The artificial dataset will be composed of multiple datasets. Therefore we rather won't use this similarity to choose one particular dataset. We will take the inter-dataset distance into account when adjusting the distribution of classes in the artificial dataset, to favor classes similar to the target dataset.
 % ------------------------------- BIBLIOGRAPHY ---------------------------
 % LEXICOGRAPHICAL ORDER BY AUTHORS' LAST NAMES
 % FOR AMBITIOUS ONES - USE BIBTEX
