@@ -281,7 +281,7 @@ Metoda transfer learning jest stosowane w przypadku ograniczonej ilości danych 
 %\addcontentsline{toc}{chapter}{Introduction}
 Time series classification was initially approached using classical machine learning algorithms. The paper \cite{bake_off} categorizes the commonly used algorithms into several categories. The first category is time-domain distance-based algorithms. Those algorithms use various distance measures adjusted for the time series domain to capture the similarity between pairs of time series. The distance measure is then combined with a distance-based classifier. A flagship example of an algorithm belonging to this class of algorithms is Dynamic Time Warping distance with the k-Nearest Neighbour classifier. The DTW-1-NN classifier is often used as a benchmark classifier. Another category of classifiers mentioned in \cite{bake_off} are dictionary, shapelet and interval based classifiers. All try to extract distinctive features for the time series class. The dictionary-based classifiers encode the time series into a dictionary of \textit{words} representing the time series. Shapelet-based algorithms focus on subseries of the time series that are discriminatory of class membership. Interval-based algorithms extract features from selected intevals of the time series. 
 
-With the rise of the popularity of deep learning algorithms, researchers attempted to replace the former, hand-extracted features with deep learning classifiers. A few years after the article \cite{dl_tsc} was published. It contains a review of deep learning algorithms applied to the time series classification task. The usage of deep learning algorithms enabled the possibility to utilize transfer learning. 
+With the rise of the popularity of deep learning algorithms, researchers attempted to replace the former, hand-extracted features and algorithms with deep learning classifiers. A few years after the article \cite{dl_tsc} was published. It contains a review of deep learning algorithms applied to the time series classification task. The usage of deep learning algorithms enabled the possibility to utilize transfer learning. 
 
 Transfer learning is widely used in image recognition and natural language processing.  The authors of paper \cite{dl_tsc} extended their previous finding by a study on the application of transfer learning. The authors examine knowledge transferability on 85 datasets from the UCR archive by pre-training a model on one dataset and fine-tuning it on another. The authors examine if the accuracy improved for all pairs of datasets in the UCR archive.
 
@@ -291,8 +291,7 @@ Transfer learning for deep learning is usually done by training the network on a
 %WARNING!  In a diploma thesis which is a team project: Description of the work division in the team, including the scope of each co-author’s contribution to the practical part (Team Programming Project) and the descriptive part of the diploma thesis. 
 %\par
 \chapter{Related works}
-In this chapter, we describe several algorithms used in time series classification. We will also recall theoretical definitions used to describe transfer learning. 
-
+In this chapter, we describe several algorithms used in time series classification, focusing on deep learning algorithms. We will refer to literature and papers in the domain of time series classification and transfer learning. We will also describe the most popular archive of time series datasets, the UCR archive.
 
 
 \section{Time series classification}
@@ -301,85 +300,6 @@ $$X = (x_t)_{t\in T} = (x_1, ... , x_T),\ x_t\in \real$$
 The time index $T$ can represent any collection with the natural order. We assume that indices are spaced evenly in the set $T$. The realization or observation $x_t$ in the times series is a numerical value describing the phenomena we observe, for example, the amplitude of a sound, stock price, or y-coordinate. Time series classification is a problem of finding the optimal mapping between a set of time series and corresponding classes.
  
 
-
-\section{UCR archive}
-The URC (University of California, Riverside) archive is a time series classification archive introduced in 2002 by Dau, Keogh et al. \cite{UCR_archive}. At moment of writing this thesis, it consists of 128 univariate time series datasets. The time series describes various phenomena, like readings from a device or sensor, motion recordings, or food spectrographs. The summary of the time series types is listed below (Table \ref{table:ucr_summary}). We also show a few time series samples from different datasets below (Figure \ref{fig:UCR_samples}).
-\begin{table}[!h]
-\centering
-\tabcolsep=0.11cm
-\scalebox {0.9}{
-\begin{tabular}{@{}|l|l|@{}}
-%\begin{singlespace}
-\toprule
-\textbf{Dataset type (source)}       & \textbf{Number of datasets} \\ \midrule
-Device                               & 9                           \\ \midrule
-ECG (Electrocardiogram)              & 6                           \\ \midrule
-EOG (Electrooculography)             & 2                           \\ \midrule
-EPG (Electrical penetration   graph) & 2                           \\ \midrule
-Hemodynamics                         & 3                           \\ \midrule
-HRM (High Resolution Melt)           & 1                           \\ \midrule
-Image                                & 32                          \\ \midrule
-Motion                               & 17                          \\ \midrule
-Power                                & 1                           \\ \midrule
-Sensor                               & 30                          \\ \midrule
-Simulated                            & 8                           \\ \midrule
-Spectro                              & 8                           \\ \midrule
-Spectrum                             & 4                           \\ \midrule
-Traffic                              & 2                           \\ \midrule
-Trajectory                           & 3                           \\ \bottomrule
-%\end{singlespace}
-\end{tabular}
-}
-\caption{Summary of types of datasets in the UCR archive.}
-\label{table:ucr_summary}
-\end{table}
-\FloatBarrier
-
-\begin{figure}[h!]
-\centering
-\includegraphics[height=7cm]{imgs/UCR_Beef.png} 
-\includegraphics[height=7cm]{imgs/UCR_ECG200.png} 
-\includegraphics[height=7cm]{imgs/UCR_Yoga.png} 
-\includegraphics[height=7cm]{imgs/UCR_FreezerRegularTrain.png} 
-\caption{Example time series from the UCR archive. The images belong to the following categories: Food, ECG, Image, Device}
-\label{fig:UCR_samples}
-\end{figure}
-All datasets together contain 1118 unique labels. Most of the datasets differentiate between two labels and have several dozen rows per class. The series length varies from 8 to almost 3 thousand. Below we show four histograms summarizing the number of classes per dataset, the lengths of the series, and the number of observations per class and per dataset. (Figure \ref{fig:histograms})
-\begin{figure}[h!]
-\centering
-\includegraphics[width=7.9cm]{imgs/lengths_of_the_series_in_the_datasets.png} 
-\includegraphics[width=7.9cm]{imgs/number_of_classes_per_dataset.png} 
-\includegraphics[width=7.9cm]{imgs/number_of_observations_per_class.png} 
-\includegraphics[width=7.9cm]{imgs/number_of_observations_per_dataset.png} 
-\caption{Summary of the UCR archive. The first plot is a histogram of time series length. The second histogram shows the number of classes in datasets. The two last histograms summarize the number of rows per class or per dataset}
-\label{fig:histograms}
-\end{figure}
-The datasets in the archive are already split into train and test datasets.  Most of the time series are already z-normalized.  However, the authors recommend testing on additional test/train splits and preprocessing the time series accordingly to the method used.
-
-The authors of \cite{UCR_article} composed a set of best practices for the dataset users when conducting experiments on the time series archive. The first recommendation is to avoid \textit{cherry-picking}, which tests the method on only a subset of the time series. It is recommended to report the results on all datasets. The second recommendation is to tune hyperparameters using only the train dataset. Another recommendation is to avoid claiming that the improvement is caused by a particular feature of the algorithm without extensive tests of the feature. To illustrate why it is crucial, the authors bring up an example of attaching accuracy improvement in classifiers based on wavelet transform to the multi-resolution property of the transformation. The authors show that in some cases, the accuracy gain is caused by the fact that the wavelet transform is implicitly smoothing the time series, thus the classifier could be improved by simply smoothing the time series. The authors recommend checking whether removing the feature worsens the performance or comparing it against a different method but with the same property. %TODO skrocic
-
-\subsection{Dynamic Time Warping with k-Nearest Neighbour}
-The Dynamic Time Warping \cite{bake_off} with k-Nearest Neighbour classifier uses a distance-based algorithm with a specific distance measure. A DTW distance between time series $X^1$, $X^2$ of equal lengths is defined as follows:
-$$DTW(X^1, X^2) = \min\{ \sum_{i=1}^S dist(x^1_{e_i}, x^2_{f_i}):(e_i)_{i=1}^S, (f_i)_{i=1}^S\in 2^T\}$$
-subject to:
-\begin{itemize}
-\item $e_1 = 1, f_1 = 1, e_S= N, f_S = N$
-\item $|e_{i+1} - e_i | \leq 1$, $|f_{i+1} - f_i | \leq 1$
-\end{itemize}
-The measure defined above, used in the k-Nearest Neighbour classifier, is often used as a benchmark classifier. 
-The list of indices $[(e_1, f_1), \dots, (e_S, f_S)]$ is called the warping path. An illustration of this measure is displayed on figure %TODO wywalic
-
-\FloatBarrier
-
-\ref{fig:dtw_img}
-\begin{figure}
-\centering
-\includegraphics[width=10cm]{imgs/dtw.jpg}
-\caption{The Dynamic Time warping distance between the series above is equal to 1. We show the warping path in the distance matrix and connections indicated by the dynamic warping path.}
-\label{fig:dtw_img}
-\end{figure}
-
-\FloatBarrier
 
 \subsection{Multi Layer Perceptron}
 The Multi Layer Perceptron (MLP) is the first artificial neural network architecture proposed in \cite{dl_tsc} and can be used for time series classification tasks. 
@@ -490,14 +410,72 @@ The attention layer, first proposed in \cite{attention}, assigns weights to each
  
 As opposed to the FCN network architecture, the Encoder network is not invariant to the input size. The Dense layer parameters depend on the output size of the attention layer and implicitly on the output size of convolutional layers.  Similarly, as in the former architecture, the convolutional layers enable weight sharing, thus learning shapelets independently of their position in the time series. 
 
+
+\section{UCR archive}
+The URC (University of California, Riverside) archive is a time series classification archive introduced in 2002 by Dau, Keogh et al. \cite{UCR_archive}. At moment of writing this thesis, it consists of 128 univariate time series datasets. The time series describes various phenomena, like readings from a device or sensor, motion recordings, or food spectrographs. The summary of the time series types is listed below (Table \ref{table:ucr_summary}). We also show a few time series samples from different datasets below (Figure \ref{fig:UCR_samples}).
+\begin{table}[!h]
+\centering
+\tabcolsep=0.11cm
+\scalebox {0.9}{
+\begin{tabular}{@{}|l|l|@{}}
+%\begin{singlespace}
+\toprule
+\textbf{Dataset type (source)}       & \textbf{Number of datasets} \\ \midrule
+Device                               & 9                           \\ \midrule
+ECG (Electrocardiogram)              & 6                           \\ \midrule
+EOG (Electrooculography)             & 2                           \\ \midrule
+EPG (Electrical penetration   graph) & 2                           \\ \midrule
+Hemodynamics                         & 3                           \\ \midrule
+HRM (High Resolution Melt)           & 1                           \\ \midrule
+Image                                & 32                          \\ \midrule
+Motion                               & 17                          \\ \midrule
+Power                                & 1                           \\ \midrule
+Sensor                               & 30                          \\ \midrule
+Simulated                            & 8                           \\ \midrule
+Spectro                              & 8                           \\ \midrule
+Spectrum                             & 4                           \\ \midrule
+Traffic                              & 2                           \\ \midrule
+Trajectory                           & 3                           \\ \bottomrule
+%\end{singlespace}
+\end{tabular}
+}
+\caption{Summary of types of datasets in the UCR archive.}
+\label{table:ucr_summary}
+\end{table}
+\FloatBarrier
+
+\begin{figure}[h!]
+\centering
+\includegraphics[height=7cm]{imgs/UCR_Beef.png} 
+\includegraphics[height=7cm]{imgs/UCR_ECG200.png} 
+\includegraphics[height=7cm]{imgs/UCR_Yoga.png} 
+\includegraphics[height=7cm]{imgs/UCR_FreezerRegularTrain.png} 
+\caption{Example time series from the UCR archive. The images belong to the following categories: Food, ECG, Image, Device.}
+\label{fig:UCR_samples}
+\end{figure}
+All datasets together contain 1118 unique labels. Most of the datasets differentiate between two labels and have several dozen rows per class. The series length varies from 8 to almost 3 thousand. Below we show four histograms summarizing the number of classes per dataset, the lengths of the series, and the number of observations per class and per dataset. (Figure \ref{fig:histograms})
+\begin{figure}[h!]
+\centering
+\includegraphics[width=7.9cm]{imgs/lengths_of_the_series_in_the_datasets.png} 
+\includegraphics[width=7.9cm]{imgs/number_of_classes_per_dataset.png} 
+\includegraphics[width=7.9cm]{imgs/number_of_observations_per_class.png} 
+\includegraphics[width=7.9cm]{imgs/number_of_observations_per_dataset.png} 
+\caption{Summary of the UCR archive. The first plot is a histogram of time series length. The second histogram shows the number of classes in datasets. The two last histograms summarize the number of rows per class and per dataset.}
+\label{fig:histograms}
+\end{figure}
+The datasets in the archive are already split into train and test datasets.  Most of the time series are already z-normalized.  However, the authors recommend testing on additional test/train splits and preprocessing the time series accordingly to the method used.
+
+The authors of \cite{UCR_article} composed a set of best practices for the dataset users when conducting experiments on the time series archive. The first recommendation is to avoid \textit{cherry-picking}, which tests the method on only a subset of the time series. It is recommended to report the results on all datasets. The second recommendation is to tune hyperparameters using only the train dataset. Another recommendation is to avoid claiming that the improvement is caused by a particular feature of the algorithm without extensive tests of the feature. To illustrate why it is crucial, the authors bring up an example of attaching accuracy improvement in classifiers based on wavelet transform to the multi-resolution property of the transformation. The authors show that in some cases, the accuracy gain is caused by the fact that the wavelet transform is implicitly smoothing the time series, thus the classifier could be improved by simply smoothing the time series. The authors recommend checking whether removing the feature worsens the performance or comparing it against a different method but with the same property. %TODO skrocic
+
 \section{Preprocessing and augmenting time series}
 Data preprocessing is the process of preparing, cleansing, and manipulating the data to optimize the training process. Data augmentation is a process used to increase the amount and variability of data. Data augmentation is beneficial when there is a limited amount of data, as it can prevent overfitting.
+
 Many classical and deep learning models were invented and designed together with the data preprocessing and augmenting step \cite{bake_off, dl_tsc}. One such method is Window Slicing (\cite{dl_tsc}). This method extracts subsequences of the original series. The resulting subsequences are then concatenenated with a downsampled copy and smoothed copy. This method is used in Multi-scale Convolutional Neural Network (\cite{multiscale}) and Time Le-Net (\cite{timelenet}).
 
 Another preprocessing and augmentation method proposed together with the former method in the Time Le-Net model was Window Warping. It aims at making the model more robust to perturbations in the time axis by training the network on \textit{squeezed} or \textit{dilated} series together with the original series. The \textit{dilated}/\textit{squeezed} time series is two times longer/shorter than the original time series.  
 The dilated, squeezed, and original time series are concatenated, forming a vector 3.5 longer than the original time series. In the Time Le-Net model, this vector undergoes the Window Slicing preprocessing step before training.
 
-Data augmentation may also be achieved as a by-product of Generative Adversarial Networks. TimeGAN network is an example of a Generative Adversarial Network suitable for processing time series. 
+Data augmentation may also be achieved as a by-product of Generative Adversarial Networks. Generative Adversarial Networks Are composed of two components - discriminator and generator. The latter generates synthetic data and the discriminator predicts if the data is artificial or real. Results from the trained generator can be used as an augmented time series. TimeGAN network is an example of a Generative Adversarial Network suitable for processing time series \cite{timegan}.
 % TODO szczegoły
 
 \section{Transfer learning}
@@ -575,13 +553,12 @@ With respect to different source datasets, target classifiers' accuracies exhibi
 \FloatBarrier
 A negative transfer learning effect can be minimized or avoided by optimally choosing the source dataset/datasets. To improve the transfer learning process, the authors proposed a method of choosing the source dataset based on the DTW distance. This method will be described in \ref{DTW_choosing}.
 
-\label{DTW_choosing}
-\section{Inter-dataset similarity based on Dynamic Time Warping Barycenter Averaging}
+\subsection{Inter-dataset similarity based on Dynamic Time Warping Barycenter Averaging} \label{DTW_choosing}
 Choosing the source dataset for transfer learning randomly, or by trial and error, can lead to the \textit{Negative transfer} problem, described in the previous chapter (\ref{Negative_transfer}). In \cite{transfer_learning_time_series}, the authors proposed an inter-dataset similarity measure, that is used to optimally choose the source dataset for transfer learning. The first step of the method is to compute a \textit{prototype} time series per each class, for every dataset that is considered. This reduces the volume of the data, that will be used is the next step. The next step is to compute the distances between each pair of datasets, choosing the minimum DTW distance between prototypes of each class in both datasets. We proceed to describe the algorithm in detail below.
 
 The algorithm uses DTW barycenter averaging \cite{dtw_dba}.  The result of this method is a times series that minimizes the sum of DTW distances to each time series from the dataset.
-$$DTW_average = \arg\min_{X \in \real^T} \sum_{\bar{X}\in \mathcal{X}} DTW(X, \bar{X})$$
-The resulting time series does not need to belong to the original dataset $\mathcal(X)$.
+$$DTW\_average = \arg\min_{X \in  2^{\real}}  \sum_{\bar{X}\in \mathcal{X}} DTW(X, \bar{X})$$
+The resulting time series does not need to belong to the original dataset $\mathcal{X}$.
 
 The first step of the algorithm is the data reduction step. For each class in the dataset $\{(X_i, y_i): i=1, \dots , N\}$, $y_i=c \in \{ 1, \dots, C\}$ the prototype time series $P_c$ is defined as the result of DTW barycenter averaging performed on the subset of $\mathcal{X}$ corresponding to class $c$. As a result, the original dataset is reduced to $C$ observations.
 
