@@ -285,7 +285,7 @@ With the rise of the popularity of deep learning algorithms, researchers attempt
 
 Transfer learning is widely used in image recognition and natural language processing.  The authors of paper \cite{dl_tsc} extended their previous findings by a study on the application of transfer learning. The authors examine knowledge transferability on 85 datasets from the UCR archive by pre-training a model on one dataset and fine-tuning it on another. The authors examine if the accuracy improved for all pairs of datasets in the UCR archive.
 
-Transfer learning for deep learning is usually done by training the network on a big, diverse dataset and utilizing the first layers of the network when training on another dataset. In image recognition or natural language processing, it is common to pre-train the source network on the ImageNet dataset or Wikipedia dataset, respectively. Such a diverse dataset with labels does not exist for time series. In this thesis, we will attempt to create an artificial, diverse dataset from 85 smaller datasets available on the UCR archive. We will try to mimic the good properties of a transfer learning source dataset by preprocessing, upsampling, and augmenting the dataset. We will also study if transfer learning on a diverse helps to generalize new training data and improve the training process on the target dataset. Similarly, as in \cite{imagnet}, we will experiment to find which features of the source dataset (classes diversity, dataset size, augmentation, preprocessing) are fundamental for the transfer learning process.
+Transfer learning for deep learning is usually done by training the network on a big, diverse dataset and utilizing the first layers of the network when training on another dataset. In image recognition or natural language processing, it is common to pre-train the source network on the ImageNet dataset or Wikipedia dataset, respectively. Such a diverse dataset with labels does not exist for time series. In this thesis, we will attempt to create an artificial, diverse dataset from 85 smaller datasets available on the UCR archive. We will try to mimic the good properties of a transfer learning source dataset by preprocessing, upsampling, and augmenting the dataset. We will also study if transfer learning on a diverse dataset helps to generalize new training data and improve the training process on the target dataset. Similarly, as in \cite{imagnet}, we will experiment to find which features of the source dataset (classes diversity, dataset size, augmentation, preprocessing) are fundamental for the transfer learning process.
 %What is the thesis about? What is the content of it? What is the Author's contribution to it?
 %\par
 %WARNING!  In a diploma thesis which is a team project: Description of the work division in the team, including the scope of each co-author’s contribution to the practical part (Team Programming Project) and the descriptive part of the diploma thesis. 
@@ -328,7 +328,7 @@ $$(X*M)_{i_1, \dots, i_K} = \sum_{l_1=\frac{-P_1+1}{2}}^{\frac{P_1-1}{2}} \cdots
 
 The result of the convolution is passed elementwise to a nonlinear function. The nonlinear function, together with the convolution operation, will be called a filter. 
 In the case of univariate time series, the first layer of the convolutional neural network is one-dimensional. The output of the first layer has dimensions (length of time series - the length of the filter + 1, number of filters). Below we define the value of the output for filter $i$  
-$$ y_{t, i} = f_i([\theta_{\frac{-M+1}{2}}^i, \dots , \theta_{\frac{M-1}{2}}^i] \cdot [X_{t_+\frac{-M+1}{2}}, \dots, X_{t+\frac{M-1}{2}}]),$$ 
+$$ y_{t, i} = f_i([\theta_{\frac{-M+1}{2}}^i, \dots , \theta_{\frac{M-1}{2}}^i] \cdot [X_{t+\frac{-M+1}{2}}, \dots, X_{t+\frac{M-1}{2}}]),$$ 
 where $\cdot$ is a dot product and $t \in T$ is the time index.
 In figures \ref{fig:convolution_output_growth} and \ref{fig:convolution_output_hill} we show the results of applying two different filters to a time series.
 % TODO ctrl f czy wszystkie figures maja \ref
@@ -338,7 +338,7 @@ In figures \ref{fig:convolution_output_growth} and \ref{fig:convolution_output_h
 \begin{figure}[h!t]
 \centering
 \includegraphics[width=17cm]{imgs/convolution_output_growth.png}
-\caption{Result of applying slope detecting filter to a time series. Red regions indicate a higher value of the output convolution.}
+\caption{Result of applying a "slope" detecting filter to a time series. Red regions indicate a higher value of the output convolution.}
 \label{fig:convolution_output_growth}
 \end{figure}
 \FloatBarrier
@@ -470,7 +470,7 @@ The authors of \cite{UCR_article} composed a set of best practices for the datas
 \section{Preprocessing and augmenting time series}
 Data preprocessing is the process of preparing, cleansing, and manipulating the data to optimize the training process. Data augmentation is a process used to increase the amount and variability of data. Data augmentation is beneficial when there is a limited amount of data, as it can prevent overfitting.
 
-Many classical and deep learning models were invented and designed together with the data preprocessing and augmenting step \cite{bake_off, dl_tsc}. One such method is Window Slicing (\cite{dl_tsc}). This method extracts subsequences of the original series. The resulting subsequences are then concatenenated with a downsampled copy and smoothed copy. This method is used in Multi-scale Convolutional Neural Network (\cite{multiscale}) and Time Le-Net (\cite{timelenet}).
+Many classical and deep learning models were invented and designed together with the data preprocessing and augmenting step \cite{bake_off, dl_tsc}. One such method is Window Slicing \cite{dl_tsc}. This method extracts subsequences of the original series. The resulting subsequences are then concatenenated with a downsampled copy and smoothed copy. This method is used in Multi-scale Convolutional Neural Network \cite{multiscale} and Time Le-Net \cite{timelenet}.
 
 Another preprocessing and augmentation method proposed together with the former method in the Time Le-Net model was Window Warping. It aims at making the model more robust to perturbations in the time axis by training the network on \textit{squeezed} or \textit{dilated} series together with the original series. The \textit{dilated}/\textit{squeezed} time series is two times longer/shorter than the original time series.  
 The dilated, squeezed, and original time series are concatenated, forming a vector 3.5 longer than the original time series. In the Time Le-Net model, this vector undergoes the Window Slicing preprocessing step before training.
@@ -493,10 +493,10 @@ Another way of dividing transfer learning methods is by comparing feature space 
 
 Transfer learning can be categorized based on the algorithm/approach used. There are four main categories \cite{deep_tranfer_learning} used in deep learning:
 \begin{itemize}
-	\item \textbf{instance} based transfer learning - target dataset is enriched by instance from the source dataset belonging to the target distribution.
+	\item \textbf{instance} based transfer learning - target dataset is enriched by instances from the source dataset belonging to the target distribution.
 	\item \textbf{mapping} based transfer learning - source and target dataset are mapped to one domain. The distribution is adjusted in both datasets.
 	\item \textbf{network} based transfer learning - target classifier uses parts of the network from the source classifier $f$.
-	\item \textbf{adversarial} based transfer learning - an adversarial network tries to distinguish between the two datasets. If the network fails at this task, then it means that the datasets are similar and the network extracted features similar between source and target datasets. 
+	\item \textbf{adversarial} based transfer learning - an adversarial network tries to distinguish between the two datasets. If the network fails at this task, then it means that the extracted features are similar between source and target datasets. 
 \end{itemize}
 
 \subsection{Characteristics of a good source domain}
