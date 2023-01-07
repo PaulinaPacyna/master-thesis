@@ -130,9 +130,9 @@ class ConstantLengthDataGenerator(Sequence):
 
 
 if __name__ == "__main__":
-    X = np.load("../data/concatenated/X.npy", allow_pickle=True)
+    X = np.load("../data/X.npy", allow_pickle=True)
     y = OneHotEncoder(sparse=False).fit_transform(
-        np.load("../data/concatenated/y.npy", allow_pickle=True)
+        np.load("../data/y.npy", allow_pickle=True)
     )
     data_gen = ConstantLengthDataGenerator(X, y)
     sum_x = 0
