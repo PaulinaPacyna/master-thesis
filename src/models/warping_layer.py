@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import keras_nlp
 from tensorflow import keras
 import tensorflow as tf
@@ -14,26 +16,22 @@ class ReductionLayer(keras.layers.Layer):
 
 
 class ShiftingLayer(keras.layers.Layer):
-    def __init__(self, target_length, width=0.25):
+    def __init__(self, width=0.25):
         super(ShiftingLayer, self).__init__()
         self.width = width
-        self.target_length = target_length
-    def build(self, input_series_shape):
-        print(input_series_shape)
-        a = np.arange(input_series_shape[-2])
-        b = np.arange(self.target_length).reshape((-1, 1))
-        shifting_weight_matrix = a - b
-        self.input_series_shape = input_series_shape
-        self.shifting_weight_matrix = tf.Variable(shifting_weight_matrix, trainable=False)
-        print(self.shifting_weight_matrix)
-        self.scaling_factor = tf.Variable(input_series_shape[1] / self.target_length,
-                                          trainable=False)  # TODO: incorporate
+        self.amplitude = width**(1/2) * 1.772637204826652153
 
-    def call(self, input, shifting_weights):
-        shifting_weights = tf.repeat(tf.expand_dims(shifting_weights, axis=-1), repeats=self.input_series_shape[-2], axis=-1)
-        shifting_weights = shifting_weights + self.shifting_weight_matrix
-        shifting_weights = tf.exp(-tf.square(shifting_weights) / self.width)
-        return tf.matmul(shifting_weights, input)
+    def call(self, inputs: Tuple[tf.Tensor, tf.Tensor]):
+        input_data, shifting_weights = inputs
+        index_input = tf.reshape(tf.range(1, 1+tf.shape(input_data)[-2], dtype=shifting_weights.dtype), (1, 1, -1))
+        index_shift = tf.reshape(tf.range(1, 1+shifting_weights.shape[-1], dtype=shifting_weights.dtype), (1, -1))
+        index_shift += shifting_weights
+        scaling_factor = tf.divide(tf.shape(input_data)[-2], shifting_weights.shape[-1])
+        index_shift *= tf.cast(scaling_factor, dtype=index_shift.dtype)
+        index_shift = tf.expand_dims(index_shift, axis=-1)
+        M = index_input - index_shift
+        M = tf.exp(-tf.square(M)/self.width)/self.amplitude
+        return tf.matmul(M, input_data)
 
 
 def warping_layer(output_length, input_lenght=None, number_of_convolutions=64, kernel_size=11) -> keras.models.Model:
@@ -51,12 +49,21 @@ def warping_layer(output_length, input_lenght=None, number_of_convolutions=64, k
     model = keras.models.Model(inputs=input_layer, outputs=shift_weights)
 
 
-shifting_weights = tf.Variable(np.array([[0, -1, -2, 0, 0, 0, 1, 0], [0, 0, 0, 0, 1, 1, 1, 1]]))
-input_ = tf.Variable(np.cos(np.arange(20)).reshape(2, 10))
-plt.plot(input_.numpy()[0,:])
-plt.plot(input_.numpy()[1,:])
-plt.show()
+shifting_weights = np.array([[0]*90])
+input_ = (np.ones(90)).reshape(1, -1, 1)
+input1 = keras.layers.Input((None, 1))
+shifting_input = keras.layers.Input((90))
+sl = ShiftingLayer()([input1, shifting_input])
+model = keras.models.Model(inputs=[input1, shifting_input], outputs=sl)
+model.compile( run_eagerly=True)
+model.summary()
+y = model.predict([input_, shifting_weights])
 
-input1 = keras.layers.Input((8, 1))
-shifting_input = keras.layers.Input((10,))
-sl = ShiftingLayer(10)(input1, shifting_input)
+
+plt.plot(input_[0,:])
+# plt.plot(input_[1,:])
+# plt.show()
+#
+plt.plot(y[0,:])
+# plt.plot(y[1,:])
+plt.show()
