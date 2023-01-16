@@ -13,49 +13,18 @@ except:
     from keras.utils import Sequence
 
 
-class VariableLengthDataGenerator(Sequence):
-    def __init__(self, X: np.array, y: np.array, shuffle=True):
-        """Initialization"""
-        self.shuffle = shuffle
-        self.X = X
-        self.lengths = self.__get_lengths()
-        self.batches = np.unique(self.lengths).tolist()
-        self.y = y
-        self.on_epoch_end()
-
-    def __get_lengths(self):
-        return np.vectorize(len)(self.X).reshape(-1)
-
-    def __len__(self):
-        """Denotes the number of batches per epoch"""
-        return len(self.batches)
-
-    def __getitem__(self, index):
-        """Generate one batch of data"""
-
-        length = self.batches[index]
-        index = self.lengths == length
-        X_batch = np.vstack(self.X[index])
-        y_batch = self.y[index]
-        return np.array(X_batch, dtype=np.float16), np.array(y_batch, dtype=np.float16)
-
-    def on_epoch_end(self):
-        "Updates indexes after each epoch"
-        if self.shuffle:
-            np.random.shuffle(self.batches)
-
-
 class ConstantLengthDataGenerator(Sequence):
     def __init__(
         self,
         X: np.array,
         y: np.array,
-        shuffle=True,
-        batch_size=32,
-        dtype=np.float16,
-        min_length=2**4,
-        max_length=2**11,
-        augmentation=False,
+        shuffle: bool =True,
+        batch_size: int =32,
+        dtype: np.dtype =np.float16,
+        min_length: int=2**4,
+        max_length: int=2**11,
+        augmentation: bool =False,
+        logging_call: callable = None
     ):
         """Initialization"""
         self.shuffle = shuffle
@@ -70,6 +39,7 @@ class ConstantLengthDataGenerator(Sequence):
         self.dtype = dtype
         self.__y_inverse_probabilities = self.__calculate_y_inverse_probabilities()
         self.__augmentation = augmentation
+        self.logging_call = logging_call
 
     def __augment(self, X: np.array):
         if not self.__augmentation:
@@ -127,7 +97,17 @@ class ConstantLengthDataGenerator(Sequence):
 
     def on_epoch_end(self):
         self.indices = range(self.X.shape[0])
+        self.log()
 
+    def log(self, ignore=None):
+        if ignore is None:
+            ignore = ["X", "y", "_ConstantLengthDataGenerator__y_inverse_probabilities"]
+        if self.logging_call:
+            self.logging_call(
+                {key: value for key, value in vars(self).items() if key not in ignore}
+            )
+        else:
+            logging.warning("Not logging to mlflow")
 
 if __name__ == "__main__":
     X = np.load("../data/X.npy", allow_pickle=True)
