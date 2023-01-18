@@ -58,7 +58,11 @@ class WarpingLayer(keras.models.Model):
         self.batch_normalization = keras.layers.BatchNormalization()
         self.softmax = keras.layers.Softmax(axis=1)
         self.sine_position_encoding = keras_nlp.layers.SinePositionEncoding()
-        self.dense = keras.layers.Dense(units=self.output_length, activation="sigmoid")
+        self.dense = keras.layers.Dense(
+            units=self.output_length,
+            activation="sigmoid",
+            initializer=tf.keras.initializers.HeNormal(),
+        )
         self.sum = ReductionLayer(axis=1)
         self.shifting_layer = ShiftingLayer(width=self.radial_width)
         self.all_layers = [
