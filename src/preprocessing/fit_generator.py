@@ -24,7 +24,9 @@ class ConstantLengthDataGenerator(Sequence):
         dtype: np.dtype = np.float16,
         min_length: int = 2**4,
         max_length: int = 2**11,
-        augmentation: bool = False,
+        augmentation_probability: float = 0.01,
+        cutting_probability: float = 0.01,
+        padding_probability: float = 0.99,
         logging_call: callable = None,
     ):
         """Initialization"""
@@ -39,11 +41,13 @@ class ConstantLengthDataGenerator(Sequence):
         ]
         self.dtype = dtype
         self.__y_inverse_probabilities = self.__calculate_y_inverse_probabilities()
-        self.__augmentation = augmentation
+        self.augmentation_probability = augmentation_probability
+        self.cutting_probability = cutting_probability
+        self.padding_probability = padding_probability
         self.logging_call = logging_call
 
     def __augment(self, X: np.array):
-        if not self.__augmentation:
+        if np.random.random() > self.augmentation_probability:
             return X
         else:
             if np.random.random() < 0.5:
@@ -87,7 +91,9 @@ class ConstantLengthDataGenerator(Sequence):
         )
         X_batch = np.vstack(
             [
-                normalize_length(series, target_length=series_length)
+                normalize_length(series, target_length=series_length,
+                                 cutting_probability=self.cutting_probability,
+                                 stretching_probability=1-self.padding_probability)
                 for series in self.X[index]
             ]
         )
