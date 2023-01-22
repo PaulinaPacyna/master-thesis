@@ -64,7 +64,7 @@ class ConstantLengthDataGenerator(Sequence):
 
     def __len__(self):
         """Denotes the number of batches per epoch"""
-        return self.X.shape[0] // self.batch_size * 10
+        return (self.X.shape[0] // self.batch_size+ 1 )* 10
 
     def __iter__(self):
         return self
@@ -100,10 +100,12 @@ class ConstantLengthDataGenerator(Sequence):
         y_batch = self.y[index]
         X_batch, y_batch = np.array(X_batch, dtype=self.dtype), np.array(y_batch)
         X_batch = self.__augment(X_batch)
-        return X_batch, y_batch
+        print(X_batch, y_batch)
+        return (np.expand_dims(X_batch, axis=-1), y_batch)
+
 
     def on_epoch_end(self):
-        self.indices = range(self.X.shape[0])
+        # self.indices = range(self.X.shape[0])
         self.log()
 
     def log(self, ignore=None):
@@ -111,7 +113,7 @@ class ConstantLengthDataGenerator(Sequence):
             ignore = ["X", "y", "_ConstantLengthDataGenerator__y_inverse_probabilities"]
         if self.logging_call:
             self.logging_call(
-                {key: value for key, value in vars(self).items() if key not in ignore}
+                {"gen_" + key: value for key, value in vars(self).items() if key not in ignore}
             )
         else:
             logging.warning("Not logging to mlflow")
