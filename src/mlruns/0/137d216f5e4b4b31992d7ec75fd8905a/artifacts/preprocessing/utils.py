@@ -44,11 +44,23 @@ def random_sub_interval(df: np.array, target_length: int = 600):
 def pad(df: np.array, target_length: int) -> np.array:
     original_length = len(df)
     if target_length < original_length:
-        raise ValueError(f"Cannot pad. Target length: {target_length}, original length: {original_length}.")
-    return np.pad(df, pad_width=(0, target_length - original_length), mode='constant', constant_values=(0, 0))
+        raise ValueError(
+            f"Cannot pad. Target length: {target_length}, original length: {original_length}."
+        )
+    return np.pad(
+        df,
+        pad_width=(0, target_length - original_length),
+        mode="constant",
+        constant_values=(0, 0),
+    )
 
 
-def normalize_length(df: np.array, target_length: int = 600, cutting_probability=0.5, stretching_probability=0.5):
+def normalize_length(
+    df: np.array,
+    target_length: int = 600,
+    cutting_probability=0.5,
+    stretching_probability=0.5,
+):
     df_length = len(df)
     if df_length == target_length:
         result = df
@@ -64,6 +76,7 @@ def normalize_length(df: np.array, target_length: int = 600, cutting_probability
             result = pad(df, target_length)
     assert len(result) == target_length
     return result
+
 
 def stretch_interpolate_matrix(arr: np.array, target_width: int) -> np.array:
     return np.vstack(

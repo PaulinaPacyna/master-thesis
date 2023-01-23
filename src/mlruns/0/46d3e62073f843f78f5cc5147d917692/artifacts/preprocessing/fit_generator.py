@@ -90,9 +90,12 @@ class ConstantLengthDataGenerator(Sequence):
         )
         X_batch = np.vstack(
             [
-                normalize_length(series, target_length=series_length,
-                                 cutting_probability=self.cutting_probability,
-                                 stretching_probability=1-self.padding_probability)
+                normalize_length(
+                    series,
+                    target_length=series_length,
+                    cutting_probability=self.cutting_probability,
+                    stretching_probability=1 - self.padding_probability,
+                )
                 for series in self.X[index]
             ]
         )
@@ -110,7 +113,11 @@ class ConstantLengthDataGenerator(Sequence):
             ignore = ["X", "y", "_ConstantLengthDataGenerator__y_inverse_probabilities"]
         if self.logging_call:
             self.logging_call(
-                {"gen_" + key: value for key, value in vars(self).items() if key not in ignore}
+                {
+                    "gen_" + key: value
+                    for key, value in vars(self).items()
+                    if key not in ignore
+                }
             )
         else:
             logging.warning("Not logging to mlflow")
