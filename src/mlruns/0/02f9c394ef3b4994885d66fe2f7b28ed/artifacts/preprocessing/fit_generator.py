@@ -18,13 +18,13 @@ class ConstantLengthDataGenerator(Sequence):
         self,
         X: np.array,
         y: np.array,
-        shuffle: bool =True,
-        batch_size: int =32,
-        dtype: np.dtype =np.float16,
-        min_length: int=2**4,
-        max_length: int=2**11,
-        augmentation: bool =False,
-        logging_call: callable = None
+        shuffle: bool = True,
+        batch_size: int = 32,
+        dtype: np.dtype = np.float16,
+        min_length: int = 2**4,
+        max_length: int = 2**11,
+        augmentation: bool = False,
+        logging_call: callable = None,
     ):
         """Initialization"""
         self.shuffle = shuffle
@@ -108,6 +108,7 @@ class ConstantLengthDataGenerator(Sequence):
             )
         else:
             logging.warning("Not logging to mlflow")
+
 
 if __name__ == "__main__":
     X = np.load("../data/X.npy", allow_pickle=True)
