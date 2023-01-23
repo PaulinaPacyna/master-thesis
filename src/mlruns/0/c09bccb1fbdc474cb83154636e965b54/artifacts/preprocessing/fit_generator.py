@@ -91,9 +91,12 @@ class ConstantLengthDataGenerator(Sequence):
         )
         X_batch = np.vstack(
             [
-                normalize_length(series, target_length=series_length,
-                                 cutting_probability=self.cutting_probability,
-                                 stretching_probability=1-self.padding_probability)
+                normalize_length(
+                    series,
+                    target_length=series_length,
+                    cutting_probability=self.cutting_probability,
+                    stretching_probability=1 - self.padding_probability,
+                )
                 for series in self.X[index]
             ]
         )
@@ -101,7 +104,6 @@ class ConstantLengthDataGenerator(Sequence):
         X_batch, y_batch = np.array(X_batch, dtype=self.dtype), np.array(y_batch)
         X_batch = self.__augment(X_batch)
         return (np.expand_dims(X_batch, axis=-1), y_batch)
-
 
     # def on_epoch_end(self):
     #     self.indices = range(self.X.shape[0])

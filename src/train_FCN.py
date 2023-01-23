@@ -15,6 +15,7 @@ from sklearn.model_selection import train_test_split
 import mlflow
 from preprocessing.utils import plot
 import tensorflow as tf
+
 tf.config.run_functions_eagerly(True)
 tf.data.experimental.enable_debug_mode()
 mlflow.set_experiment("FCN")
@@ -90,10 +91,16 @@ X_train, X_val, y_train, y_val = train_test_split(X, y, test_size=0.25)
 
 kwargs = {"min_length": 256, "max_length": 256}
 data_generator_train = ConstantLengthDataGenerator(
-    X_train, y_train, batch_size=batch_size, padding_probability=0.5, cutting_probability=0.5, augmentation_probability=0.5, **kwargs
+    X_train,
+    y_train,
+    batch_size=batch_size,
+    padding_probability=0.5,
+    cutting_probability=0.5,
+    augmentation_probability=0.5,
+    **kwargs,
 )
 data_generator_val = ConstantLengthDataGenerator(
-    X_val, y_val, batch_size=len(y_val)*5, **kwargs
+    X_val, y_val, batch_size=len(y_val) * 5, **kwargs
 )
 validation_data = next(data_generator_val)
 
@@ -101,8 +108,7 @@ validation_data = next(data_generator_val)
 # In[16]:
 
 
-history = model.fit(data_generator_train, epochs=50, validation_data=validation_data
-)
+history = model.fit(data_generator_train, epochs=50, validation_data=validation_data)
 
 
 # In[ ]:
@@ -152,4 +158,3 @@ mlflow.log_artifact("preprocessing")
 
 
 mlflow.end_run()
-

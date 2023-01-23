@@ -15,7 +15,7 @@ def get_paths(root="data", file_format="ts", task="TRAIN"):
 
 
 def read_univariate_ts(
-        path: str, return_data_type="nested_univ"
+    path: str, return_data_type="nested_univ"
 ) -> (np.array, np.array):
     X, y = load_from_tsfile(
         path, return_data_type=return_data_type, replace_missing_vals_with="0.0"
@@ -24,7 +24,7 @@ def read_univariate_ts(
 
 
 def stretch_interpolate(
-        df: np.array, target_length: int = 600, type_: str = "linear"
+    df: np.array, target_length: int = 600, type_: str = "linear"
 ) -> np.array:
     interpolator = interp1d(np.arange(len(df)), df, kind=type_)
     new_index = np.linspace(0, len(df) - 1, target_length)
@@ -38,17 +38,29 @@ def random_sub_interval(df: np.array, target_length: int = 600):
     if length_df == target_length:
         return df
     start = np.random.randint(length_df - target_length + 1)
-    return df[start: start + target_length]
+    return df[start : start + target_length]
 
 
 def pad(df: np.array, target_length: int) -> np.array:
     original_length = len(df)
     if target_length < original_length:
-        raise ValueError(f"Cannot pad. Target length: {target_length}, original length: {original_length}.")
-    return np.pad(df, pad_width=(0, target_length - original_length), mode='constant', constant_values=(0, 0))
+        raise ValueError(
+            f"Cannot pad. Target length: {target_length}, original length: {original_length}."
+        )
+    return np.pad(
+        df,
+        pad_width=(0, target_length - original_length),
+        mode="constant",
+        constant_values=(0, 0),
+    )
 
 
-def normalize_length(df: np.array, target_length: int = 600, cutting_probability=0.5, stretching_probability=0.5):
+def normalize_length(
+    df: np.array,
+    target_length: int = 600,
+    cutting_probability=0.5,
+    stretching_probability=0.5,
+):
     df_length = len(df)
     if df_length == target_length:
         result = df
@@ -64,6 +76,7 @@ def normalize_length(df: np.array, target_length: int = 600, cutting_probability
             result = pad(df, target_length)
     assert len(result) == target_length
     return result
+
 
 def stretch_interpolate_matrix(arr: np.array, target_width: int) -> np.array:
     return np.vstack(

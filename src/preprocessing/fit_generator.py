@@ -6,12 +6,11 @@ import sklearn
 from sklearn.preprocessing import OneHotEncoder
 import logging
 from preprocessing.utils import normalize_length
-from keras.utils import Sequence
 
-# try:
-#     from keras.utils.all_utils import Sequence
-# except:
-#     from keras.utils import Sequence
+try:
+    from keras.utils.all_utils import Sequence
+except:
+    from keras.utils import Sequence
 
 
 class ConstantLengthDataGenerator(Sequence):
@@ -64,7 +63,7 @@ class ConstantLengthDataGenerator(Sequence):
 
     def __len__(self):
         """Denotes the number of batches per epoch"""
-        return (self.X.shape[0] // self.batch_size+ 1 )* 10
+        return (self.X.shape[0] // self.batch_size + 1) * 10
 
     def __iter__(self):
         return self
@@ -91,21 +90,22 @@ class ConstantLengthDataGenerator(Sequence):
         )
         X_batch = np.vstack(
             [
-                normalize_length(series, target_length=series_length,
-                                 cutting_probability=self.cutting_probability,
-                                 stretching_probability=1-self.padding_probability)
+                normalize_length(
+                    series,
+                    target_length=series_length,
+                    cutting_probability=self.cutting_probability,
+                    stretching_probability=1 - self.padding_probability,
+                )
                 for series in self.X[index]
             ]
         )
         y_batch = self.y[index]
         X_batch, y_batch = np.array(X_batch, dtype=self.dtype), np.array(y_batch)
         X_batch = self.__augment(X_batch)
-        print(X_batch, y_batch)
-        return (np.expand_dims(X_batch, axis=-1), y_batch)
-
+        return X_batch, y_batch
 
     def on_epoch_end(self):
-        # self.indices = range(self.X.shape[0])
+        self.indices = range(self.X.shape[0])
         self.log()
 
     def log(self, ignore=None):
@@ -113,7 +113,11 @@ class ConstantLengthDataGenerator(Sequence):
             ignore = ["X", "y", "_ConstantLengthDataGenerator__y_inverse_probabilities"]
         if self.logging_call:
             self.logging_call(
-                {"gen_" + key: value for key, value in vars(self).items() if key not in ignore}
+                {
+                    "gen_" + key: value
+                    for key, value in vars(self).items()
+                    if key not in ignore
+                }
             )
         else:
             logging.warning("Not logging to mlflow")
