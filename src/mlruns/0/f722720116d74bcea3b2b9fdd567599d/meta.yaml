@@ -1,0 +1,15 @@
+artifact_uri: file:///C:/Users/pacyn/studia/master-thesis/src/mlruns/0/f722720116d74bcea3b2b9fdd567599d/artifacts
+end_time: 1674515346183
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: f722720116d74bcea3b2b9fdd567599d
+run_name: masked-quail-236
+run_uuid: f722720116d74bcea3b2b9fdd567599d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1674514165714
+status: 3
+tags: []
+user_id: Pina

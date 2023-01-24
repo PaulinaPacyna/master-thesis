@@ -1,5 +1,5 @@
 artifact_uri: file:///C:/Users/pacyn/studia/master-thesis/src/mlruns/0/0401ac32d2fb416f91a49b07e2586149/artifacts
-end_time: null
+end_time: 1674512598144
 entry_point_name: ''
 experiment_id: '0'
 lifecycle_stage: active
@@ -10,6 +10,6 @@ source_name: ''
 source_type: 4
 source_version: ''
 start_time: 1674510857885
-status: 1
+status: 3
 tags: []
 user_id: Pina
