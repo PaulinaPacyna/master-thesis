@@ -303,8 +303,9 @@ TSWLatexianTemp*
 *.tmp
 .idea/
 .ipynb_checkpoints/
-src/data/
-
+src/data/ts
+src/data/weka
+src/data/models
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
