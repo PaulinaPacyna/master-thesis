@@ -18,7 +18,7 @@ def create_concatenated(root_data_path="data/") -> (np.array, np.array):
     return np.concatenate(X_final, dtype="object"), np.concatenate(y_final)
 
 
-def save_datasets(X_final, y_final, SAVING_DATA_PATH="data/concatenated/"):
+def save_datasets(X_final, y_final, SAVING_DATA_PATH="data/"):
     os.makedirs(SAVING_DATA_PATH, exist_ok=True)
     with open(os.path.join(SAVING_DATA_PATH, "X.npy"), "wb") as file:
         np.save(file, X_final)
