@@ -1,8 +1,9 @@
 artifact_uri: file:///C:/Users/pacyn/studia/master-thesis/src/mlruns/0/8a029885d6a043998019114dbaf1e15c/artifacts
+deleted_time: 1674641702718
 end_time: 1674039360958
 entry_point_name: ''
 experiment_id: '0'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: 8a029885d6a043998019114dbaf1e15c
 run_name: puzzled-squirrel-292
 run_uuid: 8a029885d6a043998019114dbaf1e15c

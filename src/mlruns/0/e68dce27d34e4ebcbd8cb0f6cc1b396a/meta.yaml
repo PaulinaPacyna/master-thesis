@@ -1,8 +1,9 @@
 artifact_uri: file:///C:/Users/pacyn/studia/master-thesis/src/mlruns/0/e68dce27d34e4ebcbd8cb0f6cc1b396a/artifacts
+deleted_time: 1674641702670
 end_time: null
 entry_point_name: ''
 experiment_id: '0'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: e68dce27d34e4ebcbd8cb0f6cc1b396a
 run_name: vaunted-calf-887
 run_uuid: e68dce27d34e4ebcbd8cb0f6cc1b396a

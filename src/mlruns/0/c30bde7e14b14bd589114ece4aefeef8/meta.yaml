@@ -1,8 +1,9 @@
 artifact_uri: file:///C:/Users/pacyn/studia/master-thesis/src/mlruns/0/c30bde7e14b14bd589114ece4aefeef8/artifacts
+deleted_time: 1674641702641
 end_time: 1674555143027
 entry_point_name: ''
 experiment_id: '0'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: c30bde7e14b14bd589114ece4aefeef8
 run_name: secretive-fox-995
 run_uuid: c30bde7e14b14bd589114ece4aefeef8

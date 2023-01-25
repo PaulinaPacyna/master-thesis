@@ -1,8 +1,9 @@
 artifact_uri: file:///C:/Users/pacyn/studia/master-thesis/src/mlruns/0/c32b80bfa8dc4a3a909d4188a9b0c249/artifacts
+deleted_time: 1674641702732
 end_time: 1674038467683
 entry_point_name: ''
 experiment_id: '0'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: c32b80bfa8dc4a3a909d4188a9b0c249
 run_name: abrasive-mule-920
 run_uuid: c32b80bfa8dc4a3a909d4188a9b0c249

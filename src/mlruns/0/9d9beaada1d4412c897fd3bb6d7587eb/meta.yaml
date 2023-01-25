@@ -1,8 +1,9 @@
 artifact_uri: file:///C:/Users/pacyn/studia/master-thesis/src/mlruns/0/9d9beaada1d4412c897fd3bb6d7587eb/artifacts
+deleted_time: 1674641702625
 end_time: 1674640718997
 entry_point_name: ''
 experiment_id: '0'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: 9d9beaada1d4412c897fd3bb6d7587eb
 run_name: rare-gull-504
 run_uuid: 9d9beaada1d4412c897fd3bb6d7587eb

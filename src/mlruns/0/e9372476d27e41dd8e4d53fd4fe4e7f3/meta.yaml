@@ -1,8 +1,9 @@
 artifact_uri: file:///C:/Users/pacyn/studia/master-thesis/src/mlruns/0/e9372476d27e41dd8e4d53fd4fe4e7f3/artifacts
+deleted_time: 1674641702701
 end_time: 1674039916148
 entry_point_name: ''
 experiment_id: '0'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: e9372476d27e41dd8e4d53fd4fe4e7f3
 run_name: melodic-swan-698
 run_uuid: e9372476d27e41dd8e4d53fd4fe4e7f3

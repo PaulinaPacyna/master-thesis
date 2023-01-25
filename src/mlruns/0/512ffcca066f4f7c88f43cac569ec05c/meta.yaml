@@ -1,8 +1,9 @@
 artifact_uri: file:///C:/Users/pacyn/studia/master-thesis/src/mlruns/0/512ffcca066f4f7c88f43cac569ec05c/artifacts
+deleted_time: 1674641702757
 end_time: 1674036155536
 entry_point_name: ''
 experiment_id: '0'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: 512ffcca066f4f7c88f43cac569ec05c
 run_name: judicious-wolf-969
 run_uuid: 512ffcca066f4f7c88f43cac569ec05c

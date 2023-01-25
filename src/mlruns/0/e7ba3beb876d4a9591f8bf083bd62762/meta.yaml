@@ -1,8 +1,9 @@
 artifact_uri: file:///C:/Users/pacyn/studia/master-thesis/src/mlruns/0/e7ba3beb876d4a9591f8bf083bd62762/artifacts
+deleted_time: 1674641702746
 end_time: 1674036732501
 entry_point_name: ''
 experiment_id: '0'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: e7ba3beb876d4a9591f8bf083bd62762
 run_name: incongruous-gull-916
 run_uuid: e7ba3beb876d4a9591f8bf083bd62762

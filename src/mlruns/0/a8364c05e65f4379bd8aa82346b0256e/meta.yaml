@@ -1,8 +1,9 @@
 artifact_uri: file:///C:/Users/pacyn/studia/master-thesis/src/mlruns/0/a8364c05e65f4379bd8aa82346b0256e/artifacts
+deleted_time: 1674641702691
 end_time: 1674040339734
 entry_point_name: ''
 experiment_id: '0'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: a8364c05e65f4379bd8aa82346b0256e
 run_name: fortunate-ant-446
 run_uuid: a8364c05e65f4379bd8aa82346b0256e

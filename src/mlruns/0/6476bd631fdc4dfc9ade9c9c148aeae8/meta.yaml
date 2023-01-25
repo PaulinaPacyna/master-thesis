@@ -1,8 +1,9 @@
 artifact_uri: file:///C:/Users/pacyn/studia/master-thesis/src/mlruns/0/6476bd631fdc4dfc9ade9c9c148aeae8/artifacts
+deleted_time: 1674641702645
 end_time: 1674510818909
 entry_point_name: ''
 experiment_id: '0'
-lifecycle_stage: active
+lifecycle_stage: deleted
 run_id: 6476bd631fdc4dfc9ade9c9c148aeae8
 run_name: learned-carp-120
 run_uuid: 6476bd631fdc4dfc9ade9c9c148aeae8

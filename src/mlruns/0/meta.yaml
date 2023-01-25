@@ -1,7 +1,6 @@
-artifact_location: file:///C:/Users/pacyn/studia/master-thesis/src/mlruns/0
-creation_time: 1673855584724
+artifact_location: file://C:\Users\pacyn\studia\master-thesis\src\mlruns\0
+creation_time: 1674638927285
 experiment_id: '0'
-last_update_time: 1673856690595
+last_update_time: 1674638927285
 lifecycle_stage: active
 name: FCN
-tags: {}
