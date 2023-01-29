@@ -114,13 +114,19 @@ class TargetEncoder:
         return self.__scaler.inverse_transform(X)
 
 
-def plot(X, y):
-    color = TargetEncoder(y).get_0_1_scaled()
-    plt.figure(figsize=(15, 10))
-    for i in range(len(X)):
-        plt.plot(X[i, :], c=plt.cm.rainbow(color[i]))
-    plt.legend(y.ravel())
+def legend_without_duplicate_labels(ax):
+    handles, labels = ax.get_legend_handles_labels()
+    unique = [(h, l) for i, (h, l) in enumerate(zip(handles, labels)) if l not in labels[:i]]
+    ax.legend(*zip(*unique))
 
+
+def plot(X, y=None):
+    color = TargetEncoder(y).get_0_1_scaled() if y is not None else None
+    fig, ax = plt.subplots(figsize=(15, 10))
+    for i in range(len(X)):
+        plt.plot(X[i, :], c=plt.cm.rainbow(color[i]) if y is not None else None, label=y[i] if y is not None else None)
+    legend_without_duplicate_labels(ax)
+    return fig
 
 def get_lengths(X: np.array) -> np.array:
     return np.apply_along_axis(len, arr=X, axis=-1)

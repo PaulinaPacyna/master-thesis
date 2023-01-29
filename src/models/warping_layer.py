@@ -61,7 +61,7 @@ class WarpingLayer(keras.models.Model):
         self.dense = keras.layers.Dense(
             units=self.output_length,
             activation="sigmoid",
-            initializer=tf.keras.initializers.HeNormal(),
+            kernel_initializer=tf.keras.initializers.HeNormal(),
         )
         self.sum = ReductionLayer(axis=1)
         self.shifting_layer = ShiftingLayer(width=self.radial_width)
