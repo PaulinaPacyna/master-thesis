@@ -1,0 +1,9 @@
+True: ACSF1_7, predicted ACSF1_3, 36 times 
+True: HouseTwenty_2, predicted HouseTwenty_1, 30 times 
+True: ACSF1_6, predicted ACSF1_7, 29 times 
+True: ACSF1_1, predicted ACSF1_2, 28 times 
+True: PLAID_5, predicted PLAID_0, 26 times 
+True: ScreenType_2, predicted ScreenType_1, 26 times 
+True: ACSF1_8, predicted Computers_1, 25 times 
+True: SmallKitchenAppliances_2, predicted SmallKitchenAppliances_3, 23 times 
+True: PLAID_10, predicted PLAID_6, 22 times 

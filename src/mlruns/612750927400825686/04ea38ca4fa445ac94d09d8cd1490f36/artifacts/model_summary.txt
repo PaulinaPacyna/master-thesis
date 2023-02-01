@@ -1,0 +1,63 @@
+Model: "model"
+__________________________________________________________________________________________________
+ Layer (type)                   Output Shape         Param #     Connected to                     
+==================================================================================================
+ input_1 (InputLayer)           [(None, 256, 1)]     0           []                               
+                                                                                                  
+ conv1d (Conv1D)                (None, 256, 128)     768         ['input_1[0][0]']                
+                                                                                                  
+ instance_normalization (Instan  (None, 256, 128)    256         ['conv1d[0][0]']                 
+ ceNormalization)                                                                                 
+                                                                                                  
+ p_re_lu (PReLU)                (None, 256, 128)     128         ['instance_normalization[0][0]'] 
+                                                                                                  
+ dropout (Dropout)              (None, 256, 128)     0           ['p_re_lu[0][0]']                
+                                                                                                  
+ max_pooling1d (MaxPooling1D)   (None, 128, 128)     0           ['dropout[0][0]']                
+                                                                                                  
+ conv1d_1 (Conv1D)              (None, 128, 256)     360704      ['max_pooling1d[0][0]']          
+                                                                                                  
+ instance_normalization_1 (Inst  (None, 128, 256)    512         ['conv1d_1[0][0]']               
+ anceNormalization)                                                                               
+                                                                                                  
+ p_re_lu_1 (PReLU)              (None, 128, 256)     256         ['instance_normalization_1[0][0]'
+                                                                 ]                                
+                                                                                                  
+ dropout_1 (Dropout)            (None, 128, 256)     0           ['p_re_lu_1[0][0]']              
+                                                                                                  
+ max_pooling1d_1 (MaxPooling1D)  (None, 64, 256)     0           ['dropout_1[0][0]']              
+                                                                                                  
+ conv1d_2 (Conv1D)              (None, 64, 512)      2753024     ['max_pooling1d_1[0][0]']        
+                                                                                                  
+ instance_normalization_2 (Inst  (None, 64, 512)     1024        ['conv1d_2[0][0]']               
+ anceNormalization)                                                                               
+                                                                                                  
+ p_re_lu_2 (PReLU)              (None, 64, 512)      512         ['instance_normalization_2[0][0]'
+                                                                 ]                                
+                                                                                                  
+ dropout_2 (Dropout)            (None, 64, 512)      0           ['p_re_lu_2[0][0]']              
+                                                                                                  
+ lambda_1 (Lambda)              (None, 64, 256)      0           ['dropout_2[0][0]']              
+                                                                                                  
+ softmax (Softmax)              (None, 64, 256)      0           ['lambda_1[0][0]']               
+                                                                                                  
+ lambda (Lambda)                (None, 64, 256)      0           ['dropout_2[0][0]']              
+                                                                                                  
+ multiply (Multiply)            (None, 64, 256)      0           ['softmax[0][0]',                
+                                                                  'lambda[0][0]']                 
+                                                                                                  
+ dense (Dense)                  (None, 64, 256)      65792       ['multiply[0][0]']               
+                                                                                                  
+ instance_normalization_3 (Inst  (None, 64, 256)     512         ['dense[0][0]']                  
+ anceNormalization)                                                                               
+                                                                                                  
+ flatten (Flatten)              (None, 16384)        0           ['instance_normalization_3[0][0]'
+                                                                 ]                                
+                                                                                                  
+ dense_1 (Dense)                (None, 99)           1622115     ['flatten[0][0]']                
+                                                                                                  
+==================================================================================================
+Total params: 4,805,603
+Trainable params: 4,805,603
+Non-trainable params: 0
+__________________________________________________________________________________________________

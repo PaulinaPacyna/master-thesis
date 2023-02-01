@@ -1,0 +1,9 @@
+True: ACSF1_5, predicted ACSF1_2, 4 times 
+True: ACSF1_9, predicted ACSF1_6, 3 times 
+True: ACSF1_2, predicted ACSF1_1, 2 times 
+True: ACSF1_4, predicted ACSF1_1, 2 times 
+True: ACSF1_1, predicted ACSF1_4, 2 times 
+True: ACSF1_7, predicted ACSF1_3, 1 times 
+True: ACSF1_8, predicted ACSF1_3, 1 times 
+True: ACSF1_2, predicted ACSF1_9, 1 times 
+True: ACSF1_6, predicted ACSF1_2, 1 times 
