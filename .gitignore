@@ -469,3 +469,4 @@ cython_debug/
 #.idea/
 /src/mlruns/.tmp.driveupload/
 /src/mlruns/.trash/
+/src/data/ucr_assets/
