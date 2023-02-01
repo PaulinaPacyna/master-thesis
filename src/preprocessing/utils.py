@@ -1,4 +1,7 @@
+import logging
 import os
+from typing import List
+
 import pandas as pd
 import numpy as np
 from scipy.interpolate import interp1d
@@ -9,9 +12,19 @@ import matplotlib.pyplot as plt
 
 def get_paths(root="data", file_format="ts", task="TRAIN"):
     return [
-        os.path.join(root, file_format, dataset, f"{dataset}_{task}.{file_format}")
-        for dataset in os.listdir(os.path.join(root, file_format))
+        get_path_to_dataset(dataset, root=root, file_format=file_format, task=task)
+        for dataset in get_all_datasets_by_name(root)
     ]
+
+
+def get_path_to_dataset(name: str, root: str = "data", file_format="ts", split="TRAIN"):
+    return os.path.join(root, file_format, name, f"{name}_{split}.{file_format}")
+
+
+def get_all_datasets_by_name(root="data"):
+    ts_formatted_datasets = os.listdir(os.path.join(root, "ts"))
+    weka_formatted_datasets = os.listdir(os.path.join(root, "weka"))
+    return list(set(ts_formatted_datasets + weka_formatted_datasets))
 
 
 def read_univariate_ts(
@@ -139,3 +152,36 @@ def plot(X, y=None):
 
 def get_lengths(X: np.array) -> np.array:
     return np.apply_along_axis(len, arr=X, axis=-1)
+
+
+def read_dataset(
+    root_data_path: str = "./data",
+    category: str = None,
+    dataset: str = None,
+    return_cat: bool = False,
+    logging_call: callable = None,
+) -> List[np.array]:
+    X: np.array = np.load(f"{root_data_path}/X.npy", allow_pickle=True)
+    y: np.array = np.load(f"{root_data_path}/y.npy")
+    categories: np.array = np.load(f"{root_data_path}/categories.npy")
+    if category and not dataset:
+        logging.info("Loading only one category: %s", category)
+        mask = (categories == category).reshape(-1)
+        y = y[mask, :]
+        X = X[mask]
+        if logging_call:
+            logging_call("category", category)
+        return X, y
+    if dataset:
+        logging.info("Loading only one dataset: %s", dataset)
+        mask = (np.char.startswith(y, dataset)).reshape(-1)
+        y = y[mask, :]
+        X = X[mask]
+        if logging_call:
+            logging_call("dataset", dataset)
+        return X, y
+    if logging_call:
+        logging_call("y.unique", ", ".join(np.unique(y))[:500])
+    if return_cat:
+        return X, y, categories
+    return X, y
