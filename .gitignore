@@ -306,7 +306,7 @@ TSWLatexianTemp*
 src/data/ts
 src/data/weka
 src/data/models
-
+src/mlruns
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
