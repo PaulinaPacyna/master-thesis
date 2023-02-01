@@ -18,7 +18,9 @@ def read_univariate_ts(
     path: str, return_data_type="nested_univ"
 ) -> (np.array, np.array):
     X, y = load_from_tsfile(
-        path, return_data_type=return_data_type, replace_missing_vals_with="0.0",
+        path,
+        return_data_type=return_data_type,
+        replace_missing_vals_with="0.0",
     )
     return X["dim_0"], y
 
@@ -116,7 +118,9 @@ class TargetEncoder:
 
 def legend_without_duplicate_labels(ax):
     handles, labels = ax.get_legend_handles_labels()
-    unique = [(h, l) for i, (h, l) in enumerate(zip(handles, labels)) if l not in labels[:i]]
+    unique = [
+        (h, l) for i, (h, l) in enumerate(zip(handles, labels)) if l not in labels[:i]
+    ]
     ax.legend(*zip(*unique))
 
 
@@ -124,9 +128,14 @@ def plot(X, y=None):
     color = TargetEncoder(y).get_0_1_scaled() if y is not None else None
     fig, ax = plt.subplots(figsize=(15, 10))
     for i in range(len(X)):
-        plt.plot(X[i, :], c=plt.cm.rainbow(color[i]) if y is not None else None, label=y[i] if y is not None else None)
+        plt.plot(
+            X[i, :],
+            c=plt.cm.rainbow(color[i]) if y is not None else None,
+            label=y[i] if y is not None else None,
+        )
     legend_without_duplicate_labels(ax)
     return fig
+
 
 def get_lengths(X: np.array) -> np.array:
     return np.apply_along_axis(len, arr=X, axis=-1)

@@ -71,7 +71,7 @@ def log_history(
     accuracies = {key for key in history if "acc" in key}
     if logging_param_call:
         logging_param_call("history", history)
-    figure, ax = plt.subplots(figsize=(20,20))
+    figure, ax = plt.subplots(figsize=(20, 20))
     for key in losses:
         ax.plot(history[key], data=key)
         figure.suptitle("Model loss")

@@ -22,8 +22,12 @@ def create_concatenated(root_data_path="data/") -> (np.array, np.array, np.array
         try:
             categories.append(np.full(y.shape, categories_dict[dataset_name]))
         except KeyError:
-             raise KeyError(f"Dataset {dataset_name} missing in the categories.json")
-    return np.concatenate(X_final, dtype="object"), np.concatenate(y_final), np.concatenate(categories)
+            raise KeyError(f"Dataset {dataset_name} missing in the categories.json")
+    return (
+        np.concatenate(X_final, dtype="object"),
+        np.concatenate(y_final),
+        np.concatenate(categories),
+    )
 
 
 def save_datasets(X_final, y_final, categories, SAVING_DATA_PATH="data/"):
