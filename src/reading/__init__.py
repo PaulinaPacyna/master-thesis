@@ -64,6 +64,42 @@ class ConcatenatedDataset:
             with open(os.path.join(self.saving_data_path, path), "wb") as file:
                 np.save(file, path_mapping[path])
 
+    def read_dataset_train_test_split(
+        self, category: str = None, dataset: str = None, split: str = "train"
+    ) -> List[np.array]:
+        split = split.lower()
+        X: np.array = np.load(f"{self.data_root_path}/X_{split}.npy", allow_pickle=True)
+        y: np.array = np.load(f"{self.data_root_path}/y_{split}.npy")
+        if not category and not dataset:
+            return X, y
+        elif dataset:
+            datasets = [dataset]
+            logging.info("Loading only one dataset: %s", dataset)
+        else:
+            logging.info("Loading only one category: %s", category)
+            datasets = [
+                dataset_name
+                for dataset_name in self.categories
+                if self.categories[dataset_name] == category
+            ]
+        masks = [(np.char.startswith(y, dataset)).reshape(-1) for dataset in datasets]
+        mask = reduce(np.logical_or, masks)
+        y = y[mask, :]
+        X = X[mask]  # TODO log category and y_unique here
+        return X, y
+
+    def read_dataset(
+        self, category: str = None, dataset: str = None
+    ) -> Tuple[np.array, np.array]:
+        X_train, y_train = self.read_dataset_train_test_split(
+            split="train", category=category, dataset=dataset
+        )
+        X_test, y_test = self.read_dataset_train_test_split(
+            split="test", category=category, dataset=dataset
+        )
+        return np.concatenate([X_train, X_test], axis=0), np.concatenate(
+            [y_train, y_test], axis=0
+        )
 
 
 if __name__ == "__main__":
