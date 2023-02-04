@@ -4,6 +4,7 @@ import os
 from functools import reduce
 from typing import Tuple, List
 
+import mlflow
 import numpy as np
 
 from preprocessing import (
@@ -71,10 +72,13 @@ class ConcatenatedDataset:
         X: np.array = np.load(f"{self.data_root_path}/X_{split}.npy", allow_pickle=True)
         y: np.array = np.load(f"{self.data_root_path}/y_{split}.npy")
         if not category and not dataset:
+            mlflow.log_param("dataset", "whole")
+            mlflow.log_param("shapes", f"X: {X.shape}, y: {y.shape}")
             return X, y
         elif dataset:
             datasets = [dataset]
             logging.info("Loading only one dataset: %s", dataset)
+            mlflow.log_param("dataset", dataset)
         else:
             logging.info("Loading only one category: %s", category)
             datasets = [
@@ -82,10 +86,12 @@ class ConcatenatedDataset:
                 for dataset_name in self.categories
                 if self.categories[dataset_name] == category
             ]
+            mlflow.log_param("dataset", category)
         masks = [(np.char.startswith(y, dataset)).reshape(-1) for dataset in datasets]
         mask = reduce(np.logical_or, masks)
         y = y[mask, :]
         X = X[mask]  # TODO log category and y_unique here
+        mlflow.log_param("shapes", f"X: {X.shape}, y: {y.shape}")
         return X, y
 
     def read_dataset(
