@@ -147,7 +147,7 @@ def plot(X, y=None):
     for i in range(len(X)):
         plt.plot(
             X[i, :],
-            c=plt.cm.rainbow(color[i]) if y is not None else None,
+            c=plt.cm.rainbow(color[i]).ravel() if y is not None else None,
             label=y[i] if y is not None else None,
         )
     legend_without_duplicate_labels(ax)

@@ -1,3 +1,4 @@
+import json
 import os
 from typing import Optional
 
@@ -40,7 +41,7 @@ class MlFlowLogging:
     ):
         losses = {key for key in history if "loss" in key}
         accuracies = {key for key in history if "acc" in key}
-        mlflow.log_metric("history", history)
+        mlflow.log_text(json.dumps(history), "history.json")
         for key in losses:
             figure, ax = plt.subplots(figsize=(20, 20))
             ax.plot(history[key], data=key)
@@ -81,7 +82,7 @@ class MlFlowLogging:
         np.fill_diagonal(cm, 0)
         idx_1d = cm.flatten().argsort()[:-10:-1]
         x_idx, y_idx = np.unravel_index(idx_1d, cm.shape)
-        if labels:
+        if labels is not None:
             misclassified_summary = ""
             for (
                 x,
