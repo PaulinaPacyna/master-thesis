@@ -42,17 +42,17 @@ class MlFlowLogging:
         losses = {key for key in history if "loss" in key}
         accuracies = {key for key in history if "acc" in key}
         mlflow.log_text(json.dumps(history), "history.json")
+        figure, ax = plt.subplots(figsize=(20, 20))
         for key in losses:
-            figure, ax = plt.subplots(figsize=(20, 20))
-            ax.plot(history[key], data=key)
+            plt.plot(history[key], label=key, axes=ax)
             figure.suptitle("Model loss")
             ax.set_ylabel("loss")
             ax.set_xlabel("epoch")
             ax.legend(loc="upper left")
             mlflow.log_figure(figure,  os.path.join(self.artifacts_saving_root,"loss.png"))
+        figure, ax = plt.subplots(figsize=(20, 20))
         for key in accuracies:
-            figure, ax = plt.subplots(figsize=(20, 20))
-            ax.plot(history[key], data=key)
+            plt.plot(history[key], label=key, axes=ax)
             figure.suptitle("Model accuracy")
             ax.set_ylabel("accuracy")
             ax.set_xlabel("epoch")
