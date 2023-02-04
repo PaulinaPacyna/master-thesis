@@ -23,9 +23,9 @@ class ConstantLengthDataGenerator(Sequence):
         dtype: np.dtype = np.float16,
         min_length: int = 2**4,
         max_length: int = 2**11,
-        augmentation_probability: float = 0.01,
-        cutting_probability: float = 0.01,
-        padding_probability: float = 0.99,
+        augmentation_probability: float = 0,
+        cutting_probability: float = 0,
+        padding_probability: float = 1,
         logging_call: callable = None,
     ):
         """Initialization"""
