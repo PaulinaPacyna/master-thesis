@@ -58,7 +58,8 @@ class ConstantLengthDataGenerator(Sequence):
     @staticmethod
     def __normalize_rows(X) -> np.array:
         return np.array(
-            [(row - np.mean(row)) / max(np.std(row), 1e-10) for row in X], dtype=np.object_
+            [(row - np.mean(row)) / max(np.std(row), 1e-10) for row in X],
+            dtype=np.object_,
         )
 
     def __len__(self):

@@ -33,7 +33,9 @@ class MlFlowLogging:
             fig = plot(X, encoder.inverse_transform(y))
         else:
             fig = plot(X, y)
-        mlflow.log_figure(fig, os.path.join(self.artifacts_saving_root, "train_data.png"))
+        mlflow.log_figure(
+            fig, os.path.join(self.artifacts_saving_root, "train_data.png")
+        )
 
     def log_history(
         self,
@@ -49,7 +51,9 @@ class MlFlowLogging:
             ax.set_ylabel("loss")
             ax.set_xlabel("epoch")
             ax.legend(loc="upper left")
-            mlflow.log_figure(figure,  os.path.join(self.artifacts_saving_root,"loss.png"))
+            mlflow.log_figure(
+                figure, os.path.join(self.artifacts_saving_root, "loss.png")
+            )
         figure, ax = plt.subplots(figsize=(20, 20))
         for key in accuracies:
             plt.plot(history[key], label=key, axes=ax)
@@ -57,7 +61,9 @@ class MlFlowLogging:
             ax.set_ylabel("accuracy")
             ax.set_xlabel("epoch")
             ax.legend(loc="upper left")
-            mlflow.log_figure(figure,  os.path.join(self.artifacts_saving_root,"acc.png"))
+            mlflow.log_figure(
+                figure, os.path.join(self.artifacts_saving_root, "acc.png")
+            )
 
     def log_confusion_matrix(
         self,
@@ -77,7 +83,9 @@ class MlFlowLogging:
         cm = confusion_matrix(y_true, y_predicted, labels=labels)
         fig, ax = plt.subplots(figsize=figsize)
         sns.heatmap(pd.DataFrame(cm, columns=labels, index=labels), ax=ax)
-        mlflow.log_figure(fig,  os.path.join(self.artifacts_saving_root, "confusion_matrix.png"))
+        mlflow.log_figure(
+            fig, os.path.join(self.artifacts_saving_root, "confusion_matrix.png")
+        )
 
         np.fill_diagonal(cm, 0)
         idx_1d = cm.flatten().argsort()[:-10:-1]
@@ -91,4 +99,9 @@ class MlFlowLogging:
                 misclassified_summary += (
                     f"True: {labels[x]}, predicted {labels[y]}, {cm[x, y]} times \n"
                 )
-            mlflow.log_text(misclassified_summary,  os.path.join(self.artifacts_saving_root, "confusion_matrix_summary.txt"))
+            mlflow.log_text(
+                misclassified_summary,
+                os.path.join(
+                    self.artifacts_saving_root, "confusion_matrix_summary.txt"
+                ),
+            )
