@@ -17,6 +17,7 @@ from reading import ConcatenatedDataset
 
 logging.getLogger().setLevel(logging.INFO)
 
+mlflow_logging = MlFlowLogging()
 
 class Experiment:
     def __init__(self, saving_path: Optional[str] = None):
@@ -153,13 +154,9 @@ def train_destination_model(
     with mlflow.start_run(nested=True):
         X, y = ConcatenatedDataset().read_dataset(dataset=dataset)
         experiment = Experiment(
-            saving_path=f"encoder_same_cat_other_datasets/dest/category={category}/dataset={dataset}"
+            saving_path=f"encoder_same_cat_other_datasets/dest/dataset={dataset}"
         )
-        model = experiment.swap_last_layer(
-            source_model=source_model,
-            number_of_classes=len(experiment.y_encoder.categories_[0]),
-        )
-        input_length = model.layers[0].shape[1]
+        input_length = source_model.layers[0].shape[1]
         data_generator_train, validation_data = experiment.prepare_generators(
             X,
             y,
@@ -169,6 +166,10 @@ def train_destination_model(
                 "max_length": input_length,
             },
             test_args={"min_length": input_length, "max_length": input_length},
+        )
+        model = experiment.swap_last_layer(
+            source_model=source_model,
+            number_of_classes=len(experiment.y_encoder.categories_[0]),
         )
         history = model.fit(
             data_generator_train,
@@ -197,7 +198,7 @@ def train_dest_model_no_weights(
     with mlflow.start_run(nested=True):
         X, y = ConcatenatedDataset().read_dataset(dataset=dataset)
         experiment = Experiment(
-            saving_path=f"encoder_same_cat_other_datasets/dest_plain/category={category}/dataset={dataset}"
+            saving_path=f"encoder_same_cat_other_datasets/dest_plain/dataset={dataset}"
         )
         model = experiment.clean_weights(
             source_model=model,
