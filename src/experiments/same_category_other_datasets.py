@@ -1,5 +1,6 @@
 import logging
 import os
+from typing import Optional
 
 import mlflow
 import numpy as np
@@ -62,7 +63,7 @@ class Experiment:
         model = keras.models.Model(inputs=input_layer, outputs=encoder_model)
 
         with open(os.path.join(self.output_directory, "model.json"), "w") as f:
-            f.write(source_model.to_json())
+            f.write(model.to_json())
 
         model.compile(
             loss="categorical_crossentropy",
@@ -105,15 +106,11 @@ def train_source_model(
 ):
     with mlflow.start_run(nested=True, run_name="Source model"):
         X, y = ConcatenatedDataset().read_dataset(category=category)
-        mask = y.ravel().char.startswith(dataset)
+        mask = np.char.startswith(y.ravel(), prefix=dataset)
         X, y = X[~mask], y[~mask]
 
         experiment = Experiment(
             saving_path=f"encoder_same_cat_other_datasets/source/category={category}/dataset={dataset}"
-        )
-        model = experiment.prepare_encoder_classifier(
-            number_of_classes=len(experiment.y_encoder.categories_[0]),
-            input_length=input_length,
         )
         data_generator_train, validation_data = experiment.prepare_generators(
             X,
@@ -124,6 +121,10 @@ def train_source_model(
                 "max_length": input_length,
             },
             test_args={"min_length": input_length, "max_length": input_length},
+        )
+        model = experiment.prepare_encoder_classifier(
+            number_of_classes=len(experiment.y_encoder.categories_[0]),
+            input_length=input_length,
         )
         history = model.fit(
             data_generator_train,
