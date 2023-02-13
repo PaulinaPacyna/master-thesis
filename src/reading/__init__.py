@@ -107,6 +107,13 @@ class ConcatenatedDataset:
             [y_train, y_test], axis=0
         )
 
+    def return_datasets_for_category(self, category):
+        return [
+            key
+            for key, value in self.categories.items()
+            if value.lower() == category.lower()
+        ]
+
 
 if __name__ == "__main__":
     concatenated_dataset = ConcatenatedDataset()
