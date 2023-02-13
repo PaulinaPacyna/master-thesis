@@ -465,9 +465,10 @@ cython_debug/
 .ipynb_checkpoints/
 src/data/
 src/mlruns
-/src/mlruns/.tmp.driveupload/
-/src/mlruns/.tmp.drivedownload/
-/src/mlruns/.trash/
-/src/.tmp.driveupload/
+src/mlruns/.tmp.driveupload/
+src/mlruns/.tmp.drivedownload/
+src/mlruns/.trash/
+src/.tmp.driveupload/
 !src/data/small_sample/X.npy
 !src/data/small_sample/y.npy
+src/mlruns/
