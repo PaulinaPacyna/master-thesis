@@ -152,7 +152,7 @@ def train_destination_model(
     number_of_epochs=10,
     batch_size=256,
 ) -> dict:
-    with mlflow.start_run(nested=True):
+    with mlflow.start_run(nested=True, run_name="Destination"):
         X, y = ConcatenatedDataset().read_dataset(dataset=dataset)
         experiment = Experiment(
             saving_path=f"encoder_same_cat_other_datasets/dest/dataset={dataset}"
@@ -196,7 +196,7 @@ def train_dest_model_no_weights(
     number_of_epochs=10,
     batch_size=256,
 ):
-    with mlflow.start_run(nested=True):
+    with mlflow.start_run(nested=True, run_name="Destination plain"):
         X, y = ConcatenatedDataset().read_dataset(dataset=dataset)
         experiment = Experiment(
             saving_path=f"encoder_same_cat_other_datasets/dest_plain/dataset={dataset}"
