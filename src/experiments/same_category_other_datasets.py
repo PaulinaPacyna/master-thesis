@@ -107,7 +107,7 @@ def train_source_model(
 ):
     with mlflow.start_run(nested=True, run_name="Source model"):
         X, y = ConcatenatedDataset().read_dataset(category=category)
-        mask = np.char.startswith(y.ravel(), prefix=dataset)
+        mask = np.char.startswith(y.ravel(), prefix=f"{dataset}_")
         X, y = X[~mask], y[~mask]
 
         experiment = Experiment(
@@ -156,7 +156,7 @@ def train_destination_model(
         experiment = Experiment(
             saving_path=f"encoder_same_cat_other_datasets/dest/dataset={dataset}"
         )
-        input_length = source_model.layers[0].input_shape[1]
+        input_length = source_model.inputs[0].shape[1]
         data_generator_train, validation_data = experiment.prepare_generators(
             X,
             y,
@@ -186,7 +186,7 @@ def train_destination_model(
         mlflow_logging.log_example_data(
             *next(data_generator_train), encoder=experiment.y_encoder
         )
-        return {"history": history}
+        return {"history": history, "model": model}
 
 
 def train_dest_model_no_weights(
@@ -203,7 +203,7 @@ def train_dest_model_no_weights(
         model = experiment.clean_weights(
             source_model=model,
         )
-        input_length = model.layers[0].input_shape[1]
+        input_length = model.inputs[0].shape[1]
         data_generator_train, validation_data = experiment.prepare_generators(
             X,
             y,
