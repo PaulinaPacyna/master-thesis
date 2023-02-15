@@ -7,6 +7,7 @@ import numpy as np
 import sklearn
 import tensorflow as tf
 import tensorflow.keras as keras
+from keras.callbacks import EarlyStopping
 from keras.models import clone_model
 from sklearn.model_selection import train_test_split
 
@@ -27,9 +28,10 @@ class Experiment:
             decay_steps=100000,
             decay_rate=0.96,
         )
+        self.callbacks = [EarlyStopping(monitor='val_loss', patience=3)]
         if saving_path:
             self.output_directory = f"./data/models/{saving_path}"
-            self.callbacks = [
+            self.callbacks += [
                 tf.keras.callbacks.ModelCheckpoint(
                     filepath=self.output_directory,
                     monitor="val_accuracy",
