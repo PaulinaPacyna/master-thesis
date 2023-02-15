@@ -108,11 +108,13 @@ class ConcatenatedDataset:
         )
 
     def return_datasets_for_category(self, category):
-        return [
-            key
-            for key, value in self.categories.items()
-            if value.lower() == category.lower()
-        ]
+        return sorted(
+            [
+                key
+                for key, value in self.categories.items()
+                if value.lower() == category.lower()
+            ]
+        )
 
 
 if __name__ == "__main__":
