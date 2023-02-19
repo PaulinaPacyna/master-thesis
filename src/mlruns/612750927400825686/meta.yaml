@@ -1,6 +1,7 @@
 artifact_location: file:///C:/Users/pacyn/studia/master-thesis/src/mlruns/612750927400825686
 creation_time: 1675243196703
 experiment_id: '612750927400825686'
-last_update_time: 1675243196703
+last_update_time: 1676450925387
 lifecycle_stage: active
-name: Encoder - transfer learning
+name: trashEncoder - transfer learning
+tags: {}
