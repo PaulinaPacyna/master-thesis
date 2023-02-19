@@ -50,18 +50,20 @@ class BaseExperiment:
         mlflow.log_param("y.shape", y.shape)
         return data_generator_train, validation_data
 
-    def swap_last_layer(self, source_model: keras.models.Model, number_of_classes):
+    def swap_last_layer(
+        self, source_model: keras.models.Model, number_of_classes, compile=True
+    ):
         source_model.layers.pop()
-        last = keras.layers.Dense(units=number_of_classes, activation="softmax")(
+        last = keras.layers.Dense(units=number_of_classes, activation="softmax", name="dense_appended")(
             source_model.layers[-2].output
         )
         dest_model = keras.models.Model(inputs=source_model.input, outputs=last)
-
-        dest_model.compile(
-            loss="categorical_crossentropy",
-            optimizer=keras.optimizers.Adam(self.decay),
-            metrics=["accuracy"],
-        )
+        if compile:
+            dest_model.compile(
+                loss="categorical_crossentropy",
+                optimizer=keras.optimizers.Adam(self.decay),
+                metrics=["accuracy"],
+            )
         return dest_model
 
     def clean_weights(self, source_model: keras.models.Model):
