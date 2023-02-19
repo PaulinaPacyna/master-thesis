@@ -22,13 +22,15 @@ mlflow_logging = MlFlowLogging()
 
 
 class Experiment:
-    def __init__(self, saving_path: Optional[str] = None):
+    def __init__(self, saving_path: Optional[str] = None, use_early_stopping=True):
         self.decay = keras.optimizers.schedules.ExponentialDecay(
             initial_learning_rate=1e-4,
             decay_steps=100000,
             decay_rate=0.96,
         )
-        self.callbacks = [EarlyStopping(monitor='val_loss', patience=3)]
+        self.callbacks = []
+        if use_early_stopping:
+            self.callbacks += [EarlyStopping(monitor='val_loss', patience=3)]
         if saving_path:
             self.output_directory = f"./data/models/{saving_path}"
             self.callbacks += [
@@ -157,7 +159,8 @@ def train_destination_model(
     with mlflow.start_run(nested=True, run_name="Destination"):
         X, y = ConcatenatedDataset().read_dataset(dataset=dataset)
         experiment = Experiment(
-            saving_path=f"encoder_same_cat_other_datasets/dest/dataset={dataset}"
+            saving_path=f"encoder_same_cat_other_datasets/dest/dataset={dataset}",
+            use_early_stopping=False
         )
         input_length = source_model.inputs[0].shape[1]
         data_generator_train, validation_data = experiment.prepare_generators(
@@ -201,7 +204,8 @@ def train_dest_model_no_weights(
     with mlflow.start_run(nested=True, run_name="Destination plain"):
         X, y = ConcatenatedDataset().read_dataset(dataset=dataset)
         experiment = Experiment(
-            saving_path=f"encoder_same_cat_other_datasets/dest_plain/dataset={dataset}"
+            saving_path=f"encoder_same_cat_other_datasets/dest_plain/dataset={dataset}",
+            use_early_stopping=False
         )
         model = experiment.clean_weights(
             source_model=model,
