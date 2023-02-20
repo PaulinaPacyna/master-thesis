@@ -13,13 +13,16 @@ from preprocessing import ConstantLengthDataGenerator
 
 
 class BaseExperiment:
-    def __init__(self, saving_path: Optional[str] = None):
+    def __init__(self, saving_path: Optional[str] = None, use_early_stopping: bool = True):
         self.decay = keras.optimizers.schedules.ExponentialDecay(
             initial_learning_rate=1e-4,
             decay_steps=100000,
             decay_rate=0.96,
+
         )
-        self.callbacks = [EarlyStopping(monitor="val_loss", patience=3)]
+        self.callbacks = []
+        if use_early_stopping:
+            self.callbacks += [EarlyStopping(monitor='val_loss', patience=3)]
         if saving_path:
             self.output_directory = f"./data/models/{saving_path}"
             self.callbacks += [
@@ -33,7 +36,7 @@ class BaseExperiment:
         self.y_encoder = sklearn.preprocessing.OneHotEncoder(categories="auto")
 
     def prepare_generators(
-        self, X: np.array, y: np.array, train_args: dict = {}, test_args: dict = {}
+            self, X: np.array, y: np.array, train_args: dict = {}, test_args: dict = {}
     ):
         y = self.y_encoder.fit_transform(y.reshape(-1, 1)).toarray()
         X_train, X_val, y_train, y_val = train_test_split(
@@ -51,7 +54,7 @@ class BaseExperiment:
         return data_generator_train, validation_data
 
     def swap_last_layer(
-        self, source_model: keras.models.Model, number_of_classes, compile=True
+            self, source_model: keras.models.Model, number_of_classes, compile=True
     ):
         source_model.layers.pop()
         last = keras.layers.Dense(units=number_of_classes, activation="softmax", name="dense_appended")(
