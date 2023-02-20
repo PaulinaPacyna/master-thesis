@@ -90,7 +90,8 @@ def train_destination_model(
     with mlflow.start_run(nested=True, run_name="Destination"):
         X, y = ConcatenatedDataset().read_dataset(dataset=dataset)
         experiment = EncoderExperiment(
-            saving_path=f"encoder_same_cat_other_datasets/dest/dataset={dataset}"
+            saving_path=f"encoder_same_cat_other_datasets/dest/dataset={dataset}",
+            use_early_stopping=False
         )
         input_length = source_model.inputs[0].shape[1]
         data_generator_train, validation_data = experiment.prepare_generators(
@@ -134,7 +135,8 @@ def train_dest_model_no_weights(
     with mlflow.start_run(nested=True, run_name="Destination plain"):
         X, y = ConcatenatedDataset().read_dataset(dataset=dataset)
         experiment = EncoderExperiment(
-            saving_path=f"encoder_same_cat_other_datasets/dest_plain/dataset={dataset}"
+            saving_path=f"encoder_same_cat_other_datasets/dest_plain/dataset={dataset}",
+            use_early_stopping=False
         )
         model = experiment.clean_weights(
             source_model=model,
