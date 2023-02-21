@@ -26,7 +26,7 @@ class EnsembleExperiment(BaseExperiment):
 
 
 def train_ensemble_model(target_dataset: str, category: str):
-    with mlflow.start_run(run_name="ensemble"):
+    with mlflow.start_run(run_name="ensemble", nested=True):
         concatenated_dataset = ConcatenatedDataset()
         X, y = concatenated_dataset.read_dataset(dataset=target_dataset)
         all_datasets = concatenated_dataset.return_datasets_for_category(category=category)
@@ -65,8 +65,8 @@ def train_ensemble_model(target_dataset: str, category: str):
         return {"history": history, "model": ensemble_model}
 
 
-def train_plain_model(source_model: keras.model.Model, target_dataset: str) -> dict:
-    with mlflow.start_run(run_name="plain model"):
+def train_plain_model(source_model: keras.models.Model, target_dataset: str) -> dict:
+    with mlflow.start_run(run_name="plain model", nested=True):
         concatenated_dataset = ConcatenatedDataset()
         X, y = concatenated_dataset.read_dataset(dataset=target_dataset)
         experiment = BaseExperiment(saving_path=f"encoder_ensemble/plain/dataset={target_dataset}",
