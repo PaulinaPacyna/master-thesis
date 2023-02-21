@@ -45,7 +45,8 @@ def train_ensemble_model(target_dataset: str, category: str):
         ]
         input_len = models[0].input.shape[1]
         data_generator_train, validation_data = experiment.prepare_generators(
-            X, y, train_args={"min_length": input_len, "max_length": input_len}
+            X, y, train_args={"min_length": input_len, "max_length": input_len},
+            test_args={"min_length": input_len, "max_length": input_len}
         )
         ensemble_model = experiment.prepare_ensemble_model(
             models, len(experiment.y_encoder.categories_[0])
@@ -83,7 +84,8 @@ def train_plain_model(source_model: keras.models.Model, target_dataset: str) -> 
 
         input_len = model.input.shape[1]
         data_generator_train, validation_data = experiment.prepare_generators(
-            X, y, train_args={"min_length": input_len, "max_length": input_len}
+            X, y, train_args={"min_length": input_len, "max_length": input_len},
+            test_args={"min_length": input_len, "max_length": input_len}
         )
 
         history = model.fit(
@@ -102,7 +104,7 @@ def train_plain_model(source_model: keras.models.Model, target_dataset: str) -> 
         mlflow_logging.log_example_data(
             *next(data_generator_train), encoder=experiment.y_encoder
         )
-
+        return {"history": history}
 
 mlflow_logging = MlFlowLogging()
 
