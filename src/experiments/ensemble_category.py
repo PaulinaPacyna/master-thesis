@@ -25,7 +25,7 @@ class EnsembleExperiment(BaseExperiment):
         return model
 
 
-def train_ensemble_model(target_dataset: str, category: str):
+def train_ensemble_model(target_dataset: str, category: str, epochs: int = 10):
     with mlflow.start_run(run_name="ensemble", nested=True):
         concatenated_dataset = ConcatenatedDataset()
         X, y = concatenated_dataset.read_dataset(dataset=target_dataset)
@@ -45,8 +45,10 @@ def train_ensemble_model(target_dataset: str, category: str):
         ]
         input_len = models[0].input.shape[1]
         data_generator_train, validation_data = experiment.prepare_generators(
-            X, y, train_args={"min_length": input_len, "max_length": input_len},
-            test_args={"min_length": input_len, "max_length": input_len}
+            X,
+            y,
+            train_args={"min_length": input_len, "max_length": input_len},
+            test_args={"min_length": input_len, "max_length": input_len},
         )
         ensemble_model = experiment.prepare_ensemble_model(
             models, len(experiment.y_encoder.categories_[0])
@@ -57,7 +59,7 @@ def train_ensemble_model(target_dataset: str, category: str):
             metrics=["accuracy"],
         )
         history = ensemble_model.fit(
-            data_generator_train, epochs=2, validation_data=validation_data
+            data_generator_train, epochs=epochs, validation_data=validation_data
         )
         mlflow_logging.log_confusion_matrix(
             *validation_data, classifier=ensemble_model, y_encoder=experiment.y_encoder
@@ -72,7 +74,9 @@ def train_ensemble_model(target_dataset: str, category: str):
         return {"history": history, "model": ensemble_model}
 
 
-def train_plain_model(source_model: keras.models.Model, target_dataset: str) -> dict:
+def train_plain_model(
+    source_model: keras.models.Model, target_dataset: str, epochs: int = 10
+) -> dict:
     with mlflow.start_run(run_name="plain model", nested=True):
         concatenated_dataset = ConcatenatedDataset()
         X, y = concatenated_dataset.read_dataset(dataset=target_dataset)
@@ -84,12 +88,14 @@ def train_plain_model(source_model: keras.models.Model, target_dataset: str) -> 
 
         input_len = model.input.shape[1]
         data_generator_train, validation_data = experiment.prepare_generators(
-            X, y, train_args={"min_length": input_len, "max_length": input_len},
-            test_args={"min_length": input_len, "max_length": input_len}
+            X,
+            y,
+            train_args={"min_length": input_len, "max_length": input_len},
+            test_args={"min_length": input_len, "max_length": input_len},
         )
 
         history = model.fit(
-            data_generator_train, epochs=2, validation_data=validation_data
+            data_generator_train, epochs=epochs, validation_data=validation_data
         )
         mlflow_logging.log_confusion_matrix(
             *validation_data, classifier=model, y_encoder=experiment.y_encoder
@@ -105,6 +111,7 @@ def train_plain_model(source_model: keras.models.Model, target_dataset: str) -> 
             *next(data_generator_train), encoder=experiment.y_encoder
         )
         return {"history": history}
+
 
 mlflow_logging = MlFlowLogging()
 
