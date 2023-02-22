@@ -107,7 +107,7 @@ class ConcatenatedDataset:
             [y_train, y_test], axis=0
         )
 
-    def return_datasets_for_category(self, category):
+    def return_datasets_for_category(self, category: str) -> List[str]:
         return sorted(
             [
                 key
