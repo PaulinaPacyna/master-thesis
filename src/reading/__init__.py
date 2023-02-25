@@ -6,6 +6,7 @@ from typing import Tuple, List
 
 import mlflow
 import numpy as np
+from mlflow import MlflowException
 
 from preprocessing import (
     get_path_to_dataset,
@@ -72,13 +73,13 @@ class ConcatenatedDataset:
         X: np.array = np.load(f"{self.data_root_path}/X_{split}.npy", allow_pickle=True)
         y: np.array = np.load(f"{self.data_root_path}/y_{split}.npy")
         if not category and not dataset:
-            mlflow.log_param(f"dataset_{split}", "whole")
-            mlflow.log_param(f"shapes_{split}", f"X: {X.shape}, y: {y.shape}")
+            self.log_param(f"dataset_{split}", "whole")
+            self.log_param(f"shapes_{split}", f"X: {X.shape}, y: {y.shape}")
             return X, y
         elif dataset:
             datasets = [dataset]
             logging.info("Loading only one dataset: %s", dataset)
-            mlflow.log_param(f"dataset_{split}", dataset)
+            self.log_param(f"dataset_{split}", dataset)
         else:
             logging.info("Loading only one category: %s", category)
             datasets = [
@@ -86,12 +87,12 @@ class ConcatenatedDataset:
                 for dataset_name in self.categories
                 if self.categories[dataset_name] == category
             ]
-            mlflow.log_param(f"dataset_{split}", category)
+            self.log_param(f"dataset_{split}", category)
         masks = [(np.char.startswith(y, dataset)).reshape(-1) for dataset in datasets]
         mask = reduce(np.logical_or, masks)
         y = y[mask, :]
         X = X[mask]  # TODO log category and y_unique here
-        mlflow.log_param(f"shapes_{split}", f"X: {X.shape}, y: {y.shape}")
+        self.log_param(f"shapes_{split}", f"X: {X.shape}, y: {y.shape}")
         return X, y
 
     def read_dataset(
@@ -115,7 +116,11 @@ class ConcatenatedDataset:
                 if value.lower() == category.lower()
             ]
         )
-
+    def log_param(self, key, val):
+        try: 
+            mlflow.log_param(key, val)
+        except MlflowException as e:
+            logging.warning("Skipping logging to mlflow: %s", e)
 
 if __name__ == "__main__":
     concatenated_dataset = ConcatenatedDataset()
