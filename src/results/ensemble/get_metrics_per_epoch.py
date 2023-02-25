@@ -8,9 +8,11 @@ runs = client.search_runs(["208298423703336898"])
 
 history_detailed = []
 for run in runs:
-    if run.info.status == "FINISHED" \
-            and run.info.run_name not in ("plain model", "ensemble") \
-            and run.info.lifecycle_stage == "active":
+    if (
+        run.info.status == "FINISHED"
+        and run.info.run_name not in ("plain model", "ensemble")
+        and run.info.lifecycle_stage == "active"
+    ):
         history_entry = json.load(open(run.info.artifact_uri + "/history.json"))
         if min([len(x) for x in history_entry.values()]) == 10:
             print(run.info)
