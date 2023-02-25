@@ -112,12 +112,12 @@ class ConstantLengthDataGenerator(Sequence):
         if ignore is None:
             ignore = ["X", "y", "_ConstantLengthDataGenerator__y_inverse_probabilities"]
         mlflow.log_params(
-                {
-                    "gen_" + key: value
-                    for key, value in vars(self).items()
-                    if key not in ignore
-                }
-            )
+            {
+                "gen_" + key: value
+                for key, value in vars(self).items()
+                if key not in ignore
+            }
+        )
 
 
 if __name__ == "__main__":

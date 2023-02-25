@@ -8,9 +8,12 @@ runs = client.search_runs(["674599303712758429"])
 
 history_detailed = []
 for run in runs:
-    if run.info.status == "FINISHED" \
-            and run.info.run_name not in ("Destination", "Destination plain", "Source model") \
-            and run.info.lifecycle_stage == "active":
+    if (
+        run.info.status == "FINISHED"
+        and run.info.run_name
+        not in ("Destination", "Destination plain", "Source model")
+        and run.info.lifecycle_stage == "active"
+    ):
         history_entry = json.load(open(run.info.artifact_uri + "/history.json"))
         if min([len(x) for x in history_entry.values()]) == 10:
             print(run.info)
@@ -47,6 +50,8 @@ ax.legend()
 plt.ylim(bottom=0)
 plt.savefig("results/baseline encoder/loss.png")
 plt.close(figure)
+
+
 figure, ax = plt.subplots(figsize=(7, 7))
 for key in sorted(accuracies, key=prepare_legend):
     plt.plot(history[key], label=prepare_legend(key), axes=ax)
