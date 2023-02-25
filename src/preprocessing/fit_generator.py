@@ -1,5 +1,6 @@
 from collections import Counter
 
+import mlflow
 import numpy as np
 import keras
 import sklearn
@@ -26,7 +27,6 @@ class ConstantLengthDataGenerator(Sequence):
         augmentation_probability: float = 0,
         cutting_probability: float = 0,
         padding_probability: float = 1,
-        logging_call: callable = None,
     ):
         """Initialization"""
         self.shuffle = shuffle
@@ -43,7 +43,6 @@ class ConstantLengthDataGenerator(Sequence):
         self.augmentation_probability = augmentation_probability
         self.cutting_probability = cutting_probability
         self.padding_probability = padding_probability
-        self.logging_call = logging_call
 
     def __augment(self, X: np.array):
         if np.random.random() > self.augmentation_probability:
@@ -112,16 +111,13 @@ class ConstantLengthDataGenerator(Sequence):
     def log(self, ignore=None):
         if ignore is None:
             ignore = ["X", "y", "_ConstantLengthDataGenerator__y_inverse_probabilities"]
-        if self.logging_call:
-            self.logging_call(
+        mlflow.log_params(
                 {
                     "gen_" + key: value
                     for key, value in vars(self).items()
                     if key not in ignore
                 }
             )
-        else:
-            logging.warning("Not logging to mlflow")
 
 
 if __name__ == "__main__":
