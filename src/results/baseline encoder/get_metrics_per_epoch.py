@@ -5,7 +5,7 @@ from mlflow import MlflowClient
 
 client = MlflowClient()
 runs = client.search_runs(["674599303712758429"])
-
+results_root_path="results/baseline encoder"
 history_detailed = []
 for run in runs:
     if (
@@ -48,7 +48,7 @@ ax.set_ylabel("loss")
 ax.set_xlabel("epoch")
 ax.legend()
 plt.ylim(bottom=0)
-plt.savefig("results/baseline encoder/loss.png")
+plt.savefig(f"{results_root_path}/loss.png")
 plt.close(figure)
 
 
@@ -59,5 +59,31 @@ ax.set_ylabel("accuracy")
 figure.suptitle("Model accuracy")
 ax.set_xlabel("epoch")
 ax.legend()
-plt.savefig("results/baseline encoder/acc.png")
+plt.savefig(f"{results_root_path}/acc.png")
 plt.close(figure)
+
+
+
+def win_tie_loss_diagram(epoch):
+    epoch_acc = [[stats["dest_no_weights_val_accuracy"][epoch - 1], stats["dest_val_accuracy"][epoch - 1]] for
+                 stats in
+                 history_detailed]
+    win = sum(acc[0] < acc[1] for acc in epoch_acc)
+    tie = sum(acc[0] == acc[1] for acc in epoch_acc)
+    lose = sum(acc[0] > acc[1] for acc in epoch_acc)
+    figure, ax = plt.subplots(figsize=(4.5, 4.5))
+    plt.scatter(*list(zip(*epoch_acc)), s=4)
+    plt.plot([-10, 10], [-10, 10], color="black")
+    figure.suptitle(f"Win/tie/lose plot (epoch {epoch})")
+    ax.set_ylabel("With transfer learning")
+    ax.set_xlabel("Without transfer learning")
+    plt.xlim([0, 1])
+    plt.ylim([0, 1])
+    ax.set_aspect('equal')
+    ax.text(0.1, 0.9, f"Win / tie / loss\n{win} / {tie} / {lose}", bbox={"ec": "black", "color": "white"})
+    plt.savefig(f"{results_root_path}/win_tie_lose_epoch_{epoch}.png")
+    plt.close(figure)
+
+
+win_tie_loss_diagram(epoch=10)
+win_tie_loss_diagram(epoch=5)
