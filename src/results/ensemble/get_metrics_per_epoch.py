@@ -2,6 +2,8 @@ import json
 import matplotlib.pyplot as plt
 import numpy as np
 from mlflow import MlflowClient
+import matplotlib
+matplotlib.rc('font', size=12)
 
 client = MlflowClient()
 runs = client.search_runs(["208298423703336898"])
@@ -39,26 +41,28 @@ def prepare_legend(text: str):
     return text
 
 
-figure, ax = plt.subplots(figsize=(7, 7))
+figure, ax = plt.subplots(figsize=(5.5, 5.5))
 for key in sorted(losses, key=prepare_legend):
-    plt.plot(history[key], label=prepare_legend(key), axes=ax)
+    plt.plot(np.arange(1, 11), history[key], label=prepare_legend(key), axes=ax)
 figure.suptitle("Model loss")
 ax.set_ylabel("loss")
 ax.set_xlabel("epoch")
-ax.legend()
 plt.ylim(bottom=0)
+ax.legend()
 plt.savefig("results/ensemble/loss.png")
 plt.close(figure)
-figure, ax = plt.subplots(figsize=(7, 7))
+
+
+figure, ax = plt.subplots(figsize=(5.5, 5.5))
 for key in sorted(accuracies, key=prepare_legend):
-    plt.plot(history[key], label=prepare_legend(key), axes=ax)
+    plt.plot(np.arange(1, 11), history[key], label=prepare_legend(key), axes=ax)
 ax.set_ylabel("accuracy")
 figure.suptitle("Model accuracy")
 ax.set_xlabel("epoch")
 ax.legend()
-plt.ylim(bottom=0)
 plt.savefig("results/ensemble/acc.png")
 plt.close(figure)
+
 
 
 def win_tie_loss_diagram(epoch):
@@ -68,8 +72,8 @@ def win_tie_loss_diagram(epoch):
     win = sum(acc[0] < acc[1] for acc in epoch_acc)
     tie = sum(acc[0] == acc[1] for acc in epoch_acc)
     lose = sum(acc[0] > acc[1] for acc in epoch_acc)
-    figure, ax = plt.subplots(figsize=(4.5, 4.5))
-    plt.scatter(*list(zip(*epoch_acc)), s=4)
+    figure, ax = plt.subplots(figsize=(5.5, 5.5))
+    plt.scatter(*list(zip(*epoch_acc)), s=8)
     plt.plot([-10, 10], [-10, 10], color="black")
     figure.suptitle(f"Win/tie/lose plot (epoch {epoch})")
     ax.set_ylabel("With transfer learning")
