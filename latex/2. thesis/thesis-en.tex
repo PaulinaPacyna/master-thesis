@@ -313,8 +313,13 @@ The function $f_i: \real^N \rightarrow \real^N$ is an arbitrarily chosen non-lin
 
 The disadvantage of using Multi Layer Perceptrons for time series classification is that the input size is fixed. All time series in the training data must have the same length. In transfer learning, this means that if we want to reuse the source network (or a set of first layers from the network), the time series in the target dataset must have the same length as in the source dataset. 
 
-The MLP architecture fails at understanding the temporal dependencies \cite{dl_tsc}. Each input value in the time series is treated separately because it is multiplied by a separate row in the weight matrix. 
-% TODO "trzeba dodać ilustrację"
+The MLP architecture fails at understanding the temporal dependencies \cite{dl_tsc}. Each input value in the time series is treated separately because it is multiplied by a separate row in the weight matrix (see figure \ref{fig:mlp_multiplication} for an illustration). 
+\begin{figure}
+\centering
+\label{fig:mlp_multiplication}
+\includegraphics[height=4cm]{imgs/MLP_multiplication_v2.png}
+\caption{The multi layer perceptron architecture treats each entry in the input time series separately.}
+\end{figure}
 \subsection{Convolutional Neural Networks}
 Convolutional Neural Networks are widely used in image recognition. A convolution applied for a time series can be interpreted as sliding a filter over the time series. A convolutional layer is a set of functions called convolutions or filters. The filter is applied at a given point, using the values surrounding the point. 
 
