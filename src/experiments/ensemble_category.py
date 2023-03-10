@@ -10,8 +10,9 @@ from reading import ConcatenatedDataset
 
 class EnsembleExperiment(BaseExperiment):
     def prepare_ensemble_model(
-        self, source_models: List[keras.models.Model], target_number_of_classes: int
+        self, source_models: List[keras.models.Model],
     ) -> keras.models.Model:
+        target_number_of_classes = self.get_number_of_classes()
         first = keras.layers.Input(source_models[0].inputs[0].shape[1:])
         outputs = []
         for model in source_models:
@@ -53,7 +54,7 @@ def train_ensemble_model(target_dataset: str, category: str, epochs: int = 10):
             test_args={"min_length": input_len, "max_length": input_len},
         )
         ensemble_model = experiment.prepare_ensemble_model(
-            models, len(experiment.y_encoder.categories_[0])
+            models
         )
         ensemble_model.compile(
             loss="categorical_crossentropy",

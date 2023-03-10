@@ -17,8 +17,9 @@ mlflow_logging = MlFlowLogging()
 
 class EncoderExperiment(BaseExperiment):
     def prepare_encoder_classifier(
-        self, number_of_classes: int, input_length: int
+        self, input_length: int
     ) -> keras.models.Model:
+        number_of_classes = self.get_number_of_classes()
         input_layer = keras.layers.Input(shape=(input_length, 1))
         encoder_model = Encoder_model(number_of_classes=number_of_classes)(input_layer)
         model = keras.models.Model(inputs=input_layer, outputs=encoder_model)
@@ -60,7 +61,6 @@ def train_source_model(
             test_args={"min_length": input_length, "max_length": input_length},
         )
         model = experiment.prepare_encoder_classifier(
-            number_of_classes=len(experiment.y_encoder.categories_[0]),
             input_length=input_length,
         )
         history = model.fit(
@@ -106,7 +106,7 @@ def train_destination_model(
         )
         model = experiment.swap_last_layer(
             source_model=source_model,
-            number_of_classes=len(experiment.y_encoder.categories_[0]),
+            number_of_classes=experiment.get_number_of_classes(),
         )
         history = model.fit(
             data_generator_train,

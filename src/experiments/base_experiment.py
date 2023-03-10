@@ -36,6 +36,9 @@ class BaseExperiment:
             os.makedirs(self.output_directory, exist_ok=True)
         self.y_encoder = sklearn.preprocessing.OneHotEncoder(categories="auto")
 
+    def get_number_of_classes(self):
+        return len(self.y_encoder.categories[0])
+
     def prepare_generators(
         self, X: np.array, y: np.array, train_args: dict = {}, test_args: dict = {}
     ):
