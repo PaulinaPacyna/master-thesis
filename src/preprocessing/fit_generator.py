@@ -22,8 +22,8 @@ class ConstantLengthDataGenerator(Sequence):
         shuffle: bool = True,
         batch_size: int = 32,
         dtype: np.dtype = np.float16,
-        min_length: int = 2**4,
-        max_length: int = 2**11,
+        min_length: int = 2**8,
+        max_length: int = 2**8,
         augmentation_probability: float = 0,
         cutting_probability: float = 0,
         padding_probability: float = 1,
@@ -43,6 +43,7 @@ class ConstantLengthDataGenerator(Sequence):
         self.augmentation_probability = augmentation_probability
         self.cutting_probability = cutting_probability
         self.padding_probability = padding_probability
+        self.log()
 
     def __augment(self, X: np.array):
         if np.random.random() > self.augmentation_probability:
@@ -83,11 +84,18 @@ class ConstantLengthDataGenerator(Sequence):
 
     def __next__(self):
         """Generate one batch of data"""
-        series_length = np.random.choice(self.possible_lengths)
         batch_size = self.batch_size
         index = np.random.choice(
             self.indices, batch_size, p=self.__y_inverse_probabilities
         )
+        X_batch = self.prepare_X(self.X[index])
+        y_batch = self.y[index]
+        y_batch = np.array(y_batch)
+        return X_batch, y_batch
+
+    def prepare_X(self, X, series_length=None):
+        if not series_length:
+            series_length = np.random.choice(self.possible_lengths)
         X_batch = np.vstack(
             [
                 normalize_length(
@@ -96,28 +104,74 @@ class ConstantLengthDataGenerator(Sequence):
                     cutting_probability=self.cutting_probability,
                     stretching_probability=1 - self.padding_probability,
                 )
-                for series in self.X[index]
+                for series in X
             ]
         )
-        y_batch = self.y[index]
-        X_batch, y_batch = np.array(X_batch, dtype=self.dtype), np.array(y_batch)
+        X_batch, np.array(X_batch, dtype=self.dtype),
         X_batch = self.__augment(X_batch)
-        return X_batch, y_batch
+        return X_batch
 
     def on_epoch_end(self):
         self.indices = range(self.X.shape[0])
-        self.log()
 
     def log(self, ignore=None):
         if ignore is None:
             ignore = ["X", "y", "_ConstantLengthDataGenerator__y_inverse_probabilities"]
-        mlflow.log_params(
-            {
-                "gen_" + key: value
-                for key, value in vars(self).items()
-                if key not in ignore
-            }
+        try:
+            mlflow.log_params(
+                {
+                    "gen_" + key: value
+                    for key, value in vars(self).items()
+                    if key not in ignore
+                }
+            )
+        except Exception as e:
+            logging.warning(e)
+
+
+class SelfLearningDataGenerator(ConstantLengthDataGenerator):
+    def __init__(
+        self,
+        X: np.array,
+        y: np.array,
+        self_learning_X: np.array,
+        self_learning_threshold: float = 0.9,
+        shuffle: bool = True,
+        batch_size: int = 32,
+        dtype: np.dtype = np.float16,
+        min_length: int = 2**8,
+        max_length: int = 2**8,
+        augmentation_probability: float = 0,
+        cutting_probability: float = 0,
+        padding_probability: float = 1,
+    ):
+        super().__init__(
+            X,
+            y,
+            shuffle=shuffle,
+            batch_size=batch_size,
+            dtype=dtype,
+            min_length=min_length,
+            max_length=max_length,
+            augmentation_probability=augmentation_probability,
+            padding_probability=padding_probability,
+            cutting_probability=cutting_probability,
         )
+        self.self_learning_threshold = self_learning_threshold
+        self.model = None
+        self.self_learning_X = self_learning_X
+
+    def add_model(self, model: keras.models.Model) -> None:
+        self.model = model
+
+    def on_epoch_end(self):
+        self_learning_X = self.prepare_X(self.self_learning_X)
+        predictions = self.model.predict(self_learning_X)
+        score = np.max(predictions, axis=1)
+        index = score >= self.self_learning_threshold
+        self.X = np.concatenate([self.X, self.self_learning_X[index]])
+        self.y = np.concatenate([self.y, predictions[index]])
+        super().on_epoch_end()
 
 
 if __name__ == "__main__":
