@@ -116,11 +116,13 @@ class ConcatenatedDataset:
                 if value.lower() == category.lower()
             ]
         )
+
     def log_param(self, key, val):
-        try: 
+        try:
             mlflow.log_param(key, val)
         except MlflowException as e:
             logging.warning("Skipping logging to mlflow: %s", e)
+
 
 if __name__ == "__main__":
     concatenated_dataset = ConcatenatedDataset()

@@ -3,10 +3,11 @@ import matplotlib.pyplot as plt
 import numpy as np
 from mlflow import MlflowClient
 import matplotlib
-matplotlib.rc('font', size=12)
+
+matplotlib.rc("font", size=12)
 client = MlflowClient()
 runs = client.search_runs(["674599303712758429"])
-results_root_path="results/baseline encoder"
+results_root_path = "results/baseline encoder"
 history_detailed = []
 for run in runs:
     if (
@@ -64,11 +65,14 @@ plt.savefig(f"{results_root_path}/acc.png")
 plt.close(figure)
 
 
-
 def win_tie_loss_diagram(epoch):
-    epoch_acc = [[stats["dest_no_weights_val_accuracy"][epoch - 1], stats["dest_val_accuracy"][epoch - 1]] for
-                 stats in
-                 history_detailed]
+    epoch_acc = [
+        [
+            stats["dest_no_weights_val_accuracy"][epoch - 1],
+            stats["dest_val_accuracy"][epoch - 1],
+        ]
+        for stats in history_detailed
+    ]
     win = sum(acc[0] < acc[1] for acc in epoch_acc)
     tie = sum(acc[0] == acc[1] for acc in epoch_acc)
     lose = sum(acc[0] > acc[1] for acc in epoch_acc)
@@ -80,8 +84,13 @@ def win_tie_loss_diagram(epoch):
     ax.set_xlabel("Without transfer learning")
     plt.xlim([0, 1])
     plt.ylim([0, 1])
-    ax.set_aspect('equal')
-    ax.text(0.1, 0.9, f"Win / tie / loss\n{win} / {tie} / {lose}", bbox={"ec": "black", "color": "white"})
+    ax.set_aspect("equal")
+    ax.text(
+        0.1,
+        0.9,
+        f"Win / tie / loss\n{win} / {tie} / {lose}",
+        bbox={"ec": "black", "color": "white"},
+    )
     plt.savefig(f"{results_root_path}/win_tie_lose_epoch_{epoch}.png")
     plt.close(figure)
 
