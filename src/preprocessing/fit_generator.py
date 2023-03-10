@@ -44,6 +44,7 @@ class ConstantLengthDataGenerator(Sequence):
         self.cutting_probability = cutting_probability
         self.padding_probability = padding_probability
         self.log()
+        self.epoch = 0
 
     def __augment(self, X: np.array):
         if np.random.random() > self.augmentation_probability:
@@ -113,6 +114,7 @@ class ConstantLengthDataGenerator(Sequence):
 
     def on_epoch_end(self):
         self.indices = range(self.X.shape[0])
+        self.epoch += 1
 
     def log(self, ignore=None):
         if ignore is None:
@@ -144,6 +146,7 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
         augmentation_probability: float = 0,
         cutting_probability: float = 0,
         padding_probability: float = 1,
+        self_learning_cold_start: int = 0
     ):
         super().__init__(
             X,
@@ -160,18 +163,24 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
         self.self_learning_threshold = self_learning_threshold
         self.model = None
         self.self_learning_X = self_learning_X
+        self.self_learning_cold_start = self_learning_cold_start
 
     def add_model(self, model: keras.models.Model) -> None:
         self.model = model
 
     def on_epoch_end(self):
+        if self.epoch >= self.self_learning_cold_start:
+            self.__add_self_learning_data()
+        self.__add_self_learning_data()
+        super().on_epoch_end()
+
+    def __add_self_learning_data(self):
         self_learning_X = self.prepare_X(self.self_learning_X)
         predictions = self.model.predict(self_learning_X)
         score = np.max(predictions, axis=1)
         index = score >= self.self_learning_threshold
         self.X = np.concatenate([self.X, self.self_learning_X[index]])
         self.y = np.concatenate([self.y, predictions[index]])
-        super().on_epoch_end()
 
 
 if __name__ == "__main__":
