@@ -30,7 +30,7 @@ class ConstantLengthDataGenerator(Sequence):
     ):
         """Initialization"""
         self.shuffle = shuffle
-        self.X = self.__normalize_rows(X)
+        self.X = X
         self.y: np.array = y
         self.indices = range(X.shape[0])
         self.batch_size = batch_size
@@ -56,12 +56,15 @@ class ConstantLengthDataGenerator(Sequence):
                 X = np.flip(X, axis=1)
             return X
 
-    @staticmethod
-    def __normalize_rows(X) -> np.array:
+    def __normalize_rows(self, X) -> np.array:
         return np.array(
-            [(row - np.mean(row)) / max(np.std(row), 1e-10) for row in X],
+            [self.__normalize_row(row) for row in X],
             dtype=np.object_,
         )
+
+    @staticmethod
+    def __normalize_row(row) -> np.array:
+        return (row - np.mean(row)) / max(np.std(row), 1e-10)
 
     def __len__(self):
         """Denotes the number of batches per epoch"""
@@ -97,18 +100,19 @@ class ConstantLengthDataGenerator(Sequence):
     def prepare_X(self, X, series_length=None):
         if not series_length:
             series_length = np.random.choice(self.possible_lengths)
-        X_batch = np.vstack(
-            [
-                normalize_length(
-                    series,
-                    target_length=series_length,
-                    cutting_probability=self.cutting_probability,
-                    stretching_probability=1 - self.padding_probability,
-                )
-                for series in X
-            ]
-        )
-        X_batch, np.array(X_batch, dtype=self.dtype),
+        X_batch = [
+            normalize_length(
+                series,
+                target_length=series_length,
+                cutting_probability=self.cutting_probability,
+                stretching_probability=1 - self.padding_probability,
+            )
+            for series in X
+        ]
+
+        X_batch = self.__normalize_rows(X_batch)
+        X_batch = np.vstack(X_batch)
+        X_batch = np.array(X_batch, dtype=self.dtype)
         X_batch = self.__augment(X_batch)
         return X_batch
 
@@ -136,7 +140,7 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
         self,
         X: np.array,
         y: np.array,
-        self_learning_X: np.array,
+        X_self_learning: np.array,
         self_learning_threshold: float = 0.9,
         shuffle: bool = True,
         batch_size: int = 32,
@@ -146,7 +150,7 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
         augmentation_probability: float = 0,
         cutting_probability: float = 0,
         padding_probability: float = 1,
-        self_learning_cold_start: int = 0
+        self_learning_cold_start: int = 0,
     ):
         super().__init__(
             X,
@@ -162,7 +166,7 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
         )
         self.self_learning_threshold = self_learning_threshold
         self.model = None
-        self.self_learning_X = self_learning_X
+        self.self_learning_X = X_self_learning
         self.self_learning_cold_start = self_learning_cold_start
 
     def add_model(self, model: keras.models.Model) -> None:
