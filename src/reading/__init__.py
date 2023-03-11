@@ -67,7 +67,8 @@ class ConcatenatedDataset:
                 np.save(file, path_mapping[path])
 
     def read_dataset_train_test_split(
-        self, category: str = None, dataset: str = None, split: str = "train", log=True
+        self, category: str = None, dataset: str = None, split: str = "train", log=True,
+            exclude_dataset: str = None
     ) -> List[np.array]:
         split = split.lower()
         X: np.array = np.load(f"{self.data_root_path}/X_{split}.npy", allow_pickle=True)
@@ -78,10 +79,12 @@ class ConcatenatedDataset:
             return X, y
         elif dataset:
             datasets = [dataset]
-            logging.info("Loading only one dataset: %s", dataset)
+            if log:
+                logging.info("Loading only one dataset: %s", dataset)
             self.log_param(f"dataset_{split}", dataset)
         else:
-            logging.info("Loading only one category: %s", category)
+            if log:
+                logging.info("Loading only one category: %s", category)
             datasets = [
                 dataset_name
                 for dataset_name in self.categories
