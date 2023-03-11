@@ -168,6 +168,7 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
         self.model = None
         self.self_learning_X = X_self_learning
         self.self_learning_cold_start = self_learning_cold_start
+        self.number_of_observation_added_sl = dict()
 
     def add_model(self, model: keras.models.Model) -> None:
         self.model = model
@@ -185,6 +186,9 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
         index = score >= self.self_learning_threshold
         self.X = np.concatenate([self.X, self.self_learning_X[index]])
         self.y = np.concatenate([self.y, predictions[index]])
+        no_observations_added = sum(index)
+        logging.info("Added %s observations with a threshold of %s", no_observations_added, self.self_learning_threshold)
+        self.number_of_observation_added_sl[self.epoch] = no_observations_added
 
 
 if __name__ == "__main__":
