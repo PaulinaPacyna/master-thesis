@@ -54,7 +54,7 @@ class SelfLearningExperiment(BaseExperiment):
 
 if __name__ == "__main__":
     os.chdir("..")
-    number_of_epochs = 3
+    number_of_epochs = 10
     mlflow.set_experiment("Self learning - FCN")
     with mlflow.start_run(run_name="", nested=True):
         dataset = "ECG200"
@@ -68,6 +68,7 @@ if __name__ == "__main__":
             train_args={
                 "X_self_learning": X_self_learning,
                 "self_learning_cold_start": 1,
+                "self_learning_threshold": 0.5
             },
         )
         model = experiment.prepare_FCN_model()
