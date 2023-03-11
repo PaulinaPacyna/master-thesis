@@ -130,5 +130,5 @@ if __name__ == "__main__":
         plain_training_results = train_plain_model(
             ensemble_training_results["model"], target_dataset=target_dataset
         )
-        history = {**ensemble_training_results["history"]}
+        history = {**ensemble_training_results["history"], **plain_training_results["history"]}
         mlflow_logging.log_history(history)
