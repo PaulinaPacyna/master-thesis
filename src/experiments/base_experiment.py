@@ -1,3 +1,4 @@
+import logging
 import os
 from typing import Optional
 
@@ -9,6 +10,8 @@ from keras.callbacks import EarlyStopping
 from keras.models import clone_model
 from sklearn.model_selection import train_test_split
 from tensorflow import keras
+
+from models import FCN_model
 from preprocessing import ConstantLengthDataGenerator
 
 
@@ -82,3 +85,21 @@ class BaseExperiment:
             metrics=["accuracy"],
         )
         return dest_model
+
+    def prepare_FCN_model(self) -> keras.models.Model:
+        number_of_classes = self.get_number_of_classes()
+        input_layer = keras.layers.Input(shape=(None, 1))
+        encoder_model = FCN_model(number_of_classes=number_of_classes)(input_layer)
+        model = keras.models.Model(inputs=input_layer, outputs=encoder_model)
+
+        try:
+            with open(os.path.join(self.output_directory, "model.json"), "w") as f:
+                f.write(model.to_json())
+        except AttributeError:
+            logging.warning("Not saving model json")
+        model.compile(
+            loss="categorical_crossentropy",
+            optimizer=keras.optimizers.Adam(self.decay),
+            metrics=["accuracy"],
+        )
+        return model
