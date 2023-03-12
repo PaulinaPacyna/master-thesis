@@ -67,7 +67,8 @@ def train_self_learning(dataset, category, number_of_epochs=10):
             callbacks=experiment.callbacks,
         )
         history = {
-            f"self_learning_{key}": value for key, value in model.history.items()
+            f"self_learning_{key}": value
+            for key, value in data_generator_train.get_history().items()
         }
         mlflow_logging.log_history(history)
         mlflow_logging.log_confusion_matrix(

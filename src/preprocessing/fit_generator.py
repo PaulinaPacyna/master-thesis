@@ -171,9 +171,13 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
         self.number_of_observation_added_sl = dict()
         self.original_X = X
         self.original_y = y
+        self.history = {}
 
     def add_model(self, model: keras.models.Model) -> None:
         self.model = model
+
+    def get_history(self) -> dict:
+        return self.history
 
     def on_epoch_end(self):
         if self.epoch >= self.self_learning_cold_start:
@@ -183,6 +187,7 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
 
     def __add_self_learning_data(self):
         self_learning_X = self.prepare_X(self.self_learning_X)
+        self.history = self.model.history.history
         predictions = self.model.predict(self_learning_X)
         score = np.max(predictions, axis=1)
         index = score >= self.self_learning_threshold
