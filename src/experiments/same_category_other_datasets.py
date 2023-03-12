@@ -16,9 +16,7 @@ mlflow_logging = MlFlowLogging()
 
 
 class EncoderExperiment(BaseExperiment):
-    def prepare_encoder_classifier(
-        self, input_length: int
-    ) -> keras.models.Model:
+    def prepare_encoder_classifier(self, input_length: int) -> keras.models.Model:
         number_of_classes = self.get_number_of_classes()
         input_layer = keras.layers.Input(shape=(input_length, 1))
         encoder_model = Encoder_model(number_of_classes=number_of_classes)(input_layer)

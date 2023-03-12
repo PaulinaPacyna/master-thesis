@@ -13,8 +13,8 @@ from reading import ConcatenatedDataset
 
 mlflow_logging = MlFlowLogging()
 
-class SelfLearningExperiment(BaseExperiment):
 
+class SelfLearningExperiment(BaseExperiment):
     def prepare_generators(
         self, X: np.array, y: np.array, train_args: dict = {}, test_args: dict = {}
     ):
@@ -43,10 +43,10 @@ def train_self_learning(dataset, category, number_of_epochs=10):
         )
         experiment = SelfLearningExperiment(use_early_stopping=False)
         self_learning_params = {
-                "X_self_learning": X_self_learning,
-                "self_learning_cold_start": 2,
-                "self_learning_threshold": 0.95,
-            }
+            "X_self_learning": X_self_learning,
+            "self_learning_cold_start": 2,
+            "self_learning_threshold": 0.95,
+        }
         mlflow.log_params(self_learning_params)
         data_generator_train, validation_data = experiment.prepare_generators(
             X,
@@ -61,10 +61,16 @@ def train_self_learning(dataset, category, number_of_epochs=10):
             validation_data=validation_data,
             callbacks=experiment.callbacks,
         )
-        history = {f"self_learning_{key}": value for key, value in history.history.items()}
+        history = {
+            f"self_learning_{key}": value for key, value in history.history.items()
+        }
         mlflow_logging.log_history(history)
-        mlflow_logging.log_confusion_matrix(*validation_data, classifier=model, y_encoder=experiment.y_encoder)
-        mlflow_logging.log_example_data(*next(data_generator_train), encoder=experiment.y_encoder)
+        mlflow_logging.log_confusion_matrix(
+            *validation_data, classifier=model, y_encoder=experiment.y_encoder
+        )
+        mlflow_logging.log_example_data(
+            *next(data_generator_train), encoder=experiment.y_encoder
+        )
         return {"history": history}
 
 
@@ -88,9 +94,14 @@ def train_fcn(dataset, number_of_epochs=10):
 
         history = {f"plain_{key}": value for key, value in history.history.items()}
         mlflow_logging.log_history(history)
-        mlflow_logging.log_confusion_matrix(*validation_data, classifier=model, y_encoder=experiment.y_encoder)
-        mlflow_logging.log_example_data(*next(data_generator_train), encoder=experiment.y_encoder)
+        mlflow_logging.log_confusion_matrix(
+            *validation_data, classifier=model, y_encoder=experiment.y_encoder
+        )
+        mlflow_logging.log_example_data(
+            *next(data_generator_train), encoder=experiment.y_encoder
+        )
         return {"history": history}
+
 
 if __name__ == "__main__":
     os.chdir("..")
@@ -99,7 +110,9 @@ if __name__ == "__main__":
     category = "ECG"
     for dataset in ConcatenatedDataset().return_datasets_for_category(category):
         with mlflow.start_run(run_name=f"Parent run - {dataset}"):
-            self_learning_results = train_self_learning(dataset=dataset, category=category)
+            self_learning_results = train_self_learning(
+                dataset=dataset, category=category
+            )
             plain_results = train_fcn(dataset=dataset)
             history = {**self_learning_results["history"], **plain_results["history"]}
             mlflow_logging.log_history(history)

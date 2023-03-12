@@ -67,8 +67,12 @@ class ConcatenatedDataset:
                 np.save(file, path_mapping[path])
 
     def read_dataset_train_test_split(
-        self, category: str = None, dataset: str = None, split: str = "train", log=True,
-            exclude_dataset: str = None
+        self,
+        category: str = None,
+        dataset: str = None,
+        split: str = "train",
+        log=True,
+        exclude_dataset: str = None,
     ) -> List[np.array]:
         split = split.lower()
         X: np.array = np.load(f"{self.data_root_path}/X_{split}.npy", allow_pickle=True)
@@ -88,7 +92,8 @@ class ConcatenatedDataset:
             datasets = [
                 dataset_name
                 for dataset_name in self.categories
-                if self.categories[dataset_name] == category and dataset_name != exclude_dataset
+                if self.categories[dataset_name] == category
+                and dataset_name != exclude_dataset
             ]
             self.log_param(f"dataset_{split}", category)
         masks = [(np.char.startswith(y, dataset)).reshape(-1) for dataset in datasets]
@@ -99,13 +104,19 @@ class ConcatenatedDataset:
         return X, y
 
     def read_dataset(
-        self, category: str = None, dataset: str = None, exclude_dataset: str= None
+        self, category: str = None, dataset: str = None, exclude_dataset: str = None
     ) -> Tuple[np.array, np.array]:
         X_train, y_train = self.read_dataset_train_test_split(
-            split="train", category=category, dataset=dataset, exclude_dataset=exclude_dataset
+            split="train",
+            category=category,
+            dataset=dataset,
+            exclude_dataset=exclude_dataset,
         )
         X_test, y_test = self.read_dataset_train_test_split(
-            split="test", category=category, dataset=dataset, exclude_dataset=exclude_dataset
+            split="test",
+            category=category,
+            dataset=dataset,
+            exclude_dataset=exclude_dataset,
         )
         return np.concatenate([X_train, X_test], axis=0), np.concatenate(
             [y_train, y_test], axis=0

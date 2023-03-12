@@ -10,9 +10,11 @@ from reading import ConcatenatedDataset
 
 mlflow_logging = MlFlowLogging()
 
+
 class EnsembleExperiment(BaseExperiment):
     def prepare_ensemble_model(
-        self, source_models: List[keras.models.Model],
+        self,
+        source_models: List[keras.models.Model],
     ) -> keras.models.Model:
         target_number_of_classes = self.get_number_of_classes()
         first = keras.layers.Input(source_models[0].inputs[0].shape[1:])
@@ -55,9 +57,7 @@ def train_ensemble_model(target_dataset: str, category: str, epochs: int = 10):
             train_args={"min_length": input_len, "max_length": input_len},
             test_args={"min_length": input_len, "max_length": input_len},
         )
-        ensemble_model = experiment.prepare_ensemble_model(
-            models
-        )
+        ensemble_model = experiment.prepare_ensemble_model(models)
         ensemble_model.compile(
             loss="categorical_crossentropy",
             optimizer=keras.optimizers.Adam(experiment.decay),
@@ -118,7 +118,6 @@ def train_plain_model(
         return {"history": history}
 
 
-
 if __name__ == "__main__":
     mlflow.set_experiment("Transfer learning - same category, ensemble")
     mlflow.tensorflow.autolog()
@@ -131,5 +130,8 @@ if __name__ == "__main__":
             plain_training_results = train_plain_model(
                 ensemble_training_results["model"], target_dataset=target_dataset
             )
-            history = {**ensemble_training_results["history"], **plain_training_results["history"]}
+            history = {
+                **ensemble_training_results["history"],
+                **plain_training_results["history"],
+            }
             mlflow_logging.log_history(history)
