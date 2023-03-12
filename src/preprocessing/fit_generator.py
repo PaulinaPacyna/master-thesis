@@ -190,7 +190,6 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
     def __add_self_learning_data(self):
         self_learning_X = self.prepare_X(self.self_learning_X)
         self.history = copy.deepcopy(self.model.history.history)
-        print(self.history)
         predictions = self.model.predict(self_learning_X)
         selected_X, selected_y = self.__select_top_observations(predictions)
         self.X = np.concatenate([self.original_X, selected_X])
