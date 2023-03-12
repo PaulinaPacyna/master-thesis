@@ -111,7 +111,7 @@ def train_fcn(dataset, number_of_epochs=10):
 if __name__ == "__main__":
     os.chdir("..")
     mlflow.set_experiment("Self learning - FCN")
-    mlflow.keras.autolog(log_models=False)
+    mlflow.tensorflow.autolog(log_models=False)
     mlflow_logging = MlFlowLogging()
     category = "ECG"
     for dataset in ConcatenatedDataset().return_datasets_for_category(category):
