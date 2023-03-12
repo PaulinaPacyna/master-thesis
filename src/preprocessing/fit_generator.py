@@ -39,7 +39,7 @@ class ConstantLengthDataGenerator(Sequence):
             for i in range(int(np.log2(min_length)), int(np.log2(max_length)) + 1)
         ]
         self.dtype = dtype
-        self.__y_inverse_probabilities = self.__calculate_y_inverse_probabilities()
+        self._y_inverse_probabilities = self._calculate_y_inverse_probabilities()
         self.augmentation_probability = augmentation_probability
         self.cutting_probability = cutting_probability
         self.padding_probability = padding_probability
@@ -76,7 +76,7 @@ class ConstantLengthDataGenerator(Sequence):
     def __getitem__(self, i):
         return next(self)
 
-    def __calculate_y_inverse_probabilities(self):
+    def _calculate_y_inverse_probabilities(self):
         y_hashed = np.apply_along_axis(
             lambda x: hash(tuple(x)), axis=1, arr=self.y
         ).tolist()
@@ -90,7 +90,7 @@ class ConstantLengthDataGenerator(Sequence):
         """Generate one batch of data"""
         batch_size = self.batch_size
         index = np.random.choice(
-            self.indices, batch_size, p=self.__y_inverse_probabilities
+            self.indices, batch_size, p=self._y_inverse_probabilities
         )
         X_batch = self.prepare_X(self.X[index])
         y_batch = self.y[index]
@@ -169,6 +169,8 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
         self.self_learning_X = X_self_learning
         self.self_learning_cold_start = self_learning_cold_start
         self.number_of_observation_added_sl = dict()
+        self.original_X = X
+        self.original_y = y
 
     def add_model(self, model: keras.models.Model) -> None:
         self.model = model
@@ -184,11 +186,14 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
         predictions = self.model.predict(self_learning_X)
         score = np.max(predictions, axis=1)
         index = score >= self.self_learning_threshold
-        self.X = np.concatenate([self.X, self.self_learning_X[index]])
-        self.y = np.concatenate([self.y, predictions[index]])
+        self.X = np.concatenate([self.original_X, self.self_learning_X[index]])
+        self.y = np.concatenate([self.original_y, predictions[index]])
+        print(self.y.shape)
         no_observations_added = sum(index)
         logging.info("Added %s observations with a threshold of %s", no_observations_added, self.self_learning_threshold)
         self.number_of_observation_added_sl[self.epoch] = no_observations_added
+
+        self._y_inverse_probabilities = self._calculate_y_inverse_probabilities()
 
 
 if __name__ == "__main__":
