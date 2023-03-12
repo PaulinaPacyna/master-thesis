@@ -97,8 +97,9 @@ if __name__ == "__main__":
     mlflow.set_experiment("Self learning - FCN")
     dataset = "ECG200"
     category = "ECG"
-    with mlflow.start_run(run_name="test"):
-        self_learning_results = train_self_learning(dataset=dataset, category=category)
-        plain_results = train_fcn(dataset=dataset)
-        history = {**self_learning_results["history"], **plain_results["history"]}
-        mlflow_logging.log_history(history)
+    for dataset in ConcatenatedDataset().return_datasets_for_category(category):
+        with mlflow.start_run(run_name=f"Parent run - {dataset}"):
+            self_learning_results = train_self_learning(dataset=dataset, category=category)
+            plain_results = train_fcn(dataset=dataset)
+            history = {**self_learning_results["history"], **plain_results["history"]}
+            mlflow_logging.log_history(history)
