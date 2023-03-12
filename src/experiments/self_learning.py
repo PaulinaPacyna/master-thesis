@@ -47,7 +47,8 @@ def train_self_learning(dataset, category, number_of_epochs=10):
             "self_learning_cold_start": 2,
             "self_learning_threshold": 0.95,
         }
-        mlflow.log_params(self_learning_params)
+        mlflow.log_param("self_learning_cold_start", self_learning_params["self_learning_cold_start"])
+        mlflow.log_param("self_learning_threshold", self_learning_params["self_learning_threshold"])
         data_generator_train, validation_data = experiment.prepare_generators(
             X,
             y,
@@ -106,7 +107,7 @@ def train_fcn(dataset, number_of_epochs=10):
 if __name__ == "__main__":
     os.chdir("..")
     mlflow.set_experiment("Self learning - FCN")
-    dataset = "ECG200"
+    mlflow_logging = MlFlowLogging()
     category = "ECG"
     for dataset in ConcatenatedDataset().return_datasets_for_category(category):
         with mlflow.start_run(run_name=f"Parent run - {dataset}"):
