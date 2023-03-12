@@ -1,3 +1,4 @@
+import copy
 from collections import Counter
 
 import mlflow
@@ -184,12 +185,12 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
     def on_epoch_end(self):
         if self.epoch >= self.self_learning_cold_start:
             self.__add_self_learning_data()
-        self.__add_self_learning_data()
         super().on_epoch_end()
 
     def __add_self_learning_data(self):
         self_learning_X = self.prepare_X(self.self_learning_X)
-        self.history = {**self.model.history.history}
+        self.history = copy.deepcopy(self.model.history.history)
+        print(self.history)
         predictions = self.model.predict(self_learning_X)
         selected_X, selected_y = self.__select_top_observations(predictions)
         self.X = np.concatenate([self.original_X, selected_X])
@@ -208,7 +209,9 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
 
     def __select_top_observations(self, predictions):
         score = np.max(predictions, axis=1)
-        max_number_of_observations = int(len(score) * self.self_learning_top_k)
+        max_number_of_observations = int(
+            len(self.original_X) * self.self_learning_top_k
+        )
         top_k_score = np.partition(score, -max_number_of_observations)[
             -max_number_of_observations
         ]
