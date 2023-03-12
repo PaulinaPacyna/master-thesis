@@ -8,6 +8,8 @@ from mlflow_logging import MlFlowLogging
 from reading import ConcatenatedDataset
 
 
+mlflow_logging = MlFlowLogging()
+
 class EnsembleExperiment(BaseExperiment):
     def prepare_ensemble_model(
         self, source_models: List[keras.models.Model],
@@ -116,19 +118,18 @@ def train_plain_model(
         return {"history": history}
 
 
-mlflow_logging = MlFlowLogging()
 
 if __name__ == "__main__":
     mlflow.set_experiment("Transfer learning - same category, ensemble")
     mlflow.tensorflow.autolog()
     category = "ECG"
-    target_dataset = "CinCECGTorso"
-    with mlflow.start_run(run_name=target_dataset):
-        ensemble_training_results = train_ensemble_model(
-            category=category, target_dataset=target_dataset
-        )
-        plain_training_results = train_plain_model(
-            ensemble_training_results["model"], target_dataset=target_dataset
-        )
-        history = {**ensemble_training_results["history"], **plain_training_results["history"]}
-        mlflow_logging.log_history(history)
+    for target_dataset in ConcatenatedDataset().return_datasets_for_category(category):
+        with mlflow.start_run(run_name=f"Parent run - {target_dataset}"):
+            ensemble_training_results = train_ensemble_model(
+                category=category, target_dataset=target_dataset
+            )
+            plain_training_results = train_plain_model(
+                ensemble_training_results["model"], target_dataset=target_dataset
+            )
+            history = {**ensemble_training_results["history"], **plain_training_results["history"]}
+            mlflow_logging.log_history(history)
