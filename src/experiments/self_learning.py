@@ -42,14 +42,16 @@ def train_self_learning(dataset, category, number_of_epochs=10):
             category=category, exclude_dataset=dataset
         )
         experiment = SelfLearningExperiment(use_early_stopping=False)
+        self_learning_params = {
+                "X_self_learning": X_self_learning,
+                "self_learning_cold_start": 2,
+                "self_learning_threshold": 0.95,
+            }
+        mlflow.log_params(self_learning_params)
         data_generator_train, validation_data = experiment.prepare_generators(
             X,
             y,
-            train_args={
-                "X_self_learning": X_self_learning,
-                "self_learning_cold_start": 1,
-                "self_learning_threshold": 0.7,
-            },
+            train_args=self_learning_params,
         )
         model = experiment.prepare_FCN_model()
         data_generator_train.add_model(model)
@@ -92,7 +94,6 @@ def train_fcn(dataset, number_of_epochs=10):
 
 if __name__ == "__main__":
     os.chdir("..")
-    number_of_epochs = 10
     mlflow.set_experiment("Self learning - FCN")
     dataset = "ECG200"
     category = "ECG"
