@@ -60,14 +60,14 @@ def train_self_learning(dataset, category, number_of_epochs=10):
         )
         model = experiment.prepare_FCN_model()
         data_generator_train.add_model(model)
-        history = model.fit(
+        model.fit(
             data_generator_train,
             epochs=number_of_epochs,
             validation_data=validation_data,
             callbacks=experiment.callbacks,
         )
         history = {
-            f"self_learning_{key}": value for key, value in history.history.items()
+            f"self_learning_{key}": value for key, value in model.history.items()
         }
         mlflow_logging.log_history(history)
         mlflow_logging.log_confusion_matrix(
@@ -111,6 +111,7 @@ def train_fcn(dataset, number_of_epochs=10):
 if __name__ == "__main__":
     os.chdir("..")
     mlflow.set_experiment("Self learning - FCN")
+    mlflow.keras.autolog(log_models=False)
     mlflow_logging = MlFlowLogging()
     category = "ECG"
     for dataset in ConcatenatedDataset().return_datasets_for_category(category):
