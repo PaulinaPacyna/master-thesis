@@ -151,6 +151,7 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
         cutting_probability: float = 0,
         padding_probability: float = 1,
         self_learning_cold_start: int = 0,
+        self_learning_top_k: float = 0.3,
     ):
         super().__init__(
             X,
@@ -172,6 +173,7 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
         self.original_X = X
         self.original_y = y
         self.history = {}
+        self.self_learning_top_k = self_learning_top_k
 
     def add_model(self, model: keras.models.Model) -> None:
         self.model = model
@@ -187,14 +189,12 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
 
     def __add_self_learning_data(self):
         self_learning_X = self.prepare_X(self.self_learning_X)
-        self.history = self.model.history.history
+        self.history = {**self.model.history.history}
         predictions = self.model.predict(self_learning_X)
-        score = np.max(predictions, axis=1)
-        index = score >= self.self_learning_threshold
-        self.X = np.concatenate([self.original_X, self.self_learning_X[index]])
-        self.y = np.concatenate([self.original_y, predictions[index]])
-        print(self.y.shape)
-        no_observations_added = sum(index)
+        selected_X, selected_y = self.__select_top_observations(predictions)
+        self.X = np.concatenate([self.original_X, selected_X])
+        self.y = np.concatenate([self.original_y, selected_y])
+        no_observations_added = selected_X.shape[0]
         logging.info(
             "Added %s observations with a threshold of %s",
             no_observations_added,
@@ -205,6 +205,17 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
             "number_of_observation_added_sl", no_observations_added, step=self.epoch
         )
         self._y_inverse_probabilities = self._calculate_y_inverse_probabilities()
+
+    def __select_top_observations(self, predictions):
+        score = np.max(predictions, axis=1)
+        max_number_of_observations = int(len(score) * self.self_learning_top_k)
+        top_k_score = np.partition(score, -max_number_of_observations)[
+            -max_number_of_observations
+        ]
+        index = score >= max(self.self_learning_threshold, top_k_score)
+        selected_X = self.self_learning_X[index]
+        selected_y = predictions[index]
+        return selected_X, selected_y
 
 
 if __name__ == "__main__":
