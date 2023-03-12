@@ -196,7 +196,9 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
             self.self_learning_threshold,
         )
         self.number_of_observation_added_sl[self.epoch] = no_observations_added
-
+        mlflow.log_metric(
+            "number_of_observation_added_sl", no_observations_added, step=self.epoch
+        )
         self._y_inverse_probabilities = self._calculate_y_inverse_probabilities()
 
 

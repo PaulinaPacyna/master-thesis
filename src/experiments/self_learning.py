@@ -47,8 +47,12 @@ def train_self_learning(dataset, category, number_of_epochs=10):
             "self_learning_cold_start": 2,
             "self_learning_threshold": 0.95,
         }
-        mlflow.log_param("self_learning_cold_start", self_learning_params["self_learning_cold_start"])
-        mlflow.log_param("self_learning_threshold", self_learning_params["self_learning_threshold"])
+        mlflow.log_param(
+            "self_learning_cold_start", self_learning_params["self_learning_cold_start"]
+        )
+        mlflow.log_param(
+            "self_learning_threshold", self_learning_params["self_learning_threshold"]
+        )
         data_generator_train, validation_data = experiment.prepare_generators(
             X,
             y,
@@ -72,6 +76,7 @@ def train_self_learning(dataset, category, number_of_epochs=10):
         mlflow_logging.log_example_data(
             *next(data_generator_train), encoder=experiment.y_encoder
         )
+
         return {"history": history}
 
 
@@ -85,7 +90,6 @@ def train_fcn(dataset, number_of_epochs=10):
             y,
         )
         model = experiment.prepare_FCN_model()
-        data_generator_train.add_model(model)
         history = model.fit(
             data_generator_train,
             epochs=number_of_epochs,
