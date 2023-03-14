@@ -78,11 +78,14 @@ class ConstantLengthDataGenerator(Sequence):
         return next(self)
 
     def _calculate_y_inverse_probabilities(self):
-        y_hashed = np.apply_along_axis(
-            lambda x: hash(tuple(x)), axis=1, arr=self.y
-        ).tolist()
-        count_dict = Counter(y_hashed)
-        counts = np.array([count_dict[item] for item in y_hashed])
+        if len(self.y.shape) == 1:
+            y_list = self.y.tolist()
+        elif len(self.y.shape) == 2:
+            y_list = np.argmax(self.y, axis=1).tolist()
+        else:
+            raise NotImplementedError("self.y should be at most 2 dimensional")
+        count_dict = Counter(y_list)
+        counts = np.array([count_dict[item] for item in y_list])
         assert not (counts == 0).any()
         inverse_counts = 1 / counts
         return inverse_counts / sum(inverse_counts)
