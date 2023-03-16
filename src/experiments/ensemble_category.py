@@ -23,6 +23,7 @@ class EnsembleExperiment(BaseExperiment):
             model = self.swap_last_layer(
                 model, number_of_classes=target_number_of_classes, compile=False
             )
+            model.layers[-2].kernel.initializer.run()
             model = model(first)
             outputs.append(model)
         last = keras.layers.Add()(outputs) / len(source_models)
