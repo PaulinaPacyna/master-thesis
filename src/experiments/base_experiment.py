@@ -62,7 +62,7 @@ class BaseExperiment:
 
     def swap_last_layer(
         self, source_model: keras.models.Model, number_of_classes, compile=True
-    ):
+    ) -> keras.models.Model:
         source_model.layers.pop()
         last = keras.layers.Dense(
             units=number_of_classes, activation="softmax", name="dense_appended"
