@@ -17,7 +17,7 @@ from preprocessing import ConstantLengthDataGenerator
 
 class BaseExperiment:
     def __init__(
-        self, saving_path: Optional[str] = None, use_early_stopping: bool = True
+        self, saving_path: Optional[str] = None, use_early_stopping: bool = False
     ):
         self.decay = keras.optimizers.schedules.ExponentialDecay(
             initial_learning_rate=1e-4,
