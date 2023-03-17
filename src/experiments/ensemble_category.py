@@ -4,9 +4,9 @@ import mlflow
 from tensorflow import keras
 
 from experiments import BaseExperiment
+from experiments.train_ensemble_components import train_component
 from mlflow_logging import MlFlowLogging
 from reading import ConcatenatedDataset
-
 
 mlflow_logging = MlFlowLogging()
 
@@ -31,7 +31,26 @@ class EnsembleExperiment(BaseExperiment):
         return model
 
 
-def train_ensemble_model(target_dataset: str, category: str, epochs: int = 10):
+def read_or_train_model(
+    dataset, component_experiment_id: str, root_path: str = "./data/models/components"
+) -> keras.models.Model:
+    saving_path = f"{root_path}/{component_experiment_id}/dataset={dataset}"
+    try:
+        return keras.models.load_model(saving_path)
+    except OSError:
+        current_id = mlflow.active_run().info.experiment_id
+        train_component(
+            dataset_name=dataset,
+            experiment_id=component_experiment_id,
+            saving_path=saving_path,
+        )
+        mlflow.set_experiment(experiment_id=current_id)
+        return keras.models.load_model(saving_path)
+
+
+def train_ensemble_model(
+    target_dataset: str, category: str, component_experiment_id: str, epochs: int = 10
+):
     with mlflow.start_run(run_name="ensemble", nested=True):
         concatenated_dataset = ConcatenatedDataset()
         X, y = concatenated_dataset.read_dataset(dataset=target_dataset)
@@ -45,8 +64,8 @@ def train_ensemble_model(target_dataset: str, category: str, epochs: int = 10):
             use_early_stopping=False,
         )
         models = [
-            keras.models.load_model(
-                f"data/models/encoder_same_cat_other_datasets/dest_plain/dataset={dataset}"
+            read_or_train_model(
+                dataset=dataset, component_experiment_id=component_experiment_id
             )
             for dataset in datasets
             if dataset != target_dataset
@@ -61,11 +80,20 @@ def train_ensemble_model(target_dataset: str, category: str, epochs: int = 10):
         ensemble_model = experiment.prepare_ensemble_model(models)
         ensemble_model.compile(
             loss="categorical_crossentropy",
-            optimizer=keras.optimizers.Adam(experiment.decay),
+            optimizer=keras.optimizers.Adam(
+                keras.optimizers.schedules.ExponentialDecay(
+                    initial_learning_rate=1e-5,
+                    decay_steps=10000,
+                    decay_rate=0.75,
+                )
+            ),
             metrics=["accuracy"],
         )
         history = ensemble_model.fit(
-            data_generator_train, epochs=epochs, validation_data=validation_data
+            data_generator_train,
+            epochs=epochs,
+            validation_data=validation_data,
+            use_multiprocessing=True,
         )
         mlflow_logging.log_confusion_matrix(
             *validation_data, classifier=ensemble_model, y_encoder=experiment.y_encoder
@@ -87,7 +115,6 @@ def train_plain_model(
         concatenated_dataset = ConcatenatedDataset()
         X, y = concatenated_dataset.read_dataset(dataset=target_dataset)
         experiment = BaseExperiment(
-            saving_path=f"encoder_ensemble/plain/dataset={target_dataset}",
             use_early_stopping=False,
         )
         model = experiment.clean_weights(source_model=source_model)
@@ -101,7 +128,10 @@ def train_plain_model(
         )
 
         history = model.fit(
-            data_generator_train, epochs=epochs, validation_data=validation_data
+            data_generator_train,
+            epochs=epochs,
+            validation_data=validation_data,
+            use_multiprocessing=True,
         )
         mlflow_logging.log_confusion_matrix(
             *validation_data, classifier=model, y_encoder=experiment.y_encoder
@@ -123,10 +153,13 @@ if __name__ == "__main__":
     mlflow.set_experiment("Transfer learning - same category, ensemble")
     mlflow.tensorflow.autolog()
     category = "ECG"
+    component_experiment_id = "835719718053923699"
     for target_dataset in ConcatenatedDataset().return_datasets_for_category(category):
         with mlflow.start_run(run_name=f"Parent run - {target_dataset}"):
             ensemble_training_results = train_ensemble_model(
-                category=category, target_dataset=target_dataset
+                category=category,
+                target_dataset=target_dataset,
+                component_experiment_id=component_experiment_id,
             )
             plain_training_results = train_plain_model(
                 ensemble_training_results["model"], target_dataset=target_dataset
