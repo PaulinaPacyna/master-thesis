@@ -1,14 +1,12 @@
+import os
 from typing import List
 import numpy as np
 import mlflow
 from tensorflow import keras
 
 from experiments import BaseExperiment
-from experiments.train_ensemble_components import train_component
 from mlflow_logging import MlFlowLogging
 from reading import ConcatenatedDataset
-
-mlflow_logging = MlFlowLogging()
 
 
 class EnsembleExperiment(BaseExperiment):
@@ -23,7 +21,7 @@ class EnsembleExperiment(BaseExperiment):
             model = self.swap_last_layer(
                 model, number_of_classes=target_number_of_classes, compile=False
             )
-            model.layers[-2].kernel.initializer.run()
+            # model.layers[-2].kernel.initializer.run()
             model = model(first)
             outputs.append(model)
         last = keras.layers.Add()(outputs) / len(source_models)
@@ -32,20 +30,15 @@ class EnsembleExperiment(BaseExperiment):
 
 
 def read_or_train_model(
-    dataset, component_experiment_id: str, root_path: str = "./data/models/components"
+    dataset, component_experiment_id: str, root_path: str = "data/models/components"
 ) -> keras.models.Model:
     saving_path = f"{root_path}/{component_experiment_id}/dataset={dataset}"
     try:
         return keras.models.load_model(saving_path)
     except OSError:
-        current_id = mlflow.active_run().info.experiment_id
-        train_component(
-            dataset_name=dataset,
-            experiment_id=component_experiment_id,
-            saving_path=saving_path,
+        raise FileNotFoundError(
+            f"Cannot find model for  dataset {dataset} and experiment {component_experiment_id}"
         )
-        mlflow.set_experiment(experiment_id=current_id)
-        return keras.models.load_model(saving_path)
 
 
 def train_ensemble_model(
@@ -71,6 +64,8 @@ def train_ensemble_model(
             if dataset != target_dataset
         ]
         input_len = models[0].input.shape[1]
+        if input_len is None:
+            input_len = 2**8
         data_generator_train, validation_data = experiment.prepare_generators(
             X,
             y,
@@ -120,6 +115,8 @@ def train_plain_model(
         model = experiment.clean_weights(source_model=source_model)
 
         input_len = model.input.shape[1]
+        if input_len is None:
+            input_len = 2**8
         data_generator_train, validation_data = experiment.prepare_generators(
             X,
             y,
@@ -152,6 +149,7 @@ def train_plain_model(
 if __name__ == "__main__":
     mlflow.set_experiment("Transfer learning - same category, ensemble")
     mlflow.tensorflow.autolog()
+    mlflow_logging = MlFlowLogging()
     category = "ECG"
     component_experiment_id = "835719718053923699"
     for target_dataset in ConcatenatedDataset().return_datasets_for_category(category):
