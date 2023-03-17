@@ -86,10 +86,12 @@ class BaseExperiment:
         )
         return dest_model
 
-    def prepare_FCN_model(self) -> keras.models.Model:
+    def prepare_FCN_model(self, scale: float = 1) -> keras.models.Model:
         number_of_classes = self.get_number_of_classes()
         input_layer = keras.layers.Input(shape=(None, 1))
-        encoder_model = FCN_model(number_of_classes=number_of_classes)(input_layer)
+        encoder_model = FCN_model(
+            number_of_classes=number_of_classes, parameters=scale
+        )(input_layer)
         model = keras.models.Model(inputs=input_layer, outputs=encoder_model)
 
         try:
