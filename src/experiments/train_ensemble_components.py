@@ -23,8 +23,8 @@ def train_component(dataset_name: str, experiment_id: str, saving_path: str) -> 
         )
         experiment.decay = keras.optimizers.schedules.ExponentialDecay(
             initial_learning_rate=1e-4,
-            decay_steps=10000,
-            decay_rate=0.75,
+            decay_steps=100000,
+            decay_rate=0.96,
         )
         model: keras.models.Model = experiment.prepare_FCN_model(scale=1)
         history = model.fit(
