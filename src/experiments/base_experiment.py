@@ -14,15 +14,15 @@ from tensorflow import keras
 from models import FCN_model
 from preprocessing import ConstantLengthDataGenerator
 
-
+#  TODO delete train_ noteboooks
 class BaseExperiment:
     def __init__(
         self, saving_path: Optional[str] = None, use_early_stopping: bool = False
     ):
         self.decay = keras.optimizers.schedules.ExponentialDecay(
-            initial_learning_rate=1e-4,
-            decay_steps=100000,
-            decay_rate=0.96,
+            initial_learning_rate=1e-5,
+            decay_steps=10000,
+            decay_rate=0.75,
         )
         self.callbacks = []
         if use_early_stopping:

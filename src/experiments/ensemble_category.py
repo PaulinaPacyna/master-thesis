@@ -8,6 +8,8 @@ from experiments import BaseExperiment
 from mlflow_logging import MlFlowLogging
 from reading import ConcatenatedDataset
 
+mlflow_logging = MlFlowLogging()
+
 
 class EnsembleExperiment(BaseExperiment):
     def prepare_ensemble_model(
@@ -75,13 +77,7 @@ def train_ensemble_model(
         ensemble_model = experiment.prepare_ensemble_model(models)
         ensemble_model.compile(
             loss="categorical_crossentropy",
-            optimizer=keras.optimizers.Adam(
-                keras.optimizers.schedules.ExponentialDecay(
-                    initial_learning_rate=1e-5,
-                    decay_steps=10000,
-                    decay_rate=0.75,
-                )
-            ),
+            optimizer=keras.optimizers.Adam(experiment.decay),
             metrics=["accuracy"],
         )
         history = ensemble_model.fit(
@@ -148,7 +144,7 @@ def train_plain_model(
 
 if __name__ == "__main__":
     mlflow.set_experiment("Transfer learning - same category, ensemble")
-    mlflow.tensorflow.autolog()
+    mlflow.tensorflow.autolog(log_models=False)
     mlflow_logging = MlFlowLogging()
     category = "ECG"
     component_experiment_id = "835719718053923699"
