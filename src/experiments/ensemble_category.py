@@ -2,6 +2,7 @@ import os
 from typing import List
 import numpy as np
 import mlflow
+from mlflow import MlflowClient
 from tensorflow import keras
 
 from experiments import BaseExperiment
@@ -43,6 +44,13 @@ def read_or_train_model(
         )
 
 
+def get_accuracies_from_experiment(experiment_id: str, datasets: List[str]) -> float:
+    all_runs = MlflowClient().search_runs([experiment_id])
+    runs = [run for run in all_runs if run.params["dataset_train"] in datasets]
+    accuracies = [run.data.metrics["val_accuracy"] for run in runs]
+    return np.mean(accuracies)
+
+
 def train_ensemble_model(
     target_dataset: str, category: str, component_experiment_id: str, epochs: int = 10
 ):
@@ -54,6 +62,12 @@ def train_ensemble_model(
         )
         datasets = np.random.choice(all_datasets, 5, False)
         mlflow.log_param("Datasets used for ensemble", ", ".join(datasets))
+        mlflow.log_param(
+            "Mean accuracy of models used for ensemble",
+            get_accuracies_from_experiment(
+                experiment_id=component_experiment_id, datasets=datasets
+            ),
+        )
         experiment = EnsembleExperiment(
             saving_path=f"encoder_ensemble/ensemble/dataset={target_dataset}",
             use_early_stopping=False,
