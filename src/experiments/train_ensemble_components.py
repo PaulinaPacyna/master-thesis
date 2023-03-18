@@ -21,7 +21,12 @@ def train_component(dataset_name: str, experiment_id: str, saving_path: str) -> 
         train_gen, val_data = experiment.prepare_generators(
             X, y, train_args={"augmentation_probability": 0.3}
         )
-        model: keras.models.Model = experiment.prepare_FCN_model(scale=0.5)
+        experiment.decay = keras.optimizers.schedules.ExponentialDecay(
+            initial_learning_rate=1e-4,
+            decay_steps=10000,
+            decay_rate=0.75,
+        )
+        model: keras.models.Model = experiment.prepare_FCN_model(scale=1)
         history = model.fit(
             train_gen,
             epochs=10,
@@ -51,5 +56,5 @@ def main(experiment_id: str, category: str):
             )
 
 
-main(experiment_id="835719718053923699", category="IMAGE")
-# TODO change decay for this
+main(experiment_id="861748084231733287", category="IMAGE")
+main(experiment_id="861748084231733287", category="ECG")
