@@ -44,8 +44,12 @@ def main(experiment_id: str, category: str):
         if os.path.exists(os.path.join("data", "models", saving_path)):
             logging.info(f"Skipping {saving_path}")
         else:
-            train_component(dataset_name=dataset, experiment_id=experiment_id)
+            train_component(
+                dataset_name=dataset,
+                experiment_id=experiment_id,
+                saving_path=saving_path,
+            )
 
 
-if __name__ == "__main__":
-    main(experiment_id="835719718053923699", category="ECG")
+main(experiment_id="835719718053923699", category="IMAGE")
+# TODO change decay for this
