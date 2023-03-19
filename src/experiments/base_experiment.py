@@ -11,7 +11,7 @@ from keras.models import clone_model
 from sklearn.model_selection import train_test_split
 from tensorflow import keras
 
-from models import FCN_model
+from models import FCN_model, Encoder_model
 from preprocessing import ConstantLengthDataGenerator
 
 #  TODO delete train_ noteboooks
@@ -99,6 +99,22 @@ class BaseExperiment:
                 f.write(model.to_json())
         except AttributeError:
             logging.warning("Not saving model json")
+        model.compile(
+            loss="categorical_crossentropy",
+            optimizer=keras.optimizers.Adam(self.decay),
+            metrics=["accuracy"],
+        )
+        return model
+
+    def prepare_encoder_classifier(self, input_length: int) -> keras.models.Model:
+        number_of_classes = self.get_number_of_classes()
+        input_layer = keras.layers.Input(shape=(input_length, 1))
+        encoder_model = Encoder_model(number_of_classes=number_of_classes)(input_layer)
+        model = keras.models.Model(inputs=input_layer, outputs=encoder_model)
+
+        with open(os.path.join(self.output_directory, "model.json"), "w") as f:
+            f.write(model.to_json())
+
         model.compile(
             loss="categorical_crossentropy",
             optimizer=keras.optimizers.Adam(self.decay),
