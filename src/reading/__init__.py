@@ -15,7 +15,7 @@ from preprocessing import (
     get_all_datasets_by_name,
 )
 
-
+# TODO: change name to Reading() (and concatenated_dataset = reading)
 class ConcatenatedDataset:
     def __init__(self, data_root_path=os.getenv("DATA_ROOT", "data")):
         self.saving_data_path = data_root_path
