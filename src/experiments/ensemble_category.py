@@ -46,7 +46,7 @@ def read_or_train_model(
 
 def get_accuracies_from_experiment(experiment_id: str, datasets: List[str]) -> float:
     all_runs = MlflowClient().search_runs([experiment_id])
-    runs = [run for run in all_runs if run.params["dataset_train"] in datasets]
+    runs = [run for run in all_runs if run.data.params["dataset_train"] in datasets]
     accuracies = [run.data.metrics["val_accuracy"] for run in runs]
     return np.mean(accuracies)
 
