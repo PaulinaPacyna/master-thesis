@@ -1,7 +1,7 @@
-import os
 from typing import List
-import numpy as np
+
 import mlflow
+import numpy as np
 from mlflow import MlflowClient
 from tensorflow import keras
 
@@ -22,7 +22,7 @@ class EnsembleExperiment(BaseExperiment):
         outputs = []
         for model in source_models:
             model = self.swap_last_layer(
-                model, number_of_classes=target_number_of_classes, compile=False
+                model, number_of_classes=target_number_of_classes, compile_=False
             )
             model = model(first)
             outputs.append(model)

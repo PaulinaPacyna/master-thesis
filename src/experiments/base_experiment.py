@@ -1,7 +1,7 @@
 import logging
 import os
 from typing import Optional
-
+from frozendict import frozendict
 import mlflow
 import numpy as np
 import sklearn
@@ -43,7 +43,11 @@ class BaseExperiment:
         return len(self.y_encoder.categories_[0])
 
     def prepare_generators(
-        self, X: np.array, y: np.array, train_args: dict = {}, test_args: dict = {}
+        self,
+        X: np.array,
+        y: np.array,
+        train_args: dict = frozendict(),
+        test_args: dict = frozendict(),
     ):
         y = self.y_encoder.fit_transform(y.reshape(-1, 1)).toarray()
         X_train, X_val, y_train, y_val = train_test_split(
@@ -61,14 +65,14 @@ class BaseExperiment:
         return data_generator_train, validation_data
 
     def swap_last_layer(
-        self, source_model: keras.models.Model, number_of_classes, compile=True
+        self, source_model: keras.models.Model, number_of_classes, compile_=True
     ) -> keras.models.Model:
         source_model.layers.pop()
         last = keras.layers.Dense(
             units=number_of_classes, activation="softmax", name="dense_appended"
         )(source_model.layers[-2].output)
         dest_model = keras.models.Model(inputs=source_model.input, outputs=last)
-        if compile:
+        if compile_:
             dest_model.compile(
                 loss="categorical_crossentropy",
                 optimizer=keras.optimizers.Adam(self.decay),
