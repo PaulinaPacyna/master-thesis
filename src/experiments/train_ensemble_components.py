@@ -1,5 +1,6 @@
 import logging
 import os
+from typing import Literal
 
 import mlflow
 from tensorflow import keras
@@ -11,7 +12,12 @@ from reading import ConcatenatedDataset
 mlflow_logging = MlFlowLogging()
 
 
-def train_component(dataset_name: str, experiment_id: str, saving_path: str) -> None:
+def train_component(
+    dataset_name: str,
+    experiment_id: str,
+    saving_path: str,
+    model: Literal["fcn", "encoder", "inception"],
+) -> None:
     with mlflow.start_run(
         run_name=dataset_name, experiment_id=experiment_id, nested=True
     ):
@@ -26,7 +32,12 @@ def train_component(dataset_name: str, experiment_id: str, saving_path: str) -> 
             decay_steps=100000,
             decay_rate=0.96,
         )
-        model: keras.models.Model = experiment.prepare_FCN_model(scale=1)
+        if model == "fcn":
+            model: keras.models.Model = experiment.prepare_FCN_model(scale=1)
+        elif model == "encoder":
+            model: keras.model.Model = experiment.prepare_encoder_classifier(2**8)
+        else:
+            raise NotImplementedError()
         history = model.fit(
             train_gen,
             epochs=10,
@@ -53,8 +64,9 @@ def main(experiment_id: str, category: str):
                 dataset_name=dataset,
                 experiment_id=experiment_id,
                 saving_path=saving_path,
+                model="encoder",
             )
 
 
-main(experiment_id="861748084231733287", category="IMAGE")
-main(experiment_id="861748084231733287", category="ECG")
+main(experiment_id="103427775450294357", category="IMAGE")
+main(experiment_id="103427775450294357", category="ECG")
