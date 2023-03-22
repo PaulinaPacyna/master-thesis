@@ -14,7 +14,7 @@ from tensorflow import keras
 from models import FCN_model, Encoder_model
 from preprocessing import ConstantLengthDataGenerator
 
-#  TODO delete train_ noteboooks
+
 class BaseExperiment:
     def __init__(
         self, saving_path: Optional[str] = None, use_early_stopping: bool = False
