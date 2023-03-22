@@ -1,5 +1,4 @@
 import logging
-import os
 
 import mlflow
 import numpy as np
@@ -7,7 +6,6 @@ import tensorflow.keras as keras
 
 from experiments import BaseExperiment
 from mlflow_logging import MlFlowLogging
-from models import Encoder_model
 from reading import ConcatenatedDataset
 
 logging.getLogger().setLevel(logging.INFO)
@@ -16,21 +14,7 @@ mlflow_logging = MlFlowLogging()
 
 
 class EncoderExperiment(BaseExperiment):
-    def prepare_encoder_classifier(self, input_length: int) -> keras.models.Model:
-        number_of_classes = self.get_number_of_classes()
-        input_layer = keras.layers.Input(shape=(input_length, 1))
-        encoder_model = Encoder_model(number_of_classes=number_of_classes)(input_layer)
-        model = keras.models.Model(inputs=input_layer, outputs=encoder_model)
-
-        with open(os.path.join(self.output_directory, "model.json"), "w") as f:
-            f.write(model.to_json())
-
-        model.compile(
-            loss="categorical_crossentropy",
-            optimizer=keras.optimizers.Adam(self.decay),
-            metrics=["accuracy"],
-        )
-        return model
+    pass
 
 
 def train_source_model(
@@ -175,7 +159,7 @@ if __name__ == "__main__":
     mlflow.set_experiment("Transfer learning - same category, other datasets")
     mlflow_logging = MlFlowLogging()
     run = mlflow.start_run()
-    mlflow.tensorflow.autolog()
+    mlflow.tensorflow.autolog(log_models=False)
     category = "ECG"
     dataset = "ECG200"
     source_model = train_source_model(category=category, dataset=dataset)

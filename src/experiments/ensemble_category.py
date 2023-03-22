@@ -1,12 +1,13 @@
+import os
 from typing import List
 import numpy as np
 import mlflow
+from mlflow import MlflowClient
 from tensorflow import keras
 
 from experiments import BaseExperiment
 from mlflow_logging import MlFlowLogging
 from reading import ConcatenatedDataset
-
 
 mlflow_logging = MlFlowLogging()
 
@@ -23,6 +24,7 @@ class EnsembleExperiment(BaseExperiment):
             model = self.swap_last_layer(
                 model, number_of_classes=target_number_of_classes, compile=False
             )
+            # model.layers[-2].kernel.initializer.run()
             model = model(first)
             outputs.append(model)
         last = keras.layers.Add()(outputs) / len(source_models)
@@ -30,7 +32,28 @@ class EnsembleExperiment(BaseExperiment):
         return model
 
 
-def train_ensemble_model(target_dataset: str, category: str, epochs: int = 10):
+def read_or_train_model(
+    dataset, component_experiment_id: str, root_path: str = "data/models/components"
+) -> keras.models.Model:
+    saving_path = f"{root_path}/{component_experiment_id}/dataset={dataset}"
+    try:
+        return keras.models.load_model(saving_path)
+    except OSError:
+        raise FileNotFoundError(
+            f"Cannot find model for  dataset {dataset} and experiment {component_experiment_id}"
+        )
+
+
+def get_accuracies_from_experiment(experiment_id: str, datasets: List[str]) -> float:
+    all_runs = MlflowClient().search_runs([experiment_id])
+    runs = [run for run in all_runs if run.data.params["dataset_train"] in datasets]
+    accuracies = [run.data.metrics["val_accuracy"] for run in runs]
+    return np.mean(accuracies)
+
+
+def train_ensemble_model(
+    target_dataset: str, category: str, component_experiment_id: str, epochs: int = 10
+):
     with mlflow.start_run(run_name="ensemble", nested=True):
         concatenated_dataset = ConcatenatedDataset()
         X, y = concatenated_dataset.read_dataset(dataset=target_dataset)
@@ -39,18 +62,26 @@ def train_ensemble_model(target_dataset: str, category: str, epochs: int = 10):
         )
         datasets = np.random.choice(all_datasets, 5, False)
         mlflow.log_param("Datasets used for ensemble", ", ".join(datasets))
+        mlflow.log_param(
+            "Mean accuracy of models used for ensemble",
+            get_accuracies_from_experiment(
+                experiment_id=component_experiment_id, datasets=datasets
+            ),
+        )
         experiment = EnsembleExperiment(
             saving_path=f"encoder_ensemble/ensemble/dataset={target_dataset}",
             use_early_stopping=False,
         )
         models = [
-            keras.models.load_model(
-                f"data/models/encoder_same_cat_other_datasets/dest_plain/dataset={dataset}"
+            read_or_train_model(
+                dataset=dataset, component_experiment_id=component_experiment_id
             )
             for dataset in datasets
             if dataset != target_dataset
         ]
         input_len = models[0].input.shape[1]
+        if input_len is None:
+            input_len = 2**8
         data_generator_train, validation_data = experiment.prepare_generators(
             X,
             y,
@@ -64,7 +95,10 @@ def train_ensemble_model(target_dataset: str, category: str, epochs: int = 10):
             metrics=["accuracy"],
         )
         history = ensemble_model.fit(
-            data_generator_train, epochs=epochs, validation_data=validation_data
+            data_generator_train,
+            epochs=epochs,
+            validation_data=validation_data,
+            use_multiprocessing=True,
         )
         mlflow_logging.log_confusion_matrix(
             *validation_data, classifier=ensemble_model, y_encoder=experiment.y_encoder
@@ -86,12 +120,13 @@ def train_plain_model(
         concatenated_dataset = ConcatenatedDataset()
         X, y = concatenated_dataset.read_dataset(dataset=target_dataset)
         experiment = BaseExperiment(
-            saving_path=f"encoder_ensemble/plain/dataset={target_dataset}",
             use_early_stopping=False,
         )
         model = experiment.clean_weights(source_model=source_model)
 
         input_len = model.input.shape[1]
+        if input_len is None:
+            input_len = 2**8
         data_generator_train, validation_data = experiment.prepare_generators(
             X,
             y,
@@ -100,7 +135,10 @@ def train_plain_model(
         )
 
         history = model.fit(
-            data_generator_train, epochs=epochs, validation_data=validation_data
+            data_generator_train,
+            epochs=epochs,
+            validation_data=validation_data,
+            use_multiprocessing=True,
         )
         mlflow_logging.log_confusion_matrix(
             *validation_data, classifier=model, y_encoder=experiment.y_encoder
@@ -120,12 +158,16 @@ def train_plain_model(
 
 if __name__ == "__main__":
     mlflow.set_experiment("Transfer learning - same category, ensemble")
-    mlflow.tensorflow.autolog()
+    mlflow.tensorflow.autolog(log_models=False)
+    mlflow_logging = MlFlowLogging()
     category = "ECG"
+    component_experiment_id = "861748084231733287"
     for target_dataset in ConcatenatedDataset().return_datasets_for_category(category):
         with mlflow.start_run(run_name=f"Parent run - {target_dataset}"):
             ensemble_training_results = train_ensemble_model(
-                category=category, target_dataset=target_dataset
+                category=category,
+                target_dataset=target_dataset,
+                component_experiment_id=component_experiment_id,
             )
             plain_training_results = train_plain_model(
                 ensemble_training_results["model"], target_dataset=target_dataset

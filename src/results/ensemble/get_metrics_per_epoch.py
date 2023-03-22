@@ -1,4 +1,6 @@
 import json
+from datetime import datetime
+
 import matplotlib.pyplot as plt
 import numpy as np
 from mlflow import MlflowClient
@@ -7,7 +9,7 @@ import matplotlib
 matplotlib.rc("font", size=12)
 
 client = MlflowClient()
-runs = client.search_runs(["208298423703336898"])
+runs = client.search_runs(["133563556001612625"])
 
 history_detailed = []
 for run in runs:
@@ -15,6 +17,8 @@ for run in runs:
         run.info.status == "FINISHED"
         and run.info.run_name not in ("plain model", "ensemble")
         and run.info.lifecycle_stage == "active"
+        and datetime.fromtimestamp(run.info.end_time / 1000)
+        >= datetime(2023, 3, 18, 6, 0)
     ):
         history_entry = json.load(open(run.info.artifact_uri + "/history.json"))
         if min([len(x) for x in history_entry.values()]) == 10:
