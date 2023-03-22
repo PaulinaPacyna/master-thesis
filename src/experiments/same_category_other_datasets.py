@@ -159,7 +159,7 @@ if __name__ == "__main__":
     mlflow.set_experiment("Transfer learning - same category, other datasets")
     mlflow_logging = MlFlowLogging()
     run = mlflow.start_run()
-    mlflow.tensorflow.autolog()
+    mlflow.tensorflow.autolog(log_models=False)
     category = "ECG"
     dataset = "ECG200"
     source_model = train_source_model(category=category, dataset=dataset)
