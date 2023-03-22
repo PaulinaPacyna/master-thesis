@@ -24,7 +24,6 @@ class EnsembleExperiment(BaseExperiment):
             model = self.swap_last_layer(
                 model, number_of_classes=target_number_of_classes, compile=False
             )
-            # model.layers[-2].kernel.initializer.run()
             model = model(first)
             outputs.append(model)
         last = keras.layers.Add()(outputs) / len(source_models)
@@ -80,6 +79,7 @@ def train_ensemble_model(
             if dataset != target_dataset
         ]
         input_len = models[0].input.shape[1]
+        # TODO either set length in fcn or change this logic
         if input_len is None:
             input_len = 2**8
         data_generator_train, validation_data = experiment.prepare_generators(

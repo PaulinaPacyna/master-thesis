@@ -17,8 +17,6 @@ for run in runs:
         run.info.status == "FINISHED"
         and run.info.run_name not in ("plain model", "ensemble")
         and run.info.lifecycle_stage == "active"
-        and datetime.fromtimestamp(run.info.end_time / 1000)
-        >= datetime(2023, 3, 18, 6, 0)
     ):
         history_entry = json.load(open(run.info.artifact_uri + "/history.json"))
         if min([len(x) for x in history_entry.values()]) == 10:
