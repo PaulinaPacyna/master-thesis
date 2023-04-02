@@ -10,9 +10,9 @@ from sktime.datasets import load_from_tsfile
 import matplotlib.pyplot as plt
 
 
-def get_paths(root="data", file_format="ts", task="TRAIN"):
+def get_paths(root="data", file_format="ts", split="TRAIN"):
     return [
-        get_path_to_dataset(dataset, root=root, file_format=file_format, task=task)
+        get_path_to_dataset(dataset, root=root, file_format=file_format, split=split)
         for dataset in get_all_datasets_by_name(root)
     ]
 
