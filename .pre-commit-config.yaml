@@ -7,13 +7,6 @@ repos:
   - id: check-json
   - id: check-merge-conflict
   - id: pretty-format-json
-- repo: local
-  hooks:
-    - id: pylint
-      name: pylint
-      entry: pylint
-      language: system
-      types: [ python ]
 - repo: https://github.com/psf/black
   rev: 22.10.0
   hooks:

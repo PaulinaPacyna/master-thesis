@@ -37,10 +37,10 @@ def read_or_train_model(
     saving_path = f"{root_path}/{component_experiment_id}/dataset={dataset}"
     try:
         return keras.models.load_model(saving_path)
-    except OSError:
+    except OSError as error:
         raise FileNotFoundError(
             f"Cannot find model for  dataset {dataset} and experiment {component_experiment_id}"
-        )
+        ) from error
 
 
 def get_accuracies_from_experiment(experiment_id: str, datasets: List[str]) -> float:
@@ -156,12 +156,10 @@ def train_plain_model(
         return {"history": history}
 
 
-if __name__ == "__main__":
+def main(category, component_experiment_id):
     mlflow.set_experiment("Transfer learning - same category, ensemble")
     mlflow.tensorflow.autolog(log_models=False)
-    mlflow_logging = MlFlowLogging()
-    category = "ECG"
-    component_experiment_id = "861748084231733287"
+    mlflow_logging = MlFlowLogging()  # pylint: disable=redefined-outer-name
     for target_dataset in ConcatenatedDataset().return_datasets_for_category(category):
         with mlflow.start_run(run_name=f"Parent run - {target_dataset}"):
             ensemble_training_results = train_ensemble_model(
@@ -177,3 +175,6 @@ if __name__ == "__main__":
                 **plain_training_results["history"],
             }
             mlflow_logging.log_history(history)
+
+
+main(category="ECG", component_experiment_id="861748084231733287")
