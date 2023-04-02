@@ -77,7 +77,6 @@ acs-*.bib
 # endnotes
 *.ent
 
-# fixme
 *.lox
 
 # feynmf/feynmp
@@ -234,7 +233,6 @@ pythontex-files-*/
 *.hst
 *.ver
 
-# easy-todo
 *.lod
 
 # xcolor
