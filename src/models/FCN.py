@@ -1,4 +1,4 @@
-import tensorflow.keras as keras
+from tensorflow import keras  # pylint: disable=import-error
 
 
 def FCN_model(
