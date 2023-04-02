@@ -6,7 +6,7 @@ from tensorflow import keras
 
 from experiments import BaseExperiment
 from mlflow_logging import MlFlowLogging
-from reading import ConcatenatedDataset
+from reading import Reading
 
 logging.getLogger().setLevel(logging.INFO)
 
@@ -25,7 +25,7 @@ def train_source_model(
     number_of_epochs: int = 10,
 ):
     with mlflow.start_run(nested=True, run_name="Source model"):
-        X, y = ConcatenatedDataset().read_dataset(category=category)
+        X, y = Reading().read_dataset(category=category)
         mask = np.char.startswith(y.ravel(), prefix=f"{dataset}_")
         X, y = X[~mask], y[~mask]
 
@@ -71,7 +71,7 @@ def train_destination_model(
     batch_size=256,
 ) -> dict:
     with mlflow.start_run(nested=True, run_name="Destination"):
-        X, y = ConcatenatedDataset().read_dataset(dataset=dataset)
+        X, y = Reading().read_dataset(dataset=dataset)
         experiment = EncoderExperiment(
             saving_path=f"encoder_same_cat_other_datasets/dest/dataset={dataset}",
             use_early_stopping=False,
@@ -116,7 +116,7 @@ def train_dest_model_no_weights(
     batch_size=256,
 ):
     with mlflow.start_run(nested=True, run_name="Destination plain"):
-        X, y = ConcatenatedDataset().read_dataset(dataset=dataset)
+        X, y = Reading().read_dataset(dataset=dataset)
         experiment = EncoderExperiment(
             saving_path=f"encoder_same_cat_other_datasets/dest_plain/dataset={dataset}",
             use_early_stopping=False,
@@ -160,7 +160,7 @@ def main(category):
     mlflow.set_experiment("Transfer learning - same category, other datasets - Encoder")
     mlflow_logging = MlFlowLogging()  # pylint: disable=redefined-outer-name
     mlflow.tensorflow.autolog(log_models=False)
-    for dataset in ConcatenatedDataset().return_datasets_for_category(category):
+    for dataset in Reading().return_datasets_for_category(category):
         with mlflow.start_run(run_name=dataset):
             source_model = train_source_model(
                 category=category, dataset=dataset, number_of_epochs=10

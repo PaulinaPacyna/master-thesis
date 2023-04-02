@@ -7,7 +7,7 @@ from tensorflow import keras
 
 from experiments import BaseExperiment
 from mlflow_logging import MlFlowLogging
-from reading import ConcatenatedDataset
+from reading import Reading
 
 mlflow_logging = MlFlowLogging()
 
@@ -54,11 +54,9 @@ def train_ensemble_model(
     target_dataset: str, category: str, component_experiment_id: str, epochs: int = 10
 ):
     with mlflow.start_run(run_name="ensemble", nested=True):
-        concatenated_dataset = ConcatenatedDataset()
-        X, y = concatenated_dataset.read_dataset(dataset=target_dataset)
-        all_datasets = concatenated_dataset.return_datasets_for_category(
-            category=category
-        )
+        reading = Reading()
+        X, y = reading.read_dataset(dataset=target_dataset)
+        all_datasets = reading.return_datasets_for_category(category=category)
         datasets = np.random.choice(all_datasets, 5, False)
         mlflow.log_param("Datasets used for ensemble", ", ".join(datasets))
         mlflow.log_param(
@@ -117,8 +115,8 @@ def train_plain_model(
     source_model: keras.models.Model, target_dataset: str, epochs: int = 10
 ) -> dict:
     with mlflow.start_run(run_name="plain model", nested=True):
-        concatenated_dataset = ConcatenatedDataset()
-        X, y = concatenated_dataset.read_dataset(dataset=target_dataset)
+        reading = Reading()
+        X, y = reading.read_dataset(dataset=target_dataset)
         experiment = BaseExperiment(
             use_early_stopping=False,
         )
@@ -160,7 +158,7 @@ def main(category, component_experiment_id):
     mlflow.set_experiment("Transfer learning - same category, ensemble")
     mlflow.tensorflow.autolog(log_models=False)
     mlflow_logging = MlFlowLogging()  # pylint: disable=redefined-outer-name
-    for target_dataset in ConcatenatedDataset().return_datasets_for_category(category):
+    for target_dataset in Reading().return_datasets_for_category(category):
         with mlflow.start_run(run_name=f"Parent run - {target_dataset}"):
             ensemble_training_results = train_ensemble_model(
                 category=category,
