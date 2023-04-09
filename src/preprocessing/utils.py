@@ -48,8 +48,7 @@ def read_univariate_ts(
         X = pd.Series([remove_zeros_at_end(x) for x in X])
         return X, y
     except OSError as e:
-        print("Error when reading:", path)
-        raise e
+        raise OSError("Error when reading:", path) from e
 
 
 def stretch_interpolate(
