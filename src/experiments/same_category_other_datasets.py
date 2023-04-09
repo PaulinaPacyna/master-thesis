@@ -12,7 +12,7 @@ logging.getLogger().setLevel(logging.INFO)
 
 mlflow_logging = MlFlowLogging()
 
-
+# TODO: remove if not needed
 class EncoderExperiment(BaseExperiment):
     pass
 
@@ -30,8 +30,7 @@ def train_source_model(
         X, y = X[~mask], y[~mask]
 
         experiment = EncoderExperiment(
-            saving_path=f"encoder_same_cat_other_datasets/"  # TODO: establish and change name
-            f"source/category={category}/dataset={dataset}"
+            saving_path=f"baseline_approach/source/category={category}/dataset={dataset}"
         )
         data_generator_train, validation_data = experiment.prepare_generators(
             X,
@@ -73,7 +72,7 @@ def train_destination_model(
     with mlflow.start_run(nested=True, run_name="Destination"):
         X, y = Reading().read_dataset(dataset=dataset)
         experiment = EncoderExperiment(
-            saving_path=f"encoder_same_cat_other_datasets/dest/dataset={dataset}",
+            saving_path=f"baseline_approach/dest/dataset={dataset}",
             use_early_stopping=False,
         )
         input_length = source_model.inputs[0].shape[1]
@@ -118,7 +117,7 @@ def train_dest_model_no_weights(
     with mlflow.start_run(nested=True, run_name="Destination plain"):
         X, y = Reading().read_dataset(dataset=dataset)
         experiment = EncoderExperiment(
-            saving_path=f"encoder_same_cat_other_datasets/dest_plain/dataset={dataset}",
+            saving_path=f"baseline_approach/dest_plain/dataset={dataset}",
             use_early_stopping=False,
         )
         model = experiment.clean_weights(
