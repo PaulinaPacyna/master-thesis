@@ -156,36 +156,3 @@ def plot(X, y=None):
 
 def get_lengths(X: np.array) -> np.array:
     return np.apply_along_axis(len, arr=X, axis=-1)
-
-
-def read_dataset(
-    root_data_path: str = "./data",
-    category: str = None,
-    dataset: str = None,
-    return_cat: bool = False,
-    logging_call: callable = None,
-) -> List[np.array]:
-    X: np.array = np.load(f"{root_data_path}/X.npy", allow_pickle=True)
-    y: np.array = np.load(f"{root_data_path}/y.npy")
-    categories: np.array = np.load(f"{root_data_path}/categories.npy")
-    if category and not dataset:
-        logging.info("Loading only one category: %s", category)
-        mask = (categories == category).reshape(-1)
-        y = y[mask, :]
-        X = X[mask]
-        if logging_call:
-            logging_call("category", category)
-        return X, y
-    if dataset:
-        logging.info("Loading only one dataset: %s", dataset)
-        mask = (np.char.startswith(y, dataset)).reshape(-1)
-        y = y[mask, :]
-        X = X[mask]
-        if logging_call:
-            logging_call("dataset", dataset)
-        return X, y
-    if logging_call:
-        logging_call("y.unique", ", ".join(np.unique(y))[:500])
-    if return_cat:
-        return X, y, categories
-    return X, y
