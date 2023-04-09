@@ -38,7 +38,7 @@ def read_univariate_ts(
         )
         return X["dim_0"], y
     except OSError as e:
-        print("filepath", path)
+        print("Error when reading:", path)
         raise e
 
 
