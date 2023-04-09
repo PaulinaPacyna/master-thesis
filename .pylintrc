@@ -1,0 +1,7 @@
+[MASTER]
+init-hook="import os, sys; sys.path.append(os.path.abspath("src"))"
+[MESSAGES CONTROL]
+# C0103: Argument name "X" doesn't conform to snake_case naming style (invalid-name)
+# C0114: Missing module docstring (missing-module-docstring)
+# E0401: Unable to import XXX (import-error)
+disable=C0103,C0114,E0401

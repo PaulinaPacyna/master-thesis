@@ -15,8 +15,8 @@ from preprocessing import (
     get_all_datasets_by_name,
 )
 
-# TODO: change name to Reading() (and concatenated_dataset = reading)
-class ConcatenatedDataset:
+
+class Reading:
     def __init__(self, data_root_path=os.getenv("DATA_ROOT", "data")):
         self.saving_data_path = data_root_path
         self.data_root_path = data_root_path
@@ -38,9 +38,13 @@ class ConcatenatedDataset:
             X_test_final.append(X_test)
             y_test_final.append(y_test)
         return (
-            np.concatenate(X_train_final, dtype="object"),
+            np.concatenate(
+                X_train_final, dtype="object"  # pylint: disable=unexpected-keyword-arg
+            ),
             np.concatenate(y_train_final),
-            np.concatenate(X_test_final, dtype="object"),
+            np.concatenate(
+                X_test_final, dtype="object"  # pylint: disable=unexpected-keyword-arg
+            ),
             np.concatenate(y_test_final),
         )
 
@@ -48,7 +52,7 @@ class ConcatenatedDataset:
     def load_single_dataset(dataset_name, split="TRAIN") -> Tuple[np.array, np.array]:
         X, y = read_univariate_ts(get_path_to_dataset(dataset_name, split=split))
         y = TargetEncoder(y).get_categorical_column(prefix=dataset_name)
-        for series in X:  # TODO handle nans via interpolation
+        for series in X:
             assert not np.isnan(series).any()
         return X, y
 
@@ -81,7 +85,7 @@ class ConcatenatedDataset:
             self.log_param(f"dataset_{split}", "whole")
             self.log_param(f"shapes_{split}", f"X: {X.shape}, y: {y.shape}")
             return X, y
-        elif dataset:
+        if dataset:
             datasets = [dataset]
             if log:
                 logging.info("Loading only one dataset: %s", dataset)
@@ -99,7 +103,7 @@ class ConcatenatedDataset:
         masks = [(np.char.startswith(y, dataset)).reshape(-1) for dataset in datasets]
         mask = reduce(np.logical_or, masks)
         y = y[mask, :]
-        X = X[mask]  # TODO log category and y_unique here
+        X = X[mask]
         self.log_param(f"shapes_{split}", f"X: {X.shape}, y: {y.shape}")
         return X, y
 
@@ -131,7 +135,8 @@ class ConcatenatedDataset:
             ]
         )
 
-    def log_param(self, key, val):
+    @staticmethod
+    def log_param(key, val):
         try:
             mlflow.log_param(key, val)
         except MlflowException as e:
@@ -139,6 +144,6 @@ class ConcatenatedDataset:
 
 
 if __name__ == "__main__":
-    concatenated_dataset = ConcatenatedDataset()
-    datasets = concatenated_dataset.create_concatenated()
-    concatenated_dataset.save_datasets(*datasets)
+    reading = Reading()
+    datasets_concatenated = reading.create_concatenated()
+    reading.save_datasets(*datasets_concatenated)

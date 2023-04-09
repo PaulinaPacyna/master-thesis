@@ -7,7 +7,7 @@ from tensorflow import keras
 
 from experiments import BaseExperiment
 from mlflow_logging import MlFlowLogging
-from reading import ConcatenatedDataset
+from reading import Reading
 
 mlflow_logging = MlFlowLogging()
 
@@ -23,7 +23,7 @@ def train_component(
     ):
         mlflow.tensorflow.autolog(log_models=False)
         experiment = BaseExperiment(saving_path=saving_path, use_early_stopping=False)
-        X, y = ConcatenatedDataset().read_dataset(dataset=dataset_name)
+        X, y = Reading().read_dataset(dataset=dataset_name)
         train_gen, val_data = experiment.prepare_generators(
             X, y, train_args={"augmentation_probability": 0.3}
         )
@@ -55,10 +55,10 @@ def train_component(
 
 
 def main(experiment_id: str, category: str):
-    for dataset in ConcatenatedDataset().return_datasets_for_category(category):
+    for dataset in Reading().return_datasets_for_category(category):
         saving_path = f"components/{experiment_id}/dataset={dataset}"
         if os.path.exists(os.path.join("data", "models", saving_path)):
-            logging.info(f"Skipping {saving_path}")
+            logging.info("Skipping %s", saving_path)
         else:
             train_component(
                 dataset_name=dataset,

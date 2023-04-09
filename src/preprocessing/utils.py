@@ -1,18 +1,16 @@
-import logging
 import os
-from typing import List
 
-import pandas as pd
+import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 from scipy.interpolate import interp1d
 from sklearn.preprocessing import MinMaxScaler
 from sktime.datasets import load_from_tsfile
-import matplotlib.pyplot as plt
 
 
-def get_paths(root="data", file_format="ts", task="TRAIN"):
+def get_paths(root="data", file_format="ts", split="TRAIN"):
     return [
-        get_path_to_dataset(dataset, root=root, file_format=file_format, task=task)
+        get_path_to_dataset(dataset, root=root, file_format=file_format, split=split)
         for dataset in get_all_datasets_by_name(root)
     ]
 
@@ -27,6 +25,15 @@ def get_all_datasets_by_name(root="data"):
     return list(set(ts_formatted_datasets + weka_formatted_datasets))
 
 
+def remove_zeros_at_end(array: pd.Series) -> pd.Series:
+    assert len(array.shape) == 1
+    # get the last non zero index
+    index = len(array)
+    while index > 0 and abs(array[index - 1]) <= 1e-10:
+        index -= 1
+    return array[:index]
+
+
 def read_univariate_ts(
     path: str, return_data_type="nested_univ"
 ) -> (np.array, np.array):
@@ -36,10 +43,12 @@ def read_univariate_ts(
             return_data_type=return_data_type,
             replace_missing_vals_with="0.0",
         )
-        return X["dim_0"], y
+        assert X.columns == ["dim_0"], f"more than one dimension in {path}"
+        X = X["dim_0"]
+        X = pd.Series([remove_zeros_at_end(x) for x in X])
+        return X, y
     except OSError as e:
-        print("filepath", path)
-        raise e
+        raise OSError("Error when reading:", path) from e
 
 
 def stretch_interpolate(
@@ -156,36 +165,3 @@ def plot(X, y=None):
 
 def get_lengths(X: np.array) -> np.array:
     return np.apply_along_axis(len, arr=X, axis=-1)
-
-
-def read_dataset(
-    root_data_path: str = "./data",
-    category: str = None,
-    dataset: str = None,
-    return_cat: bool = False,
-    logging_call: callable = None,
-) -> List[np.array]:
-    X: np.array = np.load(f"{root_data_path}/X.npy", allow_pickle=True)
-    y: np.array = np.load(f"{root_data_path}/y.npy")
-    categories: np.array = np.load(f"{root_data_path}/categories.npy")
-    if category and not dataset:
-        logging.info("Loading only one category: %s", category)
-        mask = (categories == category).reshape(-1)
-        y = y[mask, :]
-        X = X[mask]
-        if logging_call:
-            logging_call("category", category)
-        return X, y
-    if dataset:
-        logging.info("Loading only one dataset: %s", dataset)
-        mask = (np.char.startswith(y, dataset)).reshape(-1)
-        y = y[mask, :]
-        X = X[mask]
-        if logging_call:
-            logging_call("dataset", dataset)
-        return X, y
-    if logging_call:
-        logging_call("y.unique", ", ".join(np.unique(y))[:500])
-    if return_cat:
-        return X, y, categories
-    return X, y

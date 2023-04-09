@@ -11,7 +11,7 @@ from preprocessing.utils import normalize_length
 
 try:
     from keras.utils.all_utils import Sequence
-except:
+except ModuleNotFoundError:
     from keras.utils import Sequence
 
 
@@ -221,16 +221,3 @@ class SelfLearningDataGenerator(ConstantLengthDataGenerator):
         selected_X = self.self_learning_X[index]
         selected_y = predictions[index]
         return selected_X, selected_y
-
-
-if __name__ == "__main__":
-    X = np.load("../data/X.npy", allow_pickle=True)
-    y = OneHotEncoder(sparse=False).fit_transform(
-        np.load("../data/y.npy", allow_pickle=True)
-    )
-    data_gen = ConstantLengthDataGenerator(X, y)
-    sum_x = 0
-    variable = next(data_gen)
-    for x, y in data_gen:
-        sum_x += x.shape[0]
-        print(x.shape)

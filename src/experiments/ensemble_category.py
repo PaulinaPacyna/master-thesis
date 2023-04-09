@@ -1,13 +1,13 @@
-import os
 from typing import List
-import numpy as np
+
 import mlflow
+import numpy as np
 from mlflow import MlflowClient
 from tensorflow import keras
 
 from experiments import BaseExperiment
 from mlflow_logging import MlFlowLogging
-from reading import ConcatenatedDataset
+from reading import Reading
 
 mlflow_logging = MlFlowLogging()
 
@@ -22,7 +22,7 @@ class EnsembleExperiment(BaseExperiment):
         outputs = []
         for model in source_models:
             model = self.swap_last_layer(
-                model, number_of_classes=target_number_of_classes, compile=False
+                model, number_of_classes=target_number_of_classes, compile_=False
             )
             model = model(first)
             outputs.append(model)
@@ -37,10 +37,10 @@ def read_or_train_model(
     saving_path = f"{root_path}/{component_experiment_id}/dataset={dataset}"
     try:
         return keras.models.load_model(saving_path)
-    except OSError:
+    except OSError as error:
         raise FileNotFoundError(
             f"Cannot find model for  dataset {dataset} and experiment {component_experiment_id}"
-        )
+        ) from error
 
 
 def get_accuracies_from_experiment(experiment_id: str, datasets: List[str]) -> float:
@@ -54,11 +54,9 @@ def train_ensemble_model(
     target_dataset: str, category: str, component_experiment_id: str, epochs: int = 10
 ):
     with mlflow.start_run(run_name="ensemble", nested=True):
-        concatenated_dataset = ConcatenatedDataset()
-        X, y = concatenated_dataset.read_dataset(dataset=target_dataset)
-        all_datasets = concatenated_dataset.return_datasets_for_category(
-            category=category
-        )
+        reading = Reading()
+        X, y = reading.read_dataset(dataset=target_dataset)
+        all_datasets = reading.return_datasets_for_category(category=category)
         datasets = np.random.choice(all_datasets, 5, False)
         mlflow.log_param("Datasets used for ensemble", ", ".join(datasets))
         mlflow.log_param(
@@ -117,8 +115,8 @@ def train_plain_model(
     source_model: keras.models.Model, target_dataset: str, epochs: int = 10
 ) -> dict:
     with mlflow.start_run(run_name="plain model", nested=True):
-        concatenated_dataset = ConcatenatedDataset()
-        X, y = concatenated_dataset.read_dataset(dataset=target_dataset)
+        reading = Reading()
+        X, y = reading.read_dataset(dataset=target_dataset)
         experiment = BaseExperiment(
             use_early_stopping=False,
         )
@@ -156,13 +154,11 @@ def train_plain_model(
         return {"history": history}
 
 
-if __name__ == "__main__":
+def main(category, component_experiment_id):
     mlflow.set_experiment("Transfer learning - same category, ensemble")
     mlflow.tensorflow.autolog(log_models=False)
-    mlflow_logging = MlFlowLogging()
-    category = "ECG"
-    component_experiment_id = "861748084231733287"
-    for target_dataset in ConcatenatedDataset().return_datasets_for_category(category):
+    mlflow_logging = MlFlowLogging()  # pylint: disable=redefined-outer-name
+    for target_dataset in Reading().return_datasets_for_category(category):
         with mlflow.start_run(run_name=f"Parent run - {target_dataset}"):
             ensemble_training_results = train_ensemble_model(
                 category=category,
@@ -177,3 +173,6 @@ if __name__ == "__main__":
                 **plain_training_results["history"],
             }
             mlflow_logging.log_history(history)
+
+
+main(category="ECG", component_experiment_id="861748084231733287")
