@@ -37,10 +37,9 @@ def train_source_model(
             y,
             train_args={
                 "batch_size": batch_size,
-                "min_length": input_length,
-                "max_length": input_length,
+                "length": input_length,
             },
-            test_args={"min_length": input_length, "max_length": input_length},
+            test_args={"length": input_length},
         )
         model = experiment.prepare_encoder_classifier(
             input_length=input_length,
@@ -81,10 +80,9 @@ def train_destination_model(
             y,
             train_args={
                 "batch_size": batch_size,
-                "min_length": input_length,
-                "max_length": input_length,
+                "length": input_length,
             },
-            test_args={"min_length": input_length, "max_length": input_length},
+            test_args={"length": input_length},
         )
         model = experiment.swap_last_layer(
             source_model=source_model,
@@ -129,10 +127,9 @@ def train_dest_model_no_weights(
             y,
             train_args={
                 "batch_size": batch_size,
-                "min_length": input_length,
-                "max_length": input_length,
+                "length": input_length,
             },
-            test_args={"min_length": input_length, "max_length": input_length},
+            test_args={"length": input_length},
         )
         history = model.fit(
             data_generator_train,

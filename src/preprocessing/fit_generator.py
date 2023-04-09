@@ -1,12 +1,11 @@
-import copy
 from collections import Counter
 
 import mlflow
 import numpy as np
-import keras
-import sklearn
-from sklearn.preprocessing import OneHotEncoder
 import logging
+
+from mlflow import MlflowException
+
 from preprocessing.utils import normalize_length
 
 try:
@@ -15,7 +14,7 @@ except ModuleNotFoundError:
     from keras.utils import Sequence
 
 
-class ConstantLengthDataGenerator(Sequence):
+class BaseDataGenerator(Sequence):
     def __init__(
         self,
         X: np.array,
@@ -23,8 +22,7 @@ class ConstantLengthDataGenerator(Sequence):
         shuffle: bool = True,
         batch_size: int = 32,
         dtype: np.dtype = np.float16,
-        min_length: int = 2**8,
-        max_length: int = 2**8,
+        length: int = 2**8,
         augmentation_probability: float = 0,
         cutting_probability: float = 0,
         padding_probability: float = 1,
@@ -35,10 +33,7 @@ class ConstantLengthDataGenerator(Sequence):
         self.y: np.array = y
         self.indices = range(X.shape[0])
         self.batch_size = batch_size
-        self.possible_lengths = [
-            2**i
-            for i in range(int(np.log2(min_length)), int(np.log2(max_length)) + 1)
-        ]
+        self.length = length
         self.dtype = dtype
         self._y_inverse_probabilities = self._calculate_y_inverse_probabilities()
         self.augmentation_probability = augmentation_probability
@@ -103,7 +98,7 @@ class ConstantLengthDataGenerator(Sequence):
 
     def prepare_X(self, X, series_length=None):
         if not series_length:
-            series_length = np.random.choice(self.possible_lengths)
+            series_length = self.length
         X_batch = [
             normalize_length(
                 series,
@@ -135,89 +130,9 @@ class ConstantLengthDataGenerator(Sequence):
                     if key not in ignore
                 }
             )
-        except Exception as e:
+        except MlflowException as e:
             logging.warning(e)
 
 
-class SelfLearningDataGenerator(ConstantLengthDataGenerator):
-    def __init__(
-        self,
-        X: np.array,
-        y: np.array,
-        X_self_learning: np.array,
-        self_learning_threshold: float = 0.9,
-        shuffle: bool = True,
-        batch_size: int = 32,
-        dtype: np.dtype = np.float16,
-        min_length: int = 2**8,
-        max_length: int = 2**8,
-        augmentation_probability: float = 0,
-        cutting_probability: float = 0,
-        padding_probability: float = 1,
-        self_learning_cold_start: int = 0,
-        self_learning_top_k: float = 0.3,
-    ):
-        super().__init__(
-            X,
-            y,
-            shuffle=shuffle,
-            batch_size=batch_size,
-            dtype=dtype,
-            min_length=min_length,
-            max_length=max_length,
-            augmentation_probability=augmentation_probability,
-            padding_probability=padding_probability,
-            cutting_probability=cutting_probability,
-        )
-        self.self_learning_threshold = self_learning_threshold
-        self.model = None
-        self.self_learning_X = X_self_learning
-        self.self_learning_cold_start = self_learning_cold_start
-        self.number_of_observation_added_sl = dict()
-        self.original_X = X
-        self.original_y = y
-        self.history = {}
-        self.self_learning_top_k = self_learning_top_k
-
-    def add_model(self, model: keras.models.Model) -> None:
-        self.model = model
-
-    def get_history(self) -> dict:
-        return self.history
-
-    def on_epoch_end(self):
-        if self.epoch >= self.self_learning_cold_start:
-            self.__add_self_learning_data()
-        super().on_epoch_end()
-
-    def __add_self_learning_data(self):
-        self_learning_X = self.prepare_X(self.self_learning_X)
-        self.history = copy.deepcopy(self.model.history.history)
-        predictions = self.model.predict(self_learning_X)
-        selected_X, selected_y = self.__select_top_observations(predictions)
-        self.X = np.concatenate([self.original_X, selected_X])
-        self.y = np.concatenate([self.original_y, selected_y])
-        no_observations_added = selected_X.shape[0]
-        logging.info(
-            "Added %s observations with a threshold of %s",
-            no_observations_added,
-            self.self_learning_threshold,
-        )
-        self.number_of_observation_added_sl[self.epoch] = no_observations_added
-        mlflow.log_metric(
-            "number_of_observation_added_sl", no_observations_added, step=self.epoch
-        )
-        self._y_inverse_probabilities = self._calculate_y_inverse_probabilities()
-
-    def __select_top_observations(self, predictions):
-        score = np.max(predictions, axis=1)
-        max_number_of_observations = int(
-            len(self.original_X) * self.self_learning_top_k
-        )
-        top_k_score = np.partition(score, -max_number_of_observations)[
-            -max_number_of_observations
-        ]
-        index = score >= max(self.self_learning_threshold, top_k_score)
-        selected_X = self.self_learning_X[index]
-        selected_y = predictions[index]
-        return selected_X, selected_y
+class ConstantLengthDataGenerator(BaseDataGenerator):
+    pass
