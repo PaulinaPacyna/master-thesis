@@ -4,7 +4,7 @@ import mlflow
 import numpy as np
 from tensorflow import keras
 
-from experiments import BaseExperiment
+from experiments.base_experiment import BaseExperiment
 from mlflow_logging import MlFlowLogging
 from reading import Reading
 
@@ -175,3 +175,4 @@ def main(category):
 
 
 main(category="IMAGE")
+main(category="ECG")
