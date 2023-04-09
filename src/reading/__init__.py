@@ -39,12 +39,12 @@ class Reading:
             y_test_final.append(y_test)
         return (
             np.concatenate(
-                X_train_final, dtype="object"
-            ),  # pylint: disable=unexpected-keyword-arg
+                X_train_final, dtype="object"  # pylint: disable=unexpected-keyword-arg
+            ),
             np.concatenate(y_train_final),
             np.concatenate(
-                X_test_final, dtype="object"
-            ),  # pylint: disable=unexpected-keyword-arg
+                X_test_final, dtype="object"  # pylint: disable=unexpected-keyword-arg
+            ),
             np.concatenate(y_test_final),
         )
 
