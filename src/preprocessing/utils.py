@@ -1,13 +1,11 @@
-import logging
 import os
-from typing import List
 
-import pandas as pd
+import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 from scipy.interpolate import interp1d
 from sklearn.preprocessing import MinMaxScaler
 from sktime.datasets import load_from_tsfile
-import matplotlib.pyplot as plt
 
 
 def get_paths(root="data", file_format="ts", split="TRAIN"):
@@ -27,6 +25,15 @@ def get_all_datasets_by_name(root="data"):
     return list(set(ts_formatted_datasets + weka_formatted_datasets))
 
 
+def remove_zeros_at_end(array: pd.Series) -> pd.Series:
+    assert len(array.shape) == 1
+    # get the last non zero index
+    index = len(array)
+    while index > 0 and abs(array[index - 1]) <= 1e-10:
+        index -= 1
+    return array[:index]
+
+
 def read_univariate_ts(
     path: str, return_data_type="nested_univ"
 ) -> (np.array, np.array):
@@ -36,7 +43,10 @@ def read_univariate_ts(
             return_data_type=return_data_type,
             replace_missing_vals_with="0.0",
         )
-        return X["dim_0"], y
+        assert X.columns == ["dim_0"], f"more than one dimension in {path}"
+        X = X["dim_0"]
+        X = pd.Series([remove_zeros_at_end(x) for x in X])
+        return X, y
     except OSError as e:
         print("Error when reading:", path)
         raise e
