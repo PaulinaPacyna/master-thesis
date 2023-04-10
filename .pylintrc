@@ -4,4 +4,8 @@ init-hook="import os, sys; sys.path.append(os.path.abspath("src"))"
 # C0103: Argument name "X" doesn't conform to snake_case naming style (invalid-name)
 # C0114: Missing module docstring (missing-module-docstring)
 # E0401: Unable to import XXX (import-error)
-disable=C0103,C0114,E0401
+# C0116: Missing function or method docstring TODO: write docstrings
+# C0114: Missing module docstring
+# C0115: Missing class docstring
+# W0511: \T\O\D\Os
+disable=C0103,C0114,E0401,C0116,C0114,C0115,W0511
