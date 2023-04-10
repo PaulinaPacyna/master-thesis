@@ -1,4 +1,5 @@
 import os
+from typing import Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -153,5 +154,5 @@ def plot(X, y=None):
     return fig
 
 
-def get_lengths(X: np.array) -> np.array:
-    return np.apply_along_axis(len, arr=X, axis=-1)
+def get_lengths(X: Union[np.array, pd.DataFrame]) -> np.array:
+    return np.array([len(x) for x in X])
