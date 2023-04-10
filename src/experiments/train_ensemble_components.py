@@ -3,11 +3,10 @@ import os
 from typing import Literal
 
 import mlflow
-from tensorflow import keras
-
 from experiments import BaseExperiment
 from mlflow_logging import MlFlowLogging
 from reading import Reading
+from tensorflow import keras
 
 mlflow_logging = MlFlowLogging()
 

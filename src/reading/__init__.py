@@ -2,18 +2,16 @@ import json
 import logging
 import os
 from functools import reduce
-from typing import Tuple, List
+from typing import List
+from typing import Tuple
 
 import mlflow
 import numpy as np
 from mlflow import MlflowException
-
-from preprocessing import (
-    get_path_to_dataset,
-    TargetEncoder,
-    read_univariate_ts,
-    get_all_datasets_by_name,
-)
+from preprocessing import get_all_datasets_by_name
+from preprocessing import get_path_to_dataset
+from preprocessing import read_univariate_ts
+from preprocessing import TargetEncoder
 
 
 class Reading:

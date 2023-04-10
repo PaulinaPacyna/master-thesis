@@ -1,13 +1,13 @@
 import copy
+import logging
 from collections import Counter
 
+import keras
 import mlflow
 import numpy as np
-import keras
 import sklearn
-from sklearn.preprocessing import OneHotEncoder
-import logging
 from preprocessing.utils import normalize_length
+from sklearn.preprocessing import OneHotEncoder
 
 try:
     from keras.utils.all_utils import Sequence

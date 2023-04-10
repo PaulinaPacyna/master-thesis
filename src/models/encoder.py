@@ -1,5 +1,5 @@
-from tensorflow import keras  # pylint: disable=import-error
 import tensorflow_addons as tfa
+from tensorflow import keras  # pylint: disable=import-error
 
 
 def Encoder_model(

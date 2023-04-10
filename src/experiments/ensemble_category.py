@@ -2,12 +2,11 @@ from typing import List
 
 import mlflow
 import numpy as np
-from mlflow import MlflowClient
-from tensorflow import keras
-
 from experiments import BaseExperiment
+from mlflow import MlflowClient
 from mlflow_logging import MlFlowLogging
 from reading import Reading
+from tensorflow import keras
 
 mlflow_logging = MlFlowLogging()
 
