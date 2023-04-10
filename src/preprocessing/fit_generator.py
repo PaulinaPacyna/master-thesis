@@ -1,13 +1,11 @@
-import copy
 import logging
 from collections import Counter
 
-import keras
 import mlflow
 import numpy as np
-import sklearn
+from mlflow import MlflowException
+from preprocessing.utils import get_lengths
 from preprocessing.utils import normalize_length
-from sklearn.preprocessing import OneHotEncoder
 
 try:
     from keras.utils.all_utils import Sequence
@@ -23,7 +21,6 @@ class BaseDataGenerator(Sequence):  # pylint: disable=too-many-instance-attribut
         shuffle: bool = True,
         batch_size: int = 32,
         dtype: np.dtype = np.float16,
-        length: int = 2**8,
         augmentation_probability: float = 0,
         multiply_augmentation_probability: float = 1,
     ):
@@ -33,7 +30,6 @@ class BaseDataGenerator(Sequence):  # pylint: disable=too-many-instance-attribut
         self.y: np.array = y
         self.indices = range(X.shape[0])
         self.batch_size = batch_size
-        self.length = length
         self.dtype = dtype
         self._y_inverse_probabilities = self._calculate_y_inverse_probabilities()
         self.augmentation_probability = augmentation_probability
@@ -83,9 +79,7 @@ class BaseDataGenerator(Sequence):  # pylint: disable=too-many-instance-attribut
         inverse_counts = 1 / counts
         return inverse_counts / sum(inverse_counts)
 
-    def prepare_X(self, X, series_length=None):
-        if not series_length:
-            series_length = self.length
+    def prepare_X(self, X, series_length: int):
         X_batch = [
             normalize_length(
                 series,
@@ -121,13 +115,49 @@ class BaseDataGenerator(Sequence):  # pylint: disable=too-many-instance-attribut
 
 
 class ConstantLengthDataGenerator(BaseDataGenerator):
+    def __init__(  # pylint: disable=too-many-arguments
+        self,
+        X: np.array,
+        y: np.array,
+        shuffle: bool = True,
+        batch_size: int = 32,
+        dtype: np.dtype = np.float16,
+        length: int = 64,
+        augmentation_probability: float = 0,
+        multiply_augmentation_probability: float = 1,
+    ):
+        super().__init__(
+            X=X,
+            y=y,
+            shuffle=shuffle,
+            batch_size=batch_size,
+            dtype=dtype,
+            augmentation_probability=augmentation_probability,
+            multiply_augmentation_probability=multiply_augmentation_probability,
+        )
+        self.length = length
+
     def __next__(self):
         """Generate one batch of data"""
         batch_size = self.batch_size
         index = np.random.choice(
             self.indices, batch_size, p=self._y_inverse_probabilities
         )
-        X_batch = self.prepare_X(self.X[index])
+        X_batch = self.prepare_X(self.X[index], series_length=self.length)
+        y_batch = self.y[index]
+        y_batch = np.array(y_batch)
+        return X_batch, y_batch
+
+
+class VariableLengthDataGenerator(BaseDataGenerator):
+    def __next__(self):
+        """Generate one batch of data"""
+        batch_size = self.batch_size
+        index = np.random.choice(
+            self.indices, batch_size, p=self._y_inverse_probabilities
+        )
+        X_batch = self.X[index]
+        X_batch = self.prepare_X(X_batch, series_length=max(get_lengths(X_batch)))
         y_batch = self.y[index]
         y_batch = np.array(y_batch)
         return X_batch, y_batch
