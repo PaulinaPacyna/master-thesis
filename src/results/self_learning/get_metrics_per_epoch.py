@@ -1,10 +1,10 @@
 import json
 from datetime import datetime
 
+import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
 from mlflow import MlflowClient
-import matplotlib
 
 matplotlib.rc("font", size=12)
 

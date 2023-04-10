@@ -9,9 +9,8 @@ import pandas as pd
 import seaborn as sns
 import sklearn
 from keras.engine.training_v1 import Model
-from sklearn.metrics import confusion_matrix
-
 from preprocessing import plot
+from sklearn.metrics import confusion_matrix
 
 
 # logger = mlflow_logging.getLogger()

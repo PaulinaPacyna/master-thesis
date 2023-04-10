@@ -1,18 +1,19 @@
 import logging
 import os
 from typing import Optional
-from frozendict import frozendict
+
 import mlflow
 import numpy as np
 import sklearn
 import tensorflow as tf
+from frozendict import frozendict
 from keras.callbacks import EarlyStopping
 from keras.models import clone_model
+from models import Encoder_model
+from models import FCN_model
+from preprocessing import ConstantLengthDataGenerator
 from sklearn.model_selection import train_test_split
 from tensorflow import keras
-
-from models import FCN_model, Encoder_model
-from preprocessing import ConstantLengthDataGenerator
 
 
 class BaseExperiment:
