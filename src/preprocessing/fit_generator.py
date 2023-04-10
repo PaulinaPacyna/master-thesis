@@ -1,11 +1,9 @@
+import logging
 from collections import Counter
 
 import mlflow
 import numpy as np
-import logging
-
 from mlflow import MlflowException
-
 from preprocessing.utils import normalize_length
 
 try:
@@ -14,8 +12,8 @@ except ModuleNotFoundError:
     from keras.utils import Sequence
 
 
-class BaseDataGenerator(Sequence):
-    def __init__(
+class BaseDataGenerator(Sequence):  # pylint: disable=too-many-instance-attributes
+    def __init__(  # pylint: disable=too-many-arguments
         self,
         X: np.array,
         y: np.array,
@@ -24,8 +22,7 @@ class BaseDataGenerator(Sequence):
         dtype: np.dtype = np.float16,
         length: int = 2**8,
         augmentation_probability: float = 0,
-        cutting_probability: float = 0,
-        padding_probability: float = 1,
+        multiply_augmentation_probability: float = 1,
     ):
         """Initialization"""
         self.shuffle = shuffle
@@ -37,20 +34,18 @@ class BaseDataGenerator(Sequence):
         self.dtype = dtype
         self._y_inverse_probabilities = self._calculate_y_inverse_probabilities()
         self.augmentation_probability = augmentation_probability
-        self.cutting_probability = cutting_probability
-        self.padding_probability = padding_probability
+        self.multiply_augmentation_probability = multiply_augmentation_probability
         self.log()
         self.epoch = 0
 
     def __augment(self, X: np.array):
         if np.random.random() > self.augmentation_probability:
             return X
-        else:
-            if np.random.random() < 0.5:
-                X *= -1
-            if np.random.random() < 0.5:
-                X = np.flip(X, axis=1)
-            return X
+        if np.random.random() < 0.5:
+            X *= -1
+        if np.random.random() < 0.5:
+            X = np.flip(X, axis=1)
+        return X
 
     def __normalize_rows(self, X) -> np.array:
         return np.array(
@@ -66,7 +61,7 @@ class BaseDataGenerator(Sequence):
         """Denotes the number of batches per epoch"""
         return (self.X.shape[0] // self.batch_size + 1) * 10
 
-    def __iter__(self):
+    def __iter__(self):  # pylint: disable=non-iterator-returned
         return self
 
     def __getitem__(self, i):
@@ -85,17 +80,6 @@ class BaseDataGenerator(Sequence):
         inverse_counts = 1 / counts
         return inverse_counts / sum(inverse_counts)
 
-    def __next__(self):
-        """Generate one batch of data"""
-        batch_size = self.batch_size
-        index = np.random.choice(
-            self.indices, batch_size, p=self._y_inverse_probabilities
-        )
-        X_batch = self.prepare_X(self.X[index])
-        y_batch = self.y[index]
-        y_batch = np.array(y_batch)
-        return X_batch, y_batch
-
     def prepare_X(self, X, series_length=None):
         if not series_length:
             series_length = self.length
@@ -103,8 +87,6 @@ class BaseDataGenerator(Sequence):
             normalize_length(
                 series,
                 target_length=series_length,
-                cutting_probability=self.cutting_probability,
-                stretching_probability=1 - self.padding_probability,
             )
             for series in X
         ]
@@ -118,6 +100,7 @@ class BaseDataGenerator(Sequence):
     def on_epoch_end(self):
         self.indices = range(self.X.shape[0])
         self.epoch += 1
+        self.augmentation_probability *= self.multiply_augmentation_probability
 
     def log(self, ignore=None):
         if ignore is None:
@@ -135,4 +118,13 @@ class BaseDataGenerator(Sequence):
 
 
 class ConstantLengthDataGenerator(BaseDataGenerator):
-    pass
+    def __next__(self):
+        """Generate one batch of data"""
+        batch_size = self.batch_size
+        index = np.random.choice(
+            self.indices, batch_size, p=self._y_inverse_probabilities
+        )
+        X_batch = self.prepare_X(self.X[index])
+        y_batch = self.y[index]
+        y_batch = np.array(y_batch)
+        return X_batch, y_batch
