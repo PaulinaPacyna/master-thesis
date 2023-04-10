@@ -12,7 +12,7 @@ logging.getLogger().setLevel(logging.INFO)
 mlflow_logging = MlFlowLogging()
 
 # TODO: remove if not needed
-class EncoderExperiment(BaseExperiment):
+class BaselineExperiment(BaseExperiment):
     pass
 
 
@@ -28,7 +28,7 @@ def train_source_model(
         mask = np.char.startswith(y.ravel(), prefix=f"{dataset}_")
         X, y = X[~mask], y[~mask]
 
-        experiment = EncoderExperiment(
+        experiment = BaselineExperiment(
             saving_path=f"baseline_approach/source/category={category}/dataset={dataset}"
         )
         data_generator_train, validation_data = experiment.prepare_generators(
@@ -69,7 +69,7 @@ def train_destination_model(
 ) -> dict:
     with mlflow.start_run(nested=True, run_name="Destination"):
         X, y = Reading().read_dataset(dataset=dataset)
-        experiment = EncoderExperiment(
+        experiment = BaselineExperiment(
             saving_path=f"baseline_approach/dest/dataset={dataset}",
             use_early_stopping=False,
         )
@@ -113,7 +113,7 @@ def train_dest_model_no_weights(
 ):
     with mlflow.start_run(nested=True, run_name="Destination plain"):
         X, y = Reading().read_dataset(dataset=dataset)
-        experiment = EncoderExperiment(
+        experiment = BaselineExperiment(
             saving_path=f"baseline_approach/dest_plain/dataset={dataset}",
             use_early_stopping=False,
         )
