@@ -1,4 +1,5 @@
 import os
+from typing import Union
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -51,6 +52,7 @@ def read_univariate_ts(
         raise OSError("Error when reading:", path) from e
 
 
+# TODO: remove if not used
 def stretch_interpolate(
     df: np.array, target_length: int = 600, type_: str = "linear"
 ) -> np.array:
@@ -83,25 +85,14 @@ def pad(df: np.array, target_length: int) -> np.array:
     )
 
 
-def normalize_length(
-    df: np.array,
-    target_length: int = 600,
-    cutting_probability=0.5,
-    stretching_probability=0.5,
-):
+def normalize_length(df: np.array, target_length: int = 600):
     df_length = len(df)
     if df_length == target_length:
         result = df
     elif df_length > target_length:
-        if np.random.random() <= cutting_probability:
-            result = random_sub_interval(df, target_length)
-        else:
-            result = stretch_interpolate(df, target_length)
+        result = random_sub_interval(df, target_length)
     else:
-        if np.random.random() <= stretching_probability:
-            result = stretch_interpolate(df, target_length)
-        else:
-            result = pad(df, target_length)
+        result = pad(df, target_length)
     assert len(result) == target_length
     return result
 
@@ -163,5 +154,5 @@ def plot(X, y=None):
     return fig
 
 
-def get_lengths(X: np.array) -> np.array:
-    return np.apply_along_axis(len, arr=X, axis=-1)
+def get_lengths(X: Union[np.array, pd.DataFrame]) -> np.array:
+    return np.array([len(x) for x in X])

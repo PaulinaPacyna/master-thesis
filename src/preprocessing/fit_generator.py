@@ -1,13 +1,11 @@
-import copy
 import logging
 from collections import Counter
 
-import keras
 import mlflow
 import numpy as np
-import sklearn
+from mlflow import MlflowException
+from preprocessing.utils import get_lengths
 from preprocessing.utils import normalize_length
-from sklearn.preprocessing import OneHotEncoder
 
 try:
     from keras.utils.all_utils import Sequence
@@ -15,19 +13,16 @@ except ModuleNotFoundError:
     from keras.utils import Sequence
 
 
-class ConstantLengthDataGenerator(Sequence):
-    def __init__(
+class BaseDataGenerator(Sequence):  # pylint: disable=too-many-instance-attributes
+    def __init__(  # pylint: disable=too-many-arguments
         self,
         X: np.array,
         y: np.array,
         shuffle: bool = True,
         batch_size: int = 32,
         dtype: np.dtype = np.float16,
-        min_length: int = 2**8,
-        max_length: int = 2**8,
         augmentation_probability: float = 0,
-        cutting_probability: float = 0,
-        padding_probability: float = 1,
+        multiply_augmentation_probability: float = 1,
     ):
         """Initialization"""
         self.shuffle = shuffle
@@ -35,27 +30,21 @@ class ConstantLengthDataGenerator(Sequence):
         self.y: np.array = y
         self.indices = range(X.shape[0])
         self.batch_size = batch_size
-        self.possible_lengths = [
-            2**i
-            for i in range(int(np.log2(min_length)), int(np.log2(max_length)) + 1)
-        ]
         self.dtype = dtype
         self._y_inverse_probabilities = self._calculate_y_inverse_probabilities()
         self.augmentation_probability = augmentation_probability
-        self.cutting_probability = cutting_probability
-        self.padding_probability = padding_probability
+        self.multiply_augmentation_probability = multiply_augmentation_probability
         self.log()
         self.epoch = 0
 
     def __augment(self, X: np.array):
         if np.random.random() > self.augmentation_probability:
             return X
-        else:
-            if np.random.random() < 0.5:
-                X *= -1
-            if np.random.random() < 0.5:
-                X = np.flip(X, axis=1)
-            return X
+        if np.random.random() < 0.5:
+            X *= -1
+        if np.random.random() < 0.5:
+            X = np.flip(X, axis=1)
+        return X
 
     def __normalize_rows(self, X) -> np.array:
         return np.array(
@@ -71,7 +60,7 @@ class ConstantLengthDataGenerator(Sequence):
         """Denotes the number of batches per epoch"""
         return (self.X.shape[0] // self.batch_size + 1) * 10
 
-    def __iter__(self):
+    def __iter__(self):  # pylint: disable=non-iterator-returned
         return self
 
     def __getitem__(self, i):
@@ -90,31 +79,15 @@ class ConstantLengthDataGenerator(Sequence):
         inverse_counts = 1 / counts
         return inverse_counts / sum(inverse_counts)
 
-    def __next__(self):
-        """Generate one batch of data"""
-        batch_size = self.batch_size
-        index = np.random.choice(
-            self.indices, batch_size, p=self._y_inverse_probabilities
-        )
-        X_batch = self.prepare_X(self.X[index])
-        y_batch = self.y[index]
-        y_batch = np.array(y_batch)
-        return X_batch, y_batch
-
-    def prepare_X(self, X, series_length=None):
-        if not series_length:
-            series_length = np.random.choice(self.possible_lengths)
+    def prepare_X(self, X: np.array, series_length: int):
+        X_batch = self.__normalize_rows(X)
         X_batch = [
             normalize_length(
                 series,
                 target_length=series_length,
-                cutting_probability=self.cutting_probability,
-                stretching_probability=1 - self.padding_probability,
             )
-            for series in X
+            for series in X_batch
         ]
-
-        X_batch = self.__normalize_rows(X_batch)
         X_batch = np.vstack(X_batch)
         X_batch = np.array(X_batch, dtype=self.dtype)
         X_batch = self.__augment(X_batch)
@@ -123,6 +96,7 @@ class ConstantLengthDataGenerator(Sequence):
     def on_epoch_end(self):
         self.indices = range(self.X.shape[0])
         self.epoch += 1
+        self.augmentation_probability *= self.multiply_augmentation_probability
 
     def log(self, ignore=None):
         if ignore is None:
@@ -135,89 +109,54 @@ class ConstantLengthDataGenerator(Sequence):
                     if key not in ignore
                 }
             )
-        except Exception as e:
+        except MlflowException as e:
             logging.warning(e)
 
 
-class SelfLearningDataGenerator(ConstantLengthDataGenerator):
-    def __init__(
+class ConstantLengthDataGenerator(BaseDataGenerator):
+    def __init__(  # pylint: disable=too-many-arguments
         self,
         X: np.array,
         y: np.array,
-        X_self_learning: np.array,
-        self_learning_threshold: float = 0.9,
         shuffle: bool = True,
         batch_size: int = 32,
         dtype: np.dtype = np.float16,
-        min_length: int = 2**8,
-        max_length: int = 2**8,
+        length: int = 64,
         augmentation_probability: float = 0,
-        cutting_probability: float = 0,
-        padding_probability: float = 1,
-        self_learning_cold_start: int = 0,
-        self_learning_top_k: float = 0.3,
+        multiply_augmentation_probability: float = 1,
     ):
         super().__init__(
-            X,
-            y,
+            X=X,
+            y=y,
             shuffle=shuffle,
             batch_size=batch_size,
             dtype=dtype,
-            min_length=min_length,
-            max_length=max_length,
             augmentation_probability=augmentation_probability,
-            padding_probability=padding_probability,
-            cutting_probability=cutting_probability,
+            multiply_augmentation_probability=multiply_augmentation_probability,
         )
-        self.self_learning_threshold = self_learning_threshold
-        self.model = None
-        self.self_learning_X = X_self_learning
-        self.self_learning_cold_start = self_learning_cold_start
-        self.number_of_observation_added_sl = dict()
-        self.original_X = X
-        self.original_y = y
-        self.history = {}
-        self.self_learning_top_k = self_learning_top_k
+        self.length = length
 
-    def add_model(self, model: keras.models.Model) -> None:
-        self.model = model
-
-    def get_history(self) -> dict:
-        return self.history
-
-    def on_epoch_end(self):
-        if self.epoch >= self.self_learning_cold_start:
-            self.__add_self_learning_data()
-        super().on_epoch_end()
-
-    def __add_self_learning_data(self):
-        self_learning_X = self.prepare_X(self.self_learning_X)
-        self.history = copy.deepcopy(self.model.history.history)
-        predictions = self.model.predict(self_learning_X)
-        selected_X, selected_y = self.__select_top_observations(predictions)
-        self.X = np.concatenate([self.original_X, selected_X])
-        self.y = np.concatenate([self.original_y, selected_y])
-        no_observations_added = selected_X.shape[0]
-        logging.info(
-            "Added %s observations with a threshold of %s",
-            no_observations_added,
-            self.self_learning_threshold,
+    def __next__(self):
+        """Generate one batch of data"""
+        batch_size = self.batch_size
+        index = np.random.choice(
+            self.indices, batch_size, p=self._y_inverse_probabilities
         )
-        self.number_of_observation_added_sl[self.epoch] = no_observations_added
-        mlflow.log_metric(
-            "number_of_observation_added_sl", no_observations_added, step=self.epoch
-        )
-        self._y_inverse_probabilities = self._calculate_y_inverse_probabilities()
+        X_batch = self.prepare_X(self.X[index], series_length=self.length)
+        y_batch = self.y[index]
+        y_batch = np.array(y_batch)
+        return X_batch, y_batch
 
-    def __select_top_observations(self, predictions):
-        score = np.max(predictions, axis=1)
-        max_number_of_observations = int(
-            len(self.original_X) * self.self_learning_top_k
+
+class VariableLengthDataGenerator(BaseDataGenerator):
+    def __next__(self):
+        """Generate one batch of data"""
+        batch_size = self.batch_size
+        index = np.random.choice(
+            self.indices, batch_size, p=self._y_inverse_probabilities
         )
-        top_k_score = np.partition(score, -max_number_of_observations)[
-            -max_number_of_observations
-        ]
-        index = score >= max(self.self_learning_threshold, top_k_score)
-        selected_X = self.self_learning_X[index]
-        selected_y = predictions[index]
-        return selected_X, selected_y
+        X_batch = self.X[index]
+        X_batch = self.prepare_X(X_batch, series_length=max(get_lengths(X_batch)))
+        y_batch = self.y[index]
+        y_batch = np.array(y_batch)
+        return X_batch, y_batch

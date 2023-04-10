@@ -82,8 +82,8 @@ def train_ensemble_model(
         data_generator_train, validation_data = experiment.prepare_generators(
             X,
             y,
-            train_args={"min_length": input_len, "max_length": input_len},
-            test_args={"min_length": input_len, "max_length": input_len},
+            train_args={"length": input_len},
+            test_args={"length": input_len},
         )
         ensemble_model = experiment.prepare_ensemble_model(models)
         ensemble_model.compile(
@@ -127,8 +127,8 @@ def train_plain_model(
         data_generator_train, validation_data = experiment.prepare_generators(
             X,
             y,
-            train_args={"min_length": input_len, "max_length": input_len},
-            test_args={"min_length": input_len, "max_length": input_len},
+            train_args={"length": input_len},
+            test_args={"length": input_len},
         )
 
         history = model.fit(
