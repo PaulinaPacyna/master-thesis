@@ -426,7 +426,6 @@ The URC (University of California, Riverside) archive is a time series classific
 %\begin{singlespace}
 % TODO sprawdzic dlaczego usunęłam HRM
 % TODO dodać POWER do DEVICE
-% TODO sprawdzic tu wypisane kategorie vs w json vs w opisie
 % TODO  add SharePriceIncrease
 
 
@@ -500,8 +499,6 @@ The datasets in the archive are already split into train and test datasets.  Mos
 
 \end{itemize}
 
-Dau et al. \cite{UCR_article} composed a set of best practices for the dataset users when conducting experiments on the time series archive. The first recommendation is to avoid \textit{cherry-picking}, which tests the method on only a subset of the time series. It is recommended to report the results on all datasets. The second recommendation is to tune hyperparameters using only the train dataset. Another recommendation is to avoid claiming that the improvement is caused by a particular feature of the algorithm without extensive tests of the feature. To illustrate why it is crucial, the authors bring up an example of attaching accuracy improvement in classifiers based on wavelet transform to the multi-resolution property of the transformation. The authors show that in some cases, the accuracy gain is caused by the fact that the wavelet transform is implicitly smoothing the time series, thus the classifier could be improved by simply smoothing the time series. The authors recommend checking whether removing the feature worsens the performance or comparing it against a different method but with the same property.
-%TODO skrocic
 
 \section{Preprocessing and augmenting time series}
 Data preprocessing is the process of preparing, cleansing, and manipulating the data to optimize the training process. Data augmentation is a process used to increase the amount and variability of data. Data augmentation is beneficial when there is a limited amount of data, as it can prevent overfitting.
@@ -511,8 +508,7 @@ Many classical and deep learning models were invented and designed together with
 Another preprocessing and augmentation method proposed together with the former method in the Time Le-Net model was Window Warping. It aims at making the model more robust to perturbations in the time axis by training the network on \textit{squeezed} or \textit{dilated} series together with the original series. The \textit{dilated}/\textit{squeezed} time series is two times longer/shorter than the original time series.
 The dilated, squeezed, and original time series are concatenated, forming a vector 3.5 longer than the original time series. In the Time Le-Net model, this vector undergoes the Window Slicing preprocessing step before training.
 
-Data augmentation may also be achieved as a by-product of Generative Adversarial Networks. Generative Adversarial Networks Are composed of two components - discriminator and generator. The latter generates synthetic data and the discriminator predicts if the data is artificial or real. Results from the trained generator can be used as an augmented time series. TimeGAN network is an example of a Generative Adversarial Network suitable for processing time series \cite{timegan}.
-% TODO szczegoły
+
 
 \section{Transfer learning}
 Transfer learning is a technique that attempts to apply knowledge learned  while solving one task to enhance the learning process for another task. Formally, the problem can be described using the notions of tasks and domains \cite{survey_transfer_learning, comp_survey_transfer_leaerning}. A \textit{Domain} is a pair $\mathcal{D}=(\mathcal{X}, P(\mathcal{X}))$, where $\mathcal{X}$ is the feature space (e.g., the time series observations, and $P(\mathcal{X})$ is the probability distribution over the feature space. A \textit{Task} is a pair of label space $\mathcal{Y}$ and the decision function $f$, $\mathcal{T} = (\mathcal{Y}, f)$. The decision function $f$ is learned from $\mathcal{X}, P(\mathcal{X}), \mathcal{Y}$ in the learning process.
