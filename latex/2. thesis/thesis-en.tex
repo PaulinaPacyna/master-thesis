@@ -417,7 +417,7 @@ As opposed to the FCN network architecture, the Encoder network is not invariant
 
 
 \section{The UCR archive}
-The URC (University of California, Riverside) archive is a time series classification archive introduced in 2002 by Dau, Keogh et al. \cite{UCR_archive}. At moment of writing this thesis, it consists of 128 univariate time series datasets. The time series describes various phenomena, like readings from a device or sensor, motion recordings, or food spectrographs. The summary of the time series types is listed below (Table \ref{table:ucr_summary}). We also show a few time series samples from different datasets below (Figure \ref{fig:UCR_samples}).
+The URC (University of California, Riverside) archive is a time series classification archive introduced in 2002 by Dau, Keogh et al. \cite{UCR_archive}. At moment of writing this thesis, it consists of 140 univariate time series datasets. The time series describes various phenomena, like readings from a device or sensor, motion recordings, or food spectrographs. The summary of the time series types is listed below (Table \ref{table:ucr_summary}). We also show a few time series samples from different datasets below (Figure \ref{fig:UCR_samples}).
 \begin{table}[!h]
 \centering
 \tabcolsep=0.11cm
@@ -427,18 +427,21 @@ The URC (University of California, Riverside) archive is a time series classific
 % TODO sprawdzic dlaczego usunęłam HRM
 % TODO dodać POWER do DEVICE
 % TODO sprawdzic tu wypisane kategorie vs w json vs w opisie
+% TODO  add SharePriceIncrease
+
+
 \toprule
 \textbf{Dataset type (source)}       & \textbf{Number of datasets} \\ \midrule
-Audio                                & 3                           \\ \midrule
-Device                               & 9                           \\ \midrule
+Audio                                & 10     \\ \midrule
+Device                               & 10                           \\ \midrule
 ECG (Electrocardiogram)              & 7 \\ \midrule
 EOG (Electrooculography)             & 2                           \\ \midrule
 EPG (Electrical penetration   graph) & 2                           \\ \midrule
 Hemodynamics                         & 3                           \\ \midrule
-Image                                & 32                          \\ \midrule
-Motion                               & 17                          \\ \midrule
-Sensor                               & 30                          \\ \midrule
-Simulated                            & 8                           \\ \midrule
+Image                                & 33                          \\ \midrule
+Motion                               & 28 \\ \midrule
+Sensor                               & 22                          \\ \midrule
+Simulated                            & 9                           \\ \midrule
 Spectro                              & 12       \\ \midrule
 Traffic                              & 2                           \\ \bottomrule
 %\end{singlespace}
@@ -471,7 +474,7 @@ All datasets together contain 1122 unique labels. Most of the datasets different
 The datasets in the archive are already split into train and test datasets.  Most of the time series are already z-normalized.  However, the authors recommend testing on additional test/train splits and preprocessing the time series accordingly to the method used.  We will now proceed to describing the datasets in detail, considering all available categories.
 
 \begin{itemize}
-\item \textbf{Audio} - Sound amplitudes of heartbeats and spectrograms of sound produced by insects. Classes represent normal and abnormal patients or different species.
+\item \textbf{Audio} - Sound amplitudes of heartbeats and spectrograms of sound produced by insects, cats, dogs or whales. Classes represent normal and abnormal patients or different species.
 
 \item \textbf{Device} - This category includes time series describing power consumption of house devices, or summarized population consumption for certain periods. This category is characterized by the a combinations of spikes and constant areas in the time series. The data is divided to classes based on different types of devices or different time periods of data collection.
 
@@ -486,13 +489,13 @@ The datasets in the archive are already split into train and test datasets.  Mos
 \item \textbf{Motion} - Positions of a certain points (usually on human body, but also on a car or worm) over an axis, e.g while walking, speaking, driving, playing cricket, skating, writing or performing gestures. One of the datasets uses electromiographic signal instead of point positions. Another dataset is different from others, as it describe number of pedestrians on different hours.
 
 
-\item \textbf{Sensor} - the data includes readings from sensors, e.g. earthquake sensors, humidity, temperature sensors or robots. An example task is to predict an earthquake or to classify the surface the robot was walking on.
+\item \textbf{Sensor} - The data includes readings from sensors, e.g. earthquake sensors, humidity, temperature sensors or robots. An example task is to predict an earthquake or to classify the surface the robot was walking on.
 
-\item \textbf{Simulated} - the time series for this dataset were simulated or obtained from an algorithm.
+\item \textbf{Simulated} - The time series used in this category were simulated or obtained from an algorithm.
 
-\item \textbf{Spectro} - this category consist mostly of food spectrograms but also one data set of time series representing  surface electromyography which captures electric activity of groups of muscle at rest or during activity
+\item \textbf{Spectro} -This category consist mostly of food spectrograms but also one data set of time series representing  surface electromyography which captures electric activity of groups of muscle at rest or during activity
 
-\item \textbf{Traffic} - in this category are two datasets rcording pedestrian flow. The classes correspond to weekdays or places.
+\item \textbf{Traffic} - In this category are two datasets recording pedestrian flow. The classes correspond to weekdays or places.
 
 
 \end{itemize}
