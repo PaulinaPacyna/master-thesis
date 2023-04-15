@@ -2,6 +2,7 @@ import json
 import logging
 import os
 from functools import reduce
+from pathlib import Path
 from typing import List
 from typing import Tuple
 
@@ -17,12 +18,14 @@ from sktime.datasets import load_from_tsfile
 
 
 class Reading:
-    def __init__(self, data_root_path=os.getenv("DATA_ROOT", "data")):
+    def __init__(
+        self, data_root_path=os.path.join(Path(__file__).parent.parent, "data")
+    ):
         self.saving_data_path = data_root_path
         self.data_root_path = data_root_path
         self.categories = self.__load_categories_dict()
 
-    def __load_categories_dict(self):
+    def __load_categories_dict(self) -> dict:
         return json.load(open(os.path.join(self.data_root_path, "categories.json")))
 
     def create_concatenated(self) -> (np.array, np.array, np.array, np.array):
