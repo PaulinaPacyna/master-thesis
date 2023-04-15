@@ -9,9 +9,8 @@ import numpy as np
 import pandas as pd
 from reading import Reading
 from tqdm import tqdm
-from tslearn.barycenters import dtw_barycenter_averaging
+from tslearn.barycenters import dtw_barycenter_averaging_subgradient
 from tslearn.metrics import dtw
-from tslearn.utils import to_time_series_dataset
 
 
 class Selector(ABC):
@@ -62,18 +61,24 @@ class DBASelector(Selector):
             partitioned_dataset,
         )
         similarities_per_dataset = (
-            similarities.groupby("dataset_1", "dataset_2")
+            similarities.groupby(["dataset_1", "dataset_2"])
             .min("similarity")
             .reset_index()
         )
-        matrix: pd.DataFrame = similarities_per_dataset.pivot(
-            index="dataset_1", columns="dataset_2", values="similarity"
+        matrix: pd.DataFrame = (
+            similarities_per_dataset.pivot(
+                index="dataset_1", columns="dataset_2", values="similarity"
+            )
+            .rename_axis(None, axis=0)
+            .rename_axis(None, axis=1)
         )
         assert not np.isnan(matrix.values).any()
+        assert np.allclose(matrix.values, matrix.values.T)
         matrix.to_csv(os.path.join(self.saving_directory, f"{category}.csv"))
 
     def __get_similarities_per_class(self, partitioned_dataset: Dict[str, np.array]):
         similarities = []
+        barycenters = self.__get_barycenters_per_class(partitioned_dataset)
         classes_product = [
             (c_1, c_2)
             for c_1 in partitioned_dataset
@@ -81,12 +86,10 @@ class DBASelector(Selector):
             if c_1 >= c_2
         ]
         for class_1, class_2 in tqdm(classes_product, leave=False):
-            x_1 = partitioned_dataset[class_1]
-            x_2 = partitioned_dataset[class_2]
             if class_1 == class_2:
-                dba_similarity = self.dba_similarity(x_1, x_2)
-            else:
                 dba_similarity = float("inf")
+            else:
+                dba_similarity = dtw(barycenters[class_1], barycenters[class_2])
             similarities.append(
                 {
                     "dataset_1": class_1.split("_")[0],
@@ -103,13 +106,16 @@ class DBASelector(Selector):
             )
         return pd.DataFrame(similarities)
 
-    @staticmethod
-    def dba_similarity(x_1, x_2) -> float:
-        barycenter_1 = dtw_barycenter_averaging(to_time_series_dataset(x_1))
-        barycenter_2 = dtw_barycenter_averaging(to_time_series_dataset(x_2))
-        return dtw(barycenter_1, barycenter_2)
+    def __get_barycenters_per_class(self, partitioned_dataset: Dict[str, np.array]):
+        result = {}
+        for class_name in tqdm(partitioned_dataset, desc="Calculating barycenters ..."):
+            X = partitioned_dataset[class_name]
+            X = np.random.choice(X, size=min(30, len(X)))
+            X = [x[:1000] for x in X]
+            result[class_name] = dtw_barycenter_averaging_subgradient(X)
+        return result
 
-    def __load_similarity_matrices(self) -> Dict[str, pd.DataFrame]:
+    def __load_similarity_matrices(self) -> Dict[str, np.array]:
         matrices = {}
         files = os.listdir(self.saving_directory)
         if not files:
@@ -118,7 +124,9 @@ class DBASelector(Selector):
                 self.saving_directory,
             )
         for file in files:
-            matrices[file.rstrip(".csv")] = pd.read_csv(file)
+            matrices[file.rstrip(".csv")] = pd.read_csv(
+                os.path.join(self.saving_directory, file)
+            )
         return matrices
 
 
