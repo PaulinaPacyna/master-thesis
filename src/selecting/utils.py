@@ -40,16 +40,16 @@ class DBASelector(Selector):
 
     @staticmethod
     def __partition_by_class(X: np.array, y: np.array) -> Dict[str, pd.Series]:
-        classes = np.unique(y)
+        classes = np.unique(y.ravel())
         result = {}
         for class_ in classes:
-            result[class_] = X[y == class_]
+            result[class_] = X[y.ravel() == class_]
         return result
 
     def calculate_similarity_matrix(self):
         reading = Reading()
-        categories = reading.categories.keys()
-        for category in categories:
+        categories = sorted(set(reading.categories.values()))
+        for category in tqdm(categories, "Similarity per category..."):
             self.calculate_similarity_matrix_per_category(category)
 
     def calculate_similarity_matrix_per_category(self, category):
@@ -72,28 +72,36 @@ class DBASelector(Selector):
         assert not np.isnan(matrix.values).any()
         matrix.to_csv(os.path.join(self.saving_directory, f"{category}.csv"))
 
-    def __get_similarities_per_class(
-        self, partitioned_dataset: Dict[str, np.array], description: str = ""
-    ):
-        similarities = pd.DataFrame(
-            columns=["class_1", "class_2", "dataset_1", "dataset_2", "similarity"]
-        )
-        for class_1 in tqdm(partitioned_dataset, desc=description):
-            for class_2 in partitioned_dataset:
-                x_1 = partitioned_dataset[class_1]
-                x_2 = partitioned_dataset[class_2]
-                if class_1 != class_2:
-                    dba_similarity = self.dba_similarity(x_1, x_2)
-                else:
-                    dba_similarity = float("inf")
-                similarities.append(
-                    {
-                        "dataset_1": class_1.split("_")[0],
-                        "dataset_2": class_2.split("_")[0],
-                        "similarity": dba_similarity,
-                    }
-                )
-        return similarities
+    def __get_similarities_per_class(self, partitioned_dataset: Dict[str, np.array]):
+        similarities = []
+        classes_product = [
+            (c_1, c_2)
+            for c_1 in partitioned_dataset
+            for c_2 in partitioned_dataset
+            if c_1 >= c_2
+        ]
+        for class_1, class_2 in tqdm(classes_product, leave=False):
+            x_1 = partitioned_dataset[class_1]
+            x_2 = partitioned_dataset[class_2]
+            if class_1 == class_2:
+                dba_similarity = self.dba_similarity(x_1, x_2)
+            else:
+                dba_similarity = float("inf")
+            similarities.append(
+                {
+                    "dataset_1": class_1.split("_")[0],
+                    "dataset_2": class_2.split("_")[0],
+                    "similarity": dba_similarity,
+                }
+            )
+            similarities.append(
+                {
+                    "dataset_1": class_2.split("_")[0],
+                    "dataset_2": class_1.split("_")[0],
+                    "similarity": dba_similarity,
+                }
+            )
+        return pd.DataFrame(similarities)
 
     @staticmethod
     def dba_similarity(x_1, x_2) -> float:
@@ -104,7 +112,11 @@ class DBASelector(Selector):
     def __load_similarity_matrices(self) -> Dict[str, pd.DataFrame]:
         matrices = {}
         files = os.listdir(self.saving_directory)
-        logging.warning("%s is empty. Please run calculate_similarity_matrix method")
+        if not files:
+            logging.warning(
+                "%s is empty. Please run calculate_similarity_matrix method",
+                self.saving_directory,
+            )
         for file in files:
             matrices[file.rstrip(".csv")] = pd.read_csv(file)
         return matrices
