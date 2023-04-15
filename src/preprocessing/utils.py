@@ -6,7 +6,6 @@ import numpy as np
 import pandas as pd
 from scipy.interpolate import interp1d
 from sklearn.preprocessing import MinMaxScaler
-from sktime.datasets import load_from_tsfile
 
 
 def get_paths(root="data", file_format="ts", split="TRAIN"):
@@ -33,23 +32,6 @@ def remove_zeros_at_end(array: pd.Series) -> pd.Series:
     while index > 0 and abs(array[index - 1]) <= 1e-10:
         index -= 1
     return array[:index]
-
-
-def read_univariate_ts(
-    path: str, return_data_type="nested_univ"
-) -> (np.array, np.array):
-    try:
-        X, y = load_from_tsfile(
-            path,
-            return_data_type=return_data_type,
-            replace_missing_vals_with="0.0",
-        )
-        assert X.columns == ["dim_0"], f"more than one dimension in {path}"
-        X = X["dim_0"]
-        X = pd.Series([remove_zeros_at_end(x) for x in X])
-        return X, y
-    except OSError as e:
-        raise OSError("Error when reading:", path) from e
 
 
 # TODO: remove if not used
