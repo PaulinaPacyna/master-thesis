@@ -36,7 +36,7 @@ class DBASelector(Selector):
         category = reading.categories[dataset]
         matrix = self.similarity_matrices[category]
         similarities_for_dataset = matrix[dataset]
-        most_similar = similarities_for_dataset.nlargest(n=size).index
+        most_similar = similarities_for_dataset.nsmallest(n=size).index
         return list(most_similar)
 
     @staticmethod
@@ -130,7 +130,7 @@ class DBASelector(Selector):
             )
         for file in files:
             matrices[file.rstrip(".csv")] = pd.read_csv(
-                os.path.join(self.saving_directory, file)
+                os.path.join(self.saving_directory, file), index_col=0
             )
         return matrices
 
