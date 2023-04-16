@@ -110,7 +110,8 @@ class DBASelector(Selector):
             )
         return pd.DataFrame(similarities)
 
-    def __get_barycenters_per_class(self, partitioned_dataset: Dict[str, np.array]):
+    @staticmethod
+    def __get_barycenters_per_class(partitioned_dataset: Dict[str, np.array]):
         result = {}
         for class_name in tqdm(partitioned_dataset, desc="Calculating barycenters ..."):
             X = partitioned_dataset[class_name]
