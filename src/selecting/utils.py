@@ -14,13 +14,14 @@ from tslearn.metrics import dtw
 
 
 class Selector(ABC):
-    def select(self, category: str, size: int = 5):
+    def select(self, dataset: str, size: int = 5):
         pass
 
 
 class RandomSelector(Selector):
-    def select(self, category: str, size: int = 5) -> List[str]:
+    def select(self, dataset: str, size: int = 5) -> List[str]:
         reading = Reading()
+        category = reading.categories[dataset]
         all_datasets = reading.return_datasets_for_category(category=category)
         return np.random.choice(all_datasets, size=size)
 
@@ -30,8 +31,13 @@ class DBASelector(Selector):
         self.saving_directory = os.path.join(Path(__file__).parent, saving_directory)
         self.similarity_matrices = self.__load_similarity_matrices()
 
-    def select(self, category: str, size: int = 5) -> List[str]:
+    def select(self, dataset: str, size: int = 5) -> List[str]:
+        reading = Reading()
+        category = reading.categories[dataset]
         matrix = self.similarity_matrices[category]
+        similarities_for_dataset = matrix[dataset]
+        most_similar = similarities_for_dataset.nlargest(n=size).index
+        return list(most_similar)
 
     @staticmethod
     def __transform_to_fourier(series: pd.Series):
@@ -72,6 +78,7 @@ class DBASelector(Selector):
             .rename_axis(None, axis=0)
             .rename_axis(None, axis=1)
         )
+        np.fill_diagonal(matrix.values, val=float("inf"))
         assert not np.isnan(matrix.values).any()
         assert np.allclose(matrix.values, matrix.values.T)
         matrix.to_csv(os.path.join(self.saving_directory, f"{category}.csv"))
@@ -83,13 +90,10 @@ class DBASelector(Selector):
             (c_1, c_2)
             for c_1 in partitioned_dataset
             for c_2 in partitioned_dataset
-            if c_1 >= c_2
+            if c_1 > c_2
         ]
-        for class_1, class_2 in tqdm(classes_product, leave=False):
-            if class_1 == class_2:
-                dba_similarity = float("inf")
-            else:
-                dba_similarity = dtw(barycenters[class_1], barycenters[class_2])
+        for class_1, class_2 in classes_product:
+            dba_similarity = dtw(barycenters[class_1], barycenters[class_2])
             similarities.append(
                 {
                     "dataset_1": class_1.split("_")[0],
@@ -115,7 +119,7 @@ class DBASelector(Selector):
             result[class_name] = dtw_barycenter_averaging_subgradient(X)
         return result
 
-    def __load_similarity_matrices(self) -> Dict[str, np.array]:
+    def __load_similarity_matrices(self) -> Dict[str, pd.DataFrame]:
         matrices = {}
         files = os.listdir(self.saving_directory)
         if not files:
