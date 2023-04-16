@@ -2,25 +2,30 @@ import json
 import logging
 import os
 from functools import reduce
+from pathlib import Path
 from typing import List
 from typing import Tuple
 
 import mlflow
 import numpy as np
+import pandas as pd
 from mlflow import MlflowException
-from preprocessing import get_all_datasets_by_name
 from preprocessing import get_path_to_dataset
-from preprocessing import read_univariate_ts
+from preprocessing import remove_zeros_at_end
 from preprocessing import TargetEncoder
+from sktime.datasets import load_from_arff_to_dataframe
+from sktime.datasets import load_from_tsfile
 
 
 class Reading:
-    def __init__(self, data_root_path=os.getenv("DATA_ROOT", "data")):
+    def __init__(
+        self, data_root_path=os.path.join(Path(__file__).parent.parent, "data")
+    ):
         self.saving_data_path = data_root_path
         self.data_root_path = data_root_path
         self.categories = self.__load_categories_dict()
 
-    def __load_categories_dict(self):
+    def __load_categories_dict(self) -> dict:
         return json.load(open(os.path.join(self.data_root_path, "categories.json")))
 
     def create_concatenated(self) -> (np.array, np.array, np.array, np.array):
@@ -28,7 +33,7 @@ class Reading:
         y_train_final = []
         X_test_final = []
         y_test_final = []
-        for dataset_name in sorted(get_all_datasets_by_name(self.data_root_path)):
+        for dataset_name in sorted(self.categories.keys()):
             X_train, y_train = self.load_single_dataset(dataset_name, split="TRAIN")
             X_test, y_test = self.load_single_dataset(dataset_name, split="TEST")
             X_train_final.append(X_train)
@@ -36,19 +41,42 @@ class Reading:
             X_test_final.append(X_test)
             y_test_final.append(y_test)
         return (
-            np.concatenate(
-                X_train_final, dtype="object"  # pylint: disable=unexpected-keyword-arg
+            np.concatenate(  # pylint: disable=unexpected-keyword-arg
+                X_train_final, dtype="object"
             ),
             np.concatenate(y_train_final),
-            np.concatenate(
-                X_test_final, dtype="object"  # pylint: disable=unexpected-keyword-arg
+            np.concatenate(  # pylint: disable=unexpected-keyword-arg
+                X_test_final, dtype="object"
             ),
             np.concatenate(y_test_final),
         )
 
     @staticmethod
     def load_single_dataset(dataset_name, split="TRAIN") -> Tuple[np.array, np.array]:
-        X, y = read_univariate_ts(get_path_to_dataset(dataset_name, split=split))
+        try:
+            try:
+                path = get_path_to_dataset(dataset_name, split=split, file_format="ts")
+                X, y = load_from_tsfile(
+                    path,
+                    return_data_type="nested_univ",
+                    replace_missing_vals_with="0.0",
+                )
+            except FileNotFoundError as e:
+                path = get_path_to_dataset(
+                    dataset_name, split=split, file_format="arff"
+                )
+                logging.warning(e)
+                logging.warning("Loading arff file instead.")
+                X, y = load_from_arff_to_dataframe(
+                    path, replace_missing_vals_with="0.0"
+                )
+
+        except OSError as e:
+            raise OSError("Error when reading:", path) from e
+
+        assert X.columns == ["dim_0"], f"more than one dimension in {path}"
+        X = X["dim_0"]
+        X = pd.Series([remove_zeros_at_end(x) for x in X])
         y = TargetEncoder(y).get_categorical_column(prefix=dataset_name)
         for series in X:
             assert not np.isnan(series).any()
