@@ -13,7 +13,7 @@ mlflow_logging = MlFlowLogging()
 
 # TODO: remove if not needed
 class BaselineExperiment(BaseExperiment):
-    pass
+    name = "baseline"
 
 
 def train_source_model(
@@ -105,52 +105,6 @@ def train_destination_model(
         return {"history": history, "model": model}
 
 
-def train_dest_model_no_weights(
-    model,
-    dataset: str,
-    number_of_epochs=10,
-    batch_size=256,
-):
-    with mlflow.start_run(nested=True, run_name="Destination plain"):
-        X, y = Reading().read_dataset(dataset=dataset)
-        experiment = BaselineExperiment(
-            saving_path=f"baseline_approach/dest_plain/dataset={dataset}",
-            use_early_stopping=False,
-        )
-        model = experiment.clean_weights(
-            source_model=model,
-        )
-        input_length = model.inputs[0].shape[1]
-        data_generator_train, validation_data = experiment.prepare_generators(
-            X,
-            y,
-            train_args={
-                "batch_size": batch_size,
-                "length": input_length,
-            },
-            test_args={"length": input_length},
-        )
-        history = model.fit(
-            data_generator_train,
-            epochs=number_of_epochs,
-            validation_data=validation_data,
-            callbacks=experiment.callbacks,
-        )
-        mlflow_logging.log_confusion_matrix(
-            *validation_data, classifier=model, y_encoder=experiment.y_encoder
-        )
-        history = {
-            f"dest_no_weights_{key}": value for key, value in history.history.items()
-        }
-        mlflow_logging.log_history(
-            history,
-        )
-        mlflow_logging.log_example_data(
-            *next(data_generator_train), encoder=experiment.y_encoder
-        )
-        return {"history": history}
-
-
 def main(category):
     mlflow.set_experiment("Transfer learning - same category, other datasets - Encoder")
     mlflow_logging = MlFlowLogging()  # pylint: disable=redefined-outer-name
@@ -163,10 +117,7 @@ def main(category):
             destination = train_destination_model(
                 dataset=dataset, source_model=source_model, number_of_epochs=10
             )
-            plain_destination = train_dest_model_no_weights(
-                model=destination["model"], dataset=dataset, number_of_epochs=10
-            )
-            history = {**destination["history"], **plain_destination["history"]}
+            history = destination["history"]
             mlflow_logging.log_history(history)
 
 
