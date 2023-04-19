@@ -13,6 +13,8 @@ mlflow_logging = MlFlowLogging()
 
 
 class EnsembleExperiment(BaseExperiment):
+    name = "ensemble"
+
     def prepare_ensemble_model(
         self,
         source_models: List[keras.models.Model],
@@ -107,15 +109,12 @@ def train_ensemble_model(
             validation_data=validation_data,
             use_multiprocessing=True,
         )
-        mlflow_logging.log_confusion_matrix(
-            *validation_data, classifier=ensemble_model, y_encoder=experiment.y_encoder
-        )
-        history = {f"ensemble_{key}": value for key, value in history.history.items()}
-        mlflow_logging.log_history(
-            history,
-        )
-        mlflow_logging.log_example_data(
-            *next(data_generator_train), encoder=experiment.y_encoder
+        history = experiment.log(
+            data_generator_train=data_generator_train,
+            validation_data=validation_data,
+            model=ensemble_model,
+            y_encoder=experiment.y_encoder,
+            history=history.history,
         )
         return {"history": history, "model": ensemble_model}
 

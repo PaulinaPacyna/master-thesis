@@ -1,21 +1,28 @@
 import logging
 import os
 from typing import Optional
+from typing import Tuple
 
 import mlflow
 import numpy as np
 import sklearn
 import tensorflow as tf
+from experiments.ensemble_category import mlflow_logging
 from frozendict import frozendict
+from keras import Model
 from keras.callbacks import EarlyStopping
+from keras.utils import Sequence
 from models import Encoder_model
 from models import FCN_model
 from preprocessing import ConstantLengthDataGenerator
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import OneHotEncoder
 from tensorflow import keras
 
 
 class BaseExperiment:
+    name = "base"
+
     def __init__(
         self, saving_path: Optional[str] = None, use_early_stopping: bool = False
     ):
@@ -76,14 +83,14 @@ class BaseExperiment:
         last = keras.layers.Dense(
             units=number_of_classes, activation="softmax", name="dense_appended"
         )(source_model.layers[-2].output)
-        dest_model = keras.models.Model(inputs=source_model.input, outputs=last)
+        destination_model = keras.models.Model(inputs=source_model.input, outputs=last)
         if compile_:
-            dest_model.compile(
+            destination_model.compile(
                 loss="categorical_crossentropy",
                 optimizer=keras.optimizers.Adam(self.transfer_learning_decay),
                 metrics=["accuracy"],
             )
-        return dest_model
+        return destination_model
 
     def prepare_FCN_model(self, scale: float = 1) -> keras.models.Model:
         number_of_classes = self.get_number_of_classes()
@@ -120,3 +127,21 @@ class BaseExperiment:
             metrics=["accuracy"],
         )
         return model
+
+    def log(
+        self,
+        data_generator_train: Sequence,
+        validation_data: Tuple[np.array, np.array],
+        model: Model,
+        y_encoder: OneHotEncoder,
+        history: dict,
+    ):
+        mlflow_logging.log_confusion_matrix(
+            *validation_data, classifier=model, y_encoder=self.y_encoder
+        )
+        history = {f"{self.name}_{key}": value for key, value in history.items()}
+        mlflow_logging.log_history(
+            history,
+        )
+        mlflow_logging.log_example_data(*next(data_generator_train), encoder=y_encoder)
+        return history

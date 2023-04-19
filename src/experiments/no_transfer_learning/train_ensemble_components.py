@@ -39,13 +39,13 @@ def train_component(
             validation_data=val_data,
             use_multiprocessing=True,
         )
-        mlflow_logging.log_confusion_matrix(
-            *val_data, classifier=model, y_encoder=experiment.y_encoder
+        experiment.log(
+            data_generator_train=train_gen,
+            validation_data=val_data,
+            model=model,
+            y_encoder=experiment.y_encoder,
+            history=history.history,
         )
-        mlflow_logging.log_history(
-            history.history,
-        )
-        mlflow_logging.log_example_data(*next(train_gen), encoder=experiment.y_encoder)
 
 
 def main(experiment_id: str, category: str):
