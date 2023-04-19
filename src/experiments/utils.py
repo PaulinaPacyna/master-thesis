@@ -8,7 +8,6 @@ import sklearn
 import tensorflow as tf
 from frozendict import frozendict
 from keras.callbacks import EarlyStopping
-from keras.models import clone_model
 from models import Encoder_model
 from models import FCN_model
 from preprocessing import ConstantLengthDataGenerator
@@ -20,10 +19,15 @@ class BaseExperiment:
     def __init__(
         self, saving_path: Optional[str] = None, use_early_stopping: bool = False
     ):
-        self.decay = keras.optimizers.schedules.ExponentialDecay(
+        self.transfer_learning_decay = keras.optimizers.schedules.ExponentialDecay(
             initial_learning_rate=1e-5,
             decay_steps=10000,
             decay_rate=0.75,
+        )
+        self.normal_decay = keras.optimizers.schedules.ExponentialDecay(
+            initial_learning_rate=1e-4,
+            decay_steps=100000,
+            decay_rate=0.96,
         )
         self.callbacks = []
         if use_early_stopping:
@@ -76,19 +80,9 @@ class BaseExperiment:
         if compile_:
             dest_model.compile(
                 loss="categorical_crossentropy",
-                optimizer=keras.optimizers.Adam(self.decay),
+                optimizer=keras.optimizers.Adam(self.transfer_learning_decay),
                 metrics=["accuracy"],
             )
-        return dest_model
-
-    def clean_weights(self, source_model: keras.models.Model):
-        dest_model = clone_model(source_model)
-
-        dest_model.compile(
-            loss="categorical_crossentropy",
-            optimizer=keras.optimizers.Adam(self.decay),
-            metrics=["accuracy"],
-        )
         return dest_model
 
     def prepare_FCN_model(self, scale: float = 1) -> keras.models.Model:
@@ -106,7 +100,7 @@ class BaseExperiment:
             logging.warning("Not saving model json")
         model.compile(
             loss="categorical_crossentropy",
-            optimizer=keras.optimizers.Adam(self.decay),
+            optimizer=keras.optimizers.Adam(self.normal_decay),
             metrics=["accuracy"],
         )
         return model
@@ -122,7 +116,7 @@ class BaseExperiment:
 
         model.compile(
             loss="categorical_crossentropy",
-            optimizer=keras.optimizers.Adam(self.decay),
+            optimizer=keras.optimizers.Adam(self.normal_decay),
             metrics=["accuracy"],
         )
         return model

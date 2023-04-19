@@ -1,8 +1,9 @@
 from typing import List
+from typing import Literal
 
 import mlflow
 import numpy as np
-from experiments import BaseExperiment
+from experiments.utils import BaseExperiment
 from mlflow import MlflowClient
 from mlflow_logging import MlFlowLogging
 from reading import Reading
@@ -15,7 +16,15 @@ class EnsembleExperiment(BaseExperiment):
     def prepare_ensemble_model(
         self,
         source_models: List[keras.models.Model],
+        compile_=True,
+        mode=Literal["normal", "transfer_learning"],
     ) -> keras.models.Model:
+        if mode == "normal":
+            decay = self.normal_decay
+        elif mode == "transfer_learning":
+            decay = self.transfer_learning_decay
+        else:
+            raise KeyError('mode should be either "normal" or "transfer_learning"')
         target_number_of_classes = self.get_number_of_classes()
         first = keras.layers.Input(source_models[0].inputs[0].shape[1:])
         outputs = []
@@ -27,6 +36,12 @@ class EnsembleExperiment(BaseExperiment):
             outputs.append(model)
         last = keras.layers.Add()(outputs) / len(source_models)
         model = keras.models.Model(inputs=first, outputs=last)
+        if compile_:
+            model.compile(
+                loss="categorical_crossentropy",
+                optimizer=decay,
+                metrics=["accuracy"],
+            )
         return model
 
 
@@ -86,11 +101,6 @@ def train_ensemble_model(
             test_args={"length": input_len},
         )
         ensemble_model = experiment.prepare_ensemble_model(models)
-        ensemble_model.compile(
-            loss="categorical_crossentropy",
-            optimizer=keras.optimizers.Adam(experiment.decay),
-            metrics=["accuracy"],
-        )
         history = ensemble_model.fit(
             data_generator_train,
             epochs=epochs,

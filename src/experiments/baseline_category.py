@@ -2,7 +2,7 @@ import logging
 
 import mlflow
 import numpy as np
-from experiments.base_experiment import BaseExperiment
+from experiments.utils import BaseExperiment
 from mlflow_logging import MlFlowLogging
 from reading import Reading
 from tensorflow import keras

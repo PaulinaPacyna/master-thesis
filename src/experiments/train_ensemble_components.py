@@ -3,7 +3,7 @@ import os
 from typing import Literal
 
 import mlflow
-from experiments import BaseExperiment
+from experiments.utils import BaseExperiment
 from mlflow_logging import MlFlowLogging
 from reading import Reading
 from tensorflow import keras
@@ -25,11 +25,6 @@ def train_component(
         X, y = Reading().read_dataset(dataset=dataset_name)
         train_gen, val_data = experiment.prepare_generators(
             X, y, train_args={"augmentation_probability": 0.3}
-        )
-        experiment.decay = keras.optimizers.schedules.ExponentialDecay(
-            initial_learning_rate=1e-4,
-            decay_steps=100000,
-            decay_rate=0.96,
         )
         if model == "fcn":
             model: keras.models.Model = experiment.prepare_FCN_model(scale=1)
