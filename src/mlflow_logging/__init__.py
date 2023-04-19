@@ -88,13 +88,12 @@ class MlFlowLogging:
 
         np.fill_diagonal(cm, 0)
         idx_1d = cm.flatten().argsort()[:-10:-1]
-        x_idx, y_idx = np.unravel_index(idx_1d, cm.shape)
+        x_idx, y_idx = np.unravel_index(  # pylint: disable=unbalanced-tuple-unpacking
+            idx_1d, cm.shape
+        )
         if labels is not None:
             misclassified_summary = ""
-            for (
-                x,
-                y,
-            ) in zip(x_idx, y_idx):
+            for x, y in zip(x_idx, y_idx):
                 misclassified_summary += (
                     f"True: {labels[x]}, predicted {labels[y]}, {cm[x, y]} times \n"
                 )
