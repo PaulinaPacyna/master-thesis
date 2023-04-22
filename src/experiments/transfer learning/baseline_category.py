@@ -57,26 +57,14 @@ def train_source_model(
 
 def train_destination_model(
     dataset: str,
+    model_type: Literal["fcn", "encoder"],
     source_model: keras.models.Model,
     number_of_epochs=10,
-    batch_size=256,
 ) -> dict:
     with mlflow.start_run(nested=True, run_name="Destination"):
         X, y = Reading().read_dataset(dataset=dataset)
-        experiment = BaselineExperiment(
-            saving_path=f"baseline_approach/dest/dataset={dataset}",
-            use_early_stopping=False,
-        )
-        input_length = source_model.inputs[0].shape[1]
-        data_generator_train, validation_data = experiment.prepare_generators(
-            X,
-            y,
-            train_args={
-                "batch_size": batch_size,
-                "length": input_length,
-            },
-            test_args={"length": input_length},
-        )
+        experiment = BaselineExperiment(model=model_type)
+        data_generator_train, validation_data = experiment.prepare_generators(X, y)
         model = experiment.swap_last_layer(
             source_model=source_model,
             number_of_classes=experiment.get_number_of_classes(),
@@ -88,31 +76,37 @@ def train_destination_model(
             callbacks=experiment.callbacks,
         )
 
-        history = {f"dest_{key}": value for key, value in history.history.items()}
-        mlflow_logging.log_confusion_matrix(
-            *validation_data, classifier=model, y_encoder=experiment.y_encoder
+        experiment.log(
+            data_generator_train=data_generator_train,
+            validation_data=validation_data,
+            model=model,
+            y_encoder=experiment.y_encoder,
+            history=history.history,
         )
-        mlflow_logging.log_history(history)
-        mlflow_logging.log_example_data(
-            *next(data_generator_train), encoder=experiment.y_encoder
-        )
-        return {"history": history, "model": model}
+        return history.history
 
 
-def main(category):
+def main(category, selection_method, model_type, number_of_epochs=10):
     mlflow.set_experiment("Transfer learning - same category, other datasets - Encoder")
     mlflow_logging = MlFlowLogging()  # pylint: disable=redefined-outer-name
     mlflow.tensorflow.autolog(log_models=False)
     for dataset in Reading().return_datasets_for_category(category):
         with mlflow.start_run(run_name=dataset):
             source_model = train_source_model(
-                category=category, dataset=dataset, number_of_epochs=10
+                dataset=dataset,
+                selection_method=selection_method,
+                model=model_type,
+                number_of_epochs=number_of_epochs,
             )
             destination = train_destination_model(
-                dataset=dataset, source_model=source_model, number_of_epochs=10
+                dataset=dataset,
+                model_type=model_type,
+                source_model=source_model,
+                number_of_epochs=number_of_epochs,
             )
             history = destination["history"]
             mlflow_logging.log_history(history)
+        # TODO log accuracy for plain, history, etc
 
 
 main(category="IMAGE")
