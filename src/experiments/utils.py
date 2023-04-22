@@ -1,5 +1,6 @@
 import logging
 import os
+from typing import Literal
 from typing import Optional
 from typing import Tuple
 
@@ -15,17 +16,26 @@ from keras.utils import Sequence
 from models import Encoder_model
 from models import FCN_model
 from preprocessing import ConstantLengthDataGenerator
+from preprocessing.fit_generator import VariableLengthDataGenerator
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 from tensorflow import keras
 
-
+# TODO log here as in data generator
 class BaseExperiment:
     name = "base"
 
     def __init__(
-        self, saving_path: Optional[str] = None, use_early_stopping: bool = False
+        self,
+        model: Literal["fcn", "encoder"],
+        input_length: int = 256,
+        batch_size: int = 256,
+        saving_path: Optional[str] = None,
+        use_early_stopping: bool = False,
     ):
+        self.model = model
+        self.input_length = input_length
+        self.batch_size
         self.transfer_learning_decay = keras.optimizers.schedules.ExponentialDecay(
             initial_learning_rate=1e-5,
             decay_steps=10000,
@@ -65,14 +75,30 @@ class BaseExperiment:
         X_train, X_val, y_train, y_val = train_test_split(
             X, y, test_size=0.25, stratify=y
         )
-        data_generator_train = ConstantLengthDataGenerator(
-            X_train, y_train, **train_args
-        )
-        validation_data = next(
-            ConstantLengthDataGenerator(
-                X_val, y_val, batch_size=len(y_val), **test_args
+        if self.model == "encoder":
+            data_generator_train = ConstantLengthDataGenerator(
+                X_train, y_train, length=self.input_length, **train_args
             )
-        )
+            validation_data = next(
+                ConstantLengthDataGenerator(
+                    X_val,
+                    y_val,
+                    length=self.input_length,
+                    batch_size=len(y_val),
+                    **test_args,
+                )
+            )
+        elif self.model == "fcn":
+            data_generator_train = VariableLengthDataGenerator(
+                X_train, y_train, **train_args
+            )
+            validation_data = next(
+                VariableLengthDataGenerator(
+                    X_val, y_val, batch_size=len(y_val), **test_args
+                )
+            )
+        else:
+            raise KeyError()
         mlflow.log_param("y.shape", y.shape)
         return data_generator_train, validation_data
 
@@ -92,35 +118,25 @@ class BaseExperiment:
             )
         return destination_model
 
-    def prepare_FCN_model(self, scale: float = 1) -> keras.models.Model:
+    def prepare_classifier(self) -> keras.models.Model:
         number_of_classes = self.get_number_of_classes()
-        input_layer = keras.layers.Input(shape=(None, 1))
-        encoder_model = FCN_model(
-            number_of_classes=number_of_classes, parameters=scale
-        )(input_layer)
-        model = keras.models.Model(inputs=input_layer, outputs=encoder_model)
+        if self.model == "encoder":
+            input_layer = keras.layers.Input(shape=(self.input_length, 1))
+            selected_model = Encoder_model(number_of_classes=number_of_classes)(
+                input_layer
+            )
+        elif self.model == "fcn":
+            input_layer = keras.layers.Input(shape=(None, 1))
+            selected_model = FCN_model(number_of_classes=number_of_classes)(input_layer)
+        else:
+            raise KeyError()
 
         try:
             with open(os.path.join(self.output_directory, "model.json"), "w") as f:
                 f.write(model.to_json())
         except AttributeError:
             logging.warning("Not saving model json")
-        model.compile(
-            loss="categorical_crossentropy",
-            optimizer=keras.optimizers.Adam(self.normal_decay),
-            metrics=["accuracy"],
-        )
-        return model
-
-    def prepare_encoder_classifier(self, input_length: int) -> keras.models.Model:
-        number_of_classes = self.get_number_of_classes()
-        input_layer = keras.layers.Input(shape=(input_length, 1))
-        encoder_model = Encoder_model(number_of_classes=number_of_classes)(input_layer)
-        model = keras.models.Model(inputs=input_layer, outputs=encoder_model)
-
-        with open(os.path.join(self.output_directory, "model.json"), "w") as f:
-            f.write(model.to_json())
-
+        model = keras.models.Model(inputs=input_layer, outputs=selected_model)
         model.compile(
             loss="categorical_crossentropy",
             optimizer=keras.optimizers.Adam(self.normal_decay),
