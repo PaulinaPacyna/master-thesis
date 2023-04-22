@@ -2,7 +2,6 @@ import logging
 from typing import Literal
 
 import mlflow
-import numpy as np
 from experiments.utils import BaseExperiment
 from mlflow_logging import MlFlowLogging
 from reading import Reading
@@ -109,5 +108,5 @@ def main(category, selection_method, model_type, number_of_epochs=10):
         # TODO log accuracy for plain, history, etc
 
 
-main(category="IMAGE")
-main(category="ECG")
+main(category="IMAGE", model_type="fcn", selection_method="random")
+main(category="ECG", model_type="fcn", selection_method="random")
