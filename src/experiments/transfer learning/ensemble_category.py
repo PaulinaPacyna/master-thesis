@@ -55,7 +55,7 @@ def read_or_train_model(
         return keras.models.load_model(saving_path)
     except OSError as error:
         raise FileNotFoundError(
-            f"Cannot find model for  dataset {dataset} and experiment {component_experiment_id}"
+            f"Cannot find model for dataset {dataset} and experiment {component_experiment_id}"
         ) from error
 
 

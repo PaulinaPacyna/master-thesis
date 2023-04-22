@@ -1,10 +1,13 @@
 import logging
+from typing import Literal
 
 import mlflow
 import numpy as np
 from experiments.utils import BaseExperiment
 from mlflow_logging import MlFlowLogging
 from reading import Reading
+from selecting import DBASelector
+from selecting import RandomSelector
 from tensorflow import keras
 
 logging.getLogger().setLevel(logging.INFO)
@@ -17,46 +20,37 @@ class BaselineExperiment(BaseExperiment):
 
 
 def train_source_model(
-    category: str,
     dataset: str,
-    batch_size: int = 256,
-    input_length: int = 256,
+    selection_method=Literal["random", "similarity"],
+    model=Literal["fcn", "encoder"],
     number_of_epochs: int = 10,
 ):
     with mlflow.start_run(nested=True, run_name="Source model"):
-        X, y = Reading().read_dataset(category=category)
-        mask = np.char.startswith(y.ravel(), prefix=f"{dataset}_")
-        X, y = X[~mask], y[~mask]
+        if selection_method == "random":
+            selector = RandomSelector()
+        elif selection_method == "similarity":
+            selector = DBASelector()
+        else:
+            raise KeyError()
+        datasets = selector.select(dataset=dataset)
 
-        experiment = BaselineExperiment(
-            saving_path=f"baseline_approach/source/category={category}/dataset={dataset}"
-        )
-        data_generator_train, validation_data = experiment.prepare_generators(
-            X,
-            y,
-            train_args={
-                "batch_size": batch_size,
-                "length": input_length,
-            },
-            test_args={"length": input_length},
-        )
-        model = experiment.prepare_encoder_classifier(
-            input_length=input_length,
-        )
+        X, y = Reading().read_dataset(dataset=datasets)
+
+        experiment = BaselineExperiment(model=model)
+        data_generator_train, validation_data = experiment.prepare_generators(X, y)
+        model = experiment.prepare_classifier()
         history = model.fit(
             data_generator_train,
             epochs=number_of_epochs,
             validation_data=validation_data,
             callbacks=experiment.callbacks,
         )
-        mlflow_logging.log_confusion_matrix(
-            *validation_data, classifier=model, y_encoder=experiment.y_encoder
-        )
-        mlflow_logging.log_history(
-            {f"source_{key}": value for key, value in history.history.items()},
-        )
-        mlflow_logging.log_example_data(
-            *next(data_generator_train), encoder=experiment.y_encoder
+        experiment.log(
+            data_generator_train=data_generator_train,
+            validation_data=validation_data,
+            model=model,
+            y_encoder=experiment.y_encoder,
+            history=history.history,
         )
         return model
 
