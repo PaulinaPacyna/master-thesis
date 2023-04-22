@@ -15,7 +15,7 @@ def train_component(
     dataset_name: str,
     experiment_id: str,
     saving_path: str,
-    model: Literal["fcn", "encoder", "inception"],
+    model: Literal["fcn", "encoder"],
 ) -> None:
     with mlflow.start_run(
         run_name=dataset_name, experiment_id=experiment_id, nested=True
@@ -62,5 +62,6 @@ def main(experiment_id: str, category: str):
             )
 
 
-main(experiment_id="103427775450294357", category="IMAGE")
-main(experiment_id="103427775450294357", category="ECG")
+if __name__ == "__main__":
+    main(experiment_id="103427775450294357", category="IMAGE")
+    main(experiment_id="103427775450294357", category="ECG")
