@@ -1,5 +1,6 @@
 import logging
 import os
+from typing import List
 from typing import Literal
 from typing import Optional
 from typing import Tuple
@@ -13,6 +14,7 @@ from frozendict import frozendict
 from keras import Model
 from keras.callbacks import EarlyStopping
 from keras.utils import Sequence
+from mlflow import MlflowClient
 from models import Encoder_model
 from models import FCN_model
 from preprocessing import ConstantLengthDataGenerator
@@ -161,3 +163,12 @@ class BaseExperiment:
         )
         mlflow_logging.log_example_data(*next(data_generator_train), encoder=y_encoder)
         return history
+
+    @staticmethod
+    def get_accuracies_from_experiment(
+        experiment_id: str, datasets: List[str]
+    ) -> float:
+        all_runs = MlflowClient().search_runs([experiment_id])
+        runs = [run for run in all_runs if run.data.params["dataset_train"] in datasets]
+        accuracies = [run.data.metrics["val_accuracy"] for run in runs]
+        return np.mean(accuracies)
