@@ -5,6 +5,7 @@ from pathlib import Path
 from typing import Dict
 from typing import List
 
+import mlflow
 import numpy as np
 import pandas as pd
 from reading import Reading
@@ -17,13 +18,18 @@ class Selector(ABC):
     def select(self, dataset: str, size: int = 5):
         pass
 
+    def _log_datasets(self, datasets):
+        mlflow.log_param("Datasets used for ensemble", ", ".join(datasets))
+
 
 class RandomSelector(Selector):
     def select(self, dataset: str, size: int = 5) -> List[str]:
         reading = Reading()
         category = reading.categories[dataset]
         all_datasets = reading.return_datasets_for_category(category=category)
-        return np.random.choice(all_datasets, size=size)
+        result = np.random.choice(all_datasets, size=size)
+        self._log_datasets(result)
+        return result
 
 
 class DBASelector(Selector):
@@ -36,8 +42,9 @@ class DBASelector(Selector):
         category = reading.categories[dataset]
         matrix = self.similarity_matrices[category]
         similarities_for_dataset = matrix[dataset]
-        most_similar = similarities_for_dataset.nsmallest(n=size).index
-        return list(most_similar)
+        result = list(similarities_for_dataset.nsmallest(n=size).index)
+        self._log_datasets(result)
+        return result
 
     @staticmethod
     def __transform_to_fourier(series: pd.Series):
