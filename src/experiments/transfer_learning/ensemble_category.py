@@ -18,8 +18,8 @@ class EnsembleExperiment(BaseExperiment):
     def prepare_ensemble_model(
         self,
         source_models: List[keras.models.Model],
+        mode: Literal["normal", "transfer_learning"],
         compile_=True,
-        mode=Literal["normal", "transfer_learning"],
     ) -> keras.models.Model:
         if mode == "normal":
             decay = self.normal_decay
@@ -79,10 +79,9 @@ def train_ensemble_model(
             dataset=dataset, component_experiment_id=component_experiment_id
         )
         for dataset in datasets
-        if dataset != target_dataset
     ]
     data_generator_train, validation_data = experiment.prepare_generators(X, y)
-    ensemble_model = experiment.prepare_ensemble_model(models)
+    ensemble_model = experiment.prepare_ensemble_model(models, mode="transfer_learning")
     history = ensemble_model.fit(
         data_generator_train,
         epochs=epochs,
