@@ -6,7 +6,8 @@ import numpy as np
 from mlflow import MlflowException
 from preprocessing.utils import get_lengths
 from preprocessing.utils import normalize_length
-from tensorflow.keras.utils import Sequence
+from reading import Reading
+from tensorflow.keras.utils import Sequence  # pylint: disable
 
 
 class BaseDataGenerator(Sequence):  # pylint: disable=too-many-instance-attributes

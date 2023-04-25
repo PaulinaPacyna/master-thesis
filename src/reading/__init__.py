@@ -11,9 +11,9 @@ import mlflow
 import numpy as np
 import pandas as pd
 from mlflow import MlflowException
-from preprocessing import get_path_to_dataset
-from preprocessing import remove_zeros_at_end
-from preprocessing import TargetEncoder
+from preprocessing.utils import get_path_to_dataset
+from preprocessing.utils import remove_zeros_at_end
+from preprocessing.utils import TargetEncoder
 from sktime.datasets import load_from_arff_to_dataframe
 from sktime.datasets import load_from_tsfile
 
