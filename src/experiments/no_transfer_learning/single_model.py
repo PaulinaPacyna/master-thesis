@@ -49,7 +49,7 @@ def main(experiment_id: str, category: str):
     for dataset in Reading().return_datasets_for_category(category):
         saving_path = f"components/{experiment_id}/dataset={dataset}"
         if os.path.exists(os.path.join("data", "models", saving_path)):
-            logging.info("Skipping %s", saving_path)
+            print("Skipping ", saving_path)
         else:
             train_component(
                 dataset_name=dataset,
