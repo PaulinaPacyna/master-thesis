@@ -6,11 +6,7 @@ import numpy as np
 from mlflow import MlflowException
 from preprocessing.utils import get_lengths
 from preprocessing.utils import normalize_length
-
-try:
-    from keras.utils.all_utils import Sequence
-except ModuleNotFoundError:
-    from keras.utils import Sequence
+from tensorflow.keras.utils import Sequence
 
 
 class BaseDataGenerator(Sequence):  # pylint: disable=too-many-instance-attributes

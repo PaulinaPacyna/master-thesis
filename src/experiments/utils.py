@@ -9,12 +9,11 @@ import mlflow
 import numpy as np
 import sklearn
 import tensorflow as tf
-from experiments.ensemble_category import mlflow_logging
 from frozendict import frozendict
 from keras import Model
 from keras.callbacks import EarlyStopping
-from keras.utils import Sequence
 from mlflow import MlflowClient
+from mlflow_logging import MlFlowLogging
 from models import Encoder_model
 from models import FCN_model
 from preprocessing import ConstantLengthDataGenerator
@@ -22,7 +21,9 @@ from preprocessing.fit_generator import VariableLengthDataGenerator
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import OneHotEncoder
 from tensorflow import keras
+from tensorflow.keras.utils import Sequence
 
+mlflow_logging = MlFlowLogging()
 # TODO log here as in data generator
 class BaseExperiment:
     name = "base"
@@ -37,7 +38,7 @@ class BaseExperiment:
     ):
         self.model = model
         self.input_length = input_length
-        self.batch_size
+        self.batch_size = batch_size
         self.transfer_learning_decay = keras.optimizers.schedules.ExponentialDecay(
             initial_learning_rate=1e-5,
             decay_steps=10000,
@@ -132,13 +133,12 @@ class BaseExperiment:
             selected_model = FCN_model(number_of_classes=number_of_classes)(input_layer)
         else:
             raise KeyError()
-
+        model = keras.models.Model(inputs=input_layer, outputs=selected_model)
         try:
             with open(os.path.join(self.output_directory, "model.json"), "w") as f:
                 f.write(model.to_json())
         except AttributeError:
             logging.warning("Not saving model json")
-        model = keras.models.Model(inputs=input_layer, outputs=selected_model)
         model.compile(
             loss="categorical_crossentropy",
             optimizer=keras.optimizers.Adam(self.normal_decay),

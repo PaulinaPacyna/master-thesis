@@ -6,7 +6,7 @@ import mlflow
 from experiments.utils import BaseExperiment
 from mlflow_logging import MlFlowLogging
 from reading import Reading
-from tensorflow import keras
+
 
 mlflow_logging = MlFlowLogging()
 
@@ -21,17 +21,14 @@ def train_component(
         run_name=dataset_name, experiment_id=experiment_id, nested=True
     ):
         mlflow.tensorflow.autolog(log_models=False)
-        experiment = BaseExperiment(saving_path=saving_path, use_early_stopping=False)
+        experiment = BaseExperiment(
+            model=model, saving_path=saving_path, use_early_stopping=False
+        )
         X, y = Reading().read_dataset(dataset=dataset_name)
         train_gen, val_data = experiment.prepare_generators(
             X, y, train_args={"augmentation_probability": 0.3}
         )
-        if model == "fcn":
-            model: keras.models.Model = experiment.prepare_FCN_model(scale=1)
-        elif model == "encoder":
-            model: keras.model.Model = experiment.prepare_encoder_classifier(2**8)
-        else:
-            raise NotImplementedError()
+        model = experiment.prepare_classifier()
         history = model.fit(
             train_gen,
             epochs=10,
@@ -63,5 +60,4 @@ def main(experiment_id: str, category: str):
 
 
 if __name__ == "__main__":
-    main(experiment_id="103427775450294357", category="IMAGE")
-    main(experiment_id="103427775450294357", category="ECG")
+    main(experiment_id="648760250283719387", category="AUDIO")
