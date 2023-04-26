@@ -23,14 +23,14 @@ mlflow_logging = MlFlowLogging()
 class BaselineExperiment(BaseExperiment):
     name = "baseline"
 
-    @staticmethod
     def get_source_experiment_metrics(
+        self,
         dataset,
         param: str,
         experiment_id: str,
         type_: Literal["param", "metric"] = "param",
     ):
-        all_runs = MlflowClient().search_runs([experiment_id])
+        all_runs = self._get_or_cache_runs_for_experiment(experiment_id)
         runs = [
             run
             for run in all_runs
@@ -182,4 +182,3 @@ def main(
             single_model_experiment_id=single_model_experiment_id,
             number_of_epochs=number_of_epochs,
         )
-        # TODO log accuracy for plain, history, similiarity

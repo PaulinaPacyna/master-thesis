@@ -37,6 +37,7 @@ class BaseExperiment:
         saving_path: Optional[str] = None,
         use_early_stopping: bool = False,
     ):
+        self.all_runs_cached = {}
         self.model = model
         self.input_length = input_length
         self.batch_size = batch_size
@@ -165,23 +166,30 @@ class BaseExperiment:
         mlflow_logging.log_example_data(*next(data_generator_train), encoder=y_encoder)
         return history
 
-    @staticmethod
     def get_mean_accuracies_from_experiment(
-        experiment_id: str, datasets: List[str]
+        self, experiment_id: str, datasets: List[str]
     ) -> float:
-        all_runs = MlflowClient().search_runs([experiment_id])
+        all_runs = self._get_or_cache_runs_for_experiment(experiment_id)
         runs = [run for run in all_runs if run.data.params["dataset_train"] in datasets]
         accuracies = [run.data.metrics["val_accuracy"] for run in runs]
         return np.mean(accuracies)
 
-    @staticmethod
+    def _get_or_cache_runs_for_experiment(self, experiment_id):
+        if experiment_id in self.all_runs_cached:
+            all_runs = self.all_runs_cached[experiment_id]
+        else:
+            all_runs = MlflowClient().search_runs([experiment_id])
+            self.all_runs_cached[experiment_id] = all_runs
+        return all_runs
+
     def get_param_from_mlflow(
+        self,
         experiment_id: str,
         dataset: str,
         param: str,
         type_: Literal["param", "metric"] = "param",
     ) -> Union[str, float]:
-        all_runs = MlflowClient().search_runs([experiment_id])
+        all_runs = self._get_or_cache_runs_for_experiment(experiment_id)
         runs = [run for run in all_runs if run.data.params["dataset_train"] == dataset]
         assert len(runs) == 1
         run = runs[0]
