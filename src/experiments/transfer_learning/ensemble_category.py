@@ -70,7 +70,7 @@ def train_ensemble_model(
 
     mlflow.log_param(
         "Mean accuracy of models used for ensemble",
-        experiment.get_accuracies_from_experiment(
+        experiment.get_mean_accuracies_from_experiment(
             experiment_id=component_experiment_id, datasets=datasets
         ),
     )

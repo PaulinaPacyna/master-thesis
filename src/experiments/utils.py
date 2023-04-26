@@ -4,6 +4,7 @@ from typing import List
 from typing import Literal
 from typing import Optional
 from typing import Tuple
+from typing import Union
 
 import mlflow
 import numpy as np
@@ -165,10 +166,27 @@ class BaseExperiment:
         return history
 
     @staticmethod
-    def get_accuracies_from_experiment(
+    def get_mean_accuracies_from_experiment(
         experiment_id: str, datasets: List[str]
     ) -> float:
         all_runs = MlflowClient().search_runs([experiment_id])
         runs = [run for run in all_runs if run.data.params["dataset_train"] in datasets]
         accuracies = [run.data.metrics["val_accuracy"] for run in runs]
         return np.mean(accuracies)
+
+    @staticmethod
+    def _get_param_from_mlflow(
+        experiment_id: str,
+        dataset: str,
+        param: str,
+        type_: Literal["param", "metric"] = "param",
+    ) -> Union[str, float]:
+        all_runs = MlflowClient().search_runs([experiment_id])
+        runs = [run for run in all_runs if run.data.params["dataset_train"] == dataset]
+        assert len(runs) == 1
+        run = runs[0]
+        if type_ == "param":
+            return run.data.params[param]
+        if type_ == "metric":
+            return run.data.params[param]
+        raise KeyError(type_)
