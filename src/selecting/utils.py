@@ -16,7 +16,7 @@ from tslearn.metrics import dtw
 
 class Selector(ABC):
     def select(self, dataset: str, size: int = 5):
-        pass
+        raise NotImplementedError()
 
     def _log_datasets(self, datasets):
         mlflow.log_param("Datasets used for ensemble", ", ".join(datasets))
@@ -42,7 +42,10 @@ class DBASelector(Selector):
         category = reading.categories[dataset]
         matrix = self.similarity_matrices[category]
         similarities_for_dataset = matrix[dataset]
-        result = list(similarities_for_dataset.nsmallest(n=size).index)
+        nsmallest = similarities_for_dataset.nsmallest(n=size)
+        mlflow.log_metric("Mean DBA similarity", float(np.mean(nsmallest)))
+        mlflow.log_param("DBA similarities", str(nsmallest.to_dict()))
+        result = list(nsmallest.index)
         self._log_datasets(result)
         return result
 
