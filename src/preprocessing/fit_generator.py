@@ -76,6 +76,8 @@ class BaseDataGenerator(Sequence):  # pylint: disable=too-many-instance-attribut
         return inverse_counts / sum(inverse_counts)
 
     def prepare_X(self, X: np.array, series_length: int):
+        MAX_LENGTH = 3000
+        series_length = min(MAX_LENGTH, series_length)
         X_batch = self.__normalize_rows(X)
         X_batch = [
             normalize_length(
