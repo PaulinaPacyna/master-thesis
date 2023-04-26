@@ -150,7 +150,7 @@ def train_destination_model(
             experiment.get_param_from_mlflow(
                 experiment_id=single_model_experiment_id,
                 dataset=dataset,
-                param="val_acc",
+                param="val_accuracy",
                 type_="metric",
             ),
         )

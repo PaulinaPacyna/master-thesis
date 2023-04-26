@@ -196,5 +196,7 @@ class BaseExperiment:
         if type_ == "param":
             return run.data.params[param]
         if type_ == "metric":
-            return run.data.params[param]
+            return run.data.metrics[param]
+        if type_ == "artifact":
+            return os.path.join(run.info.artifact_uri, param)
         raise KeyError(type_)
