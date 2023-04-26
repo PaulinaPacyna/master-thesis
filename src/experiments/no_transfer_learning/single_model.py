@@ -45,7 +45,7 @@ def train_component(
         )
 
 
-def main(experiment_id: str, category: str):
+def main(experiment_id: str, category: str, model: Literal["fcn", "encoder"]):
     for dataset in Reading().return_datasets_for_category(category):
         saving_path = f"components/{experiment_id}/dataset={dataset}"
         if os.path.exists(os.path.join("data", "models", saving_path)):
@@ -55,9 +55,9 @@ def main(experiment_id: str, category: str):
                 dataset_name=dataset,
                 experiment_id=experiment_id,
                 saving_path=saving_path,
-                model="encoder",
+                model=model,
             )
 
 
 if __name__ == "__main__":
-    main(experiment_id="648760250283719387", category="AUDIO")
+    main(experiment_id="183382388301527558", category="AUDIO", model="fcn")
