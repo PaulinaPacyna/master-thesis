@@ -175,7 +175,7 @@ class BaseExperiment:
         return np.mean(accuracies)
 
     @staticmethod
-    def _get_param_from_mlflow(
+    def get_param_from_mlflow(
         experiment_id: str,
         dataset: str,
         param: str,
