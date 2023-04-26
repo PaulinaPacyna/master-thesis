@@ -74,7 +74,7 @@ def train_source_model(
     single_model_experiment_id: str,
     number_of_epochs: int = 10,
 ):
-    with mlflow.start_run(nested=True, run_name="Source model"):
+    with mlflow.start_run(run_name=f"Source model: {dataset}"):
         if selection_method == "random":
             selector = RandomSelector()
         elif selection_method == "similarity":
@@ -116,7 +116,7 @@ def train_destination_model(
     single_model_experiment_id: str,
     number_of_epochs=10,
 ) -> dict:
-    with mlflow.start_run(nested=True, run_name="Destination"):
+    with mlflow.start_run(run_name=f"Destination model: {dataset}"):
         X, y = Reading().read_dataset(dataset=dataset)
         experiment = BaselineExperiment(model=model_type)
         data_generator_train, validation_data = experiment.prepare_generators(X, y)
