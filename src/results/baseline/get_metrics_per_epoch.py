@@ -122,6 +122,8 @@ class BaselineResults(Results):
                 np.arange(len(history_summarized[metric_name])) + 1,
                 history_summarized[metric_name],
                 label=metric_name,
+                color="red" if "train" in metric_name else "green",
+                linestyle="--" if "no transfer" in metric_name.lower() else "-",
                 axes=ax,
             )
         figure.suptitle(f"Model {full_metric_name}")
