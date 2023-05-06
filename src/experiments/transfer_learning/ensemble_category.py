@@ -41,7 +41,7 @@ class EnsembleExperiment(BaseExperiment):
         if compile_:
             model.compile(
                 loss="categorical_crossentropy",
-                optimizer=decay,
+                optimizer=keras.optimizers.Adam(decay),
                 metrics=["accuracy"],
             )
         return model

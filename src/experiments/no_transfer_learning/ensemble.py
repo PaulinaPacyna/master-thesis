@@ -11,20 +11,20 @@ def train_plain_model(
     number_of_models: int = 5,
     epochs: int = 10,
 ) -> dict:
-    with mlflow.start_run(run_name="plain model", nested=True):
+    with mlflow.start_run(run_name=target_dataset, nested=True):
         reading = Reading()
         X, y = reading.read_dataset(dataset=target_dataset)
         experiment = EnsembleExperiment(
             model=model,
         )
+        data_generator_train, validation_data = experiment.prepare_generators(X, y)
+
         model = experiment.prepare_ensemble_model(
             source_models=[
                 experiment.prepare_classifier() for _ in range(number_of_models)
             ],
             mode="normal",
         )
-
-        data_generator_train, validation_data = experiment.prepare_generators(X, y)
 
         history = model.fit(
             data_generator_train,
@@ -41,11 +41,11 @@ def train_plain_model(
         )
 
 
-def main(category: str, model: Literal["fcn", "encoder"]):
+def main(category: str, model: Literal["fcn", "encoder"], experiment_id: str):
+    mlflow.set_experiment(experiment_id=experiment_id)
     for dataset in Reading().return_datasets_for_category(category):
         train_plain_model(target_dataset=dataset, model=model)
 
 
 if __name__ == "__main__":
-    main(category="IMAGE", model="fcn")
-    main(category="ECG", model="fcn")
+    main(category="MOTION", model="fcn", experiment_id="541913567164685548")
