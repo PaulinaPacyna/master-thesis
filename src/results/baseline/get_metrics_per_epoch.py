@@ -97,21 +97,23 @@ class BaselineResults(Results):
 
     def prepare_legend(self, text: str):
         mapping = {
-            self.transfer_learning_key_name_loss: "Transfer learning: train loss",
-            self.transfer_learning_key_name_val_loss: "Transfer learning: validation loss",
-            self.transfer_learning_key_name_acc: "Transfer learning: train accuracy",
-            self.transfer_learning_key_name_val_acc: "Transfer learning: validation accuracy",
-            self.no_transfer_learning_key_name_loss: "Train loss",
-            self.no_transfer_learning_key_name_val_loss: "Validation loss",
-            self.no_transfer_learning_key_name_acc: "Train accuracy",
-            self.no_transfer_learning_key_name_val_acc: "Vvalidation accuracy",
+            self.transfer_learning_key_name_loss: "Loss - train split",
+            self.transfer_learning_key_name_val_loss: "Loss - validation split",
+            self.transfer_learning_key_name_acc: "Accuracy - train split",
+            self.transfer_learning_key_name_val_acc: "Accuracy - validation split",
+            self.no_transfer_learning_key_name_loss: "No transfer learning - loss - train split",
+            self.no_transfer_learning_key_name_val_loss: "No transfer learning - loss - validation split",
+            self.no_transfer_learning_key_name_acc: "No transfer learning - accuracy - train split",
+            self.no_transfer_learning_key_name_val_acc: "No transfer learning - accuracy - validation split",
         }
         return mapping[text]
 
     def get_mean_loss_acc_per_epoch(self, metric: Literal["loss", "acc"]):
         history_summarized = self.get_history_summarized_per_epoch()
         history_summarized = {
-            key: history_summarized[key] for key in history_summarized if metric in key
+            key: history_summarized[key]
+            for key in history_summarized
+            if metric in key.lower()
         }
         full_metric_name = "accuracy" if metric == "acc" else metric
         figure, ax = plt.subplots(figsize=(5.5, 5.5))
