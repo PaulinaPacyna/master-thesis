@@ -109,4 +109,5 @@ def main(category, component_experiment_id):
             )
 
 
-main(category="ECG", component_experiment_id="861748084231733287")
+if __name__ == "main":
+    main(category="ECG", component_experiment_id="861748084231733287")
