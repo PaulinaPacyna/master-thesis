@@ -182,3 +182,14 @@ def main(
             single_model_experiment_id=single_model_experiment_id,
             number_of_epochs=number_of_epochs,
         )
+
+
+if __name__ == "__main__":
+
+    main(
+        category="AUDIO",
+        selection_method="similarity",
+        model_type="fcn",
+        single_model_experiment_id="183382388301527558",
+        this_experiment_id="743133642334170939",
+    )
