@@ -1,5 +1,4 @@
 import json
-from abc import ABC
 from collections import Counter
 from typing import List
 from typing import Literal
@@ -11,7 +10,7 @@ from mlflow import MlflowClient
 from mlflow.entities import Run
 
 
-class Results(ABC):
+class Results:
     def __init__(
         self,
         transfer_learning_experiment_id: str,

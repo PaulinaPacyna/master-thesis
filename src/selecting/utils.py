@@ -1,6 +1,5 @@
 import logging
 import os
-from abc import ABC
 from pathlib import Path
 from typing import Dict
 from typing import List
@@ -14,7 +13,7 @@ from tslearn.barycenters import dtw_barycenter_averaging_subgradient
 from tslearn.metrics import dtw
 
 
-class Selector(ABC):
+class Selector:
     def select(self, dataset: str, size: int = 5):
         raise NotImplementedError()
 
