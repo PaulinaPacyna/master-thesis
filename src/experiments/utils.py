@@ -200,3 +200,24 @@ class BaseExperiment:
         if type_ == "artifact":
             return os.path.join(run.info.artifact_uri, param)
         raise KeyError(type_)
+
+    def extended_log(
+        self,
+        data_generator_train,
+        validation_data: Tuple[np.array, np.array],
+        model: Model,
+        y_encoder: OneHotEncoder,
+        history: dict,
+        no_transfer_learning_history: dict,
+    ):
+        no_transfer_learning_history = {
+            f"no_transfer_learning_{k}": v
+            for k, v in no_transfer_learning_history.items()
+        }
+        self.log(
+            data_generator_train=data_generator_train,
+            validation_data=validation_data,
+            model=model,
+            y_encoder=y_encoder,
+            history={**history, **no_transfer_learning_history},
+        )

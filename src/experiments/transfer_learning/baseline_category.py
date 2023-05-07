@@ -1,18 +1,13 @@
 import json
 import logging
 from typing import Literal
-from typing import Tuple
 
 import mlflow
-import numpy as np
 from experiments.utils import BaseExperiment
-from keras import Model
-from mlflow import MlflowClient
 from mlflow_logging import MlFlowLogging
 from reading import Reading
 from selecting import DBASelector
 from selecting import RandomSelector
-from sklearn.preprocessing import OneHotEncoder
 from tensorflow import keras
 
 logging.getLogger().setLevel(logging.INFO)
@@ -44,27 +39,6 @@ class BaselineExperiment(BaseExperiment):
         if type_ == "metric":
             return run.data.params[param]
         raise KeyError(type_)
-
-    def extended_log(
-        self,
-        data_generator_train,
-        validation_data: Tuple[np.array, np.array],
-        model: Model,
-        y_encoder: OneHotEncoder,
-        history: dict,
-        no_transfer_learning_history: dict,
-    ):
-        no_transfer_learning_history = {
-            f"no_transfer_learning_{k}": v
-            for k, v in no_transfer_learning_history.items()
-        }
-        self.log(
-            data_generator_train=data_generator_train,
-            validation_data=validation_data,
-            model=model,
-            y_encoder=y_encoder,
-            history={**history, **no_transfer_learning_history},
-        )
 
 
 def train_source_model(

@@ -1,3 +1,4 @@
+import json
 from typing import List
 from typing import Literal
 
@@ -60,7 +61,10 @@ class EnsembleExperiment(BaseExperiment):
 
 
 def train_ensemble_model(
-    target_dataset: str, component_experiment_id: str, epochs: int = 10
+    target_dataset: str,
+    component_experiment_id: str,
+    no_tr_experiment_id: str,
+    epochs: int = 10,
 ):
     reading = Reading()
     X, y = reading.read_dataset(dataset=target_dataset)
@@ -88,26 +92,47 @@ def train_ensemble_model(
         validation_data=validation_data,
         use_multiprocessing=True,
     )
-    history = experiment.log(
+    comparison_history = experiment.get_param_from_mlflow(
+        experiment_id=no_tr_experiment_id,
+        dataset=target_dataset,
+        param="history.json",
+        type_="artifact",
+    )
+    comparison_history = json.load(open(comparison_history))
+    experiment.extended_log(
         data_generator_train=data_generator_train,
         validation_data=validation_data,
         model=ensemble_model,
         y_encoder=experiment.y_encoder,
         history=history.history,
+        no_transfer_learning_history=comparison_history,
     )
+
     return {"history": history, "model": ensemble_model}
 
 
-def main(category, component_experiment_id):
-    mlflow.set_experiment("Transfer learning - same category, ensemble")
+def main(
+    category: str,
+    this_experiment_id: str,
+    component_experiment_id: str,
+    no_tr_experiment_id: str,
+):
+    mlflow.set_experiment(experiment_id=this_experiment_id)
     mlflow.tensorflow.autolog(log_models=False)
     for target_dataset in Reading().return_datasets_for_category(category):
-        with mlflow.start_run(run_name=f"Parent run - {target_dataset}"):
+        print(f"Target dataset: {target_dataset}")
+        with mlflow.start_run(run_name=target_dataset):
             train_ensemble_model(
                 target_dataset=target_dataset,
                 component_experiment_id=component_experiment_id,
+                no_tr_experiment_id=no_tr_experiment_id,
             )
 
 
 if __name__ == "main":
-    main(category="ECG", component_experiment_id="861748084231733287")
+    main(
+        category="MOTION",
+        this_experiment_id="554900821027531839",
+        component_experiment_id="183382388301527558",
+        no_tr_experiment_id="541913567164685548",
+    )
