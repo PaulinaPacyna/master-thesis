@@ -5,14 +5,15 @@ from functools import reduce
 from pathlib import Path
 from typing import List
 from typing import Tuple
+from typing import Union
 
 import mlflow
 import numpy as np
 import pandas as pd
 from mlflow import MlflowException
-from preprocessing import get_path_to_dataset
-from preprocessing import remove_zeros_at_end
-from preprocessing import TargetEncoder
+from preprocessing.utils import get_path_to_dataset
+from preprocessing.utils import remove_zeros_at_end
+from preprocessing.utils import TargetEncoder
 from sktime.datasets import load_from_arff_to_dataframe
 from sktime.datasets import load_from_tsfile
 
@@ -99,7 +100,7 @@ class Reading:
     def read_dataset_train_test_split(
         self,
         category: str = None,
-        dataset: str = None,
+        dataset: Union[List[str], str] = None,
         split: str = "train",
         log=True,
         exclude_dataset: str = None,
@@ -112,10 +113,13 @@ class Reading:
             self.log_param(f"shapes_{split}", f"X: {X.shape}, y: {y.shape}")
             return X, y
         if dataset:
-            datasets = [dataset]
+            if isinstance(dataset, str):
+                datasets = [dataset]
+            else:
+                datasets = dataset
             if log:
-                logging.info("Loading only one dataset: %s", dataset)
-            self.log_param(f"dataset_{split}", dataset)
+                logging.info("Loading datasets: %s", ", ".join(datasets))
+            self.log_param(f"dataset_{split}", ", ".join(datasets))
         else:
             if log:
                 logging.info("Loading only one category: %s", category)
@@ -134,7 +138,10 @@ class Reading:
         return X, y
 
     def read_dataset(
-        self, category: str = None, dataset: str = None, exclude_dataset: str = None
+        self,
+        category: str = None,
+        dataset: Union[str, List[str]] = None,
+        exclude_dataset: str = None,
     ) -> Tuple[np.array, np.array]:
         X_train, y_train = self.read_dataset_train_test_split(
             split="train",

@@ -1,10 +1,10 @@
 import logging
 import os
-from abc import ABC
 from pathlib import Path
 from typing import Dict
 from typing import List
 
+import mlflow
 import numpy as np
 import pandas as pd
 from reading import Reading
@@ -13,9 +13,12 @@ from tslearn.barycenters import dtw_barycenter_averaging_subgradient
 from tslearn.metrics import dtw
 
 
-class Selector(ABC):
+class Selector:
     def select(self, dataset: str, size: int = 5):
-        pass
+        raise NotImplementedError()
+
+    def _log_datasets(self, datasets):
+        mlflow.log_param("Datasets used for ensemble", ", ".join(datasets))
 
 
 class RandomSelector(Selector):
@@ -23,7 +26,9 @@ class RandomSelector(Selector):
         reading = Reading()
         category = reading.categories[dataset]
         all_datasets = reading.return_datasets_for_category(category=category)
-        return np.random.choice(all_datasets, size=size)
+        result = np.random.choice(all_datasets, size=size)
+        self._log_datasets(result)
+        return result
 
 
 class DBASelector(Selector):
@@ -36,8 +41,12 @@ class DBASelector(Selector):
         category = reading.categories[dataset]
         matrix = self.similarity_matrices[category]
         similarities_for_dataset = matrix[dataset]
-        most_similar = similarities_for_dataset.nsmallest(n=size).index
-        return list(most_similar)
+        nsmallest = similarities_for_dataset.nsmallest(n=size)
+        mlflow.log_metric("Mean DBA similarity", float(np.mean(nsmallest)))
+        mlflow.log_param("DBA similarities", str(nsmallest.to_dict()))
+        result = list(nsmallest.index)
+        self._log_datasets(result)
+        return result
 
     @staticmethod
     def __transform_to_fourier(series: pd.Series):

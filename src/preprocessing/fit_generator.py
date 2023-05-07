@@ -6,11 +6,7 @@ import numpy as np
 from mlflow import MlflowException
 from preprocessing.utils import get_lengths
 from preprocessing.utils import normalize_length
-
-try:
-    from keras.utils.all_utils import Sequence
-except ModuleNotFoundError:
-    from keras.utils import Sequence
+from tensorflow.keras.utils import Sequence  # pylint: disable
 
 
 class BaseDataGenerator(Sequence):  # pylint: disable=too-many-instance-attributes
@@ -80,6 +76,8 @@ class BaseDataGenerator(Sequence):  # pylint: disable=too-many-instance-attribut
         return inverse_counts / sum(inverse_counts)
 
     def prepare_X(self, X: np.array, series_length: int):
+        MAX_LENGTH = 3000
+        series_length = min(MAX_LENGTH, series_length)
         X_batch = self.__normalize_rows(X)
         X_batch = [
             normalize_length(
