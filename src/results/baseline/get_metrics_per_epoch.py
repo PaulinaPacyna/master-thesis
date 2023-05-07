@@ -1,16 +1,61 @@
 import json
+import os
+from abc import ABCMeta
+from abc import abstractmethod
 from collections import Counter
 from typing import List
 from typing import Literal
 
 import matplotlib
-import matplotlib.pyplot as plt
 import numpy as np
+from matplotlib import pyplot as plt
 from mlflow import MlflowClient
 from mlflow.entities import Run
 
 
-class Results:
+class Results(metaclass=ABCMeta):
+    results_root_path = os.path.dirname(__file__)
+
+    @property
+    @abstractmethod
+    def transfer_learning_key_name_loss(self):
+        pass
+
+    @property
+    @abstractmethod
+    def transfer_learning_key_name_val_loss(self):
+        pass
+
+    @property
+    @abstractmethod
+    def transfer_learning_key_name_acc(self):
+        pass
+
+    @property
+    @abstractmethod
+    def transfer_learning_key_name_val_acc(self):
+        pass
+
+    @property
+    @abstractmethod
+    def no_transfer_learning_key_name_loss(self):
+        pass
+
+    @property
+    @abstractmethod
+    def no_transfer_learning_key_name_val_loss(self):
+        pass
+
+    @property
+    @abstractmethod
+    def no_transfer_learning_key_name_acc(self):
+        pass
+
+    @property
+    @abstractmethod
+    def no_transfer_learning_key_name_val_acc(self):
+        pass
+
     def __init__(
         self,
         transfer_learning_experiment_id: str,
@@ -19,15 +64,17 @@ class Results:
         self.no_transfer_learning_experiment_id = no_transfer_learning_experiment_id
         self.transfer_learning_experiment_id = transfer_learning_experiment_id
         self.client = MlflowClient()
-        self.transfer_learning_runs: List[Run] = self.get_transfer_learning_runs()
-        self.no_transfer_learning_runs: List[Run] = self.get_no_transfer_learning_runs()
-        self.assert_histories_equal()
+        self.transfer_learning_runs: List[Run] = self._get_transfer_learning_runs()
+        self.no_transfer_learning_runs: List[
+            Run
+        ] = self._get_no_transfer_learning_runs()
+        self._assert_histories_equal()
         matplotlib.rc("font", size=12)
 
-    def get_no_transfer_learning_runs(self):
+    def _get_no_transfer_learning_runs(self):
         return self._get_history_per_experiment(self.no_transfer_learning_experiment_id)
 
-    def get_transfer_learning_runs(self):
+    def _get_transfer_learning_runs(self):
         return self._get_history_per_experiment(self.transfer_learning_experiment_id)
 
     def _get_history_per_experiment(self, experiment_id):
@@ -40,7 +87,7 @@ class Results:
                 assert min([len(x) for x in run.data.metrics["history"].values()]) == 10
         return runs
 
-    def assert_histories_equal(self):
+    def _assert_histories_equal(self):
         transfer_learning_datasets = [
             run.data.params["dataset_train"] for run in self.transfer_learning_runs
         ]
@@ -74,41 +121,12 @@ class Results:
                 f"{transfer_learning_datasets-no_transfer_learning_datasets}.\n"
             )
 
-
-class BaselineResults(Results):
-    results_root_path = "results/baseline"
-    transfer_learning_key_name_loss = "baseline_loss"
-    transfer_learning_key_name_val_loss = "baseline_val_loss"
-    transfer_learning_key_name_acc = "baseline_accuracy"
-    transfer_learning_key_name_val_acc = "baseline_val_accuracy"
-    no_transfer_learning_key_name_loss = "baseline_no_transfer_learning_base_loss"
-    no_transfer_learning_key_name_val_loss = (
-        "baseline_no_transfer_learning_base_val_loss"
-    )
-    no_transfer_learning_key_name_acc = "baseline_no_transfer_learning_base_accuracy"
-    no_transfer_learning_key_name_val_acc = (
-        "baseline_no_transfer_learning_base_val_accuracy"
-    )
-
-    def get_transfer_learning_runs(self):
-        hist = self._get_history_per_experiment(self.transfer_learning_experiment_id)
-        return [run for run in hist if run.info.run_name.startswith("Destination")]
-
-    def prepare_legend(self, text: str):
-        mapping = {
-            self.transfer_learning_key_name_loss: "Loss - train split",
-            self.transfer_learning_key_name_val_loss: "Loss - validation split",
-            self.transfer_learning_key_name_acc: "Accuracy - train split",
-            self.transfer_learning_key_name_val_acc: "Accuracy - validation split",
-            self.no_transfer_learning_key_name_loss: "No transfer learning - loss - train split",
-            self.no_transfer_learning_key_name_val_loss: "No transfer learning - loss - validation split",
-            self.no_transfer_learning_key_name_acc: "No transfer learning - accuracy - train split",
-            self.no_transfer_learning_key_name_val_acc: "No transfer learning - accuracy - validation split",
-        }
-        return mapping[text]
+    @abstractmethod
+    def _prepare_legend(self, text):
+        pass
 
     def get_mean_loss_acc_per_epoch(self, metric: Literal["loss", "acc"]):
-        history_summarized = self.get_history_summarized_per_epoch()
+        history_summarized = self._get_history_summarized_per_epoch()
         history_summarized = {
             key: history_summarized[key]
             for key in history_summarized
@@ -130,18 +148,18 @@ class BaselineResults(Results):
         ax.set_xlabel("epoch")
         ax.legend()
         plt.ylim(bottom=0)
-        plt.savefig(f"{self.results_root_path}/{metric}.png")
+        plt.savefig(os.path.join(self.results_root_path, f"{metric}.png"))
         plt.close(figure)
 
-    def get_history_summarized_per_epoch(self):
+    def _get_history_summarized_per_epoch(self):
         metrics_names = self.transfer_learning_runs[0].data.metrics["history"].keys()
         metrics_per_epoch = {
-            self.prepare_legend(metric): [] for metric in metrics_names
+            self._prepare_legend(metric): [] for metric in metrics_names
         }
         for run in self.transfer_learning_runs:
             history = run.data.metrics["history"]
             for metric_name in metrics_names:
-                metrics_per_epoch[self.prepare_legend(metric_name)].append(
+                metrics_per_epoch[self._prepare_legend(metric_name)].append(
                     history[metric_name]
                 )
         history_summarized = {
@@ -180,8 +198,42 @@ class BaselineResults(Results):
             f"Win / tie / loss\n{win} / {tie} / {lose}",
             bbox={"ec": "black", "color": "white"},
         )
-        plt.savefig(f"{self.results_root_path}/win_tie_lose_epoch_{epoch}.png")
+        plt.savefig(
+            os.path.join(self.results_root_path, f"win_tie_lose_epoch_{epoch}.png")
+        )
         plt.close(figure)
+
+
+class BaselineResults(Results):
+    transfer_learning_key_name_loss = "baseline_loss"
+    transfer_learning_key_name_val_loss = "baseline_val_loss"
+    transfer_learning_key_name_acc = "baseline_accuracy"
+    transfer_learning_key_name_val_acc = "baseline_val_accuracy"
+    no_transfer_learning_key_name_loss = "baseline_no_transfer_learning_base_loss"
+    no_transfer_learning_key_name_val_loss = (
+        "baseline_no_transfer_learning_base_val_loss"
+    )
+    no_transfer_learning_key_name_acc = "baseline_no_transfer_learning_base_accuracy"
+    no_transfer_learning_key_name_val_acc = (
+        "baseline_no_transfer_learning_base_val_accuracy"
+    )
+
+    def _get_transfer_learning_runs(self):
+        hist = self._get_history_per_experiment(self.transfer_learning_experiment_id)
+        return [run for run in hist if run.info.run_name.startswith("Destination")]
+
+    def _prepare_legend(self, text: str):
+        mapping = {
+            self.transfer_learning_key_name_loss: "Loss - train split",
+            self.transfer_learning_key_name_val_loss: "Loss - validation split",
+            self.transfer_learning_key_name_acc: "Accuracy - train split",
+            self.transfer_learning_key_name_val_acc: "Accuracy - validation split",
+            self.no_transfer_learning_key_name_loss: "No transfer learning - loss - train split",
+            self.no_transfer_learning_key_name_val_loss: "No transfer learning - loss - validation split",
+            self.no_transfer_learning_key_name_acc: "No transfer learning - accuracy - train split",
+            self.no_transfer_learning_key_name_val_acc: "No transfer learning - accuracy - validation split",
+        }
+        return mapping[text]
 
 
 results = BaselineResults(
