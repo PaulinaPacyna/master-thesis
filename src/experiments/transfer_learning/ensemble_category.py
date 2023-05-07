@@ -8,6 +8,7 @@ from experiments.utils import BaseExperiment
 from mlflow_logging import MlFlowLogging
 from reading import Reading
 from selecting import DBASelector
+from selecting import RandomSelector
 from tensorflow import keras
 
 mlflow_logging = MlFlowLogging()
@@ -62,6 +63,7 @@ class EnsembleExperiment(BaseExperiment):
 
 def train_ensemble_model(
     target_dataset: str,
+    selection_method: Literal["random", "similarity"],
     component_experiment_id: str,
     no_tr_experiment_id: str,
     epochs: int = 10,
@@ -69,7 +71,13 @@ def train_ensemble_model(
     reading = Reading()
     X, y = reading.read_dataset(dataset=target_dataset)
     experiment = EnsembleExperiment(model="fcn")
-    selector = DBASelector()
+
+    if selection_method == "random":
+        selector = RandomSelector()
+    elif selection_method == "similarity":
+        selector = DBASelector()
+    else:
+        raise KeyError()
     datasets = selector.select(dataset=target_dataset)
 
     mlflow.log_param(
@@ -113,6 +121,7 @@ def train_ensemble_model(
 
 def main(
     category: str,
+    selection_method: Literal["random", "similarity"],
     this_experiment_id: str,
     component_experiment_id: str,
     no_tr_experiment_id: str,
@@ -124,6 +133,7 @@ def main(
         with mlflow.start_run(run_name=target_dataset):
             train_ensemble_model(
                 target_dataset=target_dataset,
+                selection_method=selection_method,
                 component_experiment_id=component_experiment_id,
                 no_tr_experiment_id=no_tr_experiment_id,
             )
@@ -132,6 +142,7 @@ def main(
 if __name__ == "main":
     main(
         category="MOTION",
+        selection_method="similarity",
         this_experiment_id="554900821027531839",
         component_experiment_id="183382388301527558",
         no_tr_experiment_id="541913567164685548",
