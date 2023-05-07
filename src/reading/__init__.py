@@ -18,6 +18,10 @@ from sktime.datasets import load_from_arff_to_dataframe
 from sktime.datasets import load_from_tsfile
 
 
+def trim_to_max_len(x, max_len=50_000):
+    return x[:max_len]
+
+
 class Reading:
     def __init__(
         self, data_root_path=os.path.join(Path(__file__).parent.parent, "data")
@@ -78,6 +82,7 @@ class Reading:
         assert X.columns == ["dim_0"], f"more than one dimension in {path}"
         X = X["dim_0"]
         X = pd.Series([remove_zeros_at_end(x) for x in X])
+        X = pd.Series([trim_to_max_len(x) for x in X])
         y = TargetEncoder(y).get_categorical_column(prefix=dataset_name)
         for series in X:
             assert not np.isnan(series).any()
