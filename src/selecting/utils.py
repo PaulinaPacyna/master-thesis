@@ -28,7 +28,7 @@ class RandomSelector(Selector):
         all_datasets = reading.return_datasets_for_category(category=category)
         result = np.random.choice(all_datasets, size=size)
         self._log_datasets(result)
-        return result
+        return result.tolist()
 
 
 class DBASelector(Selector):
