@@ -100,7 +100,7 @@ class Results(metaclass=ABCMeta):
             run.data.params["dataset_train"] for run in self.transfer_learning_runs
         ]
         no_transfer_learning_datasets = [
-            run.data.params["dataset_train"] for run in self.transfer_learning_runs
+            run.data.params["dataset_train"] for run in self.no_transfer_learning_runs
         ]
         transfer_learning_datasets_counts = Counter(transfer_learning_datasets)
         for dataset_name in transfer_learning_datasets_counts:
