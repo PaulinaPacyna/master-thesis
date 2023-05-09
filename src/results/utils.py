@@ -66,27 +66,25 @@ class Results(metaclass=ABCMeta):
 
     def __init__(
         self,
-        transfer_learning_experiment_id: str,
-        no_transfer_learning_experiment_id: str,
+        first_experiment_id: str,
+        second_experiment_id: str,
         assert_: bool = True,
     ):
-        self.no_transfer_learning_experiment_id = no_transfer_learning_experiment_id
-        self.transfer_learning_experiment_id = transfer_learning_experiment_id
+        self.second_experiment_id = second_experiment_id
+        self.first_experiment_id = first_experiment_id
         self.client = MlflowClient()
-        self.transfer_learning_runs: Dict[str, Run] = self._get_transfer_learning_runs()
-        self.no_transfer_learning_runs: Dict[
-            str, Run
-        ] = self._get_no_transfer_learning_runs()
+        self.first_experiment_runs: Dict[str, Run] = self._get_first_experiment_runs()
+        self.second_experiment_runs: Dict[str, Run] = self._get_second_experiment_runs()
         if assert_:
             self._assert_histories_equal()
         self.datasets = self._get_common_datasets()
         matplotlib.rc("font", size=12)
 
-    def _get_no_transfer_learning_runs(self) -> Dict[str, Run]:
-        return self._get_history_per_experiment(self.no_transfer_learning_experiment_id)
+    def _get_second_experiment_runs(self) -> Dict[str, Run]:
+        return self._get_history_per_experiment(self.second_experiment_id)
 
-    def _get_transfer_learning_runs(self) -> Dict[str, Run]:
-        return self._get_history_per_experiment(self.transfer_learning_experiment_id)
+    def _get_first_experiment_runs(self) -> Dict[str, Run]:
+        return self._get_history_per_experiment(self.first_experiment_id)
 
     def _get_history_per_experiment(self, experiment_id) -> Dict[str, Run]:
         runs = self.client.search_runs([experiment_id])
@@ -101,19 +99,19 @@ class Results(metaclass=ABCMeta):
             if datasets_counts[dataset_name] > 1:
                 raise ValueError(
                     f"More than one experiment for {dataset_name} "
-                    f"for {self.transfer_learning_experiment_id}"
+                    f"for {self.first_experiment_id}"
                 )
         return {run.data.params["dataset_train"]: run for run in runs}
 
     def _assert_histories_equal(self):
-        no_transfer_learning_datasets = set(self.no_transfer_learning_runs.keys())
-        transfer_learning_datasets = set(self.transfer_learning_runs.keys())
-        if no_transfer_learning_datasets != transfer_learning_datasets:
+        second_datasets = set(self.second_experiment_runs.keys())
+        first_datasets = set(self.first_experiment_runs.keys())
+        if second_datasets != first_datasets:
             raise ValueError(
-                f"The following datasets missing for {self.transfer_learning_experiment_id}: "
-                f"{no_transfer_learning_datasets-transfer_learning_datasets}.\n"
-                f"The following datasets missing for {self.no_transfer_learning_experiment_id}: "
-                f"{transfer_learning_datasets-no_transfer_learning_datasets}.\n"
+                f"The following datasets missing for {self.first_experiment_id}: "
+                f"{second_datasets-first_datasets}.\n"
+                f"The following datasets missing for {self.second_experiment_id}: "
+                f"{first_datasets-second_datasets}.\n"
             )
 
     @abstractmethod
@@ -164,8 +162,8 @@ class Results(metaclass=ABCMeta):
             for metric in metrics_names_1 + metrics_names_2
         }
         for dataset in self.datasets:
-            history_1 = self.transfer_learning_runs[dataset].data.metrics["history"]
-            history_2 = self.no_transfer_learning_runs[dataset].data.metrics["history"]
+            history_1 = self.first_experiment_runs[dataset].data.metrics["history"]
+            history_2 = self.second_experiment_runs[dataset].data.metrics["history"]
             for metric_name in metrics_names_1:
                 metrics_per_epoch[self._prepare_legend(metric_name)].append(
                     history_1[metric_name]
@@ -183,10 +181,10 @@ class Results(metaclass=ABCMeta):
     def win_tie_loss_diagram(self, epoch):
         epoch_acc_pairs = [
             [
-                self.no_transfer_learning_runs[dataset].data.metrics["history"][
+                self.second_experiment_runs[dataset].data.metrics["history"][
                     self.second_result_key_nameval_acc
                 ][epoch - 1],
-                self.transfer_learning_runs[dataset].data.metrics["history"][
+                self.first_experiment_runs[dataset].data.metrics["history"][
                     self.first_result_key_name_val_acc
                 ][epoch - 1],
             ]
@@ -218,8 +216,6 @@ class Results(metaclass=ABCMeta):
         plt.close(figure)
 
     def _get_common_datasets(self) -> list:
-        transfer_learning_datasets = self.transfer_learning_runs.keys()
-        no_transfer_learning_datasets = self.no_transfer_learning_runs.keys()
-        return list(
-            set(transfer_learning_datasets).intersection(no_transfer_learning_datasets)
-        )
+        first_datasets = self.first_experiment_runs.keys()
+        second_datasets = self.second_experiment_runs.keys()
+        return list(set(first_datasets).intersection(second_datasets))
