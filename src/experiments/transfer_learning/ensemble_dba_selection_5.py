@@ -3,7 +3,6 @@ from typing import List
 from typing import Literal
 
 import mlflow
-import numpy as np
 from experiments.utils import BaseExperiment
 from mlflow_logging import MlFlowLogging
 from reading import Reading
@@ -67,6 +66,7 @@ def train_ensemble_model(
     component_experiment_id: str,
     no_tr_experiment_id: str,
     epochs: int = 10,
+    number_of_datasets: int = 5,
 ):
     reading = Reading()
     X, y = reading.read_dataset(dataset=target_dataset)
@@ -78,7 +78,7 @@ def train_ensemble_model(
         selector = DBASelector()
     else:
         raise KeyError()
-    datasets = selector.select(dataset=target_dataset)
+    datasets = selector.select(dataset=target_dataset, size=number_of_datasets)
 
     mlflow.log_param(
         "Mean accuracy of models used for ensemble",
@@ -125,6 +125,7 @@ def main(
     this_experiment_id: str,
     component_experiment_id: str,
     no_tr_experiment_id: str,
+    number_of_datasets: int = 5,
 ):
     mlflow.set_experiment(experiment_id=this_experiment_id)
     mlflow.tensorflow.autolog(log_models=False)
@@ -136,6 +137,7 @@ def main(
                 selection_method=selection_method,
                 component_experiment_id=component_experiment_id,
                 no_tr_experiment_id=no_tr_experiment_id,
+                number_of_datasets=number_of_datasets,
             )
 
 
