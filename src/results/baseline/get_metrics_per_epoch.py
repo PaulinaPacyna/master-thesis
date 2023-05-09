@@ -12,13 +12,13 @@ class BaselineResults(Results):
     first_result_key_name_val_loss = "baseline_val_loss"
     first_result_key_name_acc = "baseline_accuracy"
     first_result_key_name_val_acc = "baseline_val_accuracy"
-    second_result_key_nameloss = "baseline_no_transfer_learning_base_loss"
-    second_result_key_nameval_loss = "baseline_no_transfer_learning_base_val_loss"
-    second_result_key_nameacc = "baseline_no_transfer_learning_base_accuracy"
-    second_result_key_nameval_acc = "baseline_no_transfer_learning_base_val_accuracy"
+    second_result_key_name_loss = "baseline_no_transfer_learning_base_loss"
+    second_result_key_name_val_loss = "baseline_no_transfer_learning_base_val_loss"
+    second_result_key_name_acc = "baseline_no_transfer_learning_base_accuracy"
+    second_result_key_name_val_acc = "baseline_no_transfer_learning_base_val_accuracy"
 
-    def _get_transfer_learning_runs(self) -> Dict[str, Run]:
-        hist = self._get_history_per_experiment(self.transfer_learning_experiment_id)
+    def _get_first_experiment_runs(self) -> Dict[str, Run]:
+        hist = self._get_history_per_experiment(self.first_experiment_id)
         return {
             key: run
             for key, run in hist.items()
@@ -40,8 +40,9 @@ class BaselineResults(Results):
 
 
 results = BaselineResults(
-    transfer_learning_experiment_id="743133642334170939",
-    no_transfer_learning_experiment_id="183382388301527558",
+    first_experiment_id="743133642334170939",
+    second_experiment_id="183382388301527558",
+    assert_=False,
 )
 results.get_mean_loss_acc_per_epoch("loss")
 results.get_mean_loss_acc_per_epoch("acc")
