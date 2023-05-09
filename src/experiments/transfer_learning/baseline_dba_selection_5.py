@@ -47,6 +47,7 @@ def train_source_model(
     model: Literal["fcn", "encoder"],
     single_model_experiment_id: str,
     number_of_epochs: int = 10,
+    number_of_datasets: int = 5,
 ):
     with mlflow.start_run(run_name=f"Source model: {dataset}"):
         if selection_method == "random":
@@ -55,7 +56,7 @@ def train_source_model(
             selector = DBASelector()
         else:
             raise KeyError()
-        datasets = selector.select(dataset=dataset)
+        datasets = selector.select(dataset=dataset, size=number_of_datasets)
 
         X, y = Reading().read_dataset(dataset=datasets)
         experiment = BaselineExperiment(model=model)
@@ -138,6 +139,7 @@ def main(
     single_model_experiment_id,
     this_experiment_id,
     number_of_epochs=10,
+    number_of_datasets: int = 5,
 ):
     mlflow.set_experiment(experiment_id=this_experiment_id)
     mlflow.tensorflow.autolog(log_models=False)
@@ -148,6 +150,7 @@ def main(
             model=model_type,
             single_model_experiment_id=single_model_experiment_id,
             number_of_epochs=number_of_epochs,
+            number_of_datasets=number_of_datasets,
         )
         train_destination_model(
             dataset=dataset,
