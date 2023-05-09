@@ -4,6 +4,7 @@ from results.utils import Results
 
 
 class EnsembleResults(Results):
+    approach_name = "Ensemble"
     results_root_path = os.path.dirname(__file__)
     transfer_learning_key_name_loss = "ensemble_loss"
     transfer_learning_key_name_val_loss = "ensemble_val_loss"

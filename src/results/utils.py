@@ -14,7 +14,15 @@ from mlflow.entities import Run
 
 
 class Results(metaclass=ABCMeta):
-    results_root_path = os.path.dirname(__file__)
+    @property
+    @abstractmethod
+    def results_root_path(self):
+        pass
+
+    @property
+    @abstractmethod
+    def approach_name(self):
+        pass
 
     @property
     @abstractmethod
@@ -143,7 +151,7 @@ class Results(metaclass=ABCMeta):
                 linestyle="--" if "no transfer" in metric_name.lower() else "-",
                 axes=ax,
             )
-        figure.suptitle(f"Model {full_metric_name}")
+        figure.suptitle(f"Model {full_metric_name} - {self.approach_name} approach")
         ax.set_ylabel(full_metric_name)
         ax.set_xlabel("epoch")
         ax.legend()
@@ -186,7 +194,9 @@ class Results(metaclass=ABCMeta):
         figure, ax = plt.subplots(figsize=(5.5, 5.5))
         plt.scatter(*list(zip(*epoch_acc_pairs)), s=8)
         plt.plot([-10, 10], [-10, 10], color="black")
-        figure.suptitle(f"Win/tie/lose plot (epoch {epoch})")
+        figure.suptitle(
+            f"Win/tie/lose plot - {self.approach_name} approach (epoch {epoch})"
+        )
         ax.set_ylabel("With transfer learning")
         ax.set_xlabel("Without transfer learning")
         plt.xlim([0, 1])
