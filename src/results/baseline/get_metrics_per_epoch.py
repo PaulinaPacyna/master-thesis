@@ -1,5 +1,7 @@
 import os
+from typing import Dict
 
+from mlflow.entities import Run
 from results.utils import Results
 
 
@@ -15,9 +17,13 @@ class BaselineResults(Results):
     second_result_key_nameacc = "baseline_no_transfer_learning_base_accuracy"
     second_result_key_nameval_acc = "baseline_no_transfer_learning_base_val_accuracy"
 
-    def _get_transfer_learning_runs(self):
+    def _get_transfer_learning_runs(self) -> Dict[str, Run]:
         hist = self._get_history_per_experiment(self.transfer_learning_experiment_id)
-        return [run for run in hist if run.info.run_name.startswith("Destination")]
+        return {
+            key: run
+            for key, run in hist.items()
+            if run.info.run_name.startswith("Destination")
+        }
 
     def _prepare_legend(self, text: str):
         mapping = {
