@@ -12,10 +12,10 @@ class BaselineResults(Results):
     first_result_key_name_val_loss = "baseline_val_loss"
     first_result_key_name_acc = "baseline_accuracy"
     first_result_key_name_val_acc = "baseline_val_accuracy"
-    second_result_key_name_loss = "baseline_no_transfer_learning_base_loss"
-    second_result_key_name_val_loss = "baseline_no_transfer_learning_base_val_loss"
-    second_result_key_name_acc = "baseline_no_transfer_learning_base_accuracy"
-    second_result_key_name_val_acc = "baseline_no_transfer_learning_base_val_accuracy"
+    second_result_key_name_loss = "base_loss"
+    second_result_key_name_val_loss = "base_val_loss"
+    second_result_key_name_acc = "base_accuracy"
+    second_result_key_name_val_acc = "base_val_accuracy"
 
     def _get_first_experiment_runs(self) -> Dict[str, Run]:
         hist = self._get_history_per_experiment(
