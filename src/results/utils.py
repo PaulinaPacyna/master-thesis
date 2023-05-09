@@ -86,22 +86,33 @@ class Results(metaclass=ABCMeta):
     def _get_first_experiment_runs(self) -> Dict[str, Run]:
         return self._get_history_per_experiment(self.first_experiment_id)
 
-    def _get_history_per_experiment(self, experiment_id) -> Dict[str, Run]:
-        runs = self.client.search_runs([experiment_id])
-        for run in runs:
+    def _get_history_per_experiment(
+        self, experiment_id, add_prefix="", exclude_from_name=None
+    ) -> Dict[str, Run]:
+        result = []
+        for run in self.client.search_runs([experiment_id]):
             if run.info.status == "FINISHED" and run.info.lifecycle_stage == "active":
-                run.data.metrics["history"] = json.load(
-                    open(run.info.artifact_uri + "/history.json")
-                )
-                assert min([len(x) for x in run.data.metrics["history"].values()]) == 10
-        datasets_counts = Counter([run.data.params["dataset_train"] for run in runs])
+                if not exclude_from_name or (
+                    exclude_from_name not in run.info.run_name
+                ):
+                    history = json.load(open(run.info.artifact_uri + "/history.json"))
+                    history = {
+                        add_prefix + key: value for key, value in history.items()
+                    }
+                    run.data.metrics["history"] = history
+                    assert (
+                        min([len(x) for x in run.data.metrics["history"].values()])
+                        == 10
+                    )
+                    result.append(run)
+        datasets_counts = Counter([run.data.params["dataset_train"] for run in result])
         for dataset_name in datasets_counts:
             if datasets_counts[dataset_name] > 1:
                 raise ValueError(
                     f"More than one experiment for {dataset_name} "
                     f"for {self.first_experiment_id}"
                 )
-        return {run.data.params["dataset_train"]: run for run in runs}
+        return {run.data.params["dataset_train"]: run for run in result}
 
     def _assert_histories_equal(self):
         second_datasets = set(self.second_experiment_runs.keys())
@@ -182,7 +193,7 @@ class Results(metaclass=ABCMeta):
         epoch_acc_pairs = [
             [
                 self.second_experiment_runs[dataset].data.metrics["history"][
-                    self.second_result_key_nameval_acc
+                    self.second_result_key_name_val_acc
                 ][epoch - 1],
                 self.first_experiment_runs[dataset].data.metrics["history"][
                     self.first_result_key_name_val_acc

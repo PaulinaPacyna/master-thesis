@@ -18,12 +18,10 @@ class BaselineResults(Results):
     second_result_key_name_val_acc = "baseline_no_transfer_learning_base_val_accuracy"
 
     def _get_first_experiment_runs(self) -> Dict[str, Run]:
-        hist = self._get_history_per_experiment(self.first_experiment_id)
-        return {
-            key: run
-            for key, run in hist.items()
-            if run.info.run_name.startswith("Destination")
-        }
+        hist = self._get_history_per_experiment(
+            self.first_experiment_id, exclude_from_name="Source"
+        )
+        return hist
 
     def _prepare_legend(self, text: str):
         mapping = {
@@ -31,10 +29,10 @@ class BaselineResults(Results):
             self.first_result_key_name_val_loss: "Loss - validation split",
             self.first_result_key_name_acc: "Accuracy - train split",
             self.first_result_key_name_val_acc: "Accuracy - validation split",
-            self.second_result_key_nameloss: "No transfer learning - loss - train split",
-            self.second_result_key_nameval_loss: "No transfer learning - loss - validation split",
-            self.second_result_key_nameacc: "No transfer learning - accuracy - train split",
-            self.second_result_key_nameval_acc: "No transfer learning - accuracy - validation split",
+            self.second_result_key_name_loss: "No transfer learning - loss - train split",
+            self.second_result_key_name_val_loss: "No transfer learning - loss - validation split",
+            self.second_result_key_name_acc: "No transfer learning - accuracy - train split",
+            self.second_result_key_name_val_acc: "No transfer learning - accuracy - validation split",
         }
         return mapping[text]
 
