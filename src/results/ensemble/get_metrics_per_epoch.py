@@ -6,31 +6,27 @@ from results.utils import Results
 class EnsembleResults(Results):
     approach_name = "Ensemble"
     results_root_path = os.path.dirname(__file__)
-    transfer_learning_key_name_loss = "ensemble_loss"
-    transfer_learning_key_name_val_loss = "ensemble_val_loss"
-    transfer_learning_key_name_acc = "ensemble_accuracy"
-    transfer_learning_key_name_val_acc = "ensemble_val_accuracy"
-    no_transfer_learning_key_name_loss = "ensemble_no_transfer_learning_ensemble_loss"
-    no_transfer_learning_key_name_val_loss = (
-        "ensemble_no_transfer_learning_ensemble_val_loss"
-    )
-    no_transfer_learning_key_name_acc = (
-        "ensemble_no_transfer_learning_ensemble_accuracy"
-    )
-    no_transfer_learning_key_name_val_acc = (
+    first_result_key_name_loss = "ensemble_loss"
+    first_result_key_name_val_loss = "ensemble_val_loss"
+    first_result_key_name_acc = "ensemble_accuracy"
+    first_result_key_name_val_acc = "ensemble_val_accuracy"
+    second_result_key_nameloss = "ensemble_no_transfer_learning_ensemble_loss"
+    second_result_key_nameval_loss = "ensemble_no_transfer_learning_ensemble_val_loss"
+    second_result_key_nameacc = "ensemble_no_transfer_learning_ensemble_accuracy"
+    second_result_key_nameval_acc = (
         "ensemble_no_transfer_learning_ensemble_val_accuracy"
     )
 
     def _prepare_legend(self, text):
         mapping = {
-            self.transfer_learning_key_name_loss: "Loss - train split",
-            self.transfer_learning_key_name_val_loss: "Loss - validation split",
-            self.transfer_learning_key_name_acc: "Accuracy - train split",
-            self.transfer_learning_key_name_val_acc: "Accuracy - validation split",
-            self.no_transfer_learning_key_name_loss: "No transfer learning - loss - train split",
-            self.no_transfer_learning_key_name_val_loss: "No transfer learning - loss - validation split",
-            self.no_transfer_learning_key_name_acc: "No transfer learning - accuracy - train split",
-            self.no_transfer_learning_key_name_val_acc: "No transfer learning - accuracy - validation split",
+            self.first_result_key_name_loss: "Loss - train split",
+            self.first_result_key_name_val_loss: "Loss - validation split",
+            self.first_result_key_name_acc: "Accuracy - train split",
+            self.first_result_key_name_val_acc: "Accuracy - validation split",
+            self.second_result_key_nameloss: "No transfer learning - loss - train split",
+            self.second_result_key_nameval_loss: "No transfer learning - loss - validation split",
+            self.second_result_key_nameacc: "No transfer learning - accuracy - train split",
+            self.second_result_key_nameval_acc: "No transfer learning - accuracy - validation split",
         }
         return mapping[text]
 

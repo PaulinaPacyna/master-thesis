@@ -26,42 +26,42 @@ class Results(metaclass=ABCMeta):
 
     @property
     @abstractmethod
-    def transfer_learning_key_name_loss(self):
+    def first_result_key_name_loss(self):
         pass
 
     @property
     @abstractmethod
-    def transfer_learning_key_name_val_loss(self):
+    def first_result_key_name_val_loss(self):
         pass
 
     @property
     @abstractmethod
-    def transfer_learning_key_name_acc(self):
+    def first_result_key_name_acc(self):
         pass
 
     @property
     @abstractmethod
-    def transfer_learning_key_name_val_acc(self):
+    def first_result_key_name_val_acc(self):
         pass
 
     @property
     @abstractmethod
-    def no_transfer_learning_key_name_loss(self):
+    def second_result_key_nameloss(self):
         pass
 
     @property
     @abstractmethod
-    def no_transfer_learning_key_name_val_loss(self):
+    def second_result_key_nameval_loss(self):
         pass
 
     @property
     @abstractmethod
-    def no_transfer_learning_key_name_acc(self):
+    def second_result_key_nameacc(self):
         pass
 
     @property
     @abstractmethod
-    def no_transfer_learning_key_name_val_acc(self):
+    def second_result_key_nameval_acc(self):
         pass
 
     def __init__(
@@ -179,10 +179,10 @@ class Results(metaclass=ABCMeta):
     def win_tie_loss_diagram(self, epoch):
         epoch_acc_pairs = [
             [
-                run.data.metrics["history"][self.no_transfer_learning_key_name_val_acc][
+                run.data.metrics["history"][self.second_result_key_nameval_acc][
                     epoch - 1
                 ],
-                run.data.metrics["history"][self.transfer_learning_key_name_val_acc][
+                run.data.metrics["history"][self.first_result_key_name_val_acc][
                     epoch - 1
                 ],
             ]
