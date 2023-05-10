@@ -78,7 +78,7 @@ class Results(metaclass=ABCMeta):
         if assert_:
             self._assert_histories_equal()
         self.datasets = self._get_common_datasets()
-        matplotlib.rc("font", size=12)
+        matplotlib.rc("font", size=9)
 
     def _get_second_experiment_runs(self) -> Dict[str, Run]:
         return self._get_history_per_experiment(self.second_experiment_id)
