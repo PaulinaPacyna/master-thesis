@@ -1,6 +1,7 @@
 import os
 from typing import Dict
 
+import matplotlib.pyplot as plt
 from mlflow.entities import Run
 from results.utils import Results
 
@@ -35,6 +36,30 @@ class EnsembleResults(Results):
         }
         return mapping[text]
 
+    def source_acc_vs_accuracy(self) -> dict:
+        results_ = self.first_experiment_runs
+        acc_pairs = [
+            (
+                float(
+                    results_[dataset].data.params[
+                        "Mean accuracy of models used for ensemble"
+                    ]
+                ),
+                results_[dataset].data.metrics["val_accuracy"],
+            )
+            for dataset in self.datasets
+        ]
+        figure, ax = plt.subplots(figsize=(5.5, 5.5))
+        plt.scatter(*list(zip(*acc_pairs)), s=8)
+        figure.suptitle("Validation accuracy versus mean accuracy of source models")
+        ax.set_ylabel("Accuracy - validation split")
+        ax.set_xlabel("Mean accuracy of source models used int he ensemble")
+        plt.ylim([0, 1])
+        plt.xlim([0, 1])
+        ax.set_aspect("equal")
+        plt.savefig(os.path.join(self.results_root_path, "source_acc_vs_val.png"))
+        plt.close(figure)
+
 
 results = EnsembleResults(
     first_experiment_id="554900821027531839",
@@ -45,3 +70,5 @@ results.get_mean_loss_acc_per_epoch("loss")
 results.get_mean_loss_acc_per_epoch("acc")
 results.win_tie_loss_diagram(epoch=10)
 results.win_tie_loss_diagram(epoch=5)
+results.dba_vs_accuracy()
+results.source_acc_vs_accuracy()

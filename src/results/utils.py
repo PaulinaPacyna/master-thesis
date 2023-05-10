@@ -150,8 +150,11 @@ class Results(metaclass=ABCMeta):
         figure.suptitle(f"Model {full_metric_name} - {self.approach_name} approach")
         ax.set_ylabel(full_metric_name)
         ax.set_xlabel("epoch")
+        if metric == "loss":
+            plt.ylim(bottom=0)
+        else:
+            plt.ylim([0, 1])
         ax.legend()
-        plt.ylim(bottom=0)
         plt.savefig(os.path.join(self.results_root_path, f"{metric}.png"))
         plt.close(figure)
 
@@ -237,3 +240,24 @@ class Results(metaclass=ABCMeta):
             "color": "red" if "train" in metric_name else "green",
             "linestyle": "--" if "no transfer" in metric_name.lower() else "-",
         }
+
+    def dba_vs_accuracy(self) -> dict:
+        results = self.first_experiment_runs
+        sim_acc_pairs = [
+            (
+                results[dataset].data.metrics["Mean DBA similarity"],
+                results[dataset].data.metrics["val_accuracy"],
+            )
+            for dataset in self.datasets
+        ]
+        figure, ax = plt.subplots(figsize=(5.5, 5.5))
+        plt.scatter(*list(zip(*sim_acc_pairs)), s=8)
+        figure.suptitle("Accuracy versus mean DBA similarity of source datasets")
+        ax.set_ylabel("Accuracy - validation split")
+        ax.set_xlabel("Mean DBA similarity of source datasets to target dataset")
+        plt.ylim([0, 1])
+        plt.xscale("log")
+        plt.savefig(
+            os.path.join(self.results_root_path, "accuracy_vs_mean_dba_sim.png")
+        )
+        plt.close(figure)
