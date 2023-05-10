@@ -139,13 +139,13 @@ class Results(metaclass=ABCMeta):
         full_metric_name = "accuracy" if metric == "acc" else metric
         figure, ax = plt.subplots(figsize=(5.5, 5.5))
         for metric_name in sorted(history_summarized):
+            plot_kwargs = self._get_plot_kwargs(metric_name)
             plt.plot(
                 np.arange(len(history_summarized[metric_name])) + 1,
                 history_summarized[metric_name],
                 label=metric_name,
-                color="red" if "train" in metric_name else "green",
-                linestyle="--" if "no transfer" in metric_name.lower() else "-",
                 axes=ax,
+                **plot_kwargs,
             )
         figure.suptitle(f"Model {full_metric_name} - {self.approach_name} approach")
         ax.set_ylabel(full_metric_name)
@@ -230,3 +230,10 @@ class Results(metaclass=ABCMeta):
         first_datasets = self.first_experiment_runs.keys()
         second_datasets = self.second_experiment_runs.keys()
         return list(set(first_datasets).intersection(second_datasets))
+
+    @staticmethod
+    def _get_plot_kwargs(metric_name) -> dict:
+        return {
+            "color": "red" if "train" in metric_name else "green",
+            "linestyle": "--" if "no transfer" in metric_name.lower() else "-",
+        }
