@@ -301,7 +301,7 @@ The time index $T$ can represent any collection with the natural order. We assum
 
 
 
-\subsection{Multi Layer Perceptron}
+\subsection{Multi Layer Perceptron}\label{mlp_section_related}
 The Multi Layer Perceptron (MLP) is the first artificial neural network architecture proposed in \cite{dl_tsc} and can be used for time series classification tasks.
 %A MLP network can be formally defined as a function depending on a set \textit{weights} $\theta_i$.
 %$$MLP(X; \theta_1,\dots , \theta_M, \beta_1,\dots , \beta_M) = f_M( \beta_M +  \theta_M \cdot (f_{M-1}( \beta_{M-1} +  \theta_{M-1} \cdot (\dots f_1( \beta_1 +  \theta_1 \cdot X)))))$$
@@ -611,7 +611,53 @@ In \cite{transfer_learning_time_series} the distance was computed pairwise for a
 \end{figure}
 \FloatBarrier
 
-The result shows that choosing the source dataset for transfer learning based on similarity to the target dataset may lead to benefits. In this work we will try to construct the dataset artificially, by combining, preprocessing, and augmenting the datasets from the UCR archive, to mimic the properties of the ImageNet dataset. The artificial dataset will be composed of multiple datasets. Therefore we rather won't use this similarity to choose one particular dataset. We will take the inter-dataset distance into account when adjusting the distribution of classes in the artificial dataset, to favor classes similar to the target dataset.
+The result shows that choosing the source dataset for transfer learning based on similarity to the target dataset may lead to benefits. In this work we will try to construct the dataset artificially, by combining, preprocessing, and augmenting the datasets from the UCR archive, to mimic the properties of the ImageNet dataset. The artificial dataset will be composed of multiple datasets. Therefore we rather won't use this similarity to choose one particular dataset. We will take the inter-dataset distance into account when adjusting the distribution of classes in the artificial dataset, to favour classes similar to the target dataset.
+
+\chapter{Metodology}
+\section{Data reading}
+The data downloaded from the UCR archive is available in two formats, \texttt{ts} (as text files) and \texttt{arff/weka} (as binaries).
+\section{Multisource transfer learning}
+As single source transfer learning for time seires classification was covered by Fawaz et al. \cite{transfer_learning_time_series}, this thesis considers mostly trnasfer learning with usage of multiple source datasets. Two approaches were developed, named \textit{baseline approach} and \textit{ensebmle approach}, and will be described below. Both of those approaches consider multiple (the number is arbitrary) source datasets, single target dataset, the same neural network architectures and hyperparameters.
+
+\subsection{Baseline approach}
+The \textit{baseline approach} is a simple extension to classical transfer learning approach used in deep learning. Usually in deep learning, the neural network is first trained on a large diverse dataset (like ImageNet). The network is usually trained on the source dataset, then the first layers are used in the source classifier.
+
+The idea here is similar, but the source dataset is created artificially from multiple datasets. As most of the datasets in the UCR archive are small, we concatenate them to obtain a bigger dataset. Suppose that we have $N$ datasets $(X_i^\mathcal{S}, Y_i^\mathcal{S})$, $i=1, \cdots, N$.
+The target dataset $(X^\mathcal{T}, Y^\mathcal{T})$ is created as follows:
+$X^\mathcal{T} = \bigcup_{i=1}^N X_i^\mathcal{S}$,
+
+$Y = \{prefix_i(y): y \in Y_i, i=1, \dots, N\}$
+where $prefix_i(\cdot)$ is a function such that $$\forall_{i\neq j} \forall_{\bar{y} \in Y_i, \hat{y} \in Y_j} prefix_i(y) \neq prefix_j{y}$$
+In our case, the prefix function given a class name (as a string), simply transforms the string by adding a prefix with the dataset name. This way the classes remain distinct after concatenation. The number of classes in the resulting dataset is equal to the sum of number of classes in each of the datasets. The examples that correspond to the same dataset should be intuitively similar to each other (analogue of the fine-grained classes in ImageNet) while examples from different datasets cover more latent space (analogue of the coarse-grained classes from ImageNet). The data batches that are feed to the model are processed as described in the previous chapter, including length unification within batch, normalization and random augmentation of 30\% of the observations.
+
+\section{Ensemble approach}
+The second approach proposed in this thesis is inspired by the success of ensemble models (e.g. HIVE-COTE )%TODO more ensemble classifiers
+ in time series classification. Small datasets sizes common in time series classification tend to increase the variance error in the classifiers. Therefore the ensemble method is often proposed to decrease the variance and increase accuracy of predictions. This intuition is resembled in this approach.
+
+The previous study on transfer learning with a single source dataset \cite{transfer_learning_time_series} shown that though transfer learning generally increases the accuracy, for a lot of experiments the accuracy was decreased. If a dataset differed significantly from the target dataset, a classifier pretrained on such dataset wouldn't adapt to the target dataset, thus decreasing the accuracy. The same situation is probable with multi-source transfer learning, if part of the datasets are not suited for the particular target dataset. In order to mitigate the negative contribution, ensemble method is used.
+
+Assuming that we want to perform transfer learning given $N$ source datasets $(X^\mathcal{S}_1, y^\mathcal{S}_1), \dots, (X^\mathcal{S}_N, y^\mathcal{S}_N)$ and a target dataset $(X^\mathcal{T}, y^\mathcal{T})$
+The model is created from $N$ source models. Model $M_i$ is a classifier (e.g. a Fully Convolutional Network) trained on the dataset $(X^\mathcal{S}_i, y^\mathcal{S}_i)$. The hyperparameters used for experiments ion this thesis are described in section (TODO) and do not differ from hyperparameters used for the \textit{baseline approach}. % TODO section hyperparameters
+In case of neural networks, the last layer produces the probilitities of belonging to class. Let's recall the notion from the section \ref{mlp_section_related} that a model $M_i$ is a composition of layers, $$M_i(X; \theta_1^i,\dots , \theta_M^i, \beta_1^i,\dots , \beta_M^i) = L_M^i(\dots L_2(L_1(X;\theta_1^i, \beta_1^i);\theta_2^i, \beta_2^i);\theta_M^i, \beta_M^i).$$
+
+We assume that the architecture of each layer except for the last one is the same for all $i=1, \dots, N$. Thefore only the last layer has the superscript $\ ^i$. The last layer output size is equal to the number of classes in dataset $i$, therefore may be different for every model. We also assume that the first layers architecture is the same for all models. Models agnostic to the input size (like FCNs) are advantageous here, as their architecture does not depend on the input size. As for the models, we assume a fixed size of the input data achieved by preprocessing the input data.
+The weights and biases are obtained from training on dataset $i$
+The target model $M$ is created as follows:
+$$M(X) = \frac{1}{N} \sum_{i=1}^N \hat L_M(L_{M-1}(\dots L_1(X; \theta_1^i, \beta_1^i);\theta^i_{M-1}, \beta^i_{M-1});\hat\theta_M^i, \hat\beta_M^i )$$
+The weights $\theta_1^i, \dots, \theta_{M-1}^i$ and biases $\beta_1^i, \dots, \beta_{M-1}^i$ are obtained from training the source models. The last layer $\hat L_M$ is "new", meaning that the output size is equal to the number of classes in the target dataset. The new corresponding weights $\hat\theta_M^i$ and biases $\hat\beta_M^i$ have proper dimensionality and are randomly initialized. This model is then retrained on the target dataset. All weights are updated in the training procedure (freezing the weights is not used).
+
+A grafical example of the process can be found in figure. \ref{fig:ensemble_architecture}.
+
+
+\FloatBarrier
+\begin{figure}[h!]
+\centering
+\includegraphics[width=17cm]{imgs/ensemble_architecture.png}
+\caption{Illustration of the ensemble approach based on $N=3$ source models (Fully connected networks in this case). If a layer is coloured, it means that the weights in this layer are initialized by pre-training on one of the source datasets. The last layer in each model is new.}
+\label{fig:ensemble_architecture}
+\end{figure}
+
+\FloatBarrier
 % ------------------------------- BIBLIOGRAPHY ---------------------------
 % LEXICOGRAPHICAL ORDER BY AUTHORS' LAST NAMES
 % FOR AMBITIOUS ONES - USE BIBTEX
