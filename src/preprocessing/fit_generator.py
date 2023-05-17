@@ -119,7 +119,7 @@ class ConstantLengthDataGenerator(BaseDataGenerator):
         shuffle: bool = True,
         batch_size: int = 32,
         dtype: np.dtype = np.float16,
-        length: int = 64,
+        length: int = 256,
         augmentation_probability: float = 0,
         multiply_augmentation_probability: float = 1,
     ):
