@@ -615,13 +615,74 @@ The result shows that choosing the source dataset for transfer learning based on
 
 \chapter{Metodology}
 \section{Data reading}
-The data downloaded from the UCR archive is available in two formats, \texttt{ts} (as text files) and \texttt{arff/weka} (as binaries). In order to speed up the reading and coversion time, all datasets were read, concatenated and saved as one array of time series (the original lenghts were preserved). No preprocessing, except for filling NaN values with zeros was done at this point.
+The data downloaded from the UCR archive is available in two formats, \texttt{ts} (as text files) and \texttt{arff/weka} (as binaries). In order to speed up the reading and conversion time, all datasets were read, concatenated and saved as one array of time series (the original lengths were preserved). At this point, only basic preprocessing was done. It included the following steps:
+\begin{itemize}
+\item replacing \texttt{NaN} values with zeros
+\item removing zeros at the end of the time series. This step was done, because some of time series published in the UCR archive were already padded with zeros to have the same lengths. This assumption is not necessary when using Fully Connected Network.
+\item trimming the series if the length of a time series exceeded $50 000$ time steps.
+
+
+\end{itemize}
+
+All time series were concatenated to one array of series and saved in a \texttt{.npy} format.
+
 
 \section{Preprocessing and preparing the data}
-In order to avoid focusing on one particular form of preprocessing and preparing the data, the preprocessing was done on the fly when training the data. This way, experimenting with hypermarapeters and methods was possible. In order to achieve it, Keras DataGenerators were used. DataGenerators allow for defining a python generator that provides batches of data to the fit method, instead of providing a fixed dataframe. This was useful when dealing with datasets consisting of time series of variable lengths. In such cases, the lengths of time series could be different for each batch.
+In order to avoid focusing on one particular form of preprocessing and preparing the data, the preprocessing was done on the fly when training the data. This way, fast experimenting with hypermarapeters and methods was possible. In order to achieve it, Keras DataGenerators were used. DataGenerators allow for defining a python generator that provides batches of data to the fit method, instead of providing a fixed dataframe. This was useful when dealing with datasets consisting of time series of variable lengths and Fully Convolutional Networks. In such cases, the lengths of time series could be different for each batch.
+The preprocessing was designed differently given the model architecture. If the model expected time series of the same length \texttt{ConstantLengthDataGenerator} was used. For the Fully Convolutional Networks we implemented \texttt{VariableLengthDataGenerator}.
+The preprocessing steps for both generators are similar and will be described below:
+\begin{itemize}
+	\item selecting time series to the batch. Number of series in a batch was equal to $32$. The series were chosen so that the classes were uniformly distributed in the batch.
+	\item normalizing the time series values to standard normal distribution. The normaliztion is done per one time series
+	\item obtaining time series of the same length within the batch. For \texttt{ConstantLengthDataGenerator}.
+ the length is constant and set a hyperparemeter (256 by default). For \texttt{VariableLengthDataGenerator}.
+the length of the longest series in the batch is computed. The target length is equal to the length of the longest series or $3000$ if it exceeds. In case of both generators if a time series is shorter than the target length, then the series is padded. If a time series is longer than the target length, then a random sub interval is selected.
 
 
-\section{Multisource transfer learning}
+
+\end{itemize}
+
+\section{Neural network architectures}
+The experiments were conducted on the Fully Convolutional Network. The network detailed architecture summary, including layer sizes is shown below. \begin{verbatim}
+Model: "FCN"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #
+=================================================================
+ input_1 (InputLayer)        [(None, None, 1)]         0
+
+ conv1d (Conv1D)             (None, None, 128)         1536
+
+ batch_normalization (BatchN  (None, None, 128)        512
+ ormalization)
+
+ activation (Activation)     (None, None, 128)         0
+
+ conv1d_1 (Conv1D)           (None, None, 256)         164096
+
+ batch_normalization_1 (Batc  (None, None, 256)        1024
+ hNormalization)
+
+ activation_1 (Activation)   (None, None, 256)         0
+
+ conv1d_2 (Conv1D)           (None, None, 128)         98432
+
+ batch_normalization_2 (Batc  (None, None, 128)        512
+ hNormalization)
+
+ activation_2 (Activation)   (None, None, 128)         0
+
+ global_average_pooling1d (G  (None, 128)              0
+ lobalAveragePooling1D)
+
+ dense (Dense)               (None, 2)                 258
+
+=================================================================
+Total params: 266,370
+Trainable params: 265,346
+Non-trainable params: 1,024
+\end{verbatim}
+The second parameter in output shape is always equal to \texttt{None}, because the length of the time series is not known in advance.
+\section{Multi-source transfer learning}
 As single source transfer learning for time series classification was covered by Fawaz et al. \cite{transfer_learning_time_series}, this thesis considers mostly trnasfer learning with the usage of multiple source datasets. Two approaches of transfer learning were developed, named \textit{baseline approach} and \textit{ensebmle approach}, both of them will be described below. Both of those approaches consider multiple (the number is arbitrary) source datasets, single target dataset, the same neural network architectures and hyperparameters.
 
 \subsection{Baseline approach}
