@@ -648,33 +648,33 @@ Model: "FCN"
 _________________________________________________________________
  Layer (type)                Output Shape              Param #
 =================================================================
- input_1 (InputLayer)        [(None, None, 1)]         0
+ input_1 (InputLayer)        [(32, None, 1)]         0
 
- conv1d (Conv1D)             (None, None, 128)         1536
+ conv1d (Conv1D)             (32, None, 128)         1536
 
- batch_normalization (BatchN  (None, None, 128)        512
+ batch_normalization (BatchN  (32, None, 128)        512
  ormalization)
 
- activation (Activation)     (None, None, 128)         0
+ activation (Activation)     (32, None, 128)         0
 
- conv1d_1 (Conv1D)           (None, None, 256)         164096
+ conv1d_1 (Conv1D)           (32, None, 256)         164096
 
- batch_normalization_1 (Batc  (None, None, 256)        1024
+ batch_normalization_1 (Batc  (32, None, 256)        1024
  hNormalization)
 
- activation_1 (Activation)   (None, None, 256)         0
+ activation_1 (Activation)   (32, None, 256)         0
 
- conv1d_2 (Conv1D)           (None, None, 128)         98432
+ conv1d_2 (Conv1D)           (32, None, 128)         98432
 
- batch_normalization_2 (Batc  (None, None, 128)        512
+ batch_normalization_2 (Batc  (32, None, 128)        512
  hNormalization)
 
- activation_2 (Activation)   (None, None, 128)         0
+ activation_2 (Activation)   (32, None, 128)         0
 
- global_average_pooling1d (G  (None, 128)              0
+ global_average_pooling1d (G  (32, 128)              0
  lobalAveragePooling1D)
 
- dense (Dense)               (None, 2)                 258
+ dense (Dense)               (32, 2)                 258
 
 =================================================================
 Total params: 266,370
@@ -744,6 +744,23 @@ A grafical example of the process can be found in figure. \ref{fig:ensemble_arch
 \end{figure}
 
 \FloatBarrier
+\section{Selecting the source datasets for multi-source transfer learning}
+In both multi-source learning approached described above (\textit{baseline} and \textit{ensemble} approaches) we don't impose any restrictions on the source datasets itself. Neither of the two approaches don't include any rules how the source dataset correspond to the target dataset. In the experiments conducted in this thesis, two approaches for picking the datasets are proposed. In the first approach, we pick randomly $N$ datasets from a given category corresponding to the target dataset. To illustrate, let's say that the objective is to train a target classifier on the \texttt{InlineSkate} dataset, which belongs to the \texttt{Motion} category in the UCR archive. Then the source datasets are picked randomly from the \texttt{Motion}, which could be \texttt{UWaveGestureLibraryX, AsphaltPavementType, ToeSegmentation2, CricketZ, UWaveGestureLibraryZ}.
+
+\chapter{Results}
+The results and metrices of classifiers obtained from training networks with transfer learning were compared to the results obtained without transfer learning. It was important to always compare to a network that follows the same architecture as the target classifier. Therefore for e. g. the performance of the target classifier in the ensemble approach was compared to an ensemble model with the same amount of component models in the ensemble. Where applicable, the same hyperparameters were used for training with transfer learning and without transfer learning. This way the improvements can be attributed solely to the initial weights learned in the transfer learning procedure, not to ensembling, differences in model architecture or hyperparameters.
+\section{Experiments}
+Each experiment recorded in MLFlow corresponds to one training setting. An example setting may be e.g. \begin{itemize}
+\item training a network using the \textit{ensemble approach}, with 5 datasets picked using the DBA similarity measure
+ \item training a network using the \textit{baseline approach}, with 5 source datasets picked randomly
+ \item training an ensemble of FCNs without transfer learning
+
+\end{itemize}
+Following the MlFlow convention, each experiments consisted of several runs, each correspond to one target dataset from the category \texttt{MOTION}. When comparing averaged results, then the result was averaged on all runs.
+
+%TODO screenshot from mlflow
+
+
 % ------------------------------- BIBLIOGRAPHY ---------------------------
 % LEXICOGRAPHICAL ORDER BY AUTHORS' LAST NAMES
 % FOR AMBITIOUS ONES - USE BIBTEX
