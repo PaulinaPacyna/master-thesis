@@ -771,21 +771,23 @@ The \textit{baseline} approach, in which a single FCN was pretrained and fine-tu
 
 \begin{figure}[h!t]
 \centering
-\includegraphics[width=12cm]{imgs/results/baseline/acc.png}
-\caption{Averaged accuracy obtained from transfer learning with the \textit{baseline} approach, compared to a single FCN trained only on the target dataset.}
+\includegraphics[width=8 cm]{imgs/results/baseline/acc.png}
+\includegraphics[width=8cm]{imgs/results/baseline/loss.png}
+\caption{Averaged accuracy and loss obtained from transfer learning with the \textit{baseline} approach, compared to a single FCN trained only on the target dataset.}
 \label{fig:baseline_acc}
 \end{figure}
 \FloatBarrier
-
+The greatest improvement is visible in the first epochs of the training process, which suggest that the network uses the knowledge learned from the previous task. As the training continues, the advantage is more significant. On Figure \ref{fig:win_tie_loss_baseline} we show a comparison win/tie/loss diagram for fifth and tenth epoch.
+We also see that the gap between accuracy/loss on the validation and test split is smaller than without transfer learning. This can mean that the model is less prone to overfitting hence generalizes better, due to exposure to more diverse examples in the pre-training phase.
+\FloatBarrier
 \begin{figure}[h!t]
 \centering
-\includegraphics[width=12cm]{imgs/results/baseline/loss.png}
-\caption{Averaged loss obtained from transfer learning with the \textit{baseline} approach, compared to a single FCN trained only on the target dataset.}
-\label{fig:baseline_loss}
+\includegraphics[width=7cm]{imgs/results/baseline/win_tie_lose_epoch_5.png}
+\includegraphics[width=7cm]{imgs/results/baseline/win_tie_lose_epoch_10.png}
+\caption{Win/tie/loss plot. This plot shows the validation accuracy in 5th and 10th epoch for each run (corresponding to a target dataset). The y axis correspondonds to baseline approach, and x axis to approach without transfer learning. If a dot is above the diagonal, then it means that the transfer learning was beneficial.}
+\label{fig:win_tie_loss_baseline}
 \end{figure}
 \FloatBarrier
-The greatest improvement is visible in the first epochs of the training process. %TODO why
-We also see that the gap between accuracy/loss on the validation and test split is smaller than without transfer learning. This can mean that the model is less prone to overfitting hence generalizes better, due to exposure to more diverse examples in the pre-training phase.
 % ------------------------------- BIBLIOGRAPHY ---------------------------
 % LEXICOGRAPHICAL ORDER BY AUTHORS' LAST NAMES
 % FOR AMBITIOUS ONES - USE BIBTEX
