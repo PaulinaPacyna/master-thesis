@@ -31,14 +31,14 @@ class BaselineVsEnsembleResults(Results):
 
     def _prepare_legend(self, text: str):
         mapping = {
-            self.first_result_key_name_loss: "Ensemble with 8 datasets - loss - train split",
-            self.first_result_key_name_val_loss: "Ensemble with 8 datasets - loss - validation split",
-            self.first_result_key_name_acc: "Ensemble with 8 datasets - accuracy - train split",
-            self.first_result_key_name_val_acc: "Ensemble with 8 datasets - accuracy - validation split",
-            self.second_result_key_name_loss: "Ensemble with 5 datasets - loss - train split",
-            self.second_result_key_name_val_loss: "Ensemble with 5 datasets - loss - validation split",
-            self.second_result_key_name_acc: "Ensemble with 5 datasets - accuracy - train split",
-            self.second_result_key_name_val_acc: "Ensemble with 5 datasets - accuracy - validation split",
+            self.first_result_key_name_loss: "Ensemble with 8 datasets \n- loss - train split",
+            self.first_result_key_name_val_loss: "Ensemble with 8 datasets \n- loss - validation split",
+            self.first_result_key_name_acc: "Ensemble with 8 datasets \n- accuracy - train split",
+            self.first_result_key_name_val_acc: "Ensemble with 8 datasets \n- accuracy - validation split",
+            self.second_result_key_name_loss: "Ensemble with 5 datasets \n- loss - train split",
+            self.second_result_key_name_val_loss: "Ensemble with 5 datasets \n- loss - validation split",
+            self.second_result_key_name_acc: "Ensemble with 5 datasets \n- accuracy - train split",
+            self.second_result_key_name_val_acc: "Ensemble with 5 datasets \n- accuracy - validation split",
         }
         return mapping[text]
 

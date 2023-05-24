@@ -26,13 +26,13 @@ class BaselineVsEnsembleResults(Results):
     def _prepare_legend(self, text: str):
         mapping = {
             self.first_result_key_name_loss: "Ensemble - loss - train split",
-            self.first_result_key_name_val_loss: "Ensemble - loss - validation split",
+            self.first_result_key_name_val_loss: "Ensemble - loss - validation \nsplit",
             self.first_result_key_name_acc: "Ensemble - accuracy - train split",
-            self.first_result_key_name_val_acc: "Ensemble - accuracy - validation split",
+            self.first_result_key_name_val_acc: "Ensemble - accuracy - validation \nsplit",
             self.second_result_key_name_loss: "Baseline - loss - train split",
-            self.second_result_key_name_val_loss: "Baseline - loss - validation split",
+            self.second_result_key_name_val_loss: "Baseline - loss - validation \nsplit",
             self.second_result_key_name_acc: "Baseline - accuracy - train split",
-            self.second_result_key_name_val_acc: "Baseline - accuracy - validation split",
+            self.second_result_key_name_val_acc: "Baseline - accuracy - validation \nsplit",
         }
         return mapping[text]
 

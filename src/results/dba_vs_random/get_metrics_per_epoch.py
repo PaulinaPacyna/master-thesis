@@ -25,14 +25,14 @@ class DbaSimiliarityVsRandomResults(Results):
 
     def _prepare_legend(self, text: str):
         mapping = {
-            self.first_result_key_name_loss: "DBA similarity approach - loss - train split",
-            self.first_result_key_name_val_loss: "DBA similarity approach - loss - validation split",
-            self.first_result_key_name_acc: "DBA similarity approach - accuracy - train split",
-            self.first_result_key_name_val_acc: "DBA similarity approach - accuracy - validation split",
-            self.second_result_key_name_loss: "Random approach - loss - train split",
-            self.second_result_key_name_val_loss: "Random approach - loss - validation split",
-            self.second_result_key_name_acc: "Random approach - accuracy - train split",
-            self.second_result_key_name_val_acc: "Random approach - accuracy - validation split",
+            self.first_result_key_name_loss: "DBA similarity approach \n- loss - train split",
+            self.first_result_key_name_val_loss: "DBA similarity approach \n- loss - validation split",
+            self.first_result_key_name_acc: "DBA similarity approach \n- accuracy - train split",
+            self.first_result_key_name_val_acc: "DBA similarity approach \n- accuracy - validation split",
+            self.second_result_key_name_loss: "Random approach \n- loss - train split",
+            self.second_result_key_name_val_loss: "Random approach \n- loss - validation split",
+            self.second_result_key_name_acc: "Random approach \n- accuracy - train split",
+            self.second_result_key_name_val_acc: "Random approach \n- accuracy - validation split",
         }
         return mapping[text]
 
