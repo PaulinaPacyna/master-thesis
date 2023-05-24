@@ -273,14 +273,11 @@ class Results(metaclass=ABCMeta):
             )
             for dataset in self.datasets
         ]
-        figure, ax = plt.subplots(figsize=(5.5 * cm, 5.5 * cm))
+        figure, ax = plt.subplots(figsize=(14 * cm, 14 * cm))
         plt.scatter(*list(zip(*sim_acc_pairs)), s=8)
         figure.suptitle("Accuracy versus mean DBA similarity of source datasets")
         ax.set_ylabel("Accuracy - validation split")
         ax.set_xlabel("Mean DBA similarity of source datasets to target dataset")
         plt.ylim([0, 1])
         plt.xscale("log")
-        plt.savefig(
-            os.path.join(self.results_root_path, "accuracy_vs_mean_dba_sim.png")
-        )
-        plt.close(figure)
+        self._save_fig(figure, "accuracy_vs_mean_dba_sim.png")

@@ -3,6 +3,7 @@ from typing import Dict
 
 import matplotlib.pyplot as plt
 from mlflow.entities import Run
+from results.utils import cm
 from results.utils import Results
 
 
@@ -49,7 +50,7 @@ class EnsembleResults(Results):
             )
             for dataset in self.datasets
         ]
-        figure, ax = plt.subplots(figsize=(5.5, 5.5))
+        figure, ax = plt.subplots(figsize=(14 * cm, 14 * cm))
         plt.scatter(*list(zip(*acc_pairs)), s=8)
         figure.suptitle("Validation accuracy versus mean accuracy of source models")
         ax.set_ylabel("Accuracy - validation split")
@@ -57,8 +58,7 @@ class EnsembleResults(Results):
         plt.ylim([0, 1])
         plt.xlim([0, 1])
         ax.set_aspect("equal")
-        plt.savefig(os.path.join(self.results_root_path, "source_acc_vs_val.png"))
-        plt.close(figure)
+        self._save_fig(figure, "source_acc_vs_val.png")
 
 
 results = EnsembleResults(
