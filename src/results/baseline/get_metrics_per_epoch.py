@@ -29,10 +29,10 @@ class BaselineResults(Results):
             self.first_result_key_name_val_loss: "Loss - validation split",
             self.first_result_key_name_acc: "Accuracy - train split",
             self.first_result_key_name_val_acc: "Accuracy - validation split",
-            self.second_result_key_name_loss: "No transfer learning - loss - train split",
-            self.second_result_key_name_val_loss: "No transfer learning - loss - validation split",
-            self.second_result_key_name_acc: "No transfer learning - accuracy - train split",
-            self.second_result_key_name_val_acc: "No transfer learning - accuracy - validation split",
+            self.second_result_key_name_loss: "No transfer learning \n- loss - train split",
+            self.second_result_key_name_val_loss: "No transfer learning \n- loss - validation split",
+            self.second_result_key_name_acc: "No transfer learning \n- accuracy - train split",
+            self.second_result_key_name_val_acc: "No transfer learning \n- accuracy - validation split",
         }
         return mapping[text]
 

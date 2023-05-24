@@ -773,7 +773,7 @@ The \textit{baseline} approach, in which a single FCN was pretrained and fine-tu
 
 \begin{figure}[h!t]
 \centering
-\includegraphics[width=14 cm]{imgs/baseline/loss_acc.png}
+\includegraphics[width=17 cm]{imgs/baseline/loss_acc.png}
 \caption{Averaged accuracy and loss obtained from transfer learning with the \textit{baseline} approach, compared to a single FCN trained only on the target dataset.}
 \label{fig:baseline_acc}
 \end{figure}
@@ -831,14 +831,14 @@ As mentioned in \ref{section:selecting}, the datasets used for multi-source tran
 Figure \ref{fig:random_vs_dba} shows the averaged results using random selection and selection based on DBA similarity measure.
 
 As we see, selecting the datasets based on the similarity measure led to slight improvement.
-\FloatBarrier
-\begin{figure}[h!t]
-\centering
-\includegraphics[width=17cm]{imgs/ensemble_vs_baseline/sim_acc.png}
-\caption{}
-\label{fig:random_vs_dba}
-\end{figure}
-\FloatBarrier
+%\FloatBarrier
+%\begin{figure}[h!t]
+%\centering
+%\includegraphics[width=17cm]{imgs/baseline_vs_ensemble/sim_acc.png}
+%\caption{}
+%\label{fig:random_vs_dba}
+%\end{figure}
+%\FloatBarrier
 There is still room to improve the similarity measure. In order to understand the improvements in accuracy when using similarity score, the correlation between the target classifier accuracy and the dba similarity has been examined. The scatterplot is shown on plot \ref{fig:acc_vs_dba_sim}
 
 The similarity measure is helpful, but it is a bit flawed. Due to the nature of the Dynamic Time Warping distance, the DBA similarity measure favours short time series. The following plot shows this: the mean of DBA distance from a given dataset to other dataset versus the mean series length in the dataset. This finding suggest using some kind of normalization (respect to series size) or trimming, when computing the similarity measure.
@@ -852,7 +852,7 @@ For the previous experiments, we used $5$ spurce datasets, both for the \textit{
 
 \chapter{Conclusions}
 
-In this thesis we extended the research on transfer learning in time series classification. We have proven that multi-source transfer learning increased te accuracy of the classifiers and mitigated overfitting, which is very common for small datasets present in the time series classification domain. We proposed two approaches on multi-source transfer learning: the \textit{baseline} and \textit{ensemble} approach, the second inspired by the success of ensemble classifiers in time series classification domain. Furthermore, a detailed comparatice analysis of the two approaches was conducted.
+In this thesis we extended the research on transfer learning in time series classification. We have proven that multi-source transfer learning increased te accuracy of the classifiers and mitigated overfitting, which is very common for small datasets present in the time series classification domain. We proposed two approaches on multi-source transfer learning: the \textit{baseline} and \textit{ensemble} approach, the second inspired by the success of ensemble classifiers in time series classification domain. Furthermore, a detailed comparative analysis of the two approaches was conducted.
 
 The \textit{ensemble} approach proved to be better in terms of performance results and training time. However, the size of the ensemble model may be a limitation, especially with larger networks, bigger datasets or in environments with limited memory.
 We also considered two methods of selecting the datasets for pre-training the source classifiers. The method based on DBA similarity measure has proven to be slightly advantageous comparing to picking the datasets randomly or by trial and error. We believe that this method may be improved by enhancing the similarity measure, or fixing the bias caused by the length of the time series.

@@ -15,6 +15,8 @@ from matplotlib.figure import Figure
 from mlflow import MlflowClient
 from mlflow.entities import Run
 
+cm = 1 / 2.54
+
 
 class Results(metaclass=ABCMeta):
     @property
@@ -82,6 +84,7 @@ class Results(metaclass=ABCMeta):
             self._assert_histories_equal()
         self.datasets = self._get_common_datasets()
         matplotlib.rc("font", size=9)
+        plt.rcParams["figure.dpi"] = 400
 
     def _save_fig(self, fig: Figure, path: str):
         latex_dir = os.path.join(
@@ -142,8 +145,8 @@ class Results(metaclass=ABCMeta):
         pass
 
     def get_mean_loss_acc_per_epoch(self):
-        figure, axes = plt.subplots(1, 2, figsize=(14, 5.5))
-        figure.tight_layout()
+        figure, axes = plt.subplots(1, 2, figsize=(18 * cm, 13 * cm))
+        figure.tight_layout(rect=[0.025, 0.01, 0.975, 0.95])
         figure.suptitle(f"Model accuracy and loss - {self.approach_name} approach")
         for metric, ax in zip(["loss", "acc"], axes):
             self._get_mean_loss_ax_acc_per_epoch(metric=metric, ax=ax)
@@ -224,7 +227,7 @@ class Results(metaclass=ABCMeta):
         win = sum(acc[0] < acc[1] for acc in epoch_acc_pairs)
         tie = sum(acc[0] == acc[1] for acc in epoch_acc_pairs)
         lose = sum(acc[0] > acc[1] for acc in epoch_acc_pairs)
-        figure, ax = plt.subplots(figsize=(5.5, 5.5))
+        figure, ax = plt.subplots(figsize=(5.5 * cm, 5.5 * cm))
         plt.scatter(*list(zip(*epoch_acc_pairs)), s=8)
         plt.plot([-10, 10], [-10, 10], color="black")
         figure.suptitle(
@@ -267,7 +270,7 @@ class Results(metaclass=ABCMeta):
             )
             for dataset in self.datasets
         ]
-        figure, ax = plt.subplots(figsize=(5.5, 5.5))
+        figure, ax = plt.subplots(figsize=(5.5 * cm, 5.5 * cm))
         plt.scatter(*list(zip(*sim_acc_pairs)), s=8)
         figure.suptitle("Accuracy versus mean DBA similarity of source datasets")
         ax.set_ylabel("Accuracy - validation split")
