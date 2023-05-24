@@ -212,7 +212,16 @@ class Results(metaclass=ABCMeta):
         }
         return history_summarized
 
-    def win_tie_loss_diagram(self, epoch):
+    def win_tie_loss_diagram(self):
+        figure, axes = plt.subplots(1, 2, figsize=(18 * cm, 10 * cm))
+        figure.tight_layout(rect=[0.025, 0.01, 0.975, 0.95])
+        figure.suptitle(f"Win/tie/lose plot - {self.approach_name} approach")
+        for epoch, ax in zip([5, 10], axes):
+            self._win_tie_loss_diagram(epoch=epoch, ax=ax)
+        self._save_fig(figure, "win_tie_lose_epoch.png")
+        plt.close(figure)
+
+    def _win_tie_loss_diagram(self, epoch: int, ax):
         epoch_acc_pairs = [
             [
                 self.second_experiment_runs[dataset].data.metrics["history"][
@@ -227,16 +236,13 @@ class Results(metaclass=ABCMeta):
         win = sum(acc[0] < acc[1] for acc in epoch_acc_pairs)
         tie = sum(acc[0] == acc[1] for acc in epoch_acc_pairs)
         lose = sum(acc[0] > acc[1] for acc in epoch_acc_pairs)
-        figure, ax = plt.subplots(figsize=(5.5 * cm, 5.5 * cm))
-        plt.scatter(*list(zip(*epoch_acc_pairs)), s=8)
-        plt.plot([-10, 10], [-10, 10], color="black")
-        figure.suptitle(
-            f"Win/tie/lose plot - {self.approach_name} approach (epoch {epoch})"
-        )
+        ax.scatter(*list(zip(*epoch_acc_pairs)), s=8)
+        ax.plot([-10, 10], [-10, 10], color="black")
+        ax.set_title(f"Epoch {epoch}")
         ax.set_ylabel("With transfer learning")
         ax.set_xlabel("Without transfer learning")
-        plt.xlim([0, 1])
-        plt.ylim([0, 1])
+        ax.set_xlim([0, 1])
+        ax.set_ylim([0, 1])
         ax.set_aspect("equal")
         ax.text(
             0.1,
@@ -244,10 +250,7 @@ class Results(metaclass=ABCMeta):
             f"Win / tie / loss\n{win} / {tie} / {lose}",
             bbox={"ec": "black", "color": "white"},
         )
-        plt.savefig(
-            os.path.join(self.results_root_path, f"win_tie_lose_epoch_{epoch}.png")
-        )
-        plt.close(figure)
+        return ax
 
     def _get_common_datasets(self) -> list:
         first_datasets = self.first_experiment_runs.keys()

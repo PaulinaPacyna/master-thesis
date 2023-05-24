@@ -56,5 +56,4 @@ results = BaselineVsEnsembleResults(
     assert_=False,
 )
 results.get_mean_loss_acc_per_epoch()
-results.win_tie_loss_diagram(epoch=10)
-results.win_tie_loss_diagram(epoch=5)
+results.win_tie_loss_diagram()
