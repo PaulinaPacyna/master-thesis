@@ -3,12 +3,15 @@ import os
 from abc import ABCMeta
 from abc import abstractmethod
 from collections import Counter
+from pathlib import Path
 from typing import Dict
 from typing import Literal
 
 import matplotlib
 import numpy as np
 from matplotlib import pyplot as plt
+from matplotlib.axis import Axis
+from matplotlib.figure import Figure
 from mlflow import MlflowClient
 from mlflow.entities import Run
 
@@ -80,6 +83,15 @@ class Results(metaclass=ABCMeta):
         self.datasets = self._get_common_datasets()
         matplotlib.rc("font", size=9)
 
+    def _save_fig(self, fig: Figure, path: str):
+        latex_dir = os.path.join(
+            Path(os.path.abspath(".")).parent, "latex", "2. thesis", "imgs"
+        )
+        dirname = self.results_root_path.split("/")[-1]
+        fig.savefig(os.path.join(self.results_root_path, path))
+        fig.savefig(os.path.join(latex_dir, dirname, path))
+        plt.close(fig)
+
     def _get_second_experiment_runs(self) -> Dict[str, Run]:
         return self._get_history_per_experiment(self.second_experiment_id)
 
@@ -129,7 +141,16 @@ class Results(metaclass=ABCMeta):
     def _prepare_legend(self, text):
         pass
 
-    def get_mean_loss_acc_per_epoch(self, metric: Literal["loss", "acc"]):
+    def get_mean_loss_acc_per_epoch(self):
+        figure, axes = plt.subplots(1, 2, figsize=(14, 5.5))
+        figure.tight_layout()
+        figure.suptitle(f"Model accuracy and loss - {self.approach_name} approach")
+        for metric, ax in zip(["loss", "acc"], axes):
+            self._get_mean_loss_ax_acc_per_epoch(metric=metric, ax=ax)
+        self._save_fig(figure, "loss_acc.png")
+        plt.close(figure)
+
+    def _get_mean_loss_ax_acc_per_epoch(self, metric: Literal["loss", "acc"], ax: Axis):
         history_summarized = self._get_history_summarized_per_epoch()
         history_summarized = {
             key: history_summarized[key]
@@ -137,17 +158,14 @@ class Results(metaclass=ABCMeta):
             if metric in key.lower()
         }
         full_metric_name = "accuracy" if metric == "acc" else metric
-        figure, ax = plt.subplots(figsize=(5.5, 5.5))
         for metric_name in sorted(history_summarized):
             plot_kwargs = self._get_plot_kwargs(metric_name)
-            plt.plot(
+            ax.plot(
                 np.arange(len(history_summarized[metric_name])) + 1,
                 history_summarized[metric_name],
                 label=metric_name,
-                axes=ax,
                 **plot_kwargs,
             )
-        figure.suptitle(f"Model {full_metric_name} - {self.approach_name} approach")
         ax.set_ylabel(full_metric_name)
         ax.set_xlabel("epoch")
         if metric == "loss":
@@ -155,8 +173,7 @@ class Results(metaclass=ABCMeta):
         else:
             plt.ylim([0, 1])
         ax.legend()
-        plt.savefig(os.path.join(self.results_root_path, f"{metric}.png"))
-        plt.close(figure)
+        return ax
 
     def _get_history_summarized_per_epoch(self):
         metrics_names_1 = [
