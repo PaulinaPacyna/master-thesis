@@ -1,7 +1,14 @@
 import os
 from typing import Dict
 
+import matplotlib.pyplot as plt
+import numpy as np
+from matplotlib.cm import ScalarMappable
+from matplotlib.cm import viridis
 from mlflow.entities import Run
+from preprocessing import get_lengths
+from reading import Reading
+from results.utils import cm
 from results.utils import Results
 
 
@@ -16,6 +23,21 @@ class BaselineVsEnsembleResults(Results):
     second_result_key_name_val_loss = "baseline_val_loss"
     second_result_key_name_acc = "baseline_accuracy"
     second_result_key_name_val_acc = "baseline_val_accuracy"
+
+    def __init__(
+        self,
+        first_experiment_id: str,
+        second_experiment_id: str,
+        component_experiment_id: str,
+        assert_=True,
+    ):
+        super().__init__(
+            first_experiment_id=first_experiment_id,
+            second_experiment_id=second_experiment_id,
+            assert_=assert_,
+        )
+        self.component_experiment_id = component_experiment_id
+        self.X, self.y = Reading().read_dataset()
 
     def _get_second_experiment_runs(self) -> Dict[str, Run]:
         hist = self._get_history_per_experiment(
@@ -43,11 +65,65 @@ class BaselineVsEnsembleResults(Results):
             "linestyle": "--" if "train" in metric_name.lower() else "-",
         }
 
+    def times_comparison(self):
+        time_and_length = [
+            (
+                self._get_total_training_time_ensemble(dataset),
+                self._get_total_training_time_baseline(dataset),
+                self._get_series_mean_length(dataset),
+            )
+            for dataset in self.datasets
+        ]
+        figure, ax = plt.subplots(figsize=(14 * cm, 14 * cm))
+        x, y, colors = zip(*time_and_length)
+        sc = ax.scatter(x, y, c=colors, cmap=viridis)
+        ax.plot([0, 100], [0, 100], c="black")
+        plt.colorbar(sc)
+        lim = max(*x, *y)
+        ax.set_xlim(0, lim)
+        ax.set_ylim(0, lim)
+        self._save_fig(figure, "times_comparison.png")
+
+    def _get_series_mean_length(self, dataset_name):
+        mask = np.char.startswith(self.y, dataset_name + "_").ravel()
+        return get_lengths(self.X[mask]).mean()
+
+    def _get_total_training_time_ensemble(self, dataset):
+        run = self.first_experiment_runs[dataset]
+        finetuning_time = self.__extract_training_time(run)
+        source_datasets = run.data.params["Datasets used for ensemble"].split(",")
+        source_datasets = [name.strip(" ") for name in source_datasets]
+        component_experiment = self._get_history_per_experiment(
+            self.component_experiment_id
+        )
+        components_training_time = [
+            self.__extract_training_time(component_experiment[source_dataset])
+            for source_dataset in source_datasets
+        ]
+        return finetuning_time + sum(components_training_time)
+
+    @staticmethod
+    def __extract_training_time(run):
+        return (run.info.end_time - run.info.start_time) / 1000 / 60
+
+    def _get_total_training_time_baseline(self, dataset):
+        target_run = self.second_experiment_runs[dataset]
+        source_run = self._get_history_per_experiment(
+            self.second_experiment_id,
+            exclude_from_name="Destination",
+            dataset_name_from_run_name=True,
+        )[f"Source model: {dataset}"]
+        return self.__extract_training_time(target_run) + self.__extract_training_time(
+            source_run
+        )
+
 
 results = BaselineVsEnsembleResults(
     first_experiment_id="554900821027531839",
     second_experiment_id="743133642334170939",
+    component_experiment_id="183382388301527558",
     assert_=False,
 )
+results.times_comparison()
 results.get_mean_loss_acc_per_epoch()
 results.win_tie_loss_diagram()

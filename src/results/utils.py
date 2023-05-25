@@ -102,7 +102,11 @@ class Results(metaclass=ABCMeta):
         return self._get_history_per_experiment(self.first_experiment_id)
 
     def _get_history_per_experiment(
-        self, experiment_id, add_prefix="", exclude_from_name=None
+        self,
+        experiment_id,
+        add_prefix="",
+        exclude_from_name=None,
+        dataset_name_from_run_name=False,
     ) -> Dict[str, Run]:
         result = []
         for run in self.client.search_runs([experiment_id]):
@@ -120,6 +124,15 @@ class Results(metaclass=ABCMeta):
                         == 10
                     )
                     result.append(run)
+        if dataset_name_from_run_name:
+            datasets_counts = Counter([run.info.run_name for run in result])
+            for dataset_name in datasets_counts:
+                if datasets_counts[dataset_name] > 1:
+                    raise ValueError(
+                        f"More than one experiment for {dataset_name} "
+                        f"for {self.first_experiment_id}"
+                    )
+            return {run.info.run_name: run for run in result}
         datasets_counts = Counter([run.data.params["dataset_train"] for run in result])
         for dataset_name in datasets_counts:
             if datasets_counts[dataset_name] > 1:

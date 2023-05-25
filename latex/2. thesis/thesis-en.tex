@@ -783,7 +783,7 @@ We also see that the gap between accuracy/loss on the validation and test split 
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
-\includegraphics[width=15.5cm]{imgs/baseline/loss_acc.png}
+\includegraphics[width=17 cm]{imgs/baseline/win_tie_lose_epoch.png}
 \caption{Win/tie/loss plot. This plot shows the validation accuracy in 5th and 10th epoch for each run (corresponding to a target dataset). The y axis correspondonds to baseline approach, and x axis to approach without transfer learning. If a dot is above the diagonal, then it means that the transfer learning was beneficial.}
 \label{fig:win_tie_loss_baseline}
 \end{figure}
@@ -796,12 +796,20 @@ In the \textit{ensemble} approach, we created an ensemble model created from 5 F
 
 \begin{figure}[h!t]
 \centering
-\includegraphics[width=14 cm]{imgs/ensemble/loss_acc.png}
+\includegraphics[width=17 cm]{imgs/ensemble/loss_acc.png}
 \caption{Averaged accuracy and loss obtained from transfer learning with the \textit{ensemble} approach, compared to a an esemble of FCN models trained only on the target dataset.}
 \label{fig:ensemble_acc}
 \end{figure}
 \FloatBarrier
+We also present a win tie loss diagram as for the \textit{baseline} approach on figure \ref{fig:win_tie_loss_ensemble}. We see that in the final epoch, a majority of the datasets didn't benefit from transfer learning, but if they did, the benefit was relatively bigger than in the \textit{baseline} approach.
 
+\FloatBarrier
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=17 cm]{imgs/ensemble/win_tie_lose_epoch.png}
+\caption{Win/tie/loss plot. This plot shows the validation accuracy in 5th and 10th epoch for each run (corresponding to a target dataset). The y axis corresponds to the \textit{ensemble} approach, and x axis to approach without transfer learning. If a dot is above the diagonal, then it means that the transfer learning was beneficial.}
+\label{fig:win_tie_loss_ensemble}
+\end{figure}
 The model used in the ensemble approach consisted of more parameters, thanks to ensembling. This together with the small sizes of datasets in the UCR archive might lead to overfitting. As we see in the plot, in the model trained without transfer learning, the gap between accuracy and loss for validation and test split is big. This may indicate that the models were overfitted. Exposing the models to a larger amount of data in the pre-training phase reduces overfitting. We see that for the transfer learning results, the gap between metrices for validation and train split is smaller. Also the accuracy on the train split is smaller, which suggest that the overfitting is mitigated.
 
 \section{Comparison of baseline and ensemble approach}
