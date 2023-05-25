@@ -3,8 +3,6 @@ from typing import Dict
 
 import matplotlib.pyplot as plt
 import numpy as np
-from matplotlib.cm import ScalarMappable
-from matplotlib.cm import viridis
 from mlflow.entities import Run
 from preprocessing import get_lengths
 from reading import Reading
@@ -74,14 +72,25 @@ class BaselineVsEnsembleResults(Results):
             )
             for dataset in self.datasets
         ]
-        figure, ax = plt.subplots(figsize=(14 * cm, 14 * cm))
+        figure, ax = plt.subplots(figsize=(16 * cm, 14 * cm))
         x, y, colors = zip(*time_and_length)
-        sc = ax.scatter(x, y, c=colors, cmap=viridis)
-        ax.plot([0, 100], [0, 100], c="black")
-        plt.colorbar(sc)
+        sc = ax.scatter(
+            x,
+            y,
+            c=colors,
+            cmap="plasma",
+        )
+        plt.colorbar(sc, ax=ax, label="Mean length of the series")
+
         lim = max(*x, *y)
         ax.set_xlim(0, lim)
         ax.set_ylim(0, lim)
+        ax.plot([0, 100], [0, 100], c="black")
+        ax.set_ylabel("Training time for baseline approach")
+        ax.set_xlabel("Training time for ensemble approach")
+        ax.set_aspect("equal")
+        ax.set_xticks(ax.get_xticks(), [f"{int(tick)} min" for tick in ax.get_xticks()])
+        ax.set_yticks(ax.get_yticks(), [f"{int(tick)} min" for tick in ax.get_yticks()])
         self._save_fig(figure, "times_comparison.png")
 
     def _get_series_mean_length(self, dataset_name):
