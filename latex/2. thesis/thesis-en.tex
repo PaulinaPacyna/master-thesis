@@ -766,7 +766,7 @@ Following the MlFlow convention, each experiments consisted of several runs, eac
 
 %TODO screenshot from mlflow
 \subsection{Evaluation of the baseline approach}
-The \textit{baseline} approach, in which a single FCN was pretrained and fine-tuned, was compared to results obtained from trained a single FCN model on the target dataset only. For this comparison, we used Fully Connected Network as the model and 5 source datasets selected to minimize the DBA distance to the target dataset.  Figure \ref{fig:baseline_acc} and  shows \ref{fig:baseline_loss} shows the accuracy and loss in each epoch, averaged over all experiments conducted.
+The \textit{baseline} approach, in which a single FCN was pretrained and fine-tuned, was compared to results obtained from trained a single FCN model on the target dataset only. For this comparison, we used Fully Connected Network as the model and 5 source datasets selected to minimize the DBA distance to the target dataset.  Figure \ref{fig:baseline_acc} shows the accuracy and loss in each epoch, averaged over all experiments conducted.
 
 
 \FloatBarrier
@@ -828,7 +828,14 @@ Other than the differences in qualitative results, the computation time and size
 For the baseline approach, the model is smaller, but the pre-training data is bigger than in the \textit{ensemble} approach. For the Fully Convolutional architecture, where the input size can be arbitrary, longer time series/more examples of time series impact the training time.  Therefore, the time needed to pre-train  the network in the \textit{baseline} approach is longer than in the \textit{ensemble} approach.
 
 Training the model used in the \textit{ensemble} approach is composed of two steps. In the first step each component, which is a single FCN model, is trained on a single dataset, corresponding to each source dataset selected for the target dataset. Hence it is a single dataset and a single model, this step is relatively quick and could be parallelised, as the models and datasets and independent. The second step consist of training the model on the ensemble created from the pre-trained components on the target dataset. Although the model is bigger, we save time on the pre-training phase, comparing to the \textit{baseline} approach. Therefore in the end, the ensemble approach is faster. Figure \ref{fig:baseline_ensemble_traning_time} shows the comparison of training time for both approaches.  The training time shown on the plot is a sum of time needed for pre-training step and fine-tuning step.
-
+\FloatBarrier
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=17cm]{imgs/baseline_vs_ensemble/times_comparison.png}
+\caption{}
+\label{fig:baseline_ensemble_traning_time}
+\end{figure}
+\FloatBarrier
 It is worth mentioning, that during the experiments conducted for the sake of this thesis a lot of time was saved, by saving the components pre-trained for the \textit{ensemble}. If a component was trained once on given source dataset, it was reused everytime an ensemble model was created of it. It saved time during the experiments, but the time saved was not deducted from time shown on figure \ref{fig:baseline_ensemble_traning_time}.
 
 When it comes to the size of the model, the model used for \textit{baseline} approach consisted, on average, of N parameters, while the model used for \textit{ensemble approach} consisted typically of M parameters. The model used for \textit{baseline} approach occupied c.a. X GB of RAM memory while the model used for \textit{ensemble} approach occupied c.a. Y GB of RAM memory.
@@ -839,21 +846,33 @@ As mentioned in \ref{section:selecting}, the datasets used for multi-source tran
 Figure \ref{fig:random_vs_dba} shows the averaged results using random selection and selection based on DBA similarity measure.
 
 As we see, selecting the datasets based on the similarity measure led to slight improvement.
-%\FloatBarrier
-%\begin{figure}[h!t]
-%\centering
-%\includegraphics[width=17cm]{imgs/baseline_vs_ensemble/sim_acc.png}
-%\caption{}
-%\label{fig:random_vs_dba}
-%\end{figure}
-%\FloatBarrier
+\FloatBarrier
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=17cm]{imgs/dba_vs_random/loss_acc.png}
+\caption{}
+\label{fig:random_vs_dba}
+\end{figure}
+\FloatBarrier
 There is still room to improve the similarity measure. In order to understand the improvements in accuracy when using similarity score, the correlation between the target classifier accuracy and the dba similarity has been examined. The scatterplot is shown on plot \ref{fig:acc_vs_dba_sim}
-
-The similarity measure is helpful, but it is a bit flawed. Due to the nature of the Dynamic Time Warping distance, the DBA similarity measure favours short time series. The following plot shows this: the mean of DBA distance from a given dataset to other dataset versus the mean series length in the dataset. This finding suggest using some kind of normalization (respect to series size) or trimming, when computing the similarity measure.
-
+\FloatBarrier
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=17cm]{imgs/ensemble/accuracy_vs_mean_dba_sim.png}
+\caption{}
+\label{fig:acc_vs_dba_sim}
+\end{figure}
+\FloatBarrier
 \section{Influence of accuracy of the components used in the ensemble on the target classifiers' accuracy}
 This short section checks the hypothesis that the better the model we use in ensemble approach, the better the end results on the target classifier. As we see on the plot \ref{fig:acc_source_vs_acc_target}, which shows the mean accuracy of components (measured on each source dataset, using test split) versus the accuracy of the target classifier (measured on the test split of target dataset). There is a X correlation between the two statistics.
-
+\FloatBarrier
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=17cm]{imgs/ensemble/source_acc_vs_val.png}
+\caption{}
+\label{fig:acc_source_vs_acc_target}
+\end{figure}
+\FloatBarrier
 \section{Number of datasets used in multi-source }
 For the previous experiments, we used $5$ spurce datasets, both for the \textit{ensemble} and \textit{baseline} approach. However, the nimber of experiments is arbitrary. This thesis aims to explore the benefits of multi-source transfer learning, compared to single source transfer learning described in \cite{transfer_learning_time_series}. Similarly as in the previous sections we compared \textit{ensemble} and \textit{baseline} approaches to models trained without transfer learning, below we compared the accuracy and loss for models pre-trained with $3$, $5$ and $8$ source datasets.
 
