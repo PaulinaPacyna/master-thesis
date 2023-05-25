@@ -91,8 +91,8 @@ class Results(metaclass=ABCMeta):
             Path(os.path.abspath(".")).parent, "latex", "2. thesis", "imgs"
         )
         dirname = self.results_root_path.split("/")[-1]
-        fig.savefig(os.path.join(self.results_root_path, path))
-        fig.savefig(os.path.join(latex_dir, dirname, path))
+        fig.savefig(os.path.join(self.results_root_path, path), transparent=True)
+        fig.savefig(os.path.join(latex_dir, dirname, path), transparent=True)
         plt.close(fig)
 
     def _get_second_experiment_runs(self) -> Dict[str, Run]:
