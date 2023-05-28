@@ -19,6 +19,9 @@ cm = 1 / 2.54
 
 
 class Results(metaclass=ABCMeta):
+    x_label_win_tie_loss = "Without transfer learning"
+    y_label_win_tie_loss = "With transfer learning"
+
     @property
     @abstractmethod
     def results_root_path(self):
@@ -252,8 +255,8 @@ class Results(metaclass=ABCMeta):
         ax.scatter(*list(zip(*epoch_acc_pairs)), s=8)
         ax.plot([-10, 10], [-10, 10], color="black")
         ax.set_title(f"Epoch {epoch}")
-        ax.set_ylabel("With transfer learning")
-        ax.set_xlabel("Without transfer learning")
+        ax.set_ylabel(self.y_label_win_tie_loss)
+        ax.set_xlabel(self.x_label_win_tie_loss)
         ax.set_xlim([0, 1])
         ax.set_ylim([0, 1])
         ax.set_aspect("equal")
