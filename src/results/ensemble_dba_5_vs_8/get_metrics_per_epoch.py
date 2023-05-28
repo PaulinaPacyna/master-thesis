@@ -5,7 +5,7 @@ from mlflow.entities import Run
 from results.utils import Results
 
 
-class BaselineVsEnsembleResults(Results):
+class NumberOfDatasets5_8(Results):
     approach_name = "8 datasets vs 5 datasets used. Ensemble "
     results_root_path = os.path.dirname(__file__)
     first_result_key_name_loss = "8_ensemble_loss"
@@ -50,10 +50,9 @@ class BaselineVsEnsembleResults(Results):
         }
 
 
-results = BaselineVsEnsembleResults(
+results = NumberOfDatasets5_8(
     first_experiment_id="528548208530565493",
     second_experiment_id="554900821027531839",
     assert_=False,
 )
-results.get_mean_loss_acc_per_epoch()
 results.win_tie_loss_diagram()

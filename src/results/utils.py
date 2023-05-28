@@ -170,7 +170,7 @@ class Results(metaclass=ABCMeta):
         plt.close(figure)
 
     def _get_mean_loss_ax_acc_per_epoch(self, metric: Literal["loss", "acc"], ax: Axis):
-        history_summarized = self._get_history_summarized_per_epoch()
+        history_summarized = self._get_history_summarized_per_epoch_comparison()
         history_summarized = {
             key: history_summarized[key]
             for key in history_summarized
@@ -194,33 +194,36 @@ class Results(metaclass=ABCMeta):
         ax.legend()
         return ax
 
-    def _get_history_summarized_per_epoch(self):
-        metrics_names_1 = [
-            self.first_result_key_name_acc,
-            self.first_result_key_name_val_acc,
-            self.first_result_key_name_loss,
-            self.first_result_key_name_val_loss,
-        ]
-        metrics_names_2 = [
-            self.second_result_key_name_acc,
-            self.second_result_key_name_val_acc,
-            self.second_result_key_name_loss,
-            self.second_result_key_name_val_loss,
-        ]
+    def _get_history_summarized_per_epoch_comparison(self):
+        history_summarized_1 = self._get_history_summarized_per_epoch(
+            experiment_run=self.first_experiment_runs,
+            metrics_names=[
+                self.first_result_key_name_acc,
+                self.first_result_key_name_val_acc,
+                self.first_result_key_name_loss,
+                self.first_result_key_name_val_loss,
+            ],
+        )
+        history_summarized_2 = self._get_history_summarized_per_epoch(
+            experiment_run=self.second_experiment_runs,
+            metrics_names=[
+                self.second_result_key_name_acc,
+                self.second_result_key_name_val_acc,
+                self.second_result_key_name_loss,
+                self.second_result_key_name_val_loss,
+            ],
+        )
+        return {**history_summarized_1, **history_summarized_2}
+
+    def _get_history_summarized_per_epoch(self, experiment_run, metrics_names):
         metrics_per_epoch = {
-            self._prepare_legend(metric): []
-            for metric in metrics_names_1 + metrics_names_2
+            self._prepare_legend(metric): [] for metric in metrics_names
         }
         for dataset in self.datasets:
-            history_1 = self.first_experiment_runs[dataset].data.metrics["history"]
-            history_2 = self.second_experiment_runs[dataset].data.metrics["history"]
-            for metric_name in metrics_names_1:
+            history_1 = experiment_run[dataset].data.metrics["history"]
+            for metric_name in metrics_names:
                 metrics_per_epoch[self._prepare_legend(metric_name)].append(
                     history_1[metric_name]
-                )
-            for metric_name in metrics_names_2:
-                metrics_per_epoch[self._prepare_legend(metric_name)].append(
-                    history_2[metric_name]
                 )
         history_summarized = {
             metric: np.array(metrics_per_epoch[metric]).mean(0)
