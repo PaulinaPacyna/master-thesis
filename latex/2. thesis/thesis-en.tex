@@ -825,9 +825,10 @@ We see that both approaches the result were improved, compared to training a net
 \FloatBarrier
 
 Other than the differences in qualitative results, the computation time and sizes of the classifiers differ in both approaches.
-For the baseline approach, the model is smaller, but the pre-training data is bigger than in the \textit{ensemble} approach. For the Fully Convolutional architecture, where the input size can be arbitrary, longer time series/more examples of time series impact the training time.  Therefore, the time needed to pre-train  the network in the \textit{baseline} approach is longer than in the \textit{ensemble} approach.
+For the baseline approach, the model is smaller, and it takes a little bit less time to pretrain a single model with large amount of data than to pretrain a few small separate models with smaller data. Therefore, the time needed to pre-train  the network in the \textit{baseline} approach is longer than in the \textit{ensemble} approach.
 
-Training the model used in the \textit{ensemble} approach is composed of two steps. In the first step each component, which is a single FCN model, is trained on a single dataset, corresponding to each source dataset selected for the target dataset. Hence it is a single dataset and a single model, this step is relatively quick and could be parallelised, as the models and datasets and independent. The second step consist of training the model on the ensemble created from the pre-trained components on the target dataset. Although the model is bigger, we save time on the pre-training phase, comparing to the \textit{baseline} approach. Therefore in the end, the ensemble approach is faster. Figure \ref{fig:baseline_ensemble_traning_time} shows the comparison of training time for both approaches.  The training time shown on the plot is a sum of time needed for pre-training step and fine-tuning step.
+Training the model used in the \textit{ensemble} approach is composed of two steps. In the first step each component, which is a single FCN model, is trained on a single dataset, corresponding to each source dataset selected for the target dataset. Hence it is a single dataset and a single model, this could be parallelised, as the models and datasets and independent. The second step consist of training the model on the ensemble created from the pre-trained components on the target dataset. The resulting model is bigger than the final classifier in the \textit{baseline} approach. Summing this up together, pre-training the ensemble components and training the network takes longer than in the \textit{baseline} approach. The training procedure in the baseline approach consists of training the source (single) model on the combined dataset and retraining it on the target dataset.
+Figure \ref{fig:baseline_ensemble_traning_time} shows the comparison of training time for both approaches.  The training time shown on the plot is a sum of time needed for pre-training step and fine-tuning step.
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
@@ -873,10 +874,40 @@ This short section checks the hypothesis that the better the model we use in ens
 \label{fig:acc_source_vs_acc_target}
 \end{figure}
 \FloatBarrier
-\section{Number of datasets used in multi-source }
-For the previous experiments, we used $5$ spurce datasets, both for the \textit{ensemble} and \textit{baseline} approach. However, the nimber of experiments is arbitrary. This thesis aims to explore the benefits of multi-source transfer learning, compared to single source transfer learning described in \cite{transfer_learning_time_series}. Similarly as in the previous sections we compared \textit{ensemble} and \textit{baseline} approaches to models trained without transfer learning, below we compared the accuracy and loss for models pre-trained with $3$, $5$ and $8$ source datasets.
+\section{Number of datasets used in multi-source transfer learning}
+For the previous experiments, we used $5$ source datasets, both for the \textit{ensemble} and \textit{baseline} approach. However, the number of experiments is arbitrary. This thesis aims to explore the benefits of multi-source transfer learning, compared to single source transfer learning described in \cite{transfer_learning_time_series}. Similarly as in the previous sections we compared \textit{ensemble} and \textit{baseline} approaches to models trained without transfer learning, below we compared the accuracy and loss for models pre-trained with $3$, $5$ and $8$ source datasets.
+
+We found that all configurations give good results, while using $5$ datasets gives the best results. The averaged accuracy and loss plot is shown on figure \ref{fig:ensemble_3_5_8}. We used the ensemble approach for this comparison and we used the DBA similarity measure.
+
+\FloatBarrier
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=17cm]{imgs/ensemble_dba_3_vs_5/loss_acc.png}
+\caption{Accuracy and loss on each epoch, averaged over several target datasets}
+\label{fig:ensemble_3_5_8}
+\end{figure}
+\FloatBarrier
 
 
+Figures \ref{fig:ensemble_3_5_win_tie_loss} and
+\ref{fig:ensemble_5_8_win_tie_loss} also present the win tie loss diagram comparing the same experiment with 3 and 5 datasets, and with 5 and 8 datasets.
+
+
+\FloatBarrier
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=17cm]{imgs/ensemble_dba_3_vs_5/win_tie_lose_epoch.png}
+\caption{Win / tie / loss diagram comparing the ensemble approach with 3 and 5 datasets (DBA similarity measure is used for choosing the source datasets}
+\label{fig:ensemble_3_5_win_tie_loss}
+\end{figure}
+\FloatBarrier
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=17cm]{imgs/ensemble_dba_5_vs_8/win_tie_lose_epoch.png}
+\caption{Win / tie / loss diagram comparing the ensemble approach with 5 and 8 datasets (DBA similarity measure is used for choosing the source datasets}
+\label{fig:ensemble_5_8_win_tie_loss}
+\end{figure}
+\FloatBarrier
 \chapter{Conclusions}
 
 In this thesis we extended the research on transfer learning in time series classification. We have proven that multi-source transfer learning increased te accuracy of the classifiers and mitigated overfitting, which is very common for small datasets present in the time series classification domain. We proposed two approaches on multi-source transfer learning: the \textit{baseline} and \textit{ensemble} approach, the second inspired by the success of ensemble classifiers in time series classification domain. Furthermore, a detailed comparative analysis of the two approaches was conducted.
