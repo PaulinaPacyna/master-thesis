@@ -701,7 +701,7 @@ In our case, the prefix function given a class name (as a string), simply transf
 \begin{figure}[h!]
 \centering
 \includegraphics[width=17cm]{imgs/baseline.drawio.png}
-\caption{Illustration of preparing the data for the source classifier in the baseline approach.}
+\caption{Illustration of preparing the data for the source classifier in the\textit{ baseline} approach.}
 \label{fig:baseline_dataset}
 \end{figure}
 
@@ -739,7 +739,7 @@ A grafical example of the process can be found in figure. \ref{fig:ensemble_arch
 \begin{figure}[h!]
 \centering
 \includegraphics[width=17cm]{imgs/ensemble_architecture.png}
-\caption{Illustration of the ensemble approach based on $N=3$ source models (Fully connected networks in this case). If a layer is coloured, it means that the weights in this layer are initialized by pre-training on one of the source datasets. The last layer in each model is new.}
+\caption{Illustration of the\textit{ ensemble }approach based on $N=3$ source models (Fully connected networks in this case). If a layer is coloured, it means that the weights in this layer are initialized by pre-training on one of the source datasets. The last layer in each model is new.}
 \label{fig:ensemble_architecture}
 \end{figure}
 
@@ -753,10 +753,10 @@ In both multi-source learning approached described above (\textit{baseline} and 
 The second approach described was based on a similarity measure. The inter-dataset similarity measure called DTW barycenter averaging was described in \ref{DTW_choosing}. The intuition behind the second approach is that usually transfer learning benefits if the domains are similar. To measure the similarity, the DBA distances were computed for all pairs of datasets in a given category. Then, for a given target dataset, $N$ datasets minimalizing the distance to the target dataset were used for pretraining the source network (either in \textit{baseline} or \textit{ensemble} approach). The dataset still belonged to the same UCR category as the target dataset.
 
 \chapter{Results}
-The results and metrices of classifiers obtained from training networks with transfer learning were compared to the results obtained without transfer learning. The performance of the target classifier in the ensemble approach was compared to an ensemble model with the same amount of component models in the ensemble.
+The results and metrices of classifiers obtained from training networks with transfer learning were compared to the results obtained without transfer learning. The performance of the target classifier in the\textit{ ensemble }approach was compared to an ensemble model with the same amount of component models in the ensemble.
 
 \section{Experiments}
-Each experiment recorded in MLFlow corresponds to one training setting. An example setting may be e.g. \begin{itemize}
+Each experiment recorded in MlFlow corresponds to one training setting. An example setting may be e.g. \begin{itemize}
 \item training a network using the \textit{ensemble approach}, with 5 datasets picked using the DBA similarity measure
  \item training a network using the \textit{baseline approach}, with 5 source datasets picked randomly
  \item training an ensemble of FCNs without transfer learning
@@ -765,8 +765,8 @@ Each experiment recorded in MLFlow corresponds to one training setting. An examp
 Following the MlFlow convention, each experiments consisted of several runs, each correspond to one target dataset from the category \texttt{MOTION}. When comparing averaged results, then the result was averaged on all runs.
 
 %TODO screenshot from mlflow
-\subsection{Evaluation of the baseline approach}
-The \textit{baseline} approach, in which a single FCN was pretrained and fine-tuned, was compared to results obtained from trained a single FCN model on the target dataset only. For this comparison, we used Fully Connected Network as the model and 5 source datasets selected to minimize the DBA distance to the target dataset.  Figure \ref{fig:baseline_acc} shows the accuracy and loss in each epoch, averaged over all experiments conducted.
+\subsection{Evaluation of the\textit{ baseline} approach}
+The \textit{baseline} approach, in which a single Fully Convolutional Network was pre-trained and fine-tuned, was compared to results obtained from trained a single FCN model on the target dataset only. For this comparison, we used Fully Connected Network as the model and 5 source datasets selected to minimize the DBA distance to the target dataset.  Figure \ref{fig:baseline_acc} and  shows \ref{fig:baseline_loss} shows the accuracy and loss in each epoch, averaged over all experiments conducted.
 
 
 \FloatBarrier
@@ -778,8 +778,8 @@ The \textit{baseline} approach, in which a single FCN was pretrained and fine-tu
 \label{fig:baseline_acc}
 \end{figure}
 \FloatBarrier
-The greatest improvement is visible in the first epochs of the training process, which suggest that the network uses the knowledge learned from the previous task. As the training continues, the advantage is more significant. On Figure \ref{fig:win_tie_loss_baseline} we show a comparison win/tie/loss diagram for fifth and tenth epoch.
-We also see that the gap between accuracy/loss on the validation and test split is smaller than without transfer learning. This can mean that the model is less prone to overfitting hence generalizes better, due to exposure to more diverse examples in the pre-training phase.
+The greatest improvement is visible in the first epochs of the training process, which suggest that the network uses the knowledge learned from the previous task. As the training continues, the advantage is less significant. On Figure \ref{fig:win_tie_loss_baseline} we show a comparison win/tie/loss diagram for fifth and tenth epoch.
+We also see that the gap between accuracy/loss on the validation and test split is smaller with transfer learning. This can mean that the model is less prone to overfitting hence generalizes better, due to exposure to more diverse examples in the pre-training phase.
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
@@ -789,7 +789,7 @@ We also see that the gap between accuracy/loss on the validation and test split 
 \end{figure}
 
 \FloatBarrier
-\section{Evaluation of the ensemble approach}
+\section{Evaluation of the \textit{ensemble} approach}
 In the \textit{ensemble} approach, we created an ensemble model created from 5 FCN models pre-trained on different datasets. The pre-trained ensemble was fine-tuned on the target dataset and the results was compared to a model which architecture was identincal to the ensemble, but the weights were initialized randomly. Transfer learning led to improvements in accuracy and loss, similarly as in the \textit{baseline} approach. The figure \ref{fig:ensemble_acc} shows the comparison of accuracy and loss in each epoch, averaged over all runs (each run correspond to a target datasets).
 
 \FloatBarrier
@@ -812,14 +812,14 @@ We also present a win tie loss diagram as for the \textit{baseline} approach on 
 \end{figure}
 The model used in the ensemble approach consisted of more parameters, thanks to ensembling. This together with the small sizes of datasets in the UCR archive might lead to overfitting. As we see in the plot, in the model trained without transfer learning, the gap between accuracy and loss for validation and test split is big. This may indicate that the models were overfitted. Exposing the models to a larger amount of data in the pre-training phase reduces overfitting. We see that for the transfer learning results, the gap between metrices for validation and train split is smaller. Also the accuracy on the train split is smaller, which suggest that the overfitting is mitigated.
 
-\section{Comparison of baseline and ensemble approach}
-We see that both approaches the result were improved, compared to training a network from scratch. The figure \ref{fig:baseline_vs_ensemble} shows the
+\section{Comparison of\textit{ baseline }and\textit{ ensemble }approaches}
+We see that in both approaches the results were improved, compared to training a network from scratch. The figure \ref{fig:baseline_vs_ensemble} shows the accuracy and loss per each epoch averaged over several runs (corresponding to target datasets)
 
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
 \includegraphics[width=15.5cm]{imgs/baseline_vs_ensemble/loss_acc.png}
-\caption{Comparison of loss and accuracy for baseline approach and ensemble approach. }
+\caption{Comparison of loss and accuracy for\textit{ baseline }approach and\textit{ ensemble }approach. }
 \label{fig:baseline_vs_ensemble}
 \end{figure}
 \FloatBarrier
@@ -865,7 +865,7 @@ There is still room to improve the similarity measure. In order to understand th
 \end{figure}
 \FloatBarrier
 \section{Influence of accuracy of the components used in the ensemble on the target classifiers' accuracy}
-This short section checks the hypothesis that the better the model we use in ensemble approach, the better the end results on the target classifier. As we see on the plot \ref{fig:acc_source_vs_acc_target}, which shows the mean accuracy of components (measured on each source dataset, using test split) versus the accuracy of the target classifier (measured on the test split of target dataset). There is a X correlation between the two statistics.
+This short section checks the hypothesis that the better the model we use in \textit{ensemble} approach, the better the end results on the target classifier. As we see on the plot \ref{fig:acc_source_vs_acc_target}, which shows the mean accuracy of components (measured on each source dataset, using test split) versus the accuracy of the target classifier (measured on the test split of target dataset). There is a X correlation between the two statistics.
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
@@ -910,18 +910,23 @@ Figures \ref{fig:ensemble_3_5_win_tie_loss} and
 \FloatBarrier
 \chapter{Conclusions}
 
-In this thesis we extended the research on transfer learning in time series classification. We have proven that multi-source transfer learning increased te accuracy of the classifiers and mitigated overfitting, which is very common for small datasets present in the time series classification domain. We proposed two approaches on multi-source transfer learning: the \textit{baseline} and \textit{ensemble} approach, the second inspired by the success of ensemble classifiers in time series classification domain. Furthermore, a detailed comparative analysis of the two approaches was conducted.
+In this thesis we extended the research on transfer learning in time series classification. We proposed two approaches on multi-source transfer learning: the \textit{baseline} and \textit{ensemble} approach, the second inspired by the success of ensemble classifiers in time series classification domain. The \textit{baseline} approach can be summarized as pretraining a neural network on a concatenated dataset consisting of multiple datasets, and then using the  weights from the first layers to initialize the final classifier. In the \textit{ensemble} approach, we train several models, each on a different source dataset, and then we construct an ensemble of those methods initialized with the weigths obtained from pre-training. We have proven that for both approaches, multi-source transfer learning increased the accuracy of the classifiers. The usage of transfer learning also mitigated overfitting, which is very common for small datasets present in the time series classification domain. Furthermore, a detailed comparative analysis of the two approaches was conducted.
 
-The \textit{ensemble} approach proved to be better in terms of performance results and training time. However, the size of the ensemble model may be a limitation, especially with larger networks, bigger datasets or in environments with limited memory.
-We also considered two methods of selecting the datasets for pre-training the source classifiers. The method based on DBA similarity measure has proven to be slightly advantageous comparing to picking the datasets randomly or by trial and error. We believe that this method may be improved by enhancing the similarity measure, or fixing the bias caused by the length of the time series.
-We also  experimented with the number of source datasets. We find that..
+The \textit{ensemble} approach proved to be better in terms of performance results. However, the size of the ensemble model may be a limitation, especially with larger networks, bigger datasets or in environments with limited memory. Further more, the \textit{ensemble} approach is slightly slower, as we train multiple classifiers and the resulting model is bigger. However, training the component models for the ensemble can be parallelized and the components can be reused and time can be saved.
+
+
+We also considered two methods of selecting the datasets for pre-training the source classifiers. The method based on DBA similarity measure has proven to be slightly advantageous comparing to picking the datasets randomly or by trial and error. We believe that this method may be improved by enhancing the similarity measure.
+
+We also  experimented with the number of source datasets. Experiments were conducted using $3$, $5$ and $8$, using the \textit{ensemble} approach and  All of those settings resulted in decent results, and using $5$ datasets occurred to be averagely more effective than using $3$ or $5$ datasets.
 
 \section{Further works}
-As an extension to the work done for the purpose of this thesis we may consider an extension to the source dataset selection algorithm. More than mitigating the bias towards punishing lengthy time series, we may consider measuring the similarity of shapelets, as those are the key attributes learned by convolutional layers.
+As an extension to the work done for the purpose of this thesis we may consider an extension to the source dataset selection algorithm. We may consider measuring the similarity of shapelets, as those are the key attributes learned by convolutional layers.
 
-Also architectures other than Fully Connected Network could be used in the future. Both ensemble and baseline approaches are generally applicable to deep neural networks. As we focused on the transfer learning aspect and the computational resources were limited, we tested only the Fully Convolutional Network architecture. It may be worth considering to perform the same analysis but using a fixed input size network, long short-term memory network or residual networks.
+Also architectures other than Fully Connected Network could be used in the future. Both\textit{ ensemble }and\textit{ baseline} approaches are generally applicable to deep neural networks. As we focused on the transfer learning aspect and the computational resources were limited, we tested only the Fully Convolutional Network architecture. It may be worth considering to perform the same analysis but using a fixed input size network, long short-term memory network or residual networks.
 
-The study may also be extended to testing datasets outside of the UCR time series archive,  or testing transfer learning between different categories for. UCR archive, which again wasn't planed in the scope of this thesis due to computational limitations.
+The study may also be extended to testing datasets outside of the UCR time series archive,  or testing transfer learning between different categories in the UCR archive, which wasn't planed in the scope of this thesis due to computational limitations.
+
+The number of datasets used for both \textit{ensemble} or \textit{baseline} approaches can be further studied. We can consider numbers other than $3$, $5$ and $8$ (e.g. using all datasets available in the UCR archive). The effort could be combined with improving the similarity measure, in order to develop a method to obtain the optimal number of datasets given the similarity measure, e.g. with stepwise selection of datasets similarly as in feature selection.
 
 
 
