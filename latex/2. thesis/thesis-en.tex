@@ -762,9 +762,18 @@ Each experiment recorded in MlFlow corresponds to one training setting. An examp
  \item training an ensemble of FCNs without transfer learning
 
 \end{itemize}
-Following the MlFlow convention, each experiments consisted of several runs, each correspond to one target dataset from the category \texttt{MOTION}. When comparing averaged results, then the result was averaged on all runs.
+Following the MlFlow convention, each experiments consisted of several runs, each correspond to one target dataset from the category \texttt{MOTION}. When comparing averaged results, then the result was averaged on all runs. This is shown on screenshot \ref{fig:mlflow_screnshot}.
 
-%TODO screenshot from mlflow
+
+\FloatBarrier
+
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=17cm]{imgs/mlflow_screenshot.png}
+\caption{The structure of experiments recorded in MlFlow. Each experiment correspond to a different setting, and each run correspond to a model trained on different target dataset (and consequently different source datasets).}
+\label{fig:mlflow_screnshot}
+\end{figure}
+\FloatBarrier
 \subsection{Evaluation of the\textit{ baseline} approach}
 The \textit{baseline} approach, in which a single Fully Convolutional Network was pre-trained and fine-tuned, was compared to results obtained from trained a single FCN model on the target dataset only. For this comparison, we used Fully Connected Network as the model and 5 source datasets selected to minimize the DBA distance to the target dataset.  Figure \ref{fig:baseline_acc} and  shows \ref{fig:baseline_loss} shows the accuracy and loss in each epoch, averaged over all experiments conducted.
 
