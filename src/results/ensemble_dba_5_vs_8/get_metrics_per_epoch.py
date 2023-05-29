@@ -16,6 +16,8 @@ class NumberOfDatasets5_8(Results):
     second_result_key_name_val_loss = "5_ensemble_val_loss"
     second_result_key_name_acc = "5_ensemble_accuracy"
     second_result_key_name_val_acc = "5_ensemble_val_accuracy"
+    x_label_win_tie_loss = "using $5$ source datasets"
+    y_label_win_tie_loss = "using $8$ source datasets"
 
     def _get_first_experiment_runs(self) -> Dict[str, Run]:
         hist = self._get_history_per_experiment(

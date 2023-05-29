@@ -20,6 +20,8 @@ class NumberOfDatasets(Results):
     third_result_key_name_val_loss = "8_ensemble_val_loss"
     third_result_key_name_acc = "8_ensemble_accuracy"
     third_result_key_name_val_acc = "8_ensemble_val_accuracy"
+    x_label_win_tie_loss = "using 5 source datasets"
+    y_label_win_tie_loss = "using 3 source datasets"
 
     def __init__(
         self,
