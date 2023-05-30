@@ -21,6 +21,8 @@ class BaselineVsEnsembleResults(Results):
     second_result_key_name_val_loss = "baseline_val_loss"
     second_result_key_name_acc = "baseline_accuracy"
     second_result_key_name_val_acc = "baseline_val_accuracy"
+    x_label_win_tie_loss = "baseline approach"
+    y_label_win_tie_loss = "ensemble approach"
 
     def __init__(
         self,
