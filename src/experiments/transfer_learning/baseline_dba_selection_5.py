@@ -164,7 +164,7 @@ def main(
 if __name__ == "__main__":
 
     main(
-        category="AUDIO",
+        category="IMAGE",
         selection_method="similarity",
         model_type="fcn",
         single_model_experiment_id="183382388301527558",

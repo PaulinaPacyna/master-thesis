@@ -60,4 +60,4 @@ def main(experiment_id: str, category: str, model: Literal["fcn", "encoder"]):
 
 
 if __name__ == "__main__":
-    main(experiment_id="183382388301527558", category="AUDIO", model="fcn")
+    main(experiment_id="183382388301527558", category="IMAGE", model="fcn")

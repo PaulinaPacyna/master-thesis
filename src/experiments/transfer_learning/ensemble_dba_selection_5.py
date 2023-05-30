@@ -143,7 +143,7 @@ def main(
 
 if __name__ == "main":
     main(
-        category="MOTION",
+        category="IMAGE",
         selection_method="similarity",
         this_experiment_id="554900821027531839",
         component_experiment_id="183382388301527558",

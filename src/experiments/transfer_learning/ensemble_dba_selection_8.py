@@ -1,7 +1,7 @@
 from experiments.transfer_learning.ensemble_dba_selection_5 import main
 
 main(
-    category="MOTION",
+    category="IMAGE",
     selection_method="similarity",
     this_experiment_id="528548208530565493",
     component_experiment_id="183382388301527558",
