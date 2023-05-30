@@ -774,7 +774,7 @@ Following the MlFlow convention, each experiments consisted of several runs, eac
 \label{fig:mlflow_screnshot}
 \end{figure}
 \FloatBarrier
-\subsection{Evaluation of the\textit{ baseline} approach}
+\section{Evaluation of the \textit{baseline} approach}
 The \textit{baseline} approach, in which a single Fully Convolutional Network was pre-trained and fine-tuned, was compared to results obtained from trained a single FCN model on the target dataset only. For this comparison, we used Fully Connected Network as the model and 5 source datasets selected to minimize the DBA distance to the target dataset.  Figure \ref{fig:baseline_acc} and  shows \ref{fig:baseline_loss} shows the accuracy and loss in each epoch, averaged over all experiments conducted.
 
 
@@ -832,6 +832,16 @@ We see that in both approaches the results were improved, compared to training a
 \label{fig:baseline_vs_ensemble}
 \end{figure}
 \FloatBarrier
+Similarly as in the two previous sections, where we compared \textit{ensemble} and \textit{baseline} approaches to training without transfer learning, figure \ref{fig:win_tie_loss_baseline_vs_ensemble} shows a win / tie / loss diagram for 5th and 10th epoch comparing the \textit{baseline} and \textit{ensemble} approaches.
+
+\FloatBarrier
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=17cm]{imgs/baseline_vs_ensemble/win_tie_lose_epoch.png}
+\caption{Win /tie / loss diagram  for\textit{ baseline } and\textit{ ensemble }approach. Dot above the diagonal line means that the run (corresponding to training on a particular dataset)  achieved better results with the \textit{ensemble} approach.}
+\label{fig:win_tie_loss_baseline_vs_ensemble}
+\end{figure}
+\FloatBarrier
 
 Other than the differences in qualitative results, the computation time and sizes of the classifiers differ in both approaches.
 For the baseline approach, the model is smaller, and it takes a little bit less time to pretrain a single model with large amount of data than to pretrain a few small separate models with smaller data. Therefore, the time needed to pre-train  the network in the \textit{baseline} approach is longer than in the \textit{ensemble} approach.
@@ -860,7 +870,17 @@ As we see, selecting the datasets based on the similarity measure led to slight 
 \begin{figure}[h!t]
 \centering
 \includegraphics[width=17cm]{imgs/dba_vs_random/loss_acc.png}
-\caption{}
+\caption{Averaged accuracy and loss per each epoch for the ensemble approach, when selecting the source datasets randomly and using the DBA similarity approach.}
+\label{fig:random_vs_dba}
+\end{figure}
+\FloatBarrier
+The win tie loss diagram also indicates an advantage of the DBA selection approach (figure \ref{fig:win_tie_loss_dba}
+
+\FloatBarrier
+\begin{figure}[h!t]
+\centering
+\includegraphics[width=17cm]{imgs/dba_vs_random/win_tie_lose_epoch.png}
+\caption{Win tie loss diagram comparing selecting the source datasets randomly vs with the DBA similarity approach.}
 \label{fig:random_vs_dba}
 \end{figure}
 \FloatBarrier
