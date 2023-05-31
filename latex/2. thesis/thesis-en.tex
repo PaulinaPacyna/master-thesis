@@ -213,8 +213,16 @@ The task of classifying time series is an important problem in the field of data
 The time series classification problem was initially solved using classical algorithms such as the k-nearest neighbor classifier with distance measures suited for time series, like Dynamic Time Warping. The advantages of using deep learning algorithms in the context of time series classification have recently begun to be recognized. Neural networks can detect shapes that distinguish a class or understand ordered temporal relationships.
 
 Transfer learning is practically used when there is limited data to train. Transfer learning attempts to apply patterns learned from one dataset to improve learning when creating a model for another dataset. A common practice is to prepare a source classifier trained on a large, readily available amount of data for one task and then use this model or parts of it for a detailed task with a smaller amount of data. Models trained using this method often have a shorter training time, faster accuracy increase, and can generalize more easily on the test set.
+\newpage
+In this thesis, we focus on proposing, testing and evaluating multi-source transfer learning for time series classification. We propose two methods, one of them inspired by the success of ensemble methods in time series classification. Both of those methods are applicable to most of neural networks architectures. Both methods were compared to the same network architectures but without transfer learning and proved to improve accuracy and mitigate overfitting.
 
-\noindent \textbf{Keywords:} time series, classification, transfer learning, deep learning, ...
+While usually transfer learning leads to improvements, sometimes \textit{negative transfer} may occur, meaning that the usage of transfer learning is detrimental to the resulting classifier. This is especially common, when the source domain is different from the target domain or the dataset sizes are small. Given that the datasets present in the time series classification field are usually small, negative transfer may be a threat. This can be mitigated by choosing the source datasets in accordance to the target dataset characteristics.
+
+As the methods proposed in this thesis do not specify which source datasets for the transfer learning are suitable for a given target dataset, we also studied dataset selection method. We compare selecting the source datasets based on a DTW Barycenter Averaging similarity measure to selecting datasets randomly. Datasets selected in order to minimize the similarity measure led to improving the target classifier results.
+
+Finally we studied how many source datasets should be used in the transfer learning procedure. We conducted experiments with $3$, $5$ and $8$ source datasets. All those settings result in satisfactory results, and using $5$ source datasets outperformed the two other settings.
+
+\noindent \textbf{Keywords:} time series, classification, transfer learning, deep learning, ensemble, ...
 \end{abstract}
 }
 
@@ -265,7 +273,7 @@ Metoda transfer learning jest stosowana w przypadku ograniczonej ilości danych 
 \pagenumbering{gobble}
 \tableofcontents
 \thispagestyle{empty}
-\newpage % IF YOU HAVE EVEN QUANTITY OD PAGES OF TOC, THEN REMOVE IT OR ADD \null\newpage FOR DOUBLE BLANK PAGE BEFORE INTRODUCTION
+\newpage % IF YOU HAVE EVEN QUANTITY OD PAGES OF TOC, THEN REMOVE IT OR ADD \null\newpage FOR DOUBLE BLANK PAGE BEFORE INTRODUCTION TODO
 
 
 % -------------------- THE BODY OF THE THESIS --------------------------------
