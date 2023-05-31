@@ -83,6 +83,9 @@ class Reading:
         X = X["dim_0"]
         X = pd.Series([remove_zeros_at_end(x) for x in X])
         X = pd.Series([trim_to_max_len(x) for x in X])
+        mask = np.array([len(x) > 0 for x in X])
+        X = X[mask]
+        y = y[mask]
         y = TargetEncoder(y).get_categorical_column(prefix=dataset_name)
         for series in X:
             assert not np.isnan(series).any()
