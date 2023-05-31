@@ -273,8 +273,8 @@ Metoda transfer learning jest stosowana w przypadku ograniczonej ilości danych 
 \pagenumbering{gobble}
 \tableofcontents
 \thispagestyle{empty}
-\newpage % IF YOU HAVE EVEN QUANTITY OD PAGES OF TOC, THEN REMOVE IT OR ADD \null\newpage FOR DOUBLE BLANK PAGE BEFORE INTRODUCTION TODO
-
+\newpage % IF YOU HAVE EVEN QUANTITY OD PAGES OF TOC, THEN REMOVE IT OR ADD \null\newpage FOR DOUBLE BLANK PAGE BEFORE INTRODUCTION
+\null\newpage
 
 % -------------------- THE BODY OF THE THESIS --------------------------------
 
@@ -387,7 +387,7 @@ Fully Convolutional Networks are convolutional networks used in time series clas
 
 Because the architecture of convolutional layers does not depend on the size of input data and the convolutional layers are followed by pooling over the time axis, the whole network is capable of processing data of variable lengths.
 \subsection{Residual Network}
-The Residual Network was first proposed in \cite{residual}. The Residual Network is a relatively deep architecture compared to other neural networks used for time series classification.
+The Residual Network was first proposed by Zhiguang, Weizhong et al. in \cite{residual}. The Residual Network is suitable for relatively deep architectures compared to other neural networks used for time series classification.
 
 A residual connection addresses the vanishing gradient problem occurring in networks composed of many layers \cite{residual}. The vanishing gradient problem occurs in the backpropagation process. When the gradient passes from the last layer to the first, it may decrease toward zero. This causes the first layers of the network to learn slowly. The residual connection between layers passes the input directly from one layer to another, skipping a few layers. This way, if the network is struggling with a vanishing gradient, this shortcut connection may help the network to converge.
 
@@ -578,7 +578,7 @@ While the article \cite{imagnet} does not conclude which single feature of the I
 
 
 \subsection{Negative transfer in naive transfer learning approach}\label{Negative_transfer}
-Negative transfer is a problem in the transfer learning process when the target classifies achieve worse accuracy than without using transfer learning. Transfer learning for time series has been investigated in \cite{transfer_learning_time_series}. The paper's authors tested transfer learning on all datasets from the UCR archive. In the first approach, called \textit{naive transfer learning}, the authors used all pairs of datasets. One dataset from the pair was used as a source dataset to prepare the source classifier for transfer learning. The second dataset was used to fine-tune the former classifier. The architecture used in this approach was the Fully Connected Network, described in section \ref{FCN}.  All layers except for the last one were transferred from the source classifier to the target classifier. The authors compared the accuracy of a fine-tuned classifier to that of a classifier trained without transfer learning.
+Negative transfer is a problem in the transfer learning process when the target classifies achieve worse accuracy than without using transfer learning. Transfer learning for time series has been investigated in \cite{transfer_learning_time_series}. The paper's authors tested transfer learning on all datasets from the UCR archive. In the first approach, called \textit{naive transfer learning}, the authors used all pairs of datasets. One dataset from the pair was used as a source dataset to prepare the source classifier for transfer learning. The second dataset was used to fine-tune the former classifier. The architecture used in this approach was the Fully Convolutional Network, described in section \ref{FCN}.  All layers except for the last one were transferred from the source classifier to the target classifier. The authors compared the accuracy of a fine-tuned classifier to that of a classifier trained without transfer learning.
 
 With respect to different source datasets, target classifiers' accuracies exhibited a high variance. There were cases where the fine-tuned classifiers suffered from transfer learning. On the other hand, for each target dataset, there was always a source dataset beneficial for the classification results. It is shown in the picture \ref{fig:tr_learning_min_max}, where for each target dataset, the maximum, median, and minimum accuracies for the different experiments were plotted.
 
@@ -626,7 +626,7 @@ The result shows that choosing the source dataset for transfer learning based on
 The data downloaded from the UCR archive is available in two formats, \texttt{ts} (as text files) and \texttt{arff/weka} (as binaries). In order to speed up the reading and conversion time, all datasets were read, concatenated and saved as one array of time series (the original lengths were preserved). At this point, only basic preprocessing was done. It included the following steps:
 \begin{itemize}
 \item replacing \texttt{NaN} values with zeros
-\item removing zeros at the end of the time series. This step was done, because some of time series published in the UCR archive were already padded with zeros to have the same lengths. This assumption is not necessary when using Fully Connected Network.
+\item removing zeros at the end of the time series. This step was done, because some of time series published in the UCR archive were already padded with zeros to have the same lengths. This assumption is not necessary when using Fully Convolutional Network.
 \item trimming the series if the length of a time series exceeded $50 000$ time steps.
 
 
@@ -747,7 +747,7 @@ A grafical example of the process can be found in figure. \ref{fig:ensemble_arch
 \begin{figure}[h!]
 \centering
 \includegraphics[width=17cm]{imgs/ensemble_architecture.png}
-\caption{Illustration of the\textit{ ensemble }approach based on $N=3$ source models (Fully connected networks in this case). If a layer is coloured, it means that the weights in this layer are initialized by pre-training on one of the source datasets. The last layer in each model is new.}
+\caption{Illustration of the\textit{ ensemble }approach based on $N=3$ source models (Fully convolutional networks in this case). If a layer is coloured, it means that the weights in this layer are initialized by pre-training on one of the source datasets. The last layer in each model is new.}
 \label{fig:ensemble_architecture}
 \end{figure}
 
@@ -783,7 +783,7 @@ Following the MlFlow convention, each experiments consisted of several runs, eac
 \end{figure}
 \FloatBarrier
 \section{Evaluation of the \textit{baseline} approach}
-The \textit{baseline} approach, in which a single Fully Convolutional Network was pre-trained and fine-tuned, was compared to results obtained from trained a single FCN model on the target dataset only. For this comparison, we used Fully Connected Network as the model and 5 source datasets selected to minimize the DBA distance to the target dataset.  Figure \ref{fig:baseline_acc} and  shows \ref{fig:baseline_loss} shows the accuracy and loss in each epoch, averaged over all experiments conducted.
+The \textit{baseline} approach, in which a single Fully Convolutional Network was pre-trained and fine-tuned, was compared to results obtained from trained a single FCN model on the target dataset only. For this comparison, we used Fully Convolutional Network as the model and 5 source datasets selected to minimize the DBA distance to the target dataset.  Figure \ref{fig:baseline_acc} shows the accuracy and loss in each epoch, averaged over all experiments conducted.
 
 
 \FloatBarrier
@@ -882,14 +882,14 @@ As we see, selecting the datasets based on the similarity measure led to slight 
 \label{fig:random_vs_dba}
 \end{figure}
 \FloatBarrier
-The win tie loss diagram also indicates an advantage of the DBA selection approach (figure \ref{fig:win_tie_loss_dba}
+The win tie loss diagram also indicates an advantage of the DBA selection approach (figure \ref{fig:random_vs_dba_win_tie_loss}
 
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
 \includegraphics[width=17cm]{imgs/dba_vs_random/win_tie_lose_epoch.png}
 \caption{Win tie loss diagram comparing selecting the source datasets randomly vs with the DBA similarity approach.}
-\label{fig:random_vs_dba}
+\label{fig:random_vs_dba_win_tie_loss}
 \end{figure}
 \FloatBarrier
 There is still room to improve the similarity measure. In order to understand the improvements in accuracy when using similarity score, the correlation between the target classifier accuracy and the dba similarity has been examined. The scatterplot is shown on plot \ref{fig:acc_vs_dba_sim}
@@ -959,7 +959,7 @@ We also  experimented with the number of source datasets. Experiments were condu
 \section{Further works}
 As an extension to the work done for the purpose of this thesis we may consider an extension to the source dataset selection algorithm. We may consider measuring the similarity of shapelets, as those are the key attributes learned by convolutional layers.
 
-Also architectures other than Fully Connected Network could be used in the future. Both\textit{ ensemble }and\textit{ baseline} approaches are generally applicable to deep neural networks. As we focused on the transfer learning aspect and the computational resources were limited, we tested only the Fully Convolutional Network architecture. It may be worth considering to perform the same analysis but using a fixed input size network, long short-term memory network or residual networks.
+Also architectures other than Fully Convolutional Network could be used in the future. Both\textit{ ensemble }and\textit{ baseline} approaches are generally applicable to deep neural networks. As we focused on the transfer learning aspect and the computational resources were limited, we tested only the Fully Convolutional Network architecture. It may be worth considering to perform the same analysis but using a fixed input size network, long short-term memory network or residual networks.
 
 The study may also be extended to testing datasets outside of the UCR time series archive,  or testing transfer learning between different categories in the UCR archive, which wasn't planed in the scope of this thesis due to computational limitations.
 
