@@ -70,7 +70,7 @@ class BaselineVsEnsembleResults(Results):
             (
                 self._get_total_training_time_ensemble(dataset),
                 self._get_total_training_time_baseline(dataset),
-                self._get_series_mean_length(dataset),
+                self._get_series_total_length(dataset),
             )
             for dataset in self.datasets
         ]
@@ -95,9 +95,13 @@ class BaselineVsEnsembleResults(Results):
         ax.set_yticks(ax.get_yticks(), [f"{int(tick)} min" for tick in ax.get_yticks()])
         self._save_fig(figure, "times_comparison.png")
 
-    def _get_series_mean_length(self, dataset_name):
-        mask = np.char.startswith(self.y, dataset_name + "_").ravel()
-        return get_lengths(self.X[mask]).mean()
+    def _get_series_total_length(self, dataset_name):
+        run = self.first_experiment_runs[dataset_name]
+        source_datasets = run.data.params["Datasets used for ensemble"].split(",")
+        all_datasets = source_datasets + [dataset_name]
+        mask = [dataset.split("_")[0] in all_datasets for dataset in self.y.ravel()]
+        mask = np.array(mask)
+        return get_lengths(self.X[mask]).sum()
 
     def _get_total_training_time_ensemble(self, dataset):
         run = self.first_experiment_runs[dataset]
