@@ -640,17 +640,15 @@ All time series were concatenated to one array of series and saved in a \texttt{
 
 
 \section{Preprocessing and preparing the data}\label{section:preprocessing}
-In order to avoid focusing on one particular form of preprocessing and preparing the data, the preprocessing was done on the fly when training the data. This way, fast experimenting with hyperparameters and methods was possible. In order to achieve it, Keras DataGenerators were used. DataGenerators allow for defining a python generator that provides batches of data to the fit method, instead of providing a fixed dataframe. This was useful when dealing with datasets consisting of time series of variable lengths and Fully Convolutional Networks. In such cases, the lengths of the time series could be different for each batch.
-The preprocessing was designed differently given the model architecture. If the model expected time series of the same length \texttt{ConstantLengthDataGenerator} was used. For the Fully Convolutional Networks, we implemented \texttt{VariableLengthDataGenerator}.
-The preprocessing steps for both generators are similar and will be described below:
+ In order to avoid focusing on one particular form of preprocessing and preparing the data, the preprocessing was done on the fly when training the data. This way, fast experimenting with hyperparameters and methods was possible. In order to achieve it, Keras DataGenerators were used. DataGenerators allow for defining a Python generator that provides batches of data to the fit method instead of providing a fixed dataframe. Using DataGenerator was useful when dealing with datasets consisting of time series of variable lengths and Fully Convolutional Networks. In such cases, the time series lengths could differ for each batch.
+For the Fully Convolutional Networks, we implemented \texttt{VariableLengthDataGenerator}.
+The preprocessing steps are described below:
 \begin{itemize}
-	\item selecting time series to the batch. Number of series in a batch was equal to $32$. The series were chosen so that the classes were uniformly distributed in the batch, by resampling.
-	\item normalizing the time series values to standard normal distribution. The normaliztion is done per one time series
-	\item obtaining time series of the same length within the batch. For \texttt{ConstantLengthDataGenerator}.
- the length is constant and set a hyperparemeter (256 by default). For \texttt{VariableLengthDataGenerator}.
-the length of the longest series in the batch is computed. The target length is equal to the length of the longest series or $3000$ if it exceeds. In the case of both generators if a time series is shorter than the target length, then the series is padded with zeros. If a time series is longer than the target length, then a random sub-interval is selected.
+   \item selecting time series to the batch. The number of series in a batch was equal to $32$. The series were chosen so that the classes were uniformly distributed in the batch by resampling.
+   \item normalizing the time series values to standard normal distribution. The normalization is done per one time series
+   \item obtaining time series of the same length within the batch. The length of the longest series in the batch is computed. The target length is equal to the length of the longest series or $3000$ if it exceeds. If a time series in the batch is shorter than the target length, then the series is padded with zeros.
 
-\item augmentation - $30\%$ of the series in a batch is flipped over the x or y axis with $50\%$ chance.
+\item augmentation - $30\%$ of the series in a batch are flipped over the x or y axis with $50\%$ chance.
 
 \end{itemize}
 
@@ -693,11 +691,12 @@ Total params: 266,370
 Trainable params: 265,346
 Non-trainable params: 1,024
 \end{verbatim}
-The second parameter in output shape is always equal to \texttt{None}, because the length of the time series is not known in advance.
+The second parameter in output shape is always equal to \texttt{None}, because the time series length in a batch is not known in advance.
 \section{Hyperparameters}\label{section:hyperparameters}
-The hyperparameters used for the training were identical for all experiments. The hyperparameters were usually left as default. As we focus on the transfer learning approach, we didn't experiment much with hyperparameter optimization. The most important hyperparameters are shown in the table
+The hyperparameters used for the training were identical for all experiments. The hyperparameters were usually left as default. We did not experiment with hyperparameter optimization as we focused on the transfer learning approach. The most important hyperparameters are shown in the table \ref{table:hyperparams}.
+
 \FloatBarrier
-\ref{table:hyperparams}
+
 \begin{table}[!h]
 \centering
 \tabcolsep=0.11cm
