@@ -220,9 +220,9 @@ This thesis focuses on proposing, testing, and evaluating multi-source transfer 
 
 While transfer learning usually leads to improvements, sometimes \textit{negative transfer} may occur, meaning that the usage of transfer learning is detrimental to the resulting classifier. Negative transfer is especially common when the source domain differs from the target domain or the dataset sizes are small. Given that the datasets present in the time series classification field are usually small, negative transfer may be a threat. This can be mitigated by choosing the source datasets according to the target dataset characteristics.
 
-As the methods proposed in this thesis do not specify which source datasets for the transfer learning are suitable for a given target dataset, we also studied the dataset selection method. We compare selecting the source datasets based on a DTW Barycenter Averaging similarity measure to selecting datasets randomly. Datasets chosen in order to minimize the similarity measure led to improving the target classifier results.
+As the methods proposed in this thesis do not specify which source datasets for the transfer learning are suitable for a given target dataset, we also study the dataset selection method. We compare selecting the source datasets based on a DTW Barycenter Averaging similarity measure to selecting datasets randomly. Datasets chosen in order to minimize the similarity measure lead to improving the target classifier results.
 
-Finally, we studied how many source datasets should be used in the transfer learning procedure. We conducted experiments with $3$, $5$, and $8$ source datasets. All those settings result in satisfactory results, and using $5$ source datasets outperformed the two other settings.
+Finally, we study how many source datasets should be used in the transfer learning procedure. We conduct experiments with $3$, $5$, and $8$ source datasets. All those settings result in satisfactory results, and using $5$ source datasets outperforms the two other settings.
 
 \noindent \textbf{Keywords:} time series, classification, transfer learning, deep learning, ensemble, ...
 \end{abstract}
@@ -244,6 +244,12 @@ Problem klasyfikacji szeregów czasowych był początkowo rozwiązywany za pomoc
 
 Metoda transfer learning jest stosowana w przypadku ograniczonej ilości danych do trenowania modelu. Technika transfer learning próbuje zastosować wzorce wyuczone~z~jednego zbioru danych, podczas tworzenia modelu dla innego zbioru danych. Częstą praktyką jest przygotowanie źródłowego klasyfikatora wytrenowanego na dużej, łatwo dostępnej ilości danych dla jednego zadania, a następnie wykorzystanie modelu lub jego części do szczegółowego zadania z mniejszą ilością danych. Modele wytrenowane tą metodą często mają krótszy czas trenowania, szybszy wzrost dokładności i lepsze, ogólniejsze wyniki na zbiorze testowym.
 
+\newpage
+Celem pracy dyplomowej jest rozwinięcie badań nad metodą transfer learning w klasyfikacji szeregów czasowych, przez opisanie metod pozwalających na użycie więcej niż jednego zbioru źródłowego. Opisujemy dwie metody, które można stosować do większości sieci neuronowych. W niniejszej pracy została przeprowadzona analiza porównawcza powyższych metod, przez przyrównanie do wyników otrzymanych z wykorzystaniem identycznej co do architektury sieci neuronowej, ale bez metody transfer learningu. Porównujemy obie metody pod kątem czasu trenowania oraz miejsca zajmowanego na dysku.
+
+W metodzie transfer learningu, szczególnie przy klasyfikacji szeregów czasowych, powszechnie występuje efekt negatywnego transferu. Efekt ten ma miejsce, gdy zbiór lub zbiory źródłowe różnią się znacznie od zbioru docelowego. W pracy omawiamy algorytmy doboru zbioru źródłowego do zbioru docelowego na podstawie miar podobieństwa zbiorów, aby zminimalizować efekt negatywnego transferu.
+
+Na koniec analizujemy optymalną liczbę zbiorów źródłowych dla proponowanych metod transfer learningu. Przeprowadzamy eksperymenty z użyciem $3$, $5$ oraz $8$ zbiorów zródłowych.
 
 
 \noindent \textbf{Słowa kluczowe:} szeregi czasowe, klasyfikacja, transfer learning ...
@@ -276,7 +282,7 @@ Metoda transfer learning jest stosowana w przypadku ograniczonej ilości danych 
 \tableofcontents
 \thispagestyle{empty}
 \newpage % IF YOU HAVE EVEN QUANTITY OD PAGES OF TOC, THEN REMOVE IT OR ADD \null\newpage FOR DOUBLE BLANK PAGE BEFORE INTRODUCTION
-\null\newpage
+%\null\newpage
 
 % -------------------- THE BODY OF THE THESIS --------------------------------
 
