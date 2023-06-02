@@ -721,10 +721,10 @@ Number of epochs                                & 10\\
 \end{table}
 \FloatBarrier
 \section{Multi-source transfer learning}
-As single-source transfer learning for time series classification was covered by Fawaz et al. \cite{transfer_learning_time_series}, this thesis considers mostly transfer learning with the usage of multiple source datasets. Two approaches of transfer learning were developed, named \textit{baseline approach} and \textit{ensebmle approach}, both of them will be described below. Both of those approaches consider multiple (the number is arbitrary) source datasets, single target dataset, the same neural network architectures, and hyperparameters.
+As single-source transfer learning for time series classification was covered by Fawaz et al. \cite{transfer_learning_time_series}, this thesis considers mainly transfer learning using multiple source datasets. Two transfer learning approaches were developed, named \textit{baseline approach} and \textit{ensebmle approach}. Both of them will be described below. Both of those approaches consider multiple (the number is arbitrary) source datasets, single target datasets, the same neural network architectures, and hyperparameters.
 
 \section{Baseline approach}\label{section:baseline}
-The \textit{baseline approach} is a simple extension to the classical transfer learning approach used in deep learning. Usually in deep learning, the neural network is first trained on a large diverse dataset (like ImageNet). The network is usually trained on the source dataset, then the first layers are used in the source classifier.
+The \textit{baseline approach} is a simple extension to the classical transfer learning approach used in deep learning. Usually, in deep learning, the neural network is first trained on a large, diverse dataset (like ImageNet). The network is usually trained on the source dataset, and then the first layers are used in the source classifier.
 
 The idea here is similar, but the source dataset is created artificially from multiple datasets. As most of the datasets in the UCR archive are small, we concatenate them to obtain a bigger dataset. Suppose that we have $N$ datasets $(X_i^\mathcal{S}, Y_i^\mathcal{S})$, $i=1, \cdots, N$.
 The target dataset $(X^\mathcal{T}, Y^\mathcal{T})$ is created as follows:
@@ -732,7 +732,7 @@ $X^\mathcal{T} = \bigcup_{i=1}^N X_i^\mathcal{S}$,
 
 $Y = \{prefix_i(y): y \in Y_i, i=1, \dots, N\}$
 where $prefix_i(\cdot)$ is a function such that $$\forall_{i\neq j} \forall_{\bar{y} \in Y_i, \hat{y} \in Y_j} \ \  prefix_i(y) \neq prefix_j{y}$$
-In our case, the prefix function given a class name (as a string), simply transforms the string by adding a prefix with the dataset name. This way the classes remain distinct after concatenation. The number of classes in the resulting dataset is equal to the sum of the number of classes in each of the datasets. The examples that correspond to the same dataset should be intuitively similar to each other (analog of the fine-grained classes in ImageNet) while examples from different datasets cover more latent space (analog of the coarse-grained classes in ImageNet). The concatenation process is shown in figure \ref{fig:baseline_dataset}
+In our case, the prefix function given a class name (as a string) transforms the string by adding a prefix with the dataset name. This way, the classes remain distinct after concatenation. The number of classes in the resulting dataset is equal to the sum of the number of classes in each dataset. The examples that correspond to the same dataset should be intuitively similar to each other (analog of the fine-grained classes in ImageNet), while examples from different datasets cover more latent space (analog of the coarse-grained classes in ImageNet). The concatenation process is shown in figure \ref{fig:baseline_dataset}
 
 
 \FloatBarrier
@@ -744,31 +744,31 @@ In our case, the prefix function given a class name (as a string), simply transf
 \end{figure}
 
 \FloatBarrier
-The data batches that are fed to the model are processed as described in the previous chapter, including length unification within the batch, normalization, and random augmentation of 30\% of the observations.
+The data batches fed to the model are processed as described in the previous chapter, including length unification within the batch, normalization, and random augmentation of 30\% of the observations.
 
-After training the classifier on the artificial, concatenated dataset, we obtain a neural network model. The network (specifically the weights) is then used as a starting point to train on the target dataset. The target classifier is created by removing the last layer, which outputs the probabilities for each class. The layer is replaced by a new layer, with randomly initialized weights and output size equal to the number of classes in the last layer. The whole network is then retrained on the target dataset. All weights are updated in the training procedure (freezing the weights is not used).
+We obtain a neural network model after training the classifier on the artificial, concatenated dataset. The network (specifically the weights) is then used as a starting point to train on the target dataset. The target classifier is created by removing the last layer, which outputs the probabilities for each class. The layer is replaced by a new layer with randomly initialized weights and output size equal to the number of classes in the last layer. The whole network is then retrained on the target dataset. All weights are updated in the training procedure (freezing the weights is not used).
 
 We compare the results by predicting the classes on the test split of the target dataset. The metrics used for comparison will be explained in detail in the Results chapter. We compare the metrics to results obtained by training a network of the same architecture but without transfer learning (with random weights).
 
 \section{Ensemble approach}\label{section:ensemble}
 The second approach proposed in this thesis is inspired by the success of ensemble models (e.g. HIVE-COTE) %TODO more ensemble classifiers
- in time series classification. Small dataset sizes common in time series classification tend to increase the variance error of the classifiers. Therefore the ensemble method is often proposed to decrease the variance and increase the accuracy of predictions. This intuition is resembled in this approach.
+ in time series classification. Small dataset sizes common in time series classification tend to increase the variance error of the classifiers. Therefore the ensemble method is often proposed to decrease the variance and increase the accuracy of predictions. This intuition resembles this approach.
 
-The previous study on transfer learning with a single source dataset \cite{transfer_learning_time_series} showed that though transfer learning generally increases the accuracy, for a lot of experiments the accuracy was decreased. If a dataset differed significantly from the target dataset, a classifier pre-trained on such dataset wouldn't adapt to the target dataset, thus decreasing the accuracy. The same situation is probable with multi-source transfer learning if some of the datasets are not suited for the particular target dataset. In order to mitigate the negative contribution, the ensemble method is used.
+The previous study on transfer learning with a single source dataset \cite{transfer_learning_time_series} showed that though transfer learning generally increases the accuracy, the accuracy was decreased for many experiments. If a dataset differed significantly from the target dataset, a classifier pre-trained on such dataset would not adapt to the target dataset, thus decreasing the accuracy. The same situation is probable with multi-source transfer learning if some datasets are unsuitable for the particular target dataset. In order to mitigate the negative contribution, the ensemble method is used.
 
-Let's assume that we want to perform transfer learning given $N$ source datasets $(X^\mathcal{S}_1, y^\mathcal{S}_1), \dots, (X^\mathcal{S}_N, y^\mathcal{S}_N)$ and a target dataset $(X^\mathcal{T}, y^\mathcal{T})$.
-The model is created from $N$ source models. Model $M_i$ is a classifier (e.g. a Fully Convolutional Network) trained on the dataset $(X^\mathcal{S}_i, y^\mathcal{S}_i)$. The hyperparameters used for experiments are described in section \ref{section:hyperparameters} and do not differ from the hyperparameters used for the \textit{baseline approach}. % TODO section hyperparameters
+Let us assume that we want to perform transfer learning given $N$ source datasets $(X^\mathcal{S}_1, y^\mathcal{S}_1), \dots, (X^\mathcal{S}_N, y^\mathcal{S}_N)$ and a target dataset $(X^\mathcal{T}, y^\mathcal{T})$.
+The model is created from $N$ source models. Model $M_i$ is a classifier (e.g., a Fully Convolutional Network) trained on the dataset $(X^\mathcal{S}_i, y^\mathcal{S}_i)$. The hyperparameters used for experiments are described in section \ref{section:hyperparameters} and do not differ from those used for the \textit{baseline approach}. % TODO section hyperparameters
 
 Let's recall the notion from the section \ref{mlp_section_related} that a model $M_i$ is a composition of layers, $$M_i(X; \theta_1^i,\dots , \theta_M^i, \beta_1^i,\dots , \beta_M^i) = L_M^i(\dots L_2(L_1(X;\theta_1^i, \beta_1^i);\theta_2^i, \beta_2^i);\theta_M^i, \beta_M^i)$$
-To shorten the notation, let's group the first layers together:
+To shorten the notation, let us group the first layers together:
 $$E(X;\Theta^i, B^i) = L_{M-1}^i(\dots L_2(L_1(X;\theta_1^i, \beta_1^i);\theta_2^i, \beta_2^i);\theta_{M-1}^i, \beta_{M-1}^i)$$
 thus
 $$M_i(X; \theta_1^i,\dots , \theta_M^i, \beta_1^i,\dots , \beta_M^i) =  L_M^i(E(X; \Theta^i, B^i);\theta_M^i, \beta_M^i)$$
-We assume that the architecture of subsequent layers except for the last one is the same for all models $M_i$, $i=1, \dots, N$. Therefore only the last layer has the superscript $\ ^i$. The last layer output size is equal to the number of classes in dataset $i$, therefore may be different for every model. We also assume that the first layers architecture is the same for all models. Models agnostic to the input size (like FCNs) are advantageous here, as their architecture does not depend on the input size. As for other models, we assume a fixed size of the input data achieved by preprocessing the input data.
+We assume that the architecture of subsequent layers, except for the last one, is the same for all models $M_i$, $i=1, \dots, N$. Therefore only the last layer has the superscript $\ ^i$. The last layer output size is equal to the number of classes in dataset $i$, which may differ for every model. We also assume that the first layers architecture is the same for all models. Models agnostic to the input size (like FCNs) are advantageous here, as their architecture does not depend on the input size. As for other models, we assume a fixed size of the input data achieved by preprocessing the input data.
 The weights $\theta^i_k$ and biases $\beta^i_k$ are obtained from training on dataset $i$.
 The target model $M$ is created as follows:
 $$M(X) = \frac{1}{N} \sum_{i=1}^N \hat L_M( E(X; \Theta^i, B^i);\hat\theta_M^i, \hat\beta_M^i )$$
-The weights $\theta_1^i, \dots, \theta_{M-1}^i$ and biases $\beta_1^i, \dots, \beta_{M-1}^i$ are obtained from training the source models. The last layer $\hat L_M$ is "new", meaning that the weights are randomly initialized. The new corresponding weights $\hat\theta_M^i$ and biases $\hat\beta_M^i$ have proper dimensionality (corresponding to the number of classes in the target dataset). This model is then retrained on the target dataset. All weights are updated in the training procedure (freezing the weights is not used).
+The weights $\theta_1^i, \dots, \theta_{M-1}^i$ and biases $\beta_1^i, \dots, \beta_{M-1}^i$ are obtained from training the source models. The last layer $\hat L_M$ is "new," meaning the weights are randomly initialized. The new corresponding weights $\hat\theta_M^i$ and biases $\hat\beta_M^i$ have proper dimensionality (corresponding to the number of classes in the target dataset). This model is then retrained on the target dataset. All weights are updated in the training procedure (freezing the weights is not used).
 
 A graphical example of the process can be found in the figure. \ref{fig:ensemble_architecture}.
 
@@ -785,10 +785,10 @@ A graphical example of the process can be found in the figure. \ref{fig:ensemble
 
 
 \section{Selecting the source datasets for multi-source transfer learning}\label{section:selecting}
-In both multi-source learning approaches described above (\textit{baseline} and \textit{ensemble} approaches) we don't impose any restrictions on the source datasets themselves. Neither of the two approaches doesn't include any rules on how the source datasets correspond to the target dataset. In the experiments conducted in this thesis, two approaches for picking the datasets are proposed. In the first approach, we pick randomly $N$ datasets from a given category corresponding to the target dataset. To illustrate, let's say that the objective is to train a target classifier on the \texttt{InlineSkate} dataset, which belongs to the \texttt{Motion} category in the UCR archive. Then the source datasets are picked randomly from the given category, which could be \texttt{UWaveGestureLibraryX, AsphaltPavementType, ToeSegmentation2, CricketZ, UWaveGestureLibraryZ}.
+In both multi-source learning approaches described above (\textit{baseline} and \textit{ensemble} approaches), we do not impose any restrictions on the source datasets themselves. Neither of the two approaches does not include any rules on how the source datasets correspond to the target dataset. In the experiments conducted in this thesis, two approaches for picking the datasets are proposed. In the first approach, we randomly choose $N$ datasets from a given category corresponding to the target dataset. To illustrate, let us say that the objective is to train a target classifier on the \texttt{InlineSkate} dataset, which belongs to the \texttt{Motion} category in the UCR archive. Then the source datasets are picked randomly from the given category, which could be \texttt{UWaveGestureLibraryX, AsphaltPavementType, ToeSegmentation2, CricketZ, UWaveGestureLibraryZ}.
 
 
-The second approach described was based on a similarity measure. The inter-dataset similarity measure called DTW barycenter averaging was described in \ref{DTW_choosing}. The intuition behind the second approach is that usually transfer learning benefits if the domains are similar. To measure the similarity, the DBA distances were computed for all pairs of datasets in a given category. Then, for a given target dataset, $N$ datasets minimalizing the distance to the target dataset were used for pretraining the source network (either in \textit{baseline} or \textit{ensemble} approach). The dataset still belonged to the same UCR category as the target dataset.
+The second approach described was based on a similarity measure. The inter-dataset similarity measure called DTW barycenter averaging was described in \ref{DTW_choosing}. The intuition behind the second approach is that usually transfer learning benefits if the domains are similar. In order to measure the similarity between datasets, the DBA distances were computed for all pairs of datasets in a given category. Then, for a given target dataset, $N$ datasets minimalizing the distance to the target dataset were used for pretraining the source network (either in \textit{baseline} or \textit{ensemble} approach). The dataset still belonged to the same UCR category as the target dataset.
 \section{Environment and code structure}
 The solution is written in Python 3.8, mainly utilizing the library \texttt{Keras} from the \texttt{TensorFlow} library. The structure of the code is as follows:
 
@@ -826,7 +826,7 @@ The folders contain the following content:
 
 \end{itemize}
 
-The experiments that consisted of model training were run in Google Colab with GPU. Other scripts, for example, to calculate DBA similarity measures or to summarize results gathered in MlFlow were run locally.
+The model training experiments were run in Google Colab with GPU. Other scripts, for example, to calculate DBA similarity measures or to summarize results gathered in MlFlow were run locally.
 \chapter{Results}\label{chapter:results}
 The results and metrics of classifiers obtained from training networks with transfer learning were compared to the results obtained without transfer learning. The performance of the target classifier in the\textit{ ensemble }approach was compared to an ensemble model with the same amount of component models in the ensemble.
 
