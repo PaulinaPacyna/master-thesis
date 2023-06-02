@@ -16,8 +16,8 @@ class DbaSimiliarityVsRandomResults(Results):
     second_result_key_name_val_loss = "random_ensemble_val_loss"
     second_result_key_name_acc = "random_ensemble_accuracy"
     second_result_key_name_val_acc = "random_ensemble_val_accuracy"
-    x_label_win_tie_loss = "Ensemble approach"
-    y_label_win_tie_loss = "Baseline approach"
+    x_label_win_tie_loss = "random approach"
+    y_label_win_tie_loss = "DBA similarity approach"
 
     def _get_second_experiment_runs(self) -> Dict[str, Run]:
         hist = self._get_history_per_experiment(

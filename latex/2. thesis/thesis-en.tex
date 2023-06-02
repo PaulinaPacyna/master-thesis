@@ -624,7 +624,7 @@ In \cite{transfer_learning_time_series}, the distance was computed pairwise for 
 The result shows that choosing the source dataset for transfer learning based on similarity to the target dataset may lead to benefits. In this work we will try to construct the dataset artificially, by combining, preprocessing, and augmenting the datasets from the UCR archive, to mimic the properties of the ImageNet dataset. The artificial dataset will be composed of multiple datasets. Therefore we rather won't use this similarity to choose one particular dataset. We will take the inter-dataset distance into account when adjusting the distribution of classes in the artificial dataset, to favour classes similar to the target dataset.
 
 \chapter{Metodology}
-In this chapter, we will cover the technical implementation of the solution. We will introduce methods that aim at inductive transfer learning for time series classification. Most importantly, we will introduce two approaches to multi-source transfer learning - the \textit{baseline} and the \textit{ensemble} approach. We will also cover a selection method for selecting the source datasets given a target dataset.
+In this chapter, we will cover the technical implementation of the solution. We will introduce methods that aim at inductive transfer learning for time series classification. Most importantly, we will introduce two approaches to multi-source transfer learning - the \textit{baseline} and the \textit{ensemble} approach. We will also cover a selection method for selecting the source datasets given a target dataset. We will also briefly summarize data reading and preprocessing steps.
 
 \section{Data reading}\label{section:reading}
 The data downloaded from the UCR archive is available in two formats, \texttt{ts} (as text files) and \texttt{arff/weka} (as binaries). In order to speed up the reading and conversion time, all datasets were read, concatenated, and saved as one array of time series (the original lengths were preserved). At this point, only basic preprocessing was done. It included the following steps:
@@ -640,7 +640,7 @@ All time series were concatenated to one array of series and saved in a \texttt{
 
 
 \section{Preprocessing and preparing the data}\label{section:preprocessing}
- In order to avoid focusing on one particular form of preprocessing and preparing the data, the preprocessing was done on the fly when training the data. This way, fast experimenting with hyperparameters and methods was possible. In order to achieve it, Keras DataGenerators were used. DataGenerators allow for defining a Python generator that provides batches of data to the fit method instead of providing a fixed dataframe. Using DataGenerator was useful when dealing with datasets consisting of time series of variable lengths and Fully Convolutional Networks. In such cases, the time series lengths could differ for each batch.
+ In order to avoid focusing on one particular form of preprocessing and preparing the data, the preprocessing was done on the fly when training the data. This way, fast experimenting with hyperparameters and methods was possible. In order to achieve it, Keras DataGenerators were used. DataGenerators allow for defining a Python generator that provides batches of data to the fit method instead of providing a fixed dataframe. Using DataGenerators was useful when dealing with datasets consisting of time series of variable lengths and Fully Convolutional Networks. In such case, the time series lengths could differ for each batch.
 For the Fully Convolutional Networks, we implemented \texttt{VariableLengthDataGenerator}.
 The preprocessing steps are described below:
 \begin{itemize}
@@ -708,7 +708,7 @@ The hyperparameters used for the training were identical for all experiments. Th
 \toprule
 \textbf{Hyperparameter}       & \textbf{value} \\ \midrule
 Batch size                                & 32 \\ \midrule
-Augmentation rate (portion of train dataset that was augmented)                                & 0.3\\ \midrule
+Augmentation rate  & 0.3\\ \midrule
 Learning rate                                 & 1e-5 with 0.75 decay over 10 000 steps (exponential decay) \\
 \\ \midrule
 Number of epochs                                & 10\\
@@ -721,13 +721,13 @@ Number of epochs                                & 10\\
 \end{table}
 \FloatBarrier
 \section{Multi-source transfer learning}
-As single-source transfer learning for time series classification was covered by Fawaz et al. \cite{transfer_learning_time_series}, this thesis considers mainly transfer learning using multiple source datasets. Two transfer learning approaches were developed, named \textit{baseline approach} and \textit{ensebmle approach}. Both of them will be described below. Both of those approaches consider multiple (the number is arbitrary) source datasets, single target datasets, the same neural network architectures, and hyperparameters.
+As single-source transfer learning for time series classification was covered by Fawaz et al. \cite{transfer_learning_time_series}, this thesis considers mainly transfer learning using multiple source datasets. Two transfer learning approaches were developed, named \textit{baseline approach} and \textit{ensebmle approach}. Both of them will be described below. Both of those approaches consider multiple (the number is arbitrary) source datasets, single target dataset, the same neural network architectures, and hyperparameters.
 
 \section{Baseline approach}\label{section:baseline}
 The \textit{baseline approach} is a simple extension to the classical transfer learning approach used in deep learning. Usually, in deep learning, the neural network is first trained on a large, diverse dataset (like ImageNet). The network is usually trained on the source dataset, and then the first layers are used in the source classifier.
 
 The idea here is similar, but the source dataset is created artificially from multiple datasets. As most of the datasets in the UCR archive are small, we concatenate them to obtain a bigger dataset. Suppose that we have $N$ datasets $(X_i^\mathcal{S}, Y_i^\mathcal{S})$, $i=1, \cdots, N$.
-The target dataset $(X^\mathcal{T}, Y^\mathcal{T})$ is created as follows:
+The pre-training dataset $(X^\mathcal{T}, Y^\mathcal{T})$ is created as follows:
 $X^\mathcal{T} = \bigcup_{i=1}^N X_i^\mathcal{S}$,
 
 $Y = \{prefix_i(y): y \in Y_i, i=1, \dots, N\}$
@@ -761,14 +761,14 @@ The model is created from $N$ source models. Model $M_i$ is a classifier (e.g., 
 
 Let's recall the notion from the section \ref{mlp_section_related} that a model $M_i$ is a composition of layers, $$M_i(X; \theta_1^i,\dots , \theta_M^i, \beta_1^i,\dots , \beta_M^i) = L_M^i(\dots L_2(L_1(X;\theta_1^i, \beta_1^i);\theta_2^i, \beta_2^i);\theta_M^i, \beta_M^i)$$
 To shorten the notation, let us group the first layers together:
-$$E(X;\Theta^i, B^i) = L_{M-1}^i(\dots L_2(L_1(X;\theta_1^i, \beta_1^i);\theta_2^i, \beta_2^i);\theta_{M-1}^i, \beta_{M-1}^i)$$
+$$E(X;\Theta^i, B^i) = L_{M-1}(\dots L_2(L_1(X;\theta_1^i, \beta_1^i);\theta_2^i, \beta_2^i);\theta_{M-1}^i, \beta_{M-1}^i)$$
 thus
 $$M_i(X; \theta_1^i,\dots , \theta_M^i, \beta_1^i,\dots , \beta_M^i) =  L_M^i(E(X; \Theta^i, B^i);\theta_M^i, \beta_M^i)$$
 We assume that the architecture of subsequent layers, except for the last one, is the same for all models $M_i$, $i=1, \dots, N$. Therefore only the last layer has the superscript $\ ^i$. The last layer output size is equal to the number of classes in dataset $i$, which may differ for every model. We also assume that the first layers architecture is the same for all models. Models agnostic to the input size (like FCNs) are advantageous here, as their architecture does not depend on the input size. As for other models, we assume a fixed size of the input data achieved by preprocessing the input data.
 The weights $\theta^i_k$ and biases $\beta^i_k$ are obtained from training on dataset $i$.
 The target model $M$ is created as follows:
 $$M(X) = \frac{1}{N} \sum_{i=1}^N \hat L_M( E(X; \Theta^i, B^i);\hat\theta_M^i, \hat\beta_M^i )$$
-The weights $\theta_1^i, \dots, \theta_{M-1}^i$ and biases $\beta_1^i, \dots, \beta_{M-1}^i$ are obtained from training the source models. The last layer $\hat L_M$ is "new," meaning the weights are randomly initialized. The new corresponding weights $\hat\theta_M^i$ and biases $\hat\beta_M^i$ have proper dimensionality (corresponding to the number of classes in the target dataset). This model is then retrained on the target dataset. All weights are updated in the training procedure (freezing the weights is not used).
+The weights $\theta_1^i, \dots, \theta_{M-1}^i$ and biases $\beta_1^i, \dots, \beta_{M-1}^i$ are obtained from training the source models. The last layer $\hat L_M$ is "new", meaning the weights are randomly initialized. The new corresponding weights $\hat\theta_M^i$ and biases $\hat\beta_M^i$ have proper dimensionality (corresponding to the number of classes in the target dataset). This model is then retrained on the target dataset. All weights are updated in the training procedure (freezing the weights is not used).
 
 A graphical example of the process can be found in the figure. \ref{fig:ensemble_architecture}.
 
@@ -863,7 +863,7 @@ The \textit{baseline} approach, in which a single Fully Convolutional Network wa
 \end{figure}
 \FloatBarrier
 The most remarkable improvement is visible in the first epochs of the training process, which suggest that the network uses the knowledge learned from the previous task. As the training continues, the advantage is less significant. In figure \ref{fig:win_tie_loss_baseline}, we show a comparison win-tie-loss diagram for the fifth and tenth epochs.
-Transfer learning makes the gap between accuracy/loss on the validation and test split smaller. This can mean that the model is less prone to overfitting and hence generalizes better due to exposure to more diverse examples in the pre-training phase.
+Transfer learning makes the gap between accuracy/loss on the train and validation split smaller. This can mean that the model is less prone to overfitting and hence generalizes better due to exposure to more diverse examples in the pre-training phase.
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
@@ -1021,7 +1021,7 @@ The \textit{ensemble} approach proved to be better in terms of performance resul
 
 We also considered two methods of selecting the datasets for pre-training the source classifiers. The method based on the DBA similarity measure has proven to be slightly advantageous compared to choosing the datasets randomly or by trial and error. We believe that this method may be improved by enhancing the similarity measure.
 
-We also experimented with the number of source datasets. Experiments were conducted using $3$, $5$, and $8$, using the \textit{ensemble} approach. All of those settings resulted in decent results, and using $5$ datasets was averagely more effective than using $3$ or $5$ datasets.
+We also experimented with the number of source datasets. Experiments were conducted using $3$, $5$, and $8$, using the \textit{ensemble} approach. All of those settings resulted in decent results, and using $5$ datasets was averagely more effective than using $3$ or $8$ datasets.
 
 \section{Further works}
 As an extension to the work done for this thesis, we may consider an extension to the source dataset selection algorithm. We may consider measuring the similarity of shapelets, as those are the critical attributes learned by convolutional layers.
