@@ -630,8 +630,8 @@ In this chapter, we will cover the technical implementation of the solution. We 
 The data downloaded from the UCR archive is available in two formats, \texttt{ts} (as text files) and \texttt{arff/weka} (as binaries). In order to speed up the reading and conversion time, all datasets were read, concatenated, and saved as one array of time series (the original lengths were preserved). At this point, only basic preprocessing was done. It included the following steps:
 \begin{itemize}
 \item replacing \texttt{NaN} values with zeros
-\item removing zeros at the end of the time series. This step was done because some of the time series published in the UCR archive were already padded with zeros to have the same lengths. This assumption is not necessary when using Fully Convolutional Network.
-\item trimming the series if the length of a time series exceeded $50 000$ time steps.
+\item removing zeros at the end of the time series. This step was done because some of the time series published in the UCR archive were already padded with zeros to have the same lengths. This assumption is not necessary when using a Fully Convolutional Network.
+\item trimming the series if the time series length exceeded $50 000$ time steps (applies only for one dataset - \texttt{DuckGeese}).
 
 
 \end{itemize}
