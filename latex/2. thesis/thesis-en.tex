@@ -629,7 +629,7 @@ In \cite{transfer_learning_time_series}, the distance was computed pairwise for 
 
 The result shows that choosing the source dataset for transfer learning based on similarity to the target dataset may lead to benefits. In this work we will try to construct the dataset artificially, by combining, preprocessing, and augmenting the datasets from the UCR archive, to mimic the properties of the ImageNet dataset. The artificial dataset will be composed of multiple datasets. Therefore we rather won't use this similarity to choose one particular dataset. We will take the inter-dataset distance into account when adjusting the distribution of classes in the artificial dataset, to favour classes similar to the target dataset.
 
-\chapter{Metodology}
+\chapter{Methodology}
 In this chapter, we will cover the technical implementation of the solution. We will introduce methods that aim at inductive transfer learning for time series classification. Most importantly, we will introduce two approaches to multi-source transfer learning - the \textit{baseline} and the \textit{ensemble} approach. We will also cover a selection method for selecting the source datasets given a target dataset. We will also briefly summarize data reading and preprocessing steps.
 
 \section{Data reading}\label{section:reading}
