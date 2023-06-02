@@ -831,7 +831,7 @@ The model training experiments were run in Google Colab with GPU. Other scripts,
 The results and metrics of classifiers obtained from training networks with transfer learning were compared to the results obtained without transfer learning. The performance of the target classifier in the\textit{ ensemble }approach was compared to an ensemble model with the same amount of component models in the ensemble.
 
 \section{Experiments}
-Each experiment recorded in MlFlow corresponds to one training setting. An example setting may be e.g. \begin{itemize}
+Each experiment recorded in MlFlow corresponds to one training setting. An example setting may be, e.g. \begin{itemize}
 \item training a network using the \textit{ensemble approach}, with 5 datasets picked using the DBA similarity measure
  \item training a network using the \textit{baseline approach}, with 5 source datasets picked randomly
  \item training an ensemble of FCNs without transfer learning
@@ -850,7 +850,7 @@ Following the MlFlow convention, each experiment consisted of several runs, each
 \end{figure}
 \FloatBarrier
 \section{Evaluation of the \textit{baseline} approach}
-The \textit{baseline} approach, in which a single Fully Convolutional Network was pre-trained and fine-tuned, was compared to results obtained from training a single FCN model on the target dataset only. For this comparison, we used a Fully Convolutional Network as the model and 5 source datasets were selected to minimize the DBA distance to the target dataset.  Figure \ref{fig:baseline_acc} shows the accuracy and loss in each epoch, averaged over all experiments conducted.
+The \textit{baseline} approach, in which a single Fully Convolutional Network was pre-trained and fine-tuned, was compared to results obtained from training a single FCN model on the target dataset only. For this comparison, we used a Fully Convolutional Network as the model, and five source datasets were selected to minimize the DBA distance to the target dataset. Figure \ref{fig:baseline_acc} shows the accuracy and loss in each epoch, averaged over all experiments conducted.
 
 
 \FloatBarrier
@@ -862,19 +862,19 @@ The \textit{baseline} approach, in which a single Fully Convolutional Network wa
 \label{fig:baseline_acc}
 \end{figure}
 \FloatBarrier
-The greatest improvement is visible in the first epochs of the training process, which suggest that the network uses the knowledge learned from the previous task. As the training continues, the advantage is less significant. In figure \ref{fig:win_tie_loss_baseline} we show a comparison win/tie/loss diagram for the fifth and tenth epochs.
-We also see that the gap between accuracy/loss on the validation and test split is smaller with transfer learning. This can mean that the model is less prone to overfitting and hence generalizes better, due to exposure to more diverse examples in the pre-training phase.
+The most remarkable improvement is visible in the first epochs of the training process, which suggest that the network uses the knowledge learned from the previous task. As the training continues, the advantage is less significant. In figure \ref{fig:win_tie_loss_baseline}, we show a comparison win-tie-loss diagram for the fifth and tenth epochs.
+Transfer learning makes the gap between accuracy/loss on the validation and test split smaller. This can mean that the model is less prone to overfitting and hence generalizes better due to exposure to more diverse examples in the pre-training phase.
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
 \includegraphics[width=17 cm]{imgs/baseline/win_tie_lose_epoch.png}
-\caption{Win/tie/loss plot. This plot shows the validation accuracy in the 5th and 10th epoch for each run (corresponding to a target dataset). The y axis corresponds to baseline approach, and x-axis to the approach without transfer learning. If a dot is above the diagonal, then it means that the transfer learning was beneficial.}
+\caption{Win-tie-loss plot. This plot shows the validation accuracy in each run's 5th and 10th epoch (corresponding to a target dataset). The y-axis corresponds to the baseline approach, and the x-axis to the approach without transfer learning. If a dot is above the diagonal, then it means that the transfer learning was beneficial.}
 \label{fig:win_tie_loss_baseline}
 \end{figure}
 
 \FloatBarrier
 \section{Evaluation of the \textit{ensemble} approach}
-In the \textit{ensemble} approach, we created an ensemble model created from 5 FCN models pre-trained on different datasets. The pre-trained ensemble was fine-tuned on the target dataset and the results were compared to a model whose architecture was identical to the ensemble, but the weights were initialized randomly. Transfer learning led to improvements in accuracy and loss, similarly as in the \textit{baseline} approach. Figure \ref{fig:ensemble_acc} shows the comparison of accuracy and loss in each epoch, averaged over all runs (each run corresponds to a target dataset).
+In the \textit{ensemble} approach, we created an ensemble model from 5 FCN models pre-trained on different datasets. The pre-trained ensemble was fine-tuned on the target dataset, and the results were compared to a model whose architecture was identical to the ensemble, but the weights were initialized randomly. Transfer learning improved accuracy and loss, similarly as in the \textit{baseline} approach. Figure \ref{fig:ensemble_acc} shows the comparison of accuracy and loss in each epoch, averaged over all runs (each run corresponds to a target dataset).
 
 \FloatBarrier
 
@@ -885,19 +885,19 @@ In the \textit{ensemble} approach, we created an ensemble model created from 5 F
 \label{fig:ensemble_acc}
 \end{figure}
 \FloatBarrier
-We also present a win tie loss diagram for the \textit{baseline} approach in figure \ref{fig:win_tie_loss_ensemble}. We see that in the final epoch, a majority of the datasets didn't benefit from transfer learning, but if they did, the benefit was relatively bigger than in the \textit{baseline} approach.
+We also present a win-tie-loss diagram for the \textit{baseline} approach in figure \ref{fig:win_tie_loss_ensemble}. We see that in the final epoch, most of the datasets did not benefit from transfer learning, but if they did, the benefit was relatively more significant than in the \textit{baseline} approach.
 
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
 \includegraphics[width=17 cm]{imgs/ensemble/win_tie_lose_epoch.png}
-\caption{Win/tie/loss plot. This plot shows the validation accuracy in the 5th and 10th epoch for each run (corresponding to a target dataset). The y-axis corresponds to the \textit{ensemble} approach and the x-axis to the approach without transfer learning. If a dot is above the diagonal, then it means that the transfer learning was beneficial.}
+\caption{Win-tie-loss plot. This plot shows the validation accuracy in the 5th and 10th epoch for each run (corresponding to a target dataset). The y-axis corresponds to the \textit{ensemble} approach and the x-axis to the approach without transfer learning. If a dot is above the diagonal, then it means that the transfer learning was beneficial.}
 \label{fig:win_tie_loss_ensemble}
 \end{figure}
-The model used in the ensemble approach consisted of more parameters, thanks to ensembling. This together with the small sizes of datasets in the UCR archive might lead to overfitting. As we see in the plot, in the model trained without transfer learning, the gap between accuracy and loss for validation and test split is big. This may indicate that the models were overfitted. Exposing the models to a larger amount of data in the pre-training phase reduces overfitting. We see that for the transfer learning results, the gap between metrics for validation and train split is smaller. Also, the accuracy of the train split is smaller, which suggests that the overfitting is mitigated.
+The model used in the ensemble approach consisted of more parameters, thanks to ensembling. This, together with the small sizes of datasets in the UCR archive, might lead to overfitting. As we see in the plot, the gap between accuracy and loss for validation and test split is more significant in the model trained without transfer learning. This may indicate that the models were overfitted. Exposing the models to a larger amount of data in the pre-training phase reduces overfitting. We see that for the transfer learning results, the gap between metrics for validation and train split is smaller. Also, the accuracy of the train split is smaller, which suggests that the overfitting is mitigated.
 
 \section{Comparison of\textit{ baseline }and\textit{ ensemble }approaches}
-We see that in both approaches the results were improved, compared to training a network from scratch. Figure \ref{fig:baseline_vs_ensemble} shows the accuracy and loss per each epoch averaged over several runs (corresponding to target datasets)
+We see that in both approaches, the results were improved compared to training a network from scratch. Figure \ref{fig:baseline_vs_ensemble} shows the accuracy and loss per each epoch averaged over several runs (corresponding to target datasets)
 
 \FloatBarrier
 \begin{figure}[h!t]
@@ -907,22 +907,22 @@ We see that in both approaches the results were improved, compared to training a
 \label{fig:baseline_vs_ensemble}
 \end{figure}
 \FloatBarrier
-Similarly as in the two previous sections, where we compared \textit{ensemble} and \textit{baseline} approaches to training without transfer learning, figure \ref{fig:win_tie_loss_baseline_vs_ensemble} shows a win / tie / loss diagram for 5th and 10th epoch comparing the \textit{baseline} and \textit{ensemble} approaches.
+Similarly, as in the two previous sections, where we compared \textit{ensemble} and \textit{baseline} approaches to training without transfer learning, figure \ref{fig:win_tie_loss_baseline_vs_ensemble} shows a win-tie-loss diagram for 5th and 10th epoch comparing the \textit{baseline} and \textit{ensemble} approaches.
 
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
 \includegraphics[width=17cm]{imgs/baseline_vs_ensemble/win_tie_lose_epoch.png}
-\caption{Win /tie / loss diagram  for\textit{ baseline } and\textit{ ensemble }approach. Dot above the diagonal line means that the run (corresponding to training on a particular dataset)  achieved better results with the \textit{ensemble} approach.}
+\caption{Win-tie-loss diagram  for\textit{ baseline } and\textit{ ensemble }approach. Dot above the diagonal line means that the run (corresponding to training on a particular dataset)  achieved better results with the \textit{ensemble} approach.}
 \label{fig:win_tie_loss_baseline_vs_ensemble}
 \end{figure}
 \FloatBarrier
 
 Other than the differences in qualitative results, the computation time and sizes of the classifiers differ in both approaches.
-For the baseline approach, the model is smaller, and it takes a little bit less time to pre-train a single model with a large amount of data than to pre-train a few small separate models with smaller data. Therefore, the time needed to pre-train  the network in the \textit{baseline} approach is longer than in the \textit{ensemble} approach.
+For the baseline approach, the model is smaller, and it takes less time to pre-train a single model with a large amount of data than to pre-train a few small separate models with smaller data. Therefore, the time needed to pre-train the network in the \textit{baseline} approach is longer than in the \textit{ensemble} approach.
 
-Training the model used in the \textit{ensemble} approach is composed of two steps. In the first step each component, which is a single FCN model, is trained on a single dataset, corresponding to each source dataset selected for the target dataset. Hence it is a single dataset and a single model, this could be parallelized, as the models and datasets and independent. The second step consists of training the model on the ensemble created from the pre-trained components on the target dataset. The resulting model is bigger than the final classifier in the \textit{baseline} approach. Summing this up together, pre-training the ensemble components and training the network takes longer than in the \textit{baseline} approach. The training procedure in the baseline approach consists of training the source (single) model on the combined dataset and retraining it on the target dataset.
-Figure \ref{fig:baseline_ensemble_traning_time} shows the comparison of training time for both approaches.  The training time shown on the plot is the sum of time needed for the pre-training step and fine-tuning step.
+Training the model used in the \textit{ensemble} approach comprises two steps. In the first step, each component, a single FCN model, is trained on a single dataset corresponding to each source dataset selected for the target dataset. Hence it is a single dataset and a single model. This could be parallelized, as the models and datasets and independent. The second step consists of training the model on the ensemble created from the pre-trained components on the target dataset. The resulting model is larger than the final classifier in the \textit{baseline} approach. Summing up, pre-training the ensemble components and training the network takes longer than in the \textit{baseline} approach. The training procedure in the baseline approach consists of training the source (single) model on the combined dataset and retraining it on the target dataset.
+Figure \ref{fig:baseline_ensemble_traning_time} compares training time for both approaches. The training time shown on the plot is the sum needed for the pre-training and fine-tuning steps.
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
@@ -931,12 +931,12 @@ Figure \ref{fig:baseline_ensemble_traning_time} shows the comparison of training
 \label{fig:baseline_ensemble_traning_time}
 \end{figure}
 \FloatBarrier
-It is worth mentioning, that during the experiments conducted for the sake of this thesis, a lot of time was saved, by saving the components pre-trained for the \textit{ensemble}. If a component was trained once on a given source dataset, it was reused every time an ensemble model was created of it. It saved time during the experiments, but the time saved was not deducted from the time shown on figure \ref{fig:baseline_ensemble_traning_time}.
+It is worth mentioning that during the experiments conducted for the sake of this thesis, much time was saved by saving the components pre-trained for the \textit{ensemble}. If a component was trained once on a given source dataset, it was reused every time an ensemble model was created of it. It saved time during the experiments, but the time saved was not deducted from the time shown in figure \ref{fig:baseline_ensemble_traning_time}.
 
 When it comes to the size of the model, the model used for \textit{baseline} approach consisted of c.a. (depending on the number of classes) $266 000$ parameters, while the model used for \textit{ensemble} approach (created from $5$ components) consisted typically of $1 332 000$ parameters. The model weights used for \textit{baseline} occupied 3.22 MB after saving on disk (as a TensorFlow Checkpoint), and the model weights used for the ensemble approach (created from $5$ components) used 16.04 MB of disk memory.
 
-\section{Evaluation of method used for selecting the source datasets for the ensemble}
-As mentioned in \ref{section:selecting}, the datasets used for multi-source transfer learning were selected in two ways: randomly or based on the DBA similarity measure. This section contains a comparison of those two methods. The selecting method is independent of the model, thus it can be used for both \textit{ensemble} and \textit{baseline} approach. Unfortunately, this evaluation is performed only using the \textit{ensemble} approach, given the time and computational limitations.
+\section{Evaluation os source datasets selection method}
+As mentioned in \ref{section:selecting}, the datasets used for multi-source transfer learning were selected in two ways: randomly or based on the DBA similarity measure. This section contains a comparison of those two methods. The selecting method is independent of the model, thus it can be used for both \textit{ensemble} and \textit{baseline} approaches. Unfortunately, this evaluation is performed only using the \textit{ensemble} approach, given the time and computational limitations.
 
 Figure \ref{fig:random_vs_dba} shows the averaged results using random selection and selection based on the DBA similarity measure.
 
@@ -945,17 +945,17 @@ As we see, selecting the datasets based on the similarity measure led to slight 
 \begin{figure}[h!t]
 \centering
 \includegraphics[width=17cm]{imgs/dba_vs_random/loss_acc.png}
-\caption{Averaged accuracy and loss per each epoch for the ensemble approach, when selecting the source datasets randomly and using the DBA similarity approach.}
+\caption{Averaged accuracy and loss per each epoch for the ensemble approach when selecting the source datasets randomly and using the DBA similarity approach.}
 \label{fig:random_vs_dba}
 \end{figure}
 \FloatBarrier
-The win tie loss diagram also indicates an advantage of the DBA selection approach (figure \ref{fig:random_vs_dba_win_tie_loss}
+The win-tie-loss diagram also indicates an advantage of the DBA selection approach (figure \ref{fig:random_vs_dba_win_tie_loss}
 
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
 \includegraphics[width=17cm]{imgs/dba_vs_random/win_tie_lose_epoch.png}
-\caption{Win tie loss diagram comparing selecting the source datasets randomly vs with the DBA similarity approach.}
+\caption{Win-tie-loss diagram comparing selecting the source datasets randomly vs with the DBA similarity approach.}
 \label{fig:random_vs_dba_win_tie_loss}
 \end{figure}
 \FloatBarrier
@@ -969,7 +969,7 @@ There is still room to improve the similarity measure. In order to understand th
 \end{figure}
 \FloatBarrier
 \section{Influence of accuracy of the components used in the ensemble on the target classifiers' accuracy}
-This short section checks the hypothesis that the better the model we use in \textit{ensemble} approach, the better the end results on the target classifier. As we see on the plot \ref{fig:acc_source_vs_acc_target}, which shows the mean accuracy of components (measured on each source dataset, using test split) versus the accuracy of the target classifier (measured on the test split of target dataset). The correlation between the two statistics is very moderate (0.15).
+This short section checks the hypothesis that the better the model we use in \textit{ensemble} approach, the better the final results on the target classifier. As we see on the plot \ref{fig:acc_source_vs_acc_target}, which shows the mean accuracy of components (measured on each source dataset, using test split) versus the accuracy of the target classifier (measured on the test split of target dataset). The correlation between the two statistics is very moderate (0.15).
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
@@ -979,9 +979,9 @@ This short section checks the hypothesis that the better the model we use in \te
 \end{figure}
 \FloatBarrier
 \section{Number of datasets used in multi-source transfer learning}
-For the previous experiments, we used $5$ source datasets, both for the \textit{ensemble} and \textit{baseline} approach. However, the number of experiments is arbitrary. This thesis aims to explore the benefits of multi-source transfer learning, compared to single-source transfer learning described in \cite{transfer_learning_time_series}. Similarly as in the previous sections we compared \textit{ensemble} and \textit{baseline} approaches to models trained without transfer learning, we compared the accuracy and loss for models pre-trained with $3$, $5$, and $8$ source datasets.
+We used $5$ source datasets for the previous experiments, both for the \textit{ensemble} and \textit{baseline} approach. However, the number of experiments is arbitrary. Similarly, as in the previous sections, we compared \textit{ensemble} and \textit{baseline} approaches to models trained without transfer learning. We compared the accuracy and loss for models pre-trained with $3$, $5$, and $8$ source datasets.
 
-We found that all configurations give good results while using $5$ datasets gives the best results. The averaged accuracy and loss plot is shown in figure \ref{fig:ensemble_3_5_8}. We used the ensemble approach for this comparison and we used the DBA similarity measure.
+We found that all configurations give good results, while using $5$ datasets gives the best results. Figure \ref{fig:ensemble_3_5_8} shows the averaged accuracy and loss plot. For this comparison, we used the ensemble approach and the DBA similarity measure.
 
 \FloatBarrier
 \begin{figure}[h!t]
@@ -994,21 +994,21 @@ We found that all configurations give good results while using $5$ datasets give
 
 
 Figures \ref{fig:ensemble_3_5_win_tie_loss} and
-\ref{fig:ensemble_5_8_win_tie_loss} also presents the win tie loss diagram comparing the same experiment with 3 and 5 datasets, and with 5 and 8 datasets.
+\ref{fig:ensemble_5_8_win_tie_loss} also presents the win-tie-loss diagram comparing the same experiment with 3 and 5 datasets, and with 5 and 8 datasets.
 
 
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
 \includegraphics[width=17cm]{imgs/ensemble_dba_3_vs_5/win_tie_lose_epoch.png}
-\caption{Win / tie / loss diagram comparing the ensemble approach with 3 and 5 datasets (DBA similarity measure is used for choosing the source datasets}
+\caption{Win-tie-loss diagram comparing the ensemble approach with 3 and 5 datasets (DBA similarity measure is used for choosing the source datasets}
 \label{fig:ensemble_3_5_win_tie_loss}
 \end{figure}
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
 \includegraphics[width=17cm]{imgs/ensemble_dba_5_vs_8/win_tie_lose_epoch.png}
-\caption{Win / tie / loss diagram comparing the ensemble approach with 5 and 8 datasets (DBA similarity measure is used for choosing the source datasets}
+\caption{Win-tie-loss diagram comparing the ensemble approach with 5 and 8 datasets (DBA similarity measure is used for choosing the source datasets}
 \label{fig:ensemble_5_8_win_tie_loss}
 \end{figure}
 \FloatBarrier
