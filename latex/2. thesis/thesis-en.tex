@@ -514,9 +514,9 @@ The datasets in the archive are already split into train and test datasets. Most
 \section{Preprocessing and augmenting time series}
 Data preprocessing is the process of preparing, cleansing, and manipulating the data to optimize the training process. Data augmentation is a process used to increase the amount and variability of data. Data augmentation is beneficial when there is a limited amount of data, as it can prevent overfitting.
 
-Many classical and deep learning models were invented and designed together with the data preprocessing and augmenting step \cite{bake_off, dl_tsc}. One such method is Window Slicing \cite{dl_tsc}. This method extracts subsequences of the original series. The resulting subsequences are then concatenenated with a downsampled copy and smoothed copy. This method is used in Multi-scale Convolutional Neural Network \cite{multiscale} and Time Le-Net \cite{timelenet}.
+Many classical and deep learning models were invented and designed together with the data preprocessing and augmenting step \cite{bake_off, dl_tsc}. One such method is Window Slicing \cite{dl_tsc}. This method extracts subsequences of the original series. The resulting subsequences are then concatenated with a downsampled copy and smoothed copy. This method is used in Multi-scale Convolutional Neural Network \cite{multiscale} and Time Le-Net \cite{timelenet}.
 
-Another preprocessing and augmentation method proposed together with the former method in the Time Le-Net model was Window Warping. It aims at making the model more robust to perturbations in the time axis by training the network on \textit{squeezed} or \textit{dilated} series together with the original series. The \textit{dilated}/\textit{squeezed} time series is two times longer/shorter than the original time series.
+Window Warping was another preprocessing and augmentation method proposed together with the former method in the Time Le-Net model. It aims at making the model more robust to perturbations in the time axis by training the network on \textit{squeezed} or \textit{dilated} series together with the original series. The \textit{dilated}/\textit{squeezed} time series is two times longer/shorter than the original time series.
 The dilated, squeezed, and original time series are concatenated, forming a vector 3.5 longer than the original time series. In the Time Le-Net model, this vector undergoes the Window Slicing preprocessing step before training.
 
 
@@ -597,9 +597,9 @@ With respect to different source datasets, target classifiers' accuracies exhibi
 A negative transfer learning effect can be minimized or avoided by optimally choosing the source dataset/datasets. To improve the transfer learning process, the authors proposed a method of choosing the source dataset based on the DTW distance. This method will be described in \ref{DTW_choosing}.
 
 \subsection{Inter-dataset similarity measure based on Dynamic Time Warping Barycenter Averaging} \label{DTW_choosing}
-Choosing the source dataset for transfer learning randomly, or by trial and error, can lead to the \textit{Negative transfer} problem, described in the previous chapter (\ref{Negative_transfer}). In \cite{transfer_learning_time_series}, the authors proposed an inter-dataset similarity measure, that is used to optimally choose the source dataset for transfer learning. The first step of the method is to compute a \textit{prototype} time series per each class, for every dataset that is considered. This reduces the volume of the data, that will be used is the next step. The next step is to compute the distances between each pair of datasets, choosing the minimum DTW distance between prototypes of each class in both datasets. We proceed to describe the algorithm in detail below.
+Choosing the source dataset for transfer learning randomly or by trial and error can lead to the \textit{Negative transfer} problem, described in the previous chapter (\ref{Negative_transfer}). In \cite{transfer_learning_time_series}, the authors proposed an inter-dataset similarity measure that is used to choose the source dataset for transfer learning optimally. The first step of the method is to compute a \textit{prototype} time series per each class for every considered dataset. This step reduces the volume of the data that will be used in the next step. The next step is to compute the distances between each pair of datasets, choosing the minimum DTW distance between prototypes of each class in both datasets. We proceed to describe the algorithm in detail below.
 
-The algorithm uses DTW barycenter averaging \cite{dtw_dba}.  The result of this method is a times series that minimizes the sum of DTW distances to each time series from the dataset.
+The algorithm uses DTW barycenter averaging \cite{dtw_dba}. The result of this method is a times series that minimizes the sum of DTW distances to each time series from the dataset.
 $$DTW\_average = \arg\min_{X \in  2^{\real}}  \sum_{\bar{X}\in \mathcal{X}} DTW(X, \bar{X})$$
 The resulting time series does not need to belong to the original dataset $\mathcal{X}$.
 
@@ -609,7 +609,7 @@ The first step of the algorithm is the data reduction step. For each class in th
 %\pagebreak
 The next step is to compute the distance between the target dataset and all possible source datasets. The distance between two datasets is the minimum DTW distance between each pair of prototypes from the reduced datasets. The whole algorithm is described in detail in \cite{transfer_learning_time_series}.
 
-In \cite{transfer_learning_time_series} the distance was computed pairwise for all available datasets (using train splits). The authors compare the transfer learning performance with a randomly chosen source dataset versus choosing the source dataset that minimizes the former distance to the target dataset. The results are shown below (Figure \ref{fig:smart_transfer_learning}).
+In \cite{transfer_learning_time_series}, the distance was computed pairwise for all available datasets (using train splits). The authors compare the transfer learning performance with a randomly chosen source dataset versus choosing the source dataset that minimizes the former distance to the target dataset. The results are shown below (Figure \ref{fig:smart_transfer_learning}).
 \FloatBarrier
 
 
