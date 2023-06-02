@@ -162,7 +162,7 @@
 \newcommand{\tytul}{Zastosowanie techniki transfer learning w zadaniu klasyfikacji szeregów czasowych}
 \renewcommand{\title}{Transfer learning for time series classification}
 \newcommand{\type}{Master} % Master OR Engineer
-\newcommand{\supervisor}{PhD Agnieszka Jastrzębska} % TITLE AND NAME OF THE SUPERVISOR
+\newcommand{\supervisor}{Agnieszka Jastrzębska, PhD D.Sc} % TITLE AND NAME OF THE SUPERVISOR
 
 %---------------------------Moje ustawienia-----------------------------
 
@@ -216,13 +216,13 @@ The time series classification problem was initially solved using classical algo
 
 Transfer learning is practically used when there is limited data to train. Transfer learning attempts to apply patterns learned from one dataset to improve learning when creating a model for another dataset. A common practice is to prepare a source classifier trained on a large, readily available amount of data for one task and then use this model or parts of it for a detailed task with a smaller amount of data. Models trained using this method often have a shorter training time, faster accuracy increase, and can generalize more easily on the test set.
 \newpage
-In this thesis, we focus on proposing, testing and evaluating multi-source transfer learning for time series classification. We propose two methods, one of them inspired by the success of ensemble methods in time series classification. Both of those methods are applicable to most of neural networks architectures. Both methods were compared to the same network architectures but without transfer learning and proved to improve accuracy and mitigate overfitting.
+This thesis focuses on proposing, testing, and evaluating multi-source transfer learning for time series classification. We introduce two methods, one of them inspired by the success of ensemble methods in time series classification. Both of those methods apply to most neural network architectures. Both methods were compared to the same network architectures but without transfer learning and proved to improve accuracy and mitigate overfitting.
 
-While usually transfer learning leads to improvements, sometimes \textit{negative transfer} may occur, meaning that the usage of transfer learning is detrimental to the resulting classifier. This is especially common, when the source domain is different from the target domain or the dataset sizes are small. Given that the datasets present in the time series classification field are usually small, negative transfer may be a threat. This can be mitigated by choosing the source datasets in accordance to the target dataset characteristics.
+While transfer learning usually leads to improvements, sometimes \textit{negative transfer} may occur, meaning that the usage of transfer learning is detrimental to the resulting classifier. Negative transfer is especially common when the source domain differs from the target domain or the dataset sizes are small. Given that the datasets present in the time series classification field are usually small, negative transfer may be a threat. This can be mitigated by choosing the source datasets according to the target dataset characteristics.
 
-As the methods proposed in this thesis do not specify which source datasets for the transfer learning are suitable for a given target dataset, we also studied dataset selection method. We compare selecting the source datasets based on a DTW Barycenter Averaging similarity measure to selecting datasets randomly. Datasets selected in order to minimize the similarity measure led to improving the target classifier results.
+As the methods proposed in this thesis do not specify which source datasets for the transfer learning are suitable for a given target dataset, we also studied the dataset selection method. We compare selecting the source datasets based on a DTW Barycenter Averaging similarity measure to selecting datasets randomly. Datasets chosen in order to minimize the similarity measure led to improving the target classifier results.
 
-Finally we studied how many source datasets should be used in the transfer learning procedure. We conducted experiments with $3$, $5$ and $8$ source datasets. All those settings result in satisfactory results, and using $5$ source datasets outperformed the two other settings.
+Finally, we studied how many source datasets should be used in the transfer learning procedure. We conducted experiments with $3$, $5$, and $8$ source datasets. All those settings result in satisfactory results, and using $5$ source datasets outperformed the two other settings.
 
 \noindent \textbf{Keywords:} time series, classification, transfer learning, deep learning, ensemble, ...
 \end{abstract}
@@ -427,7 +427,7 @@ As opposed to the FCN network architecture, the Encoder network is not invariant
 
 
 \section{The UCR archive}
-The URC (University of California, Riverside) archive is a time series classification archive introduced in 2002 by Dau, Keogh et al. \cite{UCR_archive}. At moment of writing this thesis, it consists of 140 univariate time series datasets. The time series describes various phenomena, like readings from a device or sensor, motion recordings, or food spectrographs. The summary of the time series types is listed below (Table \ref{table:ucr_summary}). We also show a few time series samples from different datasets below (Figure \ref{fig:UCR_samples}).
+The URC (University of California, Riverside) archive is a time series classification archive introduced in 2002 by Dau, Keogh et al. \cite{UCR_archive}. At the moment of writing this thesis, it consists of 140 univariate time series datasets. The time series describes various phenomena, like readings from a device or sensor, motion recordings, or food spectrographs. The time series types are summarized below (Table \ref{table:ucr_summary}). We also show several time series samples from different datasets below (Figure \ref{fig:UCR_samples}).
 \begin{table}[!h]
 \centering
 \tabcolsep=0.11cm
@@ -471,7 +471,7 @@ Traffic                              & 2                           \\ \bottomrul
 \caption{Example time series from the UCR archive. The images belong to the following categories: Food, ECG, Image, Device.}
 \label{fig:UCR_samples}
 \end{figure}
-All datasets together contain 1122 unique labels. Most of the datasets differentiate between two labels and have several dozen rows per class. The series length varies from 8 to almost 300 thousand. Below we show four histograms summarizing the number of classes per dataset, the lengths of the series, and the number of observations per class and per dataset. (Figure \ref{fig:histograms})
+All datasets together contain 1122 unique labels. Most datasets differentiate between two labels and have several dozen rows per class. The series length varies from 8 to almost 300 thousand. Below we show four histograms summarizing the number of classes per dataset, the lengths of the series, and the number of observations per class and per dataset. (Figure \ref{fig:histograms})
 \begin{figure}[h!]
 \centering
 \includegraphics[width=7.9cm]{imgs/lengths_of_the_series_in_the_datasets.png}
@@ -481,29 +481,29 @@ All datasets together contain 1122 unique labels. Most of the datasets different
 \caption{Summary of the UCR archive. The first plot is a histogram of time series length. The second histogram shows the number of classes in datasets. The two last histograms summarize the number of rows per class and per dataset.}
 \label{fig:histograms}
 \end{figure}
-The datasets in the archive are already split into train and test datasets.  Most of the time series are already z-normalized.  However, the authors recommend testing on additional test/train splits and preprocessing the time series accordingly to the method used.  We will now proceed to describing the datasets in detail, considering all available categories.
+The datasets in the archive are already split into train and test datasets. Most of the time, series are already z-normalized. However, the authors recommend testing on other test/train splits and preprocessing the time series accordingly to the method used. We will now describe the datasets in detail, considering all available categories.
 
 \begin{itemize}
-\item \textbf{Audio} - Sound amplitudes of heartbeats and spectrograms of sound produced by insects, cats, dogs or whales. Classes represent normal and abnormal patients or different species.
+\item \textbf{Audio} - Sound amplitudes of heartbeats and spectrograms of sound produced by insects, cats, dogs, or whales. Classes represent normal and abnormal patients or different species.
 
-\item \textbf{Device} - This category includes time series describing power consumption of house devices, or summarized population consumption for certain periods. This category is characterized by the a combinations of spikes and constant areas in the time series. The data is divided to classes based on different types of devices or different time periods of data collection.
+\item \textbf{Device} - This category includes time series describing the power consumption of house devices or summarized population consumption for specific periods. This category is characterized by the combinations of spikes and constant areas in the time series. The data is divided into classes based on different types of devices or different time periods of data collection.
 
-\item \textbf{ECG} - The data is composed of electrocardiogram readings. The classes corresponds to different persons being examined, different diseases detected, location of sensors or time when the data was collected.
+\item \textbf{ECG} - The data is composed of electrocardiogram readings. The classes correspond to different persons being examined, different diseases detected, the location of sensors, or the time when the data was collected.
 
-\item \textbf{EOG} - There are two datasets describing electrooculograph readings, measuring the corneo-retinal standing potential that exists between the front and the back of the human eye. The classes distinguish how the reading varied when writing and looking at different characters.
-\item \textbf{EPG} - The electrical penetration graphs measure voltage changes of the electrical circuit that connects insects and their food source.
-\item \textbf{Hemodynamics} - This category consists of time series representing airway, arterial blood, central venous and pressure measurements. Each class represent one of the pigs that were examined.
+\item \textbf{EOG} - There are two datasets describing electrooculograph readings, measuring the corneo-retinal standing potential between the front and the back of the human eye. The classes distinguish how the reading varied when writing and looking at different characters.
+\item \textbf{EPG} - The electrical penetration graphs measure voltage changes in the electrical circuit that connects insects and their food source.
+\item \textbf{Hemodynamics} - This category consists of time series representing airway, arterial blood, central venous, and pressure measurements. Each class represents one of the pigs that were examined.
 
-\item \textbf{Image} - Majority of datasets in this category are outlines of images of different shapes. The images represents algaes, arrows, birds, bones, faces, vegetables, written words, fish, hands and leafs. Another types of time series present in this category are changes of pixel intensity over time, or growth of an area on a picture over time.
+\item \textbf{Image} - The majority of datasets in this category are outlines of images of different shapes. The images represent algaes, arrows, birds, bones, faces, vegetables, written words, fish, hands, and leaves. Another type of time series in this category are changes in the pixel intensity or growth of an area on a picture over time.
 
-\item \textbf{Motion} - Positions of a certain points (usually on human body, but also on a car or worm) over an axis, e.g while walking, speaking, driving, playing cricket, skating, writing or performing gestures. One of the datasets uses electromiographic signal instead of point positions. Another dataset is different from others, as it describe number of pedestrians on different hours.
+\item \textbf{Motion} - Positions of certain points (usually on the human body, but also on a car or worm) over an axis, e.g., while walking, speaking, driving, playing cricket, skating, writing, or performing gestures. One of the datasets uses electromyographic signals instead of point positions. Another dataset is different from others, as it describes the number of pedestrians at different hours.
 
 
-\item \textbf{Sensor} - The data includes readings from sensors, e.g. earthquake sensors, humidity, temperature sensors or robots. An example task is to predict an earthquake or to classify the surface the robot was walking on.
+\item \textbf{Sensor} - The data includes sensor readings, e.g., earthquake, humidity, temperature sensors, or robots. An example task is to predict an earthquake or to classify the surface the robot was walking on.
 
 \item \textbf{Simulated} - The time series used in this category were simulated or obtained from an algorithm.
 
-\item \textbf{Spectro} -This category consist mostly of food spectrograms but also one data set of time series representing  surface electromyography which captures electric activity of groups of muscle at rest or during activity
+\item \textbf{Spectro} - This category consists mainly of food spectrograms but also one data set of time series representing  surface electromyography which captures the electric activity of groups of muscle at rest or during activity
 
 \item \textbf{Traffic} - In this category are two datasets recording pedestrian flow. The classes correspond to weekdays or places.
 
