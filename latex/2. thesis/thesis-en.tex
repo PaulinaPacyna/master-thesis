@@ -527,7 +527,7 @@ Data preprocessing is the process of preparing, cleansing, and manipulating the 
 Many classical and deep learning models were invented and designed together with the data preprocessing and augmenting step \cite{bake_off, dl_tsc}. One such method is Window Slicing \cite{dl_tsc}. This method extracts subsequences of the original series. The resulting subsequences are then concatenated with a downsampled copy and smoothed copy. This method is used in Multi-scale Convolutional Neural Network \cite{multiscale} and Time Le-Net \cite{timelenet}.
 
 Window Warping was another preprocessing and augmentation method proposed together with the former method in the Time Le-Net model. It aims at making the model more robust to perturbations in the time axis by training the network on \textit{squeezed} or \textit{dilated} series together with the original series. The \textit{dilated}/\textit{squeezed} time series is two times longer/shorter than the original time series.
-The dilated, squeezed, and original time series are concatenated, forming a vector 3.5 longer than the original time series. In the Time Le-Net model, this vector undergoes the Window Slicing preprocessing step before training.
+The dilated, squeezed, and original time series are concatenated, forming a vector 3.5 times longer than the original time series. In the Time Le-Net model, this vector undergoes the Window Slicing preprocessing step before training.
 
 
 
@@ -554,7 +554,7 @@ Transfer learning can be categorized based on the algorithm/approach used. There
 
 \subsection{Characteristics of a good source domain}
 
-In the field of image processing, it is widespread to use convolutional neural networks \mbox{pre-trained} with the ImageNet dataset \cite{imagnet}.  ImageNet is a large dataset of human-annotated images. It contains 1 million labeled images of 1000 classes. The label space consists of fine-grained classes such as breeds of dogs and cats and coarse-grained classes like \textit{red wine} and \textit{traffic light}. Example pictures from this dataset are shown below \ref{fig:image_net}. As transfer learning based on this dataset became more popular and successful, a question arose: Which features of this dataset make it so suitable for this task?
+In the field of image processing, it is widespread to use convolutional neural networks \mbox{pre-trained} with the ImageNet dataset \cite{imagnet}. The ImageNet dataset was the moivation behinf the \textit{baseline} approach described in \ref{section:baseline}, where we try the recreate the properties of the ImageNet dataset in an artificial dataset used as a source dataset for transfer learning.  ImageNet is a large dataset of human-annotated images. It contains 1 million labeled images of 1000 classes. The label space consists of fine-grained classes such as breeds of dogs and cats and coarse-grained classes like \textit{red wine} and \textit{traffic light}. Example pictures from this dataset are shown below \ref{fig:image_net}. As transfer learning based on this dataset became more popular and successful, a question arose: Which features of this dataset make it so suitable for this task?
 \FloatBarrier
 
 \begin{figure}[h!]
@@ -585,7 +585,7 @@ Next experiments examine the label space. The authors study if the granularity o
 
 Finally, the last question is if we train the classifier on the reduced label space with 127 classes, will it be able to distinguish between the fine-grained classes? To examine that, the authors extracted features from the first layers of the networks trained on reduced label space. Then, the authors performed classification with 1-NN and 5-NN models on the extracted feature space but with 1000 classes. The findings are that the k-NN classifier performs $15\%$ worse on a reduced dataset versus the normal dataset.
 
-While the article \cite{imagnet} does not conclude which single feature of the ImageNet dataset makes it so efficient as a source dataset for transfer learning, it is clear that all properties of this dataset are essential for the accuracy of the classifier. We try to recreate the properties of the ImageNet dataset when creating the source dataset from time series.
+While the article \cite{imagnet} does not conclude which single feature of the ImageNet dataset makes it so efficient as a source dataset for transfer learning, it is clear that all properties of this dataset are essential for the accuracy of the classifier. We try to recreate the properties of the ImageNet dataset when creating the source dataset from time series in the \textit{baseline} approach \ref{section:baseline}.
 
 
 
@@ -600,7 +600,7 @@ With respect to different source datasets, target classifiers' accuracies exhibi
 \begin{figure}[h!]
 \centering
 \includegraphics[width=10cm]{imgs/max_min_transfer_learning.png}
-\caption{Image source: \cite{transfer_learning_time_series}}
+\caption{Win-tie-lose diagram comparing the results of training an Fully Convolutional Network with single source transfer learning and from scratch. Image source: \cite{transfer_learning_time_series}}
 \label{fig:tr_learning_min_max}
 \end{figure}
 \FloatBarrier
@@ -634,7 +634,7 @@ In \cite{transfer_learning_time_series}, the distance was computed pairwise for 
 The result shows that choosing the source dataset for transfer learning based on similarity to the target dataset may lead to benefits. In this work we try to construct the dataset artificially, by combining, preprocessing, and augmenting the datasets from the UCR archive, to mimic the properties of the ImageNet dataset. The artificial dataset is composed of multiple datasets. Therefore we rather won't use this similarity to choose one particular dataset. We take the inter-dataset distance into account when adjusting the distribution of classes in the artificial dataset, to favour classes similar to the target dataset.
 
 \chapter{Methodology}
-In this chapter, we cover the technical implementation of the solution. We introduce methods that aim at inductive transfer learning for time series classification. Most importantly, we introduce two approaches to multi-source transfer learning - the \textit{baseline} and the \textit{ensemble} approach. We also cover a selection method for selecting the source datasets given a target dataset. We also briefly summarize data reading and preprocessing steps.
+In this chapter, we cover the technical implementation of the solution. We introduce methods that aim at inductive transfer learning for time series classification. Most importantly, we introduce two approaches to multi-source transfer learning, it is the \textit{baseline} and the \textit{ensemble} approach. We also cover a selection method for selecting the source datasets given a target dataset. We also briefly summarize data reading and preprocessing steps.
 
 \section{Data reading}\label{section:reading}
 The data downloaded from the UCR archive is available in two formats, \texttt{ts} (as text files) and \texttt{arff/weka} (as binaries). In order to speed up the reading and conversion time, all datasets were read, concatenated, and saved as one array of time series (the original lengths were preserved). At this point, only basic preprocessing was done. It included the following steps:
@@ -665,38 +665,22 @@ The preprocessing steps are described below:
 \section{Neural network architectures}
 The experiments were conducted on the Fully Convolutional Network. The network's detailed architecture summary, including layer sizes, is shown below. \begin{verbatim}
 Model: "FCN"
-_________________________________________________________________
- Layer (type)                Output Shape              Param #
-=================================================================
- input_1 (InputLayer)        [(32, None, 1)]         0
-
- conv1d (Conv1D)             (32, None, 128)         1536
-
- batch_normalization (BatchN  (32, None, 128)        512
- ormalization)
-
- activation (Activation)     (32, None, 128)         0
-
- conv1d_1 (Conv1D)           (32, None, 256)         164096
-
- batch_normalization_1 (Batc  (32, None, 256)        1024
- hNormalization)
-
- activation_1 (Activation)   (32, None, 256)         0
-
- conv1d_2 (Conv1D)           (32, None, 128)         98432
-
- batch_normalization_2 (Batc  (32, None, 128)        512
- hNormalization)
-
- activation_2 (Activation)   (32, None, 128)         0
-
- global_average_pooling1d (G  (32, 128)              0
- lobalAveragePooling1D)
-
- dense (Dense)               (32, 2)                 258
-
-=================================================================
+_________________________________________________________________________________
+ Layer (type)                                      Output Shape            Param #
+=================================================================================
+ input_1 (InputLayer)                              [(32, None, 1)]         0
+ conv1d (Conv1D)                                   (32, None, 128)         1536
+ batch_normalization (BatchNormalization)          (32, None, 128)         512
+ activation (Activation)                           (32, None, 128)         0
+ conv1d_1 (Conv1D)                                 (32, None, 256)         164096
+ batch_normalization_1 (BatchNormalization)        (32, None, 256)         1024
+ activation_1 (Activation)                         (32, None, 256)         0
+ conv1d_2 (Conv1D)                                 (32, None, 128)         98432
+ batch_normalization_2 (Batc hNormalization)       (32, None, 128)         512
+ activation_2 (Activation)                         (32, None, 128)         0
+ global_average_pooling1d (GlobalAveragePooling1D) (32, 128)               0
+ dense (Dense)                                     (32, 2)                 258
+=================================================================================
 Total params: 266,370
 Trainable params: 265,346
 Non-trainable params: 1,024
