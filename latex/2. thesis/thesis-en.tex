@@ -382,7 +382,7 @@ The same filter is applied over the whole length of the time series. This is cal
 The architecture of the convolutional layer is not dependent on the input data size. Regardless of the size of the input data, the number of filters and size of filters remain the same, and only the output sizes depend on the input size. Therefore, if the convolutional layer is  succeeded by layers with the same property, like other convolutional layers or Global Pooling with Dense Layer (see Section \ref{FCN}), the whole network may be invariant to the input sizes \cite{dl_tsc}. Such networks may be interesting in transfer learning, as the sizes of time series in the source and target tasks do not have to match.
 
 \subsection{Fully Convolutional Networks}\label{FCN}
-Fully Convolutional Networks are convolutional networks used in time series classification. A sample architecture of a Fully Convolutional Network proposed is in \cite{dl_tsc}. The first layers in the network are 3 blocks of convolutional layers with ReLU activation function followed by batch normalization layers. The output of the last block is passed to a global pooling layer. The global pooling layer averages the output through the time axis, resulting in a vector of length equal to the number of feature maps in the last convolutional layer. The averaged vector is passed to a block of 2 fully connected layers. Figure \ref{fig:FCN_img} shows a visualization of the network.
+Fully Convolutional Networks are convolutional networks used in time series classification. A sample architecture of a Fully Convolutional Network is proposed in \cite{dl_tsc, tsc_scratch}. The first layers in the network are 3 blocks of convolutional layers with ReLU activation function followed by batch normalization layers. The output of the last block is passed to a global pooling layer. The global pooling layer averages the output through the time axis, resulting in a vector of length equal to the number of feature maps in the last convolutional layer. The averaged vector is passed to a block of 2 fully connected layers. Figure \ref{fig:FCN_img} shows a visualization of the network.
 
 
 
@@ -437,7 +437,7 @@ As opposed to the FCN network architecture, the Encoder network is not invariant
 
 
 \section{The UCR archive}
-The URC (University of California, Riverside) archive is a time series classification archive introduced in 2002 by Dau, Keogh et al.~\cite{UCR_archive}. At the moment of writing this thesis, it consists of 140 univariate time series datasets. The time series describes various phenomena, like readings from a device or sensor, motion recordings, or food spectrographs. The time series types are summarized below (Table \ref{table:ucr_summary}). We also show several time series samples from different datasets below (Figure \ref{fig:UCR_samples}).
+The URC (University of California, Riverside) archive is a time series classification archive introduced in 2002 by Dau, Keogh et al.~\cite{UCR_archive, UCR_article}. At the moment of writing this thesis, it consists of 140 univariate time series datasets. The time series describes various phenomena, like readings from a device or sensor, motion recordings, or food spectrographs. The time series types are summarized below (Table \ref{table:ucr_summary}). We also show several time series samples from different datasets below (Figure \ref{fig:UCR_samples}).
 \begin{table}[!h]
 \caption{Summary of types of datasets in the UCR archive.}
 \centering
@@ -745,8 +745,7 @@ We obtain a neural network model after training the classifier on the artificial
 We compare the results by predicting the classes on the test split of the target dataset. The metrics used for comparison are explained in detail in the Results chapter. We compare the metrics to results obtained by training a network of the same architecture but without transfer learning (with random weights).
 
 \section{Ensemble approach}\label{section:ensemble}
-The second approach proposed in this thesis is inspired by the success of ensemble models (e.g.~HIVE-COTE) %TODO more ensemble classifiers
- in time series classification. Small dataset sizes common in time series classification tend to increase the variance error of the classifiers. Therefore the ensemble method is often proposed to decrease the variance and increase the accuracy of predictions. This intuition resembles this approach.
+The second approach proposed in this thesis is inspired by the success of ensemble models (e.g.~HIVE-COTE~\cite{hivecote}, InceptionTime~\cite{inceptiontime}) in time series classification. Small dataset sizes common in time series classification tend to increase the variance error of the classifiers. Therefore the ensemble method is often proposed to decrease the variance and increase the accuracy of predictions. This intuition resembles this approach.
 
 The previous study on transfer learning with a single source dataset \cite{transfer_learning_time_series} showed that though transfer learning generally increases the accuracy, the accuracy was decreased for many experiments. If a dataset differed significantly from the target dataset, a classifier pre-trained on such dataset would not adapt to the target dataset, thus decreasing the accuracy. The same situation is probable with multi-source transfer learning if some datasets are unsuitable for the particular target dataset. In order to mitigate the negative contribution, the ensemble method is used.
 
@@ -1020,7 +1019,7 @@ We also experimented with the number of source datasets. Experiments were conduc
 \section{Further works}
 As an extension to the work done for this thesis, we may consider an extension to the source dataset selection algorithm. We may consider measuring the similarity of shapelets, as those are the critical attributes learned by convolutional layers.
 
-Also, architectures other than Fully Convolutional Networks could be used in the future. Both \textit{ ensemble }and\textit{ baseline} approaches generally apply to deep neural networks. As we focused on the transfer learning aspect and the computational resources were limited, we tested only the Fully Convolutional Network architecture. It may be worth considering performing the same analysis but using a fixed input size network, long short-term memory network, or residual networks.
+Also, architectures other than Fully Convolutional Networks could be used in the future. Both \textit{ ensemble }and\textit{ baseline} approaches generally apply to deep neural networks, in which all layers are trainable. As we focused on the transfer learning aspect and the computational resources were limited, we tested only the Fully Convolutional Network architecture. It may be worth considering performing the same analysis but using a fixed input size network, long short-term memory network, or residual networks. As for other neural network architectures, where not all layers are trainable (e.g. ROCKET \cite{rocket}), some further work would be required to extend and apply the transfer learning methods.
 
 The study may also be extended to testing datasets outside of the UCR time series archive or testing transfer learning between different categories in the UCR archive, which wasn't planned in the scope of this thesis due to computational limitations.
 
