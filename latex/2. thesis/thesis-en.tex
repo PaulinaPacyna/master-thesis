@@ -399,7 +399,7 @@ Fully Convolutional Networks are convolutional networks used in time series clas
 
 Because the architecture of convolutional layers does not depend on the size of input data and the convolutional layers are followed by pooling over the time axis, the whole network is capable of processing data of variable lengths.
 \subsection{Residual Network}
-The Residual Network was first proposed by Zhiguang, Weizhong et al.~in \cite{residual}. The Residual Network is suitable for relatively deep architectures compared to other neural networks used for time series classification.
+The Residual Network was first proposed by He, Xiangyu et al.~in \cite{residual}. The Residual Network is suitable for relatively deep architectures compared to other neural networks used for time series classification.
 
 A residual connection addresses the vanishing gradient problem occurring in networks composed of many layers \cite{residual}. The vanishing gradient problem occurs in the backpropagation process. When the gradient passes from the last layer to the first, it may decrease toward zero. This causes the first layers of the network to learn slowly. The residual connection between layers passes the input directly from one layer to another, skipping a few layers. This way, if the network is struggling with a vanishing gradient, this shortcut connection may help the network to converge.
 
