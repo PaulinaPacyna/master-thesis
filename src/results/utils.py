@@ -323,7 +323,10 @@ class Results(metaclass=ABCMeta):
             os.path.join(self.latex_dir, self.dirname),
         ):
             with open(os.path.join(directory, filename), "w") as file:
-                file.write(f"${round(pvalue, 4)}$")
+                text_pvalue = str(round(pvalue, 4))
+                if pvalue < 0.05:
+                    text_pvalue = "\\textbf{" + text_pvalue + "}"
+                file.write(f"${text_pvalue}$")
 
     def save_wilcoxon_test(self):
         self.save_wilcoxon_test_for_epoch(epoch=5)
