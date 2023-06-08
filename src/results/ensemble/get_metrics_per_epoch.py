@@ -66,6 +66,7 @@ results = EnsembleResults(
     second_experiment_id="541913567164685548",
     assert_=False,
 )
+results.save_wilcoxon_test()
 results.get_mean_loss_acc_per_epoch()
 results.win_tie_loss_diagram()
 results.dba_vs_accuracy()

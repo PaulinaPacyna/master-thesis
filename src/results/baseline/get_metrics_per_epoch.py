@@ -42,5 +42,6 @@ results = BaselineResults(
     second_experiment_id="183382388301527558",
     assert_=False,
 )
+results.save_wilcoxon_test()
 results.get_mean_loss_acc_per_epoch()
 results.win_tie_loss_diagram()

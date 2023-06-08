@@ -14,6 +14,7 @@ from matplotlib.axis import Axis
 from matplotlib.figure import Figure
 from mlflow import MlflowClient
 from mlflow.entities import Run
+from scipy.stats import wilcoxon
 
 cm = 1 / 2.54
 
@@ -78,6 +79,10 @@ class Results(metaclass=ABCMeta):
         second_experiment_id: str,
         assert_: bool = True,
     ):
+        self.latex_dir = os.path.join(
+            Path(os.path.abspath(".")).parent, "latex", "2. thesis", "imgs"
+        )
+        self.dirname = self.results_root_path.split("/")[-1]
         self.second_experiment_id = second_experiment_id
         self.first_experiment_id = first_experiment_id
         self.client = MlflowClient()
@@ -90,12 +95,8 @@ class Results(metaclass=ABCMeta):
         plt.rcParams["figure.dpi"] = 400
 
     def _save_fig(self, fig: Figure, path: str):
-        latex_dir = os.path.join(
-            Path(os.path.abspath(".")).parent, "latex", "2. thesis", "imgs"
-        )
-        dirname = self.results_root_path.split("/")[-1]
         fig.savefig(os.path.join(self.results_root_path, path), transparent=True)
-        fig.savefig(os.path.join(latex_dir, dirname, path), transparent=True)
+        fig.savefig(os.path.join(self.latex_dir, self.dirname, path), transparent=True)
         plt.close(fig)
 
     def _get_second_experiment_runs(self) -> Dict[str, Run]:
@@ -300,3 +301,30 @@ class Results(metaclass=ABCMeta):
         plt.ylim([0, 1])
         plt.xscale("log")
         self._save_fig(figure, "accuracy_vs_mean_dba_sim.png")
+
+    def save_wilcoxon_test_for_epoch(self, epoch=10):
+        accuracies = [
+            (
+                self.first_experiment_runs[dataset].data.metrics["history"][
+                    self.first_result_key_name_val_acc
+                ][epoch - 1],
+                self.second_experiment_runs[dataset].data.metrics["history"][
+                    self.second_result_key_name_val_acc
+                ][epoch - 1],
+            )
+            for dataset in self.datasets
+        ]
+        acc_1, acc_2 = zip(*accuracies)
+        test_results = wilcoxon(acc_1, acc_2, alternative="greater")
+        pvalue = test_results.pvalue
+        filename = f"wilcoxon_epoch_{epoch}.txt"
+        for directory in (
+            self.results_root_path,
+            os.path.join(self.latex_dir, self.dirname),
+        ):
+            with open(os.path.join(directory, filename), "w") as file:
+                file.write(f"${round(pvalue, 4)}$")
+
+    def save_wilcoxon_test(self):
+        self.save_wilcoxon_test_for_epoch(epoch=5)
+        self.save_wilcoxon_test_for_epoch(epoch=10)

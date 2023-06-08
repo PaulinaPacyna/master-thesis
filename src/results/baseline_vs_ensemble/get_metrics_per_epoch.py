@@ -139,6 +139,7 @@ results = BaselineVsEnsembleResults(
     component_experiment_id="183382388301527558",
     assert_=False,
 )
+results.save_wilcoxon_test()
 results.times_comparison()
 results.get_mean_loss_acc_per_epoch()
 results.win_tie_loss_diagram()

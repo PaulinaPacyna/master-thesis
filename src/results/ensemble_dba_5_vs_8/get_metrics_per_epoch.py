@@ -57,4 +57,5 @@ results = NumberOfDatasets5_8(
     second_experiment_id="554900821027531839",
     assert_=False,
 )
+results.save_wilcoxon_test()
 results.win_tie_loss_diagram()

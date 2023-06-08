@@ -51,5 +51,6 @@ results = DbaSimiliarityVsRandomResults(
     second_experiment_id="303093782117013484",
     assert_=False,
 )
+results.save_wilcoxon_test()
 results.get_mean_loss_acc_per_epoch()
 results.win_tie_loss_diagram()
