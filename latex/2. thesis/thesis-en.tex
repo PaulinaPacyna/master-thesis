@@ -346,7 +346,7 @@ Convolutional Neural Networks are widely used in image recognition. A convolutio
 To define the convolution operation, let's assume the input is a matrix $X \in \real^{(N_1, \dots, N_K)}$. In the case of images, the number of dimensions $K$ is often equal to $3$ (height, width, channels), for univariate time series we can assume just one dimension, and for multivariate time series we need two dimensions - (feature, time).
 The filter consists of a matrix of weights $M \in \real^{(P_1, \dots, P_K)}$.
 Usually, $P_l$ are odd numbers, so that we can index the matrix with symmetrical numbers: $ (\frac{-P_l+1}{2},  \frac{-P_l+3}{2}, \dots, 0, \dots, \frac{P_l-1}{2})$. The $0$ index marks the center of the matrix.
-%TODO - powolac sie czemu nieparzyscie
+
 
 Finally the convolution $*$ is defined as follows:
 $$(X*M)_{i_1, \dots, i_K} = \sum_{l_1=\frac{-P_1+1}{2}}^{\frac{P_1-1}{2}} \cdots \sum_{l_K=\frac{-P_K+1}{2}}^{\frac{P_K-1}{2}} M_{l_1, \dots, l_K} X_{i_1 + l_1, \dots, i_K + l_K}$$
@@ -356,7 +356,7 @@ In the case of univariate time series, the first layer of the convolutional neur
 $$ y_{t, i} = f_i([\theta_{\frac{-M+1}{2}}^i, \dots , \theta_{\frac{M-1}{2}}^i] \cdot [X_{t+\frac{-M+1}{2}}, \dots, X_{t+\frac{M-1}{2}}]),$$
 where $\cdot$ is a dot product and $t \in T$ is the time index.
 In Figures~\ref{fig:convolution_output_growth} and~\ref{fig:convolution_output_hill} we show the results of applying two different filters to a time series.
-% TODO ctrl f czy wszystkie Figures maja~\ref
+
 
 \FloatBarrier
 
@@ -445,9 +445,6 @@ The URC (University of California, Riverside) archive is a time series classific
 \scalebox {0.9}{
 \begin{tabular}{@{}|l|l|@{}}
 %\begin{singlespace}
-% TODO sprawdzic dlaczego usunęłam HRM
-% TODO dodać POWER do DEVICE
-% TODO  add SharePriceIncrease
 
 
 \toprule
@@ -1087,6 +1084,5 @@ The number of datasets used for both \textit{ensemble} or \textit{baseline} appr
 %\label{fig:baseline_acc}
 %\end{figure}
 %\FloatBarrier
-% TODO 1. Lista cytowanych prac jest dość skromna zachęcam, żeby jeszcze dodać i omówić 9 dodatkowych pozycji (byłoby wtedy 25 sztuk omawianych). Raczej rzadko są pace z mniej niż 20 pozycjami.
 
 %2. Proszę dodać pełne dane bibliograficzne do wszytskich pozycji z linkami DOI jeśli są dostępne.
