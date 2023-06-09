@@ -828,7 +828,7 @@ Each experiment recorded in MlFlow corresponds to one training setting. An examp
 
 \end{itemize}
 Following the MlFlow convention, each experiment consisted of several runs, each corresponding to one target dataset from the category \texttt{MOTION} and \texttt{IMAGE}. This is shown on Figure~\ref{fig:mlflow_screnshot}. When comparing averaged results, then the result was averaged on all runs (61 runs for each experiment).
-
+For each comparative experiment we also performed a paired Wilcoxon test with the alternative hypothesis that one of the settings is stochatically greater than the other.
 
 \FloatBarrier
 
@@ -863,6 +863,7 @@ Transfer learning makes the gap between accuracy/loss on the train and validatio
 \end{figure}
 
 \FloatBarrier
+We also performed a Wilcoxon test using validation accuracy of experiments conducted with \textit{baseline} transfer learning and without. The alternative hypothesis was that the validation accuracy of results conducted with transfer learning was greater than without transfer leaning. The p-value for results from $5th$ and $10th$ epoch were equal to \input{imgs/baseline/wilcoxon_greater_epoch_5.txt} and \input{imgs/baseline/wilcoxon_greater_epoch_10.txt}. Therefore we reject the null hypothesis, which states that the distributions are centered over the same value.
 \section{Evaluation of the \textit{ensemble} approach}
 In the \textit{ensemble} approach, we created an ensemble model from 5 FCN models pre-trained on different datasets. The pre-trained ensemble was fine-tuned on the target dataset, and the results were compared to a model whose architecture was identical to the ensemble, but the weights were initialized randomly. Transfer learning improved accuracy and loss, similarly as in the \textit{baseline} approach. Figure~\ref{fig:ensemble_acc} shows the comparison of accuracy and loss in each epoch, averaged over all runs (each run corresponds to a target dataset).
 
@@ -882,6 +883,8 @@ We also present a win-tie-loss diagram for the \textit{baseline} approach in Fig
 \centering
 \includegraphics[width=17 cm]{imgs/ensemble/win_tie_lose_epoch.png}
 \caption{Win-tie-loss plot. This plot shows the validation accuracy in the 5th and 10th epoch for each run (corresponding to a target dataset). The y-axis corresponds to the \textit{ensemble} approach and the x-axis to the approach without transfer learning. If a dot is above the diagonal, then it means that the transfer learning was beneficial.}
+
+We also performed a Wilcoxon test using validation accuracy of experiments conducted with \textit{ensemble} transfer learning and without. The alternative hypothesis was that the validation accuracy of results conducted with transfer learning was greater than without transfer leaning. The p-value for results from $5th$ and $10th$ epoch were equal to \input{imgs/ensemble/wilcoxon_greater_epoch_5.txt} and \input{imgs/ensemble/wilcoxon_greater_epoch_10.txt}. Therefore we reject the null hypothesis for the $5th$ epoch, and assume that the distribution for the $10th$ epoch are centered over the same distribution.
 \label{fig:win_tie_loss_ensemble}
 \end{figure}
 The model used in the ensemble approach consisted of more parameters, thanks to ensembling. This, together with the small sizes of datasets in the UCR archive, might lead to overfitting. As we see in the plot, the gap between accuracy and loss for validation and test split is more significant in the model trained without transfer learning. This may indicate that the models were overfitted. Exposing the models to a larger amount of data in the pre-training phase reduces overfitting. We see that for the transfer learning results, the gap between metrics for validation and train split is smaller. Also, the accuracy of the train split is smaller, which suggests that the overfitting is mitigated.
