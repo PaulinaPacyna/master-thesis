@@ -14,6 +14,7 @@ from matplotlib.axis import Axis
 from matplotlib.figure import Figure
 from mlflow import MlflowClient
 from mlflow.entities import Run
+from scipy.stats import ttest_rel
 from scipy.stats import wilcoxon
 
 cm = 1 / 2.54
@@ -302,7 +303,7 @@ class Results(metaclass=ABCMeta):
         plt.xscale("log")
         self._save_fig(figure, "accuracy_vs_mean_dba_sim.png")
 
-    def save_wilcoxon_test_for_epoch(self, epoch=10):
+    def save_wilcoxon_ttest_test_for_epoch(self, epoch=10):
         accuracies = [
             (
                 self.first_experiment_runs[dataset].data.metrics["history"][
@@ -315,19 +316,21 @@ class Results(metaclass=ABCMeta):
             for dataset in self.datasets
         ]
         acc_1, acc_2 = zip(*accuracies)
-        test_results = wilcoxon(acc_1, acc_2, alternative="greater")
-        pvalue = test_results.pvalue
-        filename = f"wilcoxon_epoch_{epoch}.txt"
-        for directory in (
-            self.results_root_path,
-            os.path.join(self.latex_dir, self.dirname),
-        ):
-            with open(os.path.join(directory, filename), "w") as file:
-                text_pvalue = str(round(pvalue, 4))
-                if pvalue < 0.05:
-                    text_pvalue = "\\textbf{" + text_pvalue + "}"
-                file.write(f"${text_pvalue}$")
+        for test, name in [(ttest_rel, "ttest"), (wilcoxon, "wilcoxon")]:
+            for alternative in ["greater", "less"]:
+                test_results = test(acc_1, acc_2, alternative=alternative)
+                pvalue = test_results.pvalue
+                filename = f"{name}_{alternative}_epoch_{epoch}.txt"
+                for directory in (
+                    self.results_root_path,
+                    os.path.join(self.latex_dir, self.dirname),
+                ):
+                    with open(os.path.join(directory, filename), "w") as file:
+                        text_pvalue = str(round(pvalue, 4))
+                        if pvalue < 0.05:
+                            text_pvalue = "\\textbf{" + text_pvalue + "}"
+                        file.write(f"${text_pvalue}$")
 
     def save_wilcoxon_test(self):
-        self.save_wilcoxon_test_for_epoch(epoch=5)
-        self.save_wilcoxon_test_for_epoch(epoch=10)
+        self.save_wilcoxon_ttest_test_for_epoch(epoch=5)
+        self.save_wilcoxon_ttest_test_for_epoch(epoch=10)
