@@ -1004,6 +1004,32 @@ Figures~\ref{fig:ensemble_3_5_win_tie_loss}~and~\ref{fig:ensemble_5_8_win_tie_lo
 \label{fig:ensemble_5_8_win_tie_loss}
 \end{figure}
 \FloatBarrier
+
+\section{T-tests and Wilcoxon tests summary}
+This section \dots %TODO: intro
+
+
+\begin{table}[!h]
+\caption{Summary of statistical tests.}
+\centering
+\tabcolsep=0.11cm
+\scalebox {0.9}{
+\begin{tabular}{@{}|l|l|l|l|l|@{}}
+
+\toprule
+
+\textbf{Distribution 1}  & \textbf{Distribution 2}   & \textbf{alternative}  & \multicolumn{2}{|l|}{\textbf{pvalue}} \\ \midrule
+\textbf{Distribution 1}  & \textbf{Distribution 2}   & \textbf{alternative}  & {\textbf{Wilcoxon}} & {\textbf{T-test}} \\ \midrule
+
+Baseline                                & no transfer learning  & greater & 0.3 & 0.04\\
+\bottomrule
+%\end{singlespace}
+\end{tabular}
+}
+\label{table:tests}
+\end{table}
+\FloatBarrier
+
 \chapter{Conclusions}
 
 In this thesis, we extended the research on transfer learning in time series classification. We proposed two approaches to multi-source transfer learning: the \textit{baseline} and \textit{ensemble} approach, the second inspired by the success of ensemble classifiers in the time series classification domain. The \textit{baseline} approach can be summarized as pre-training a neural network on a concatenated dataset consisting of multiple datasets and then using the weights from the first layers to initialize the final classifier. In the \textit{ensemble} approach, we train several models, each on a different source dataset. Then we construct an ensemble of those models initialized with the weights obtained from pre-training. We have proven that for both approaches, multi-source transfer learning increased the accuracy of the classifiers. The usage of transfer learning also mitigated overfitting, which is very common for small datasets present in the time series classification domain. Furthermore, a detailed comparative analysis of the two approaches was conducted.
