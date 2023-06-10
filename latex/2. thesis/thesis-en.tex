@@ -749,7 +749,7 @@ The second approach proposed in this thesis is inspired by the success of ensemb
 The previous study on transfer learning with a single source dataset~\cite{transfer_learning_time_series} showed that though transfer learning generally increases the accuracy, the accuracy was decreased for many experiments. If a dataset differed significantly from the target dataset, a classifier pre-trained on such dataset would not adapt to the target dataset, thus decreasing the accuracy. The same situation is probable with multi-source transfer learning if some datasets are unsuitable for the particular target dataset. In order to mitigate the negative contribution, the ensemble method is used.
 
 Let us assume that we want to perform transfer learning given $N$ source datasets $(X^\mathcal{S}_1, y^\mathcal{S}_1), \dots, (X^\mathcal{S}_N, y^\mathcal{S}_N)$ and a target dataset $(X^\mathcal{T}, y^\mathcal{T})$.
-The model is created from $N$ source models. Model $M_i$ is a classifier (e.g.,~a Fully Convolutional Network) trained on the dataset $(X^\mathcal{S}_i, y^\mathcal{S}_i)$. The hyperparameters used for experiments are described in section~\ref{section:hyperparameters} and do not differ from those used for the \textit{baseline approach}. % TODO section hyperparameters
+The model is created from $N$ source models. Model $M_i$ is a classifier (e.g.,~a Fully Convolutional Network) trained on the dataset $(X^\mathcal{S}_i, y^\mathcal{S}_i)$. The hyperparameters used for experiments are described in section~\ref{section:hyperparameters} and do not differ from those used for the \textit{baseline approach}.
 
 Let's recall the notion from the section~\ref{mlp_section_related} that a model $M_i$ is a composition of layers, $$M_i(X; \theta_1^i,\dots , \theta_M^i, \beta_1^i,\dots , \beta_M^i) = L_M^i(\dots L_2(L_1(X;\theta_1^i, \beta_1^i);\theta_2^i, \beta_2^i);\theta_M^i, \beta_M^i)$$
 To shorten the notation, let us group the first layers together:
@@ -1014,7 +1014,9 @@ The Wilcoxon test performed using validation accuracies of experiments using $3$
 \end{itemize}
 The p-values are described in \ref{table:tests}.
 \section{Wilcoxon tests summary}
-This section \dots %TODO: intro
+This section contains all Wilcoxon test results conducted in this thesis. The Wilcoxon was conducted for pairs of distributions of validation accuracy (for a given setting e.g. comparing the DBA selection method and readnom selection method). If a value is bolded, it mean that the p-value is lower than $0.05$ and we reject the null hypothesis, in favour of the alternative hypothesis.
+
+We used test version which discards \textit{ties} in the data and the exact distribution computation.
 
 \begin{table}[!h]
 \caption{Summary of statistical tests.}
