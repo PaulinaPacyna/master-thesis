@@ -450,21 +450,20 @@ The URC (University of California, Riverside) archive is a time series classific
 %\begin{singlespace}
 
 
-\toprule
-\textbf{Dataset type (source)}       & \textbf{Number of datasets} \\ \midrule
-Audio                                & 10
-\\ \midrule
-Device                               & 10                           \\ \midrule
-ECG (Electrocardiogram)              & 7 \\ \midrule
-EOG (Electrooculography)             & 2                           \\ \midrule
-EPG (Electrical penetration   graph) & 2                           \\ \midrule
-Hemodynamics                         & 3                           \\ \midrule
-Image                                & 33                          \\ \midrule
-Motion                               & 28 \\ \midrule
-Sensor                               & 22                          \\ \midrule
-Simulated                            & 9                           \\ \midrule
-Spectro                              & 12       \\ \midrule
-Traffic                              & 2                           \\ \bottomrule
+\hline
+\textbf{Dataset type (source)}       & \textbf{Number of datasets} \\ \hline
+Audio                                & 10  \\ \hline
+Device                               & 10                           \\ \hline
+ECG (Electrocardiogram)              & 7 \\ \hline
+EOG (Electrooculography)             & 2                           \\ \hline
+EPG (Electrical penetration   graph) & 2                           \\ \hline
+Hemodynamics                         & 3                           \\ \hline
+Image                                & 33                          \\ \hline
+Motion                               & 28 \\ \hline
+Sensor                               & 22                          \\ \hline
+Simulated                            & 9                           \\ \hline
+Spectro                              & 12       \\ \hline
+Traffic                              & 2                           \\ \hline
 %\end{singlespace}
 \end{tabular}
 }
@@ -700,14 +699,14 @@ The hyperparameters used for the training were identical for all experiments. Th
 
 
 
-\toprule
-\textbf{Hyperparameter}       & \textbf{value} \\ \midrule
-Batch size                                & 32 \\ \midrule
-Augmentation rate  & 0.3\\ \midrule
-Learning rate                                 & 1e-5 with 0.75 decay over 10 000 steps (exponential decay) \\
-\\ \midrule
-Number of epochs                                & 10\\
-\bottomrule
+\hline
+\textbf{Hyperparameter}          & \textbf{Value} \\ \hline
+Batch size                       & 32 \\ \hline
+Augmentation rate                & 0.3 \\ \hline
+Learning rate                    & 1e-5 with 0.75 decay over 10 000 steps (exponential decay) \\ \hline
+Optimizer                        & Adam \\ \hline
+Validation split rate            & 0.25 \\ \hline
+Number of epochs                 & 10 \\ \hline
 %\end{singlespace}
 \end{tabular}
 }
