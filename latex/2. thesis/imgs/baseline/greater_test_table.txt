@@ -1,1 +1,1 @@
-Baseline & no transfer learning & > & \multicolumn{1}{l|}{\input{imgs/baseline/wilcoxon_greater_epoch_5.txt}} & \input{imgs/baseline/ttest_greater_epoch_5.txt} & \multicolumn{1}{l|}{\input{imgs/baseline/wilcoxon_greater_epoch_10.txt}} & \input{imgs/baseline/ttest_greater_epoch_10.txt}\\ \cline{1-7}
+Baseline & no transfer learning & $>$ &\multicolumn{1}{l|}{\input{imgs/baseline/wilcoxon_greater_epoch_5.txt}} & \input{imgs/baseline/wilcoxon_greater_epoch_10.txt} \hline
