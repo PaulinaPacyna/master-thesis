@@ -308,7 +308,7 @@ class Results(metaclass=ABCMeta):
         plt.xscale("log")
         self._save_fig(figure, "accuracy_vs_mean_dba_sim.png")
 
-    def save_wilcoxon_ttest_test_for_epoch(
+    def save_wilcoxon_test_for_epoch(
         self, epoch=10, alternatives=["greater", "less", "two-sided"]
     ):
         accuracies = [
@@ -324,20 +324,19 @@ class Results(metaclass=ABCMeta):
         ]
         acc_1, acc_2 = zip(*accuracies)
         for alternative in alternatives:
-            for test, name in [(ttest_rel, "ttest"), (wilcoxon, "wilcoxon")]:
-                test_results = test(acc_1, acc_2, alternative=alternative)
-                pvalue = test_results.pvalue
-                filename = f"{name}_{alternative}_epoch_{epoch}.txt"
-                directory = os.path.join(self.latex_dir, self.dirname)
-                with open(os.path.join(directory, filename), "w") as file:
-                    text_pvalue = str(round(pvalue, 4))
-                    if pvalue < 0.05:
-                        text_pvalue = "\\textbf{" + text_pvalue + "}"
-                    file.write(f"${text_pvalue}$")
+            test_results = wilcoxon(acc_1, acc_2, alternative=alternative)
+            pvalue = test_results.pvalue
+            filename = f"wilcoxon_{alternative}_epoch_{epoch}.txt"
+            directory = os.path.join(self.latex_dir, self.dirname)
+            with open(os.path.join(directory, filename), "w") as file:
+                text_pvalue = str(round(pvalue, 4))
+                if pvalue < 0.05:
+                    text_pvalue = "\\textbf{" + text_pvalue + "}"
+                file.write(f"${text_pvalue}$")
 
     def save_wilcoxon_test(self, alternatives=["greater", "less", "two-sided"]):
-        self.save_wilcoxon_ttest_test_for_epoch(epoch=5, alternatives=alternatives)
-        self.save_wilcoxon_ttest_test_for_epoch(epoch=10, alternatives=alternatives)
+        self.save_wilcoxon_test_for_epoch(epoch=5, alternatives=alternatives)
+        self.save_wilcoxon_test_for_epoch(epoch=10, alternatives=alternatives)
         for alternative in alternatives:
             wilcoxon_5 = (
                 f"\\input{{imgs/{self.dirname}/wilcoxon_{alternative}_epoch_5.txt}}"
