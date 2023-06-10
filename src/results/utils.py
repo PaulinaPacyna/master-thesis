@@ -309,7 +309,7 @@ class Results(metaclass=ABCMeta):
         self._save_fig(figure, "accuracy_vs_mean_dba_sim.png")
 
     def save_wilcoxon_test_for_epoch(
-        self, epoch=10, alternatives=["greater", "less", "two-sided"]
+        self, epoch=10, alternatives=["greater", "two-sided"]
     ):
         accuracies = [
             (
@@ -334,7 +334,7 @@ class Results(metaclass=ABCMeta):
                     text_pvalue = "\\textbf{" + text_pvalue + "}"
                 file.write(f"${text_pvalue}$")
 
-    def save_wilcoxon_test(self, alternatives=["greater", "less", "two-sided"]):
+    def save_wilcoxon_test(self, alternatives=["greater", "two-sided"]):
         self.save_wilcoxon_test_for_epoch(epoch=5, alternatives=alternatives)
         self.save_wilcoxon_test_for_epoch(epoch=10, alternatives=alternatives)
         for alternative in alternatives:
@@ -344,7 +344,7 @@ class Results(metaclass=ABCMeta):
             wilcoxon_10 = (
                 f"\\input{{imgs/{self.dirname}/wilcoxon_{alternative}_epoch_10.txt}}"
             )
-            alternative_mapping = {"greater": ">", "less": "<", "two-sided": "\\neq"}
+            alternative_mapping = {"greater": ">", "two-sided": "\\neq"}
             line = (
                 f"{self.distribution_names[0]} & {self.distribution_names[1]} & ${alternative_mapping[alternative]}$ &"
                 f"\\multicolumn{{1}}{{l|}}{{{wilcoxon_5}}} & {wilcoxon_10} \\\\ \\hline\n"
