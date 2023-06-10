@@ -34,7 +34,6 @@ def remove_zeros_at_end(array: pd.Series) -> pd.Series:
     return array[:index]
 
 
-# TODO: remove if not used
 def stretch_interpolate(
     df: np.array, target_length: int = 600, type_: str = "linear"
 ) -> np.array:

@@ -14,7 +14,6 @@ logging.getLogger().setLevel(logging.INFO)
 mlflow_logging = MlFlowLogging()
 
 
-# TODO: remove if not needed
 class BaselineExperiment(BaseExperiment):
     name = "baseline"
 

@@ -25,7 +25,8 @@ from tensorflow import keras
 from tensorflow.keras.utils import Sequence
 
 mlflow_logging = MlFlowLogging()
-# TODO log here as in data generator
+
+
 class BaseExperiment:
     name = "base"
 
