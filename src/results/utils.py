@@ -36,6 +36,11 @@ class Results(metaclass=ABCMeta):
 
     @property
     @abstractmethod
+    def distribution_names(self):
+        pass
+
+    @property
+    @abstractmethod
     def first_result_key_name_loss(self):
         pass
 
@@ -303,7 +308,9 @@ class Results(metaclass=ABCMeta):
         plt.xscale("log")
         self._save_fig(figure, "accuracy_vs_mean_dba_sim.png")
 
-    def save_wilcoxon_ttest_test_for_epoch(self, epoch=10):
+    def save_wilcoxon_ttest_test_for_epoch(
+        self, epoch=10, alternatives=["greater", "less", "two-sided"]
+    ):
         accuracies = [
             (
                 self.first_experiment_runs[dataset].data.metrics["history"][
@@ -316,21 +323,38 @@ class Results(metaclass=ABCMeta):
             for dataset in self.datasets
         ]
         acc_1, acc_2 = zip(*accuracies)
-        for test, name in [(ttest_rel, "ttest"), (wilcoxon, "wilcoxon")]:
-            for alternative in ["greater", "less"]:
+        for alternative in alternatives:
+            for test, name in [(ttest_rel, "ttest"), (wilcoxon, "wilcoxon")]:
                 test_results = test(acc_1, acc_2, alternative=alternative)
                 pvalue = test_results.pvalue
                 filename = f"{name}_{alternative}_epoch_{epoch}.txt"
-                for directory in (
-                    self.results_root_path,
-                    os.path.join(self.latex_dir, self.dirname),
-                ):
-                    with open(os.path.join(directory, filename), "w") as file:
-                        text_pvalue = str(round(pvalue, 4))
-                        if pvalue < 0.05:
-                            text_pvalue = "\\textbf{" + text_pvalue + "}"
-                        file.write(f"${text_pvalue}$")
+                directory = os.path.join(self.latex_dir, self.dirname)
+                with open(os.path.join(directory, filename), "w") as file:
+                    text_pvalue = str(round(pvalue, 4))
+                    if pvalue < 0.05:
+                        text_pvalue = "\\textbf{" + text_pvalue + "}"
+                    file.write(f"${text_pvalue}$")
 
-    def save_wilcoxon_test(self):
-        self.save_wilcoxon_ttest_test_for_epoch(epoch=5)
-        self.save_wilcoxon_ttest_test_for_epoch(epoch=10)
+    def save_wilcoxon_test(self, alternatives=["greater", "less", "two-sided"]):
+        self.save_wilcoxon_ttest_test_for_epoch(epoch=5, alternatives=alternatives)
+        self.save_wilcoxon_ttest_test_for_epoch(epoch=10, alternatives=alternatives)
+        for alternative in alternatives:
+            wilcoxon_5 = (
+                f"\\input{{imgs/{self.dirname}/wilcoxon_{alternative}_epoch_5.txt}}"
+            )
+            wilcoxon_10 = (
+                f"\\input{{imgs/{self.dirname}/wilcoxon_{alternative}_epoch_10.txt}}"
+            )
+            ttest_5 = f"\\input{{imgs/{self.dirname}/ttest_{alternative}_epoch_5.txt}}"
+            ttest_10 = (
+                f"\\input{{imgs/{self.dirname}/ttest_{alternative}_epoch_10.txt}}"
+            )
+            alternative_mapping = {"greater": ">", "less": "<", "two-sided": "!="}
+            line = f"{self.distribution_names[0]} & {self.distribution_names[1]} & {alternative_mapping[alternative]} & \\multicolumn{{1}}{{l|}}{{{wilcoxon_5}}} & {ttest_5} & \multicolumn{{1}}{{l|}}{{{wilcoxon_10}}} & {ttest_10}\\\\ \\cline{{1-7}}\n"
+            with open(
+                os.path.join(
+                    self.latex_dir, self.dirname, f"{alternative}_test_table.txt"
+                ),
+                "w",
+            ) as file:
+                file.write(line)

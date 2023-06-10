@@ -1,0 +1,1 @@
+DBA similarity & random & < & \multicolumn{1}{l|}{\input{imgs/dba_vs_random/wilcoxon_less_epoch_5.txt}} & \input{imgs/dba_vs_random/ttest_less_epoch_5.txt} & \multicolumn{1}{l|}{\input{imgs/dba_vs_random/wilcoxon_less_epoch_10.txt}} & \input{imgs/dba_vs_random/ttest_less_epoch_10.txt}\\ \cline{1-7}

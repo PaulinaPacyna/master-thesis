@@ -176,6 +176,7 @@
 %\setlength\parskip{\baselineskip}
 %\usepackage{parskip}
 
+\usepackage{multirow}
 \usepackage{verbatim}
 %--------------------------Start---------------------------------------
 \begin{document}
@@ -1008,22 +1009,38 @@ Figures~\ref{fig:ensemble_3_5_win_tie_loss}~and~\ref{fig:ensemble_5_8_win_tie_lo
 \section{T-tests and Wilcoxon tests summary}
 This section \dots %TODO: intro
 
-
 \begin{table}[!h]
 \caption{Summary of statistical tests.}
 \centering
 \tabcolsep=0.11cm
-\scalebox {0.9}{
-\begin{tabular}{@{}|l|l|l|l|l|@{}}
+\scalebox {0.9}{\begin{tabular}{|l|l|l|ll|ll|l}
+\cline{1-7}
+\multirow{2}{*}{\textbf{Distribution 1}} &
+  \multirow{2}{*}{\textbf{Distribution 2}} &
+  \multirow{2}{*}{\textbf{Alternative}} &
+  \multicolumn{2}{l|}{\textbf{p-value (epoch 5)}} &
+  \multicolumn{2}{l|}{\textbf{p-value(epoch 10)}} &
+  \textbf{} \\ \cline{4-7}
+  &   &   & \multicolumn{1}{l|}{\textbf{wilcoxon}} & \textbf{t-test} & \multicolumn{1}{l|}{\textbf{wilcoxon}} & \textbf{t-test} &  \\ \cline{1-7}
+\input{imgs/baseline/greater_test_table.txt}
+\input{imgs/baseline/less_test_table.txt}
+\input{imgs/baseline/two-sided_test_table.txt}
+\input{imgs/baseline_vs_ensemble/greater_test_table.txt}
+\input{imgs/baseline_vs_ensemble/less_test_table.txt}
+\input{imgs/baseline_vs_ensemble/two-sided_test_table.txt}
+\input{imgs/dba_vs_random/greater_test_table.txt}
+\input{imgs/dba_vs_random/less_test_table.txt}
+\input{imgs/dba_vs_random/two-sided_test_table.txt}
+\input{imgs/ensemble/greater_test_table.txt}
+\input{imgs/ensemble/less_test_table.txt}
+\input{imgs/ensemble/two-sided_test_table.txt}
+\input{imgs/ensemble_dba_3_vs_5/greater_test_table.txt}
+\input{imgs/ensemble_dba_3_vs_5/less_test_table.txt}
+\input{imgs/ensemble_dba_3_vs_5/two-sided_test_table.txt}
+\input{imgs/ensemble_dba_5_vs_8/greater_test_table.txt}
+\input{imgs/ensemble_dba_5_vs_8/less_test_table.txt}
+\input{imgs/ensemble_dba_5_vs_8/two-sided_test_table.txt}
 
-\toprule
-
-\textbf{Distribution 1}  & \textbf{Distribution 2}   & \textbf{alternative}  & \multicolumn{2}{|l|}{\textbf{pvalue}} \\ \midrule
-\textbf{Distribution 1}  & \textbf{Distribution 2}   & \textbf{alternative}  & {\textbf{Wilcoxon}} & {\textbf{T-test}} \\ \midrule
-
-Baseline                                & no transfer learning  & greater & 0.3 & 0.04\\
-\bottomrule
-%\end{singlespace}
 \end{tabular}
 }
 \label{table:tests}

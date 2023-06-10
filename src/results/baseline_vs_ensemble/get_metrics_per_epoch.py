@@ -12,6 +12,7 @@ from results.utils import Results
 
 class BaselineVsEnsembleResults(Results):
     approach_name = "ensemble approach vs baseline"
+    distribution_names = ("ensemble", "baseline")
     results_root_path = os.path.dirname(__file__)
     first_result_key_name_loss = "ensemble_loss"
     first_result_key_name_val_loss = "ensemble_val_loss"

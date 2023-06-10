@@ -7,6 +7,7 @@ from results.utils import Results
 
 class NumberOfDatasets5_8(Results):
     approach_name = "8 datasets vs 5 datasets used. Ensemble "
+    distribution_names = ("8 datasets", "5 datasets")
     results_root_path = os.path.dirname(__file__)
     first_result_key_name_loss = "8_ensemble_loss"
     first_result_key_name_val_loss = "8_ensemble_val_loss"
