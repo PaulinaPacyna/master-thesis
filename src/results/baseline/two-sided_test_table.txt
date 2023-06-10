@@ -1,1 +1,1 @@
-Baseline & no transfer learning & $\neq$ &\multicolumn{1}{l|}{\input{imgs/C:\Users\pacyn\studia\master-thesis\src\results\baseline/wilcoxon_two-sided_epoch_5.txt}} & \input{imgs/C:\Users\pacyn\studia\master-thesis\src\results\baseline/wilcoxon_two-sided_epoch_10.txt} \hline
+Baseline & no transfer learning & $\neq$ &\multicolumn{1}{l|}{\input{imgs/C:/Users/pacyn/studia/master-thesis/src/results/baseline/wilcoxon_two-sided_epoch_5.txt}} & \input{imgs/C:/Users/pacyn/studia/master-thesis/src/results/baseline/wilcoxon_two-sided_epoch_10.txt} \\ \hline

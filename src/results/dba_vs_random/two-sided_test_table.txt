@@ -1,1 +1,1 @@
-DBA similarity & random & $\neq$ &\multicolumn{1}{l|}{\input{imgs/C:\Users\pacyn\studia\master-thesis\src\results\dba_vs_random/wilcoxon_two-sided_epoch_5.txt}} & \input{imgs/C:\Users\pacyn\studia\master-thesis\src\results\dba_vs_random/wilcoxon_two-sided_epoch_10.txt} \hline
+DBA similarity & random & $\neq$ &\multicolumn{1}{l|}{\input{imgs/C:/Users/pacyn/studia/master-thesis/src/results/dba_vs_random/wilcoxon_two-sided_epoch_5.txt}} & \input{imgs/C:/Users/pacyn/studia/master-thesis/src/results/dba_vs_random/wilcoxon_two-sided_epoch_10.txt} \\ \hline

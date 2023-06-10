@@ -8,7 +8,7 @@ from results.utils import Results
 class DbaSimiliarityVsRandomResults(Results):
     approach_name = "selecting datasets with DBA similarity vs random"
     distribution_names = ("DBA similarity", "random")
-    results_root_path = os.path.dirname(__file__)
+    results_root_path = os.path.dirname(__file__).replace("\\", "/")
     first_result_key_name_loss = "ensemble_loss"
     first_result_key_name_val_loss = "ensemble_val_loss"
     first_result_key_name_acc = "ensemble_accuracy"

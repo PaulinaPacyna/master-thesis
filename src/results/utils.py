@@ -88,7 +88,7 @@ class Results(metaclass=ABCMeta):
         self.latex_dir = os.path.join(
             Path(os.path.abspath(".")).parent, "latex", "2. thesis", "imgs"
         )
-        self.dirname = self.results_root_path.split("\\")[-1]
+        self.dirname = self.results_root_path.split("/")[-1]
         self.second_experiment_id = second_experiment_id
         self.first_experiment_id = first_experiment_id
         self.client = MlflowClient()
@@ -345,14 +345,10 @@ class Results(metaclass=ABCMeta):
             wilcoxon_10 = (
                 f"\\input{{imgs/{self.dirname}/wilcoxon_{alternative}_epoch_10.txt}}"
             )
-            ttest_5 = f"\\input{{imgs/{self.dirname}/ttest_{alternative}_epoch_5.txt}}"
-            ttest_10 = (
-                f"\\input{{imgs/{self.dirname}/ttest_{alternative}_epoch_10.txt}}"
-            )
             alternative_mapping = {"greater": ">", "less": "<", "two-sided": "\\neq"}
             line = (
                 f"{self.distribution_names[0]} & {self.distribution_names[1]} & ${alternative_mapping[alternative]}$ &"
-                f"\\multicolumn{{1}}{{l|}}{{{wilcoxon_5}}} & {wilcoxon_10} \\hline\n"
+                f"\\multicolumn{{1}}{{l|}}{{{wilcoxon_5}}} & {wilcoxon_10} \\\\ \\hline\n"
             )
             with open(
                 os.path.join(

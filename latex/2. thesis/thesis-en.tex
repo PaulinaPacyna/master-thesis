@@ -829,8 +829,8 @@ Each experiment recorded in MlFlow corresponds to one training setting. An examp
 
 \end{itemize}
 Following the MlFlow convention, each experiment consisted of several runs, each corresponding to one target dataset from the category \texttt{MOTION} and \texttt{IMAGE}. This is shown on Figure~\ref{fig:mlflow_screnshot}. When comparing averaged results, then the result was averaged on all runs (61 runs for each experiment).
-For each comparative experiment we also performed a paired Wilcoxon test with the alternative hypothesis that one of the settings is stochatically greater than the other.
-
+For each comparative experiment we also performed a paired Wilcoxon test, with the alternative that the distribution are unequal and then with the alternative that one of the distributions is stochastically greater than the other.
+We reject the null hypothesis,which states that the distributions are centered over the same value, if the p-value is lower than $0.05$.
 \FloatBarrier
 
 \begin{figure}[h!t]
@@ -864,7 +864,7 @@ Transfer learning makes the gap between accuracy/loss on the train and validatio
 \end{figure}
 
 \FloatBarrier
-We also performed a Wilcoxon test using validation accuracy of experiments conducted with \textit{baseline} transfer learning and without. The alternative hypothesis was that the validation accuracy of results conducted with transfer learning was greater than without transfer leaning. The p-value for results from $5th$ and $10th$ epoch were equal to \input{imgs/baseline/wilcoxon_greater_epoch_5.txt} and \input{imgs/baseline/wilcoxon_greater_epoch_10.txt}. Therefore we reject the null hypothesis, which states that the distributions are centered over the same value.
+We also performed a Wilcoxon test using validation accuracy of experiments conducted with \textit{baseline} transfer learning and without transfer learning. The alternative hypothesis was that the validation accuracy of results conducted with transfer learning was greater than without transfer leaning. The p-value for results from $5th$ and $10th$ epoch were smaller than 0.05. Therefore we reject the null hypothesis, which states that the distributions are centered over the same value.
 \section{Evaluation of the \textit{ensemble} approach}
 In the \textit{ensemble} approach, we created an ensemble model from 5 FCN models pre-trained on different datasets. The pre-trained ensemble was fine-tuned on the target dataset, and the results were compared to a model whose architecture was identical to the ensemble, but the weights were initialized randomly. Transfer learning improved accuracy and loss, similarly as in the \textit{baseline} approach. Figure~\ref{fig:ensemble_acc} shows the comparison of accuracy and loss in each epoch, averaged over all runs (each run corresponds to a target dataset).
 
@@ -885,7 +885,7 @@ We also present a win-tie-loss diagram for the \textit{baseline} approach in Fig
 \includegraphics[width=17 cm]{imgs/ensemble/win_tie_lose_epoch.png}
 \caption{Win-tie-loss plot. This plot shows the validation accuracy in the 5th and 10th epoch for each run (corresponding to a target dataset). The y-axis corresponds to the \textit{ensemble} approach and the x-axis to the approach without transfer learning. If a dot is above the diagonal, then it means that the transfer learning was beneficial.}
 
-We also performed a Wilcoxon test using validation accuracy of experiments conducted with \textit{ensemble} transfer learning and without. The alternative hypothesis was that the validation accuracy of results conducted with transfer learning was greater than without transfer leaning. The p-value for results from $5th$ and $10th$ epoch were equal to \input{imgs/ensemble/wilcoxon_greater_epoch_5.txt} and \input{imgs/ensemble/wilcoxon_greater_epoch_10.txt}. Therefore we reject the null hypothesis for the $5th$ epoch, and assume that the distribution for the $10th$ epoch are centered over the same distribution.
+We also performed a Wilcoxon test using validation accuracy of experiments conducted with \textit{ensemble} transfer learning and without transfer learning. The alternative hypothesis was that the validation accuracy of results conducted with transfer learning were greater than without transfer leaning. The p-value for results from $5th$ epoch were equal higher than $0.05$. Therefore we reject the null hypothesis for the $5th$ epoch, stating that the distributions are centered over the same distribution. Hovewer, the Wilcoxon test for distributions from the 10th epoch and two-sided alternative resulted in a high p-value, therefore the assume the null hypothesis. There is no statistical advantantege of this approach in the 10th epoch.
 \label{fig:win_tie_loss_ensemble}
 \end{figure}
 The model used in the ensemble approach consisted of more parameters, thanks to ensembling. This, together with the small sizes of datasets in the UCR archive, might lead to overfitting. As we see in the plot, the gap between accuracy and loss for validation and test split is more significant in the model trained without transfer learning. This may indicate that the models were overfitted. Exposing the models to a larger amount of data in the pre-training phase reduces overfitting. We see that for the transfer learning results, the gap between metrics for validation and train split is smaller. Also, the accuracy of the train split is smaller, which suggests that the overfitting is mitigated.
@@ -908,6 +908,7 @@ Similarly, as in the two previous sections, where we compared \textit{ensemble} 
 \centering
 \includegraphics[width=17cm]{imgs/baseline_vs_ensemble/win_tie_lose_epoch.png}
 \caption{Win-tie-loss diagram  for\textit{ baseline } and\textit{ ensemble }approach. Dot above the diagonal line means that the run (corresponding to training on a particular dataset)  achieved better results with the \textit{ensemble} approach.}
+We performed a paired Wilcoxon test, with distributions correspoding to  validation accuracies of experiments using \textit{ensemble} and baseline \textit{approach}. The alternative hypothesis was that the distributions are unequal. The p-value for epochs $5th$ and $10th$ were high (see table \ref{table:tests}, therefore we assume the hypothesis that the distributions are centered over the same value.
 \label{fig:win_tie_loss_baseline_vs_ensemble}
 \end{figure}
 \FloatBarrier
@@ -929,7 +930,7 @@ It is worth mentioning that during the experiments conducted for the sake of thi
 
 When it comes to the size of the model, the model used for \textit{baseline} approach consisted of c.a. (depending on the number of classes) $266 000$ parameters, while the model used for \textit{ensemble} approach (created from $5$ components) consisted typically of $1 332 000$ parameters. The model weights used for \textit{baseline} occupied 3.22 MB after saving on disk (as a TensorFlow Checkpoint), and the model weights used for the ensemble approach (created from $5$ components) used 16.04 MB of disk memory.
 
-\section{Evaluation os source datasets selection method}
+\section{Evaluation of source datasets selection method}
 As mentioned in~\ref{section:selecting}, the datasets used for multi-source transfer learning were selected in two ways: randomly or based on the DBA similarity measure. This section contains a comparison of those two methods. The selecting method is independent of the model, thus it can be used for both \textit{ensemble} and \textit{baseline} approaches. Unfortunately, this evaluation is performed only using the \textit{ensemble} approach, given the time and computational limitations.
 
 Figure~\ref{fig:random_vs_dba} shows the averaged results using random selection and selection based on the DBA similarity measure.
@@ -944,7 +945,7 @@ As we see, selecting the datasets based on the similarity measure led to slight 
 \end{figure}
 \FloatBarrier
 The win-tie-loss diagram also indicates an advantage of the DBA selection approach (Figure~\ref{fig:random_vs_dba_win_tie_loss}
-
+The p-value of the Wilcoxon test with the alternative hypothesis that validation accuracy of experiments conducted using the DBA selection method is higher than validation accuracy of experiments conducted using the random selection method is lower than $0.05$.
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
@@ -1005,23 +1006,25 @@ Figures~\ref{fig:ensemble_3_5_win_tie_loss}~and~\ref{fig:ensemble_5_8_win_tie_lo
 \label{fig:ensemble_5_8_win_tie_loss}
 \end{figure}
 \FloatBarrier
-
-\section{T-tests and Wilcoxon tests summary}
+The Wilcoxon test performed using validation accuracies of experiments using $3$, $5$ and $8$ datasets was performed. The conclusions are:
+\begin{itemize}
+\item epoch $10th$ -  we reject the null hypothesis in the direction of alternative hypothesis stating that validation accuracy with $5$ source datasets is greater than with $3$,
+\item epoch $5th$ -  we reject the null hypothesis in the direction of alternative hypothesis stating that validation accuracy with $5$ source datasets is greater than with $8$ datasets.
+\end{itemize}
+The p-values are described in \ref{table:tests}.
+\section{Wilcoxon tests summary}
 This section \dots %TODO: intro
 
 \begin{table}[!h]
 \caption{Summary of statistical tests.}
 \centering
 \tabcolsep=0.11cm
-\scalebox {0.9}{\begin{tabular}{|l|l|l|ll|ll|l}
-\cline{1-7}
-\multirow{2}{*}{\textbf{Distribution 1}} &
-  \multirow{2}{*}{\textbf{Distribution 2}} &
-  \multirow{2}{*}{\textbf{Alternative}} &
-  \multicolumn{2}{l|}{\textbf{p-value (epoch 5)}} &
-  \multicolumn{2}{l|}{\textbf{p-value(epoch 10)}} &
-  \textbf{} \\ \cline{4-7}
-  &   &   & \multicolumn{1}{l|}{\textbf{wilcoxon}} & \textbf{t-test} & \multicolumn{1}{l|}{\textbf{wilcoxon}} & \textbf{t-test} &  \\ \cline{1-7}
+\scalebox {0.9}{
+\begin{tabular}{|l|l|l|ll|}
+\hline
+\multirow{2}{*}{\textbf{Distribution 1}} & \multirow{2}{*}{\textbf{Distribution 2}} & \multirow{2}{*}{\textbf{Alternative}} & \multicolumn{2}{l|}{\textbf{p-value}} \\ \cline{4-5}
+  &   &   & \multicolumn{1}{l|}{\textbf{epoch 5}} & \textbf{epoch 10} \\ \hline
+
 \input{imgs/baseline/greater_test_table.txt}
 \input{imgs/baseline/less_test_table.txt}
 \input{imgs/baseline/two-sided_test_table.txt}
@@ -1040,13 +1043,12 @@ This section \dots %TODO: intro
 \input{imgs/ensemble_dba_5_vs_8/greater_test_table.txt}
 \input{imgs/ensemble_dba_5_vs_8/less_test_table.txt}
 \input{imgs/ensemble_dba_5_vs_8/two-sided_test_table.txt}
-
 \end{tabular}
 }
 \label{table:tests}
 \end{table}
-\FloatBarrier
-
+%\FloatBarrier
+% TODO fix table bottom
 \chapter{Conclusions}
 
 In this thesis, we extended the research on transfer learning in time series classification. We proposed two approaches to multi-source transfer learning: the \textit{baseline} and \textit{ensemble} approach, the second inspired by the success of ensemble classifiers in the time series classification domain. The \textit{baseline} approach can be summarized as pre-training a neural network on a concatenated dataset consisting of multiple datasets and then using the weights from the first layers to initialize the final classifier. In the \textit{ensemble} approach, we train several models, each on a different source dataset. Then we construct an ensemble of those models initialized with the weights obtained from pre-training. We have proven that for both approaches, multi-source transfer learning increased the accuracy of the classifiers. The usage of transfer learning also mitigated overfitting, which is very common for small datasets present in the time series classification domain. Furthermore, a detailed comparative analysis of the two approaches was conducted.

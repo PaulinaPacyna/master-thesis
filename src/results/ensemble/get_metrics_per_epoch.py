@@ -10,7 +10,7 @@ from results.utils import Results
 class EnsembleResults(Results):
     approach_name = "Ensemble"
     distribution_names = ("ensemble", "no transfer learning")
-    results_root_path = os.path.dirname(__file__)
+    results_root_path = os.path.dirname(__file__).replace("\\", "/")
     first_result_key_name_loss = "ensemble_loss"
     first_result_key_name_val_loss = "ensemble_val_loss"
     first_result_key_name_acc = "ensemble_accuracy"
