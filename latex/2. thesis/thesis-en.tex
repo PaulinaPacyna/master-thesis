@@ -1014,9 +1014,9 @@ The Wilcoxon test performed using validation accuracies of experiments using $3$
 \end{itemize}
 The p-values are described in \ref{table:tests}.
 \section{Wilcoxon tests summary}
-This section contains all Wilcoxon test results conducted in this thesis. The Wilcoxon was conducted for pairs of distributions of validation accuracy (for a given setting e.g. comparing the DBA selection method and readnom selection method). If a value is bolded, it mean that the p-value is lower than $0.05$ and we reject the null hypothesis, in favour of the alternative hypothesis.
+This section contains all Wilcoxon test results conducted in this thesis. The Wilcoxon test was conducted for pairs of distributions of validation accuracy (for a given setting e.g. comparing the DBA selection method and readnom selection method). If a value is bolded, it mean that the p-value is lower than $0.05$ and we reject the null hypothesis, in favour of the alternative hypothesis.
 
-We used test version which discards \textit{ties} in the data and the exact distribution computation.
+We used the test version which discards \textit{ties} in the data and the exact distribution computation.
 
 \begin{table}[!h]
 \caption{Summary of statistical tests.}
@@ -1039,14 +1039,12 @@ We used test version which discards \textit{ties} in the data and the exact dist
 \input{imgs/ensemble_dba_3_vs_5/greater_test_table.txt}
 \input{imgs/ensemble_dba_3_vs_5/two-sided_test_table.txt}
 \input{imgs/ensemble_dba_5_vs_8/greater_test_table.txt}
-\input{imgs/ensemble_dba_5_vs_8/two-sided_test_table.txt}
-
+5 datasets & 8 datasets & $\neq$ & \multicolumn{1}{l|}{\input{imgs/ensemble_dba_5_vs_8/wilcoxon_two-sided_epoch_5.txt}} & \input{imgs/ensemble_dba_5_vs_8/wilcoxon_two-sided_epoch_10.txt}\\\hline
 \end{tabular}
 }
 \label{table:tests}
 \end{table}
 %\FloatBarrier
-% TODO fix table bottom
 \chapter{Conclusions}
 
 In this thesis, we extended the research on transfer learning in time series classification. We proposed two approaches to multi-source transfer learning: the \textit{baseline} and \textit{ensemble} approach, the second inspired by the success of ensemble classifiers in the time series classification domain. The \textit{baseline} approach can be summarized as pre-training a neural network on a concatenated dataset consisting of multiple datasets and then using the weights from the first layers to initialize the final classifier. In the \textit{ensemble} approach, we train several models, each on a different source dataset. Then we construct an ensemble of those models initialized with the weights obtained from pre-training. We have proven that for both approaches, multi-source transfer learning increased the accuracy of the classifiers. The usage of transfer learning also mitigated overfitting, which is very common for small datasets present in the time series classification domain. Furthermore, a detailed comparative analysis of the two approaches was conducted.
