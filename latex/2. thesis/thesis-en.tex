@@ -211,7 +211,7 @@ supervisor's signature & \hspace*{100pt} & author's signature
 \begin{center}
 \title
 \end{center}
-The task of classifying time series is an important problem in the field of data mining. Most phenomena that change over time can be described in terms of time series. A time series can describe, for example, the amplitude of a heartbeat sound, stock prices, or hand movement along an axis when serving in tennis. Time series can express different characteristics of the phenomenon. Those characteristics are called \textit{classes}. For example, the heartbeat sound amplitude can represent (belong to) one of two classes: \textit{healthy} and \textit{unhealthy}. Time series classification attempts to learn the distinctive features of a time series and build a model that can distinguish between those classes.
+The task of classifying time series is an important problem in the field of data mining. Most phenomena that change over time can be described in terms of time series. A time series can describe, for example, the amplitude of a heartbeat sound, stock prices, or hand movement along an axis when serving in tennis. Time series can express different characteristics of the phenomenon. Those characteristics are called \textit{classes} or \textit{labels}. For example, the heartbeat sound amplitude can represent (belong to) one of two classes: \textit{healthy} and \textit{unhealthy}. Time series classification attempts to learn the distinctive features of a time series and build a model that can distinguish between those classes.
 
 The time series classification problem was initially solved using classical algorithms such as the k-nearest neighbor classifier with distance measures suited for time series, like Dynamic Time Warping. The advantages of using deep learning algorithms in the context of time series classification have recently begun to be recognized. Neural networks can detect shapes that distinguish a class or understand ordered temporal relationships.
 
@@ -418,7 +418,7 @@ The architecture of the Residual Network is conceptually similar to the FCN netw
 \FloatBarrier
 
 \subsection{Encoder Network}
- The Encoder Network is a deep convolutional network proposed by~\cite{encoder}. The first layers of the network are similar to the FCN architecture. The network consists of three convolutional layers followed by an attention layer instead of the Global Average Pooling layer. Another novelty introduced in this network compared with the FCN architecture is adding a DropOut layer and replacing the ReLU activation function with PReLU (Parametrized ReLU), thus adding another parameter to the network. The network ends with a Dense layer predicting the distribution over the classes. The architecture is shown below (Figure~\ref{fig:encoder_img}).
+ The Encoder Network is a deep convolutional network proposed by Fawaz et al. in ~\cite{encoder}. The first layers of the network are similar to the FCN architecture. The network consists of three convolutional layers followed by an attention layer instead of the Global Average Pooling layer. Another novelty introduced in this network compared with the FCN architecture is adding a DropOut layer and replacing the ReLU activation function with PReLU (Parametrized ReLU), thus adding another parameter to the network. The network ends with a Dense layer predicting the distribution over the classes. The architecture is shown below (Figure~\ref{fig:encoder_img}).
 
 \FloatBarrier
 
@@ -437,7 +437,7 @@ As opposed to the FCN network architecture, the Encoder network is not invariant
 
 
 \section{The UCR archive}
-The URC (University of California, Riverside) archive is a time series classification archive introduced in 2002~by Dau, Keogh et al.~\cite{UCR_archive, UCR_article}. At the moment of writing this thesis, it consists of 140~univariate time series datasets. The time series describes various phenomena, like readings from a device or sensor, motion recordings, or food spectrographs. The time series types are summarized below (Table~\ref{table:ucr_summary}). We also show several time series samples from different datasets below (Figure~\ref{fig:UCR_samples}).
+The UCR (University of California, Riverside) archive is a time series classification archive introduced in 2002~by Dau, Keogh et al.~\cite{UCR_archive, UCR_article}. At the moment of writing this thesis, it consists of 140~univariate time series datasets. The time series describes various phenomena, like readings from a device or sensor, motion recordings, or food spectrographs. The time series types are summarized below (Table~\ref{table:ucr_summary}).
 \begin{table}[!h]
 \caption{Summary of types of datasets in the UCR archive.}
 \centering
@@ -467,7 +467,10 @@ Traffic                              & 2                           \\ \hline
 \label{table:ucr_summary}
 \end{table}
 \FloatBarrier
+ We also show several time series samples from different datasets below (Figure~\ref{fig:UCR_samples}).
 
+
+ \FloatBarrier
 \begin{figure}[h!]
 \centering
 \includegraphics[height=7cm]{imgs/UCR_Beef.png}
@@ -477,7 +480,7 @@ Traffic                              & 2                           \\ \hline
 \caption{Example time series from the UCR archive. The images belong to the following categories: Food, ECG, Image, Device.}
 \label{fig:UCR_samples}
 \end{figure}
-All datasets together contain 980~unique labels. Most datasets differentiate between two labels and have several dozen rows per class. The series length varies from 8~to almost 300~thousand. Below we show four histograms summarizing the number of classes per dataset, the lengths of the series, and the number of observations per class and per dataset. (Figure~\ref{fig:histograms})
+All datasets together contain 980~unique classes. Most datasets differentiate between two classes and have several dozen rows per class. The series length varies from 8~to almost 300~thousand. Below we show four histograms summarizing the number of classes per dataset, the lengths of the series, and the number of observations per class and per dataset. (Figure~\ref{fig:histograms})
 \begin{figure}[h!]
 \centering
 \includegraphics[width=7.9cm]{imgs/lengths_of_the_series_in_the_datasets.png}
@@ -532,7 +535,7 @@ Transfer learning is a technique that attempts to apply knowledge learned  while
 
 Transfer learning attempts to utilize knowledge from different domain/domains and task/tasks. Formally, given $S \in \natur$ source domains and source tasks ($\{(\mathcal{D}_i^S,\mathcal{T}_i^S): i=1, \dots, S \}$) and $T \in \natur$ target domains and target tasks ($\{(\mathcal{D}_i^T,\mathcal{T}_i^T): i=1, \dots, S \}$) transfer learning utilizes knowledge learned from source domains and tasks to improve the learning process of decision functions in target tasks $\mathcal{T}_i^T$
 \subsection{Transfer learning categorization}
-Transfer learning can be categorized from different points of view~\cite{comp_survey_transfer_leaerning}. One of the ways in which we can divide transfer learning algorithms is based on the availability of the labels:
+Transfer learning can be categorized from different points of view~\cite{comp_survey_transfer_leaerning}. One of the ways in which we can divide transfer learning algorithms is based on the availability of the labels (corresponding to classes):
 \begin{itemize}
 \item \textbf{inductive} transfer learning - labels are available for both source and target datasets e.g. finetuning the whole network or a part of it~\cite{finetuning, first_tl}
 \item \textbf{transductive} transfer learning - labels are available only in the domain dataset, e.g. self-learning~\cite{selflearning}
@@ -550,7 +553,7 @@ Transfer learning can be categorized based on the algorithm/approach used. There
 
 \subsection{Characteristics of a good source domain}
 
-In the field of image processing, it is widespread to use convolutional neural networks \mbox{pre-trained} with the ImageNet dataset~\cite{imagnet}. The ImageNet dataset was the moivation behinf the \textit{baseline} approach described in~\ref{section:baseline}, where we try the recreate the properties of the ImageNet dataset in an artificial dataset used as a source dataset for transfer learning.  ImageNet is a large dataset of human-annotated images. It contains one~million labeled images of 1000~classes. The label space consists of fine-grained classes such as breeds of dogs and cats and coarse-grained classes like \textit{red wine} and \textit{traffic light}. Example pictures from this dataset are shown below~\ref{fig:image_net}. As transfer learning based on this dataset became more popular and successful, a question arose: Which features of this dataset make it so suitable for this task?
+In the field of image processing, it is widespread to use convolutional neural networks \mbox{pre-trained} with the ImageNet dataset~\cite{imagnet}. The ImageNet dataset was the motivation behind the \textit{baseline} approach described in~\ref{section:baseline}, where we try the recreate the properties of the ImageNet dataset in an artificial dataset used as a source dataset for transfer learning.  ImageNet is a large dataset of human-annotated images. It contains one~million labeled images of 1000~classes. The label space consists of fine-grained classes such as breeds of dogs and cats and coarse-grained classes like \textit{red wine} and \textit{traffic light}. Example pictures from this dataset are shown below~\ref{fig:image_net}. As transfer learning based on this dataset became more popular and successful, a question arose: Which features of this dataset make it so suitable for this task?
 \FloatBarrier
 
 \begin{figure}[h!]
@@ -586,7 +589,7 @@ While the article~\cite{imagnet} does not conclude which single feature of the I
 
 
 \subsection{Negative transfer in naive transfer learning approach}\label{Negative_transfer}
-Negative transfer is a problem in the transfer learning process when the target classifies achieve worse accuracy than without using transfer learning. Transfer learning for time series has been investigated in~\cite{transfer_learning_time_series}. The paper's authors tested transfer learning on all datasets from the UCR archive. In the first approach, called \textit{naive transfer learning}, the authors used all pairs of datasets. One dataset from the pair was used as a source dataset to prepare the source classifier for transfer learning. The second dataset was used to fine-tune the former classifier. The architecture used in this approach was the Fully Convolutional Network, described in section~\ref{FCN}.  All layers except for the last one were transferred from the source classifier to the target classifier. The authors compared the accuracy of a fine-tuned classifier to that of a classifier trained without transfer learning.
+Negative transfer is a phenonmenon in the transfer learning process when the target classifies achieve worse accuracy than without using transfer learning. Transfer learning for time series has been investigated in~\cite{transfer_learning_time_series}. The paper's authors tested transfer learning on all datasets from the UCR archive. In the first approach, called \textit{naive transfer learning}, the authors used all pairs of datasets. One dataset from the pair was used as a source dataset to prepare the source classifier for transfer learning. The second dataset was used to fine-tune the former classifier. The architecture used in this approach was the Fully Convolutional Network, described in section~\ref{FCN}.  All layers except for the last one were transferred from the source classifier to the target classifier. The authors compared the accuracy of a fine-tuned classifier to that of a classifier trained without transfer learning.
 
 With respect to different source datasets, target classifiers' accuracies exhibited a high variance. There were cases where the fine-tuned classifiers suffered from transfer learning. On the other hand, for each target dataset, there was always a source dataset beneficial for the classification results. It is shown in the picture~\ref{fig:tr_learning_min_max}, where for each target dataset, the maximum, median, and minimum accuracies for the different experiments were plotted.
 
@@ -603,9 +606,9 @@ With respect to different source datasets, target classifiers' accuracies exhibi
 A negative transfer learning effect can be minimized or avoided by optimally choosing the source dataset/datasets. To improve the transfer learning process, the authors proposed a method of choosing the source dataset based on the DTW distance. This method is described in~\ref{DTW_choosing}.
 
 \subsection{Inter-dataset similarity measure based on Dynamic Time Warping Barycenter Averaging} \label{DTW_choosing}
-Choosing the source dataset for transfer learning randomly or by trial and error can lead to the \textit{Negative transfer} problem, described in the previous section (\ref{Negative_transfer}). In~\cite{transfer_learning_time_series}, the authors proposed an inter-dataset similarity measure that is used to choose the source dataset for transfer learning optimally. The first step of the method is to compute a \textit{prototype} time series per each class for every considered dataset. This step reduces the volume of the data that is used in the next step. The next step is to compute the distances between each pair of datasets, choosing the minimum DTW distance between prototypes of each class in both datasets. We proceed to describe the algorithm in detail below.
+Choosing the source dataset for transfer learning randomly or by trial and error can lead to the \textit{Negative transfer} problem, described in the previous section (\ref{Negative_transfer}). In~\cite{transfer_learning_time_series}, Fawaz et.al.~proposed an inter-dataset similarity measure that is used to choose the source dataset for transfer learning optimally. The first step of the method is to compute a \textit{prototype} time series per each class for every considered dataset. This step reduces the volume of the data that is used in the next step. The next step is to compute the distances between each pair of datasets, choosing the minimum DTW distance between prototypes of each class in both datasets. We proceed to describe the algorithm in detail below.
 
-The algorithm uses DTW barycenter averaging~\cite{dtw_dba}. The result of this method is a times series that minimizes the sum of DTW~\cite{dtw} distances to each time series from the dataset.
+The algorithm uses DTW barycenter averaging~\cite{dtw_dba}. The result of this method is a time series that minimizes the sum of DTW~\cite{dtw} distances to each time series from the dataset.
 $$DTW\_average = \arg\min_{X \in  2^{\real}}  \sum_{\bar{X}\in \mathcal{X}} DTW(X, \bar{X})$$
 The resulting time series does not need to belong to the original dataset $\mathcal{X}$.
 
@@ -613,9 +616,9 @@ The first step of the algorithm is the data reduction step. For each class in th
 
 
 %\pagebreak
-The next step is to compute the distance between the target dataset and all possible source datasets. The distance between two datasets is the minimum DTW distance between each pair of prototypes from the reduced datasets. The whole algorithm is described in detail in~\cite{transfer_learning_time_series}.
+The next step is to compute the distance between the target dataset and all possible source datasets. The distance between two datasets is the minimum DTW distance between each pair of prototypes from the reduced datasets. The whole algorithm is described in detail by Fawaz et al.~in~\cite{transfer_learning_time_series}.
 
-In~\cite{transfer_learning_time_series}, the distance was computed pairwise for all available datasets (using train splits). The authors compare the transfer learning performance with a randomly chosen source dataset versus choosing the source dataset that minimizes the former distance to the target dataset. The results are shown below (Figure~\ref{fig:smart_transfer_learning}).
+In the next step, the distance was computed pairwise for all available datasets (using train splits). The authors compare the transfer learning performance with a randomly chosen source dataset versus choosing the source dataset that minimizes the former distance to the target dataset. The results are shown below (Figure~\ref{fig:smart_transfer_learning}).
 \FloatBarrier
 
 
@@ -627,7 +630,7 @@ In~\cite{transfer_learning_time_series}, the distance was computed pairwise for 
 \end{figure}
 \FloatBarrier
 
-The result shows that choosing the source dataset for transfer learning based on similarity to the target dataset may lead to benefits. In this work we try to construct the dataset artificially, by combining, preprocessing, and augmenting the datasets from the UCR archive, to mimic the properties of the ImageNet dataset. The artificial dataset is composed of multiple datasets. Therefore we rather won't use this similarity to choose one particular dataset. We take the inter-dataset distance into account when adjusting the distribution of classes in the artificial dataset, to favour classes similar to the target dataset.
+The result shows that choosing the source dataset for transfer learning based on similarity to the target dataset may lead to benefits. In this work we try to construct the dataset artificially, by combining, preprocessing, and augmenting the datasets from the UCR archive, to mimic the properties of the ImageNet dataset. The artificial dataset is composed of multiple datasets, and in the section \ref{section:selecting} we utilize the DBA similarity measure to select the source datasets for a given target dataset.
 
 \chapter{Methodology}
 In this chapter, we cover the technical implementation of the solution. We introduce methods that aim at inductive transfer learning for time series classification. Most importantly, we introduce two approaches to multi-source transfer learning, it is the \textit{baseline} and the \textit{ensemble} approach. We also cover a selection method for selecting the source datasets given a target dataset. We also briefly summarize data reading and preprocessing steps.
@@ -718,10 +721,9 @@ The \textit{baseline approach} is a simple extension to the classical transfer l
 
 The idea here is similar, but the source dataset is created artificially from multiple datasets. As most of the datasets in the UCR archive are small, we concatenate them to obtain a bigger dataset. Suppose that we have $N$ datasets $(X_i^\mathcal{S}, Y_i^\mathcal{S})$, $i=1, \cdots, N$.
 The pre-training dataset $(X^\mathcal{T}, Y^\mathcal{T})$ is created as follows:
-$X^\mathcal{T} = \bigcup_{i=1}^N X_i^\mathcal{S}$,
-
-$Y = \{prefix_i(y): y \in Y_i, i=1, \dots, N\}$
-where $prefix_i(\cdot)$ is a function such that $$\forall_{i\neq j} \forall_{\bar{y} \in Y_i, \hat{y} \in Y_j} \ \  prefix_i(y) \neq prefix_j{y}$$
+$$X^\mathcal{T} = \bigcup_{i=1}^N X_i^\mathcal{S}$$
+$$Y = \{prefix_i(y): y \in Y_i, i=1, \dots, N\}$$
+where $prefix_i(\cdot)$ is a function such that $$\forall_{i\neq j} \forall_{\bar{y} \in Y_i, \hat{y} \in Y_j} \ \  prefix_i(\bar{y}) \neq prefix_j{\hat{y}}$$
 In our case, the prefix function given a class name (as a string) transforms the string by adding a prefix with the dataset name. This way, the classes remain distinct after concatenation. The number of classes in the resulting dataset is equal to the sum of the number of classes in each dataset. The examples that correspond to the same dataset should be intuitively similar to each other (analog of the fine-grained classes in ImageNet), while examples from different datasets cover more latent space (analog of the coarse-grained classes in ImageNet). The concatenation process is shown in Figure~\ref{fig:baseline_dataset}
 
 
@@ -738,7 +740,7 @@ The data batches fed to the model are processed as described in the previous cha
 
 We obtain a neural network model after training the classifier on the artificial, concatenated dataset. The network (specifically the weights) is then used as a starting point to train on the target dataset. The target classifier is created by removing the last layer, which outputs the probabilities for each class. The layer is replaced by a new layer with randomly initialized weights and output size equal to the number of classes in the last layer. The whole network is then retrained on the target dataset. All weights are updated in the training procedure (freezing the weights is not used).
 
-We compare the results by predicting the classes on the test split of the target dataset. The metrics used for comparison are explained in detail in the Results chapter. We compare the metrics to results obtained by training a network of the same architecture but without transfer learning (with random weights).
+We compare the results by predicting the classes on the test split of the target dataset. The metrics used for comparison are explained in detail in the Results chapter \ref{chapter:results}. We compare the metrics to results obtained by training a network of the same architecture but without transfer learning (with random weights).
 
 \section{Ensemble approach}\label{section:ensemble}
 The second approach proposed in this thesis is inspired by the success of ensemble models (e.g.~HIVE-COTE~\cite{hivecote}, InceptionTime~\cite{inceptiontime}) in time series classification. Small dataset sizes common in time series classification tend to increase the variance error of the classifiers. Therefore the ensemble method is often proposed to decrease the variance and increase the accuracy of predictions. This intuition resembles this approach.
@@ -748,16 +750,16 @@ The previous study on transfer learning with a single source dataset~\cite{trans
 Let us assume that we want to perform transfer learning given $N$ source datasets $(X^\mathcal{S}_1, y^\mathcal{S}_1), \dots, (X^\mathcal{S}_N, y^\mathcal{S}_N)$ and a target dataset $(X^\mathcal{T}, y^\mathcal{T})$.
 The model is created from $N$ source models. Model $M_i$ is a classifier (e.g.,~a Fully Convolutional Network) trained on the dataset $(X^\mathcal{S}_i, y^\mathcal{S}_i)$. The hyperparameters used for experiments are described in section~\ref{section:hyperparameters} and do not differ from those used for the \textit{baseline approach}.
 
+The target model is created by creating an ensemble of models pre-trained on different source datasets. Each source model (called component) is pre-trained on one source dataset. Then the last layer, which is specific to the number of classes in the source dataset is discarded, and a new layer is attached to the network. The ensemble is created by computing an average of the resulting probabilities computed by each component. The ensemble model is retrained on the target dataset.
+
 Let's recall the notion from the section~\ref{mlp_section_related} that a model $M_i$ is a composition of layers, $$M_i(X; \theta_1^i,\dots , \theta_M^i, \beta_1^i,\dots , \beta_M^i) = L_M^i(\dots L_2(L_1(X;\theta_1^i, \beta_1^i);\theta_2^i, \beta_2^i);\theta_M^i, \beta_M^i)$$
-To shorten the notation, let us group the first layers together:
-$$E(X;\Theta^i, B^i) = L_{M-1}(\dots L_2(L_1(X;\theta_1^i, \beta_1^i);\theta_2^i, \beta_2^i);\theta_{M-1}^i, \beta_{M-1}^i)$$
-thus
+The weights and the last layer are specific for a given source dataset. We assume that the architecture of subsequent layers, except for the last one, is the same for all models $M_i$, $i=1, \dots, N$. Therefore only the last layer has the superscript $\ ^i$. The last layer output size is equal to the number of classes in dataset $i$, which may differ for every model. We also assume that the first layers architecture is the same for all models. Models agnostic to the input size (like FCNs) are advantageous here, as their architecture does not depend on the input size. As for other models, we assume a fixed size of the input data achieved by preprocessing the input data. The weights $\theta^i_k$ and biases $\beta^i_k$ are obtained from training on dataset $i$. To shorten the notation, let us group the all layers except the last one together:
+$$E(X;\Theta^i, B^i) = L_{M-1}(\dots L_2(L_1(X;\theta_1^i, \beta_1^i);\theta_2^i, \beta_2^i);\theta_{M-1}^i, \beta_{M-1}^i) \text{, thus}$$
 $$M_i(X; \theta_1^i,\dots , \theta_M^i, \beta_1^i,\dots , \beta_M^i) =  L_M^i(E(X; \Theta^i, B^i);\theta_M^i, \beta_M^i)$$
-We assume that the architecture of subsequent layers, except for the last one, is the same for all models $M_i$, $i=1, \dots, N$. Therefore only the last layer has the superscript $\ ^i$. The last layer output size is equal to the number of classes in dataset $i$, which may differ for every model. We also assume that the first layers architecture is the same for all models. Models agnostic to the input size (like FCNs) are advantageous here, as their architecture does not depend on the input size. As for other models, we assume a fixed size of the input data achieved by preprocessing the input data.
-The weights $\theta^i_k$ and biases $\beta^i_k$ are obtained from training on dataset $i$.
+
 The target model $M$ is created as follows:
 $$M(X) = \frac{1}{N} \sum_{i=1}^N \hat L_M( E(X; \Theta^i, B^i);\hat\theta_M^i, \hat\beta_M^i )$$
-The weights $\theta_1^i, \dots, \theta_{M-1}^i$ and biases $\beta_1^i, \dots, \beta_{M-1}^i$ are obtained from training the source models. The last layer $\hat L_M$ is "new", meaning the weights are randomly initialized. The new corresponding weights $\hat\theta_M^i$ and biases $\hat\beta_M^i$ have proper dimensionality (corresponding to the number of classes in the target dataset). This model is then retrained on the target dataset. All weights are updated in the training procedure (freezing the weights is not used).
+The weights $\theta_1^i, \dots, \theta_{M-1}^i$ and biases $\beta_1^i, \dots, \beta_{M-1}^i$ are obtained from training the source models. The last layer $\hat L_M$ is "new", meaning the weights are randomly initialized. The new weights from the last layer $\hat\theta_M^i$ and biases $\hat\beta_M^i$ have proper dimensionality (corresponding to the number of classes in the target dataset). This model is then retrained on the target dataset. All weights are updated in the training procedure (freezing the weights is not used).
 
 A graphical example of the process can be found in Figure~\ref{fig:ensemble_architecture}.
 
@@ -956,7 +958,7 @@ There is still room to improve the similarity measure. In order to understand th
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
-\includegraphics[width=17cm]{imgs/ensemble/accuracy_vs_mean_dba_sim.png}
+\includegraphics[width=15cm]{imgs/ensemble/accuracy_vs_mean_dba_sim.png}
 \caption{The mean DBA similarity of each source dataset to the target dataset versus the final accuracy of the run associated with the target dataset, using DBA similarity and \textit{ensemble} approach.}
 \label{fig:acc_vs_dba_sim}
 \end{figure}
@@ -1062,7 +1064,7 @@ The study may also be extended to testing datasets outside of the UCR time serie
 
 The number of datasets used for both \textit{ensemble} or \textit{baseline} approaches can be further studied. We can consider numbers other than $3$,~$5$, and~$8$~(e.g.,~using all datasets available in the UCR archive). The effort could be combined with improving the similarity measure in order to develop a method to obtain the optimal number of datasets given the similarity measure, e.g.,~with stepwise selection of datasets similar, as in stepwise feature selection.
 
-
+%TODO rozwinac
 
 
 
