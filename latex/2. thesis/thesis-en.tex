@@ -885,7 +885,7 @@ We also present a win-tie-loss diagram for the \textit{baseline} approach in Fig
 \includegraphics[width=17 cm]{imgs/ensemble/win_tie_lose_epoch.png}
 \caption{Win-tie-loss plot. This plot shows the validation accuracy in the 5th and 10th epoch for each run (corresponding to a target dataset). The y-axis corresponds to the \textit{ensemble} approach and the x-axis to the approach without transfer learning. If a dot is above the diagonal, then it means that the transfer learning was beneficial.}
 
-We also performed a Wilcoxon test using validation accuracy of experiments conducted with \textit{ensemble} transfer learning and without transfer learning. The alternative hypothesis was that the validation accuracy of results conducted with transfer learning were greater than without transfer leaning. The p-value for results from $5th$ epoch were equal higher than $0.05$. Therefore we reject the null hypothesis for the $5th$ epoch, stating that the distributions are centered over the same distribution. Hovewer, the Wilcoxon test for distributions from the 10th epoch and two-sided alternative resulted in a high p-value, therefore the assume the null hypothesis. There is no statistical advantantege of this approach in the 10th epoch.
+We also performed a Wilcoxon test using validation accuracy of experiments conducted with \textit{ensemble} transfer learning and without transfer learning. The alternative hypothesis was that the validation accuracy of results conducted with transfer learning were greater than without transfer learning. The p-value for results from $5th$ epoch were lower than $0.05$. Therefore we reject the null hypothesis for the $5th$ epoch, stating that the distributions are centered over the same distribution. Hovewer, the Wilcoxon test for distributions from the 10th epoch and two-sided alternative resulted in a high p-value, therefore the assume the null hypothesis. There is no statistical advantantege of this approach in the 10th epoch.
 \label{fig:win_tie_loss_ensemble}
 \end{figure}
 The model used in the ensemble approach consisted of more parameters, thanks to ensembling. This, together with the small sizes of datasets in the UCR archive, might lead to overfitting. As we see in the plot, the gap between accuracy and loss for validation and test split is more significant in the model trained without transfer learning. This may indicate that the models were overfitted. Exposing the models to a larger amount of data in the pre-training phase reduces overfitting. We see that for the transfer learning results, the gap between metrics for validation and train split is smaller. Also, the accuracy of the train split is smaller, which suggests that the overfitting is mitigated.
@@ -945,7 +945,7 @@ As we see, selecting the datasets based on the similarity measure led to slight 
 \end{figure}
 \FloatBarrier
 The win-tie-loss diagram also indicates an advantage of the DBA selection approach (Figure~\ref{fig:random_vs_dba_win_tie_loss}
-The p-value of the Wilcoxon test with the alternative hypothesis that validation accuracy of experiments conducted using the DBA selection method is higher than validation accuracy of experiments conducted using the random selection method is lower than $0.05$.
+The p-value of the Wilcoxon test with the alternative hypothesis that validation accuracy of experiments conducted using the DBA selection method than $0.05$, also indicating an advantage of the DBA selection method.
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
@@ -964,7 +964,7 @@ There is still room to improve the similarity measure. In order to understand th
 \end{figure}
 \FloatBarrier
 \section{Influence of accuracy of the components used in the ensemble on the target classifiers' accuracy}
-This short section checks the hypothesis that the better the model we use in \textit{ensemble} approach, the better the final results on the target classifier. As we see on the plot~\ref{fig:acc_source_vs_acc_target}, which shows the mean accuracy of components (measured on each source dataset, using test split) versus the accuracy of the target classifier (measured on the test split of target dataset). The correlation between the two statistics is very moderate (0.15).
+This short section evaluates the hypothesis that the better the component model we use in \textit{ensemble} approach, the better the final results on the target classifier. As we see on the plot~\ref{fig:acc_source_vs_acc_target}, which shows the mean accuracy of components (measured on each source dataset, using test split) versus the accuracy of the target classifier (measured on the test split of target dataset). The correlation between the two statistics is very moderate (0.15).
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
@@ -1008,8 +1008,8 @@ Figures~\ref{fig:ensemble_3_5_win_tie_loss}~and~\ref{fig:ensemble_5_8_win_tie_lo
 \FloatBarrier
 The Wilcoxon test performed using validation accuracies of experiments using $3$,~$5$ and~$8$~datasets was performed. The conclusions are:
 \begin{itemize}
-\item epoch $10th$ -  we reject the null hypothesis in the direction of alternative hypothesis stating that validation accuracy with $5$~source datasets is greater than with $3$,
-\item epoch $5th$ -  we reject the null hypothesis in the direction of alternative hypothesis stating that validation accuracy with $5$~source datasets is greater than with $8$~datasets.
+\item epoch $10th$ -  we reject the null hypothesis in the direction of alternative hypothesis stating that validation accuracy with $5$~source datasets is stochastically greater than with $3$,
+\item epoch $5th$ -  we reject the null hypothesis in the direction of alternative hypothesis stating that validation accuracy with $5$~source datasets is stochastically greater than with $8$~datasets.
 \end{itemize}
 The p-values are described in \ref{table:tests}.
 \section{Wilcoxon tests summary}
@@ -1046,12 +1046,16 @@ We used the test version which discards \textit{ties} in the data and the exact 
 %\FloatBarrier
 \chapter{Conclusions}
 
-In this thesis, we extended the research on transfer learning in time series classification. We proposed two approaches to multi-source transfer learning: the \textit{baseline} and \textit{ensemble} approach, the second inspired by the success of ensemble classifiers in the time series classification domain. The \textit{baseline} approach can be summarized as pre-training a neural network on a concatenated dataset consisting of multiple datasets and then using the weights from the first layers to initialize the final classifier. In the \textit{ensemble} approach, we train several models, each on a different source dataset. Then we construct an ensemble of those models initialized with the weights obtained from pre-training. We have proven that for both approaches, multi-source transfer learning increased the accuracy of the classifiers. The usage of transfer learning also mitigated overfitting, which is very common for small datasets present in the time series classification domain. Furthermore, a detailed comparative analysis of the two approaches was conducted.
+In this thesis, we extended the research on transfer learning in time series classification. We started by recalling the most popular methods used in time series classification and transfer learning. We used the UCR (University of California, Riverside \cite{UCR_archive}) time series archive and performed an explainatory data analysis on the available time series datasets. We described with properties of the source dataset are important for the transfer learning process. We outlined the phenomenon of negative transfer and strategies on mitigating the effect.
 
-The \textit{ensemble} approach proved to be better in terms of performance results. However, the size of the ensemble model may be a limitation, especially with larger networks, bigger datasets, or environments with limited memory. Furthermore, the \textit{ensemble} approach is slightly slower, as we train multiple classifiers, and the resulting model is bigger. However, training the ensemble's component models can be parallelized, the components can be reused, and time can be saved.
+We proposed two approaches to multi-source transfer learning: the \textit{baseline} and \textit{ensemble} approach, the second inspired by the success of ensemble classifiers in the time series classification domain. The \textit{baseline} approach can be summarized as pre-training a neural network on a concatenated dataset consisting of multiple datasets and then using the weights from the first layers to initialize the final classifier. In the \textit{ensemble} approach, we train several models, each on a different source dataset. Then we construct an ensemble of those models initialized with the weights obtained from pre-training. We have proven that for both approaches, multi-source transfer learning increased the accuracy of the classifiers. The usage of transfer learning also mitigated overfitting, which is very common for small datasets present in the time series classification domain.
+
+We also provided technical details on the code structure, preprocessing steps, model architecture, and hyperparameters. We conducted the analysis using the Fully Convolutional Network and used standard preprocessing steps like normalization or resampling. We utilized the property of Fully Convolutional Network which makes it possible to use different input lengths in every batch by implementing a custom Keras \texttt{DataGenerator}.
+
+Furthermore, a detailed comparative analysis of the two approaches was conducted. Both \textit{baseline} and \textit{ensemble} approach proved to be equally efficient in terms of validation accuracy. However, the size of the ensemble model may be a limitation, especially with larger networks, bigger datasets, or environments with limited memory. Furthermore, the \textit{ensemble} approach is slightly slower, as we train multiple classifiers, and the resulting model is bigger. However, training the ensemble's component models can be parallelized, the components can be reused, and time can be saved.
 
 
-We also considered two methods of selecting the datasets for pre-training the source classifiers. The method based on the DBA similarity measure has proven to be slightly advantageous compared to choosing the datasets randomly or by trial and error. We believe that this method may be improved by enhancing the similarity measure.
+We also considered two methods of selecting the datasets for pre-training the source classifiers. In one of the methods we selected the source datasets in order to minimize the DBA similarity measure to the target dataset. This method was compared to selecting the source dataset randomly from a given category. The method based on the DBA similarity measure has proven to be slightly advantageous compared to choosing the datasets randomly or by trial and error. However, the mean DBA distance between the source datasets and target dataset is not correlated with the accuracy of the target dataset. We believe that this method may be improved by enhancing the similarity measure.
 
 We also experimented with the number of source datasets. Experiments were conducted using $3$,~$5$, and~$8$~datasets using the \textit{ensemble} approach. All of those settings resulted in decent results, and using $5$~datasets was averagely more effective than using $3$~or $8$~datasets.
 
@@ -1064,7 +1068,6 @@ The study may also be extended to testing datasets outside of the UCR time serie
 
 The number of datasets used for both \textit{ensemble} or \textit{baseline} approaches can be further studied. We can consider numbers other than $3$,~$5$, and~$8$~(e.g.,~using all datasets available in the UCR archive). The effort could be combined with improving the similarity measure in order to develop a method to obtain the optimal number of datasets given the similarity measure, e.g.,~with stepwise selection of datasets similar, as in stepwise feature selection.
 
-%TODO rozwinac
 
 
 
