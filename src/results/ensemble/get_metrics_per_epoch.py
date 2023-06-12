@@ -55,7 +55,7 @@ class EnsembleResults(Results):
         plt.scatter(*list(zip(*acc_pairs)), s=8)
         figure.suptitle("Validation accuracy versus mean accuracy of source models")
         ax.set_ylabel("Accuracy - validation split")
-        ax.set_xlabel("Mean accuracy of source models used int he ensemble")
+        ax.set_xlabel("Mean accuracy of source models used in the ensemble")
         plt.ylim([0, 1])
         plt.xlim([0, 1])
         ax.set_aspect("equal")
