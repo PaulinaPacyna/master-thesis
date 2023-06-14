@@ -14,7 +14,7 @@ from matplotlib.axis import Axis
 from matplotlib.figure import Figure
 from mlflow import MlflowClient
 from mlflow.entities import Run
-from scipy.stats import ttest_rel
+from scipy.stats import pearsonr
 from scipy.stats import wilcoxon
 
 cm = 1 / 2.54
@@ -299,8 +299,10 @@ class Results(metaclass=ABCMeta):
             )
             for dataset in self.datasets
         ]
+        x, y = zip(*sim_acc_pairs)
+        print(pearsonr(np.log(x), y))
         figure, ax = plt.subplots(figsize=(14 * cm, 14 * cm))
-        plt.scatter(*list(zip(*sim_acc_pairs)), s=8)
+        plt.scatter(x, y, s=8)
         figure.suptitle("Accuracy versus mean DBA similarity of source datasets")
         ax.set_ylabel("Accuracy - validation split")
         ax.set_xlabel("Mean DBA similarity of source datasets to target dataset")
