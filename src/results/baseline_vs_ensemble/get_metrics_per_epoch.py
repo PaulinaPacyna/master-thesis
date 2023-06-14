@@ -83,7 +83,7 @@ class BaselineVsEnsembleResults(Results):
             c=colors,
             cmap="plasma",
         )
-        plt.colorbar(sc, ax=ax, label="Mean length of the series")
+        plt.colorbar(sc, ax=ax, label="Total length of the series")
 
         lim = max(*x, *y)
         ax.set_xlim(0, lim)
