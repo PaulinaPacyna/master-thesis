@@ -224,7 +224,7 @@ While transfer learning usually leads to improvements, sometimes \textit{negativ
 
 Finally, we study how many source datasets should be used in the transfer learning procedure. We conduct experiments with $3$,~$5$,~and~$8$~source datasets. All those settings result in satisfactory results, and using $5$ ~source datasets outperforms the two other settings.
 
-\noindent \textbf{Keywords:} time series, classification, transfer learning, deep learning, ensemble, \ldots % TODO ska supervisor why.. the template also has ", ..." at the end
+\noindent \textbf{Keywords:} time series, classification, transfer learning, deep learning, ensemble, convolutional networks, multi-source transfer learning, fine-tuning,  \ldots % TODO ask supervisor why.. the template also has ", ..." at the end
 \end{abstract}
 }
 
@@ -252,7 +252,7 @@ W metodzie transfer learningu, szczególnie przy klasyfikacji szeregów czasowyc
 Na koniec analizujemy optymalną liczbę zbiorów źródłowych dla proponowanych metod transfer learningu. Przeprowadzamy eksperymenty z użyciem $3$,~$5$~oraz $8$~zbiorów zródłowych.
 
 
-\noindent \textbf{Słowa kluczowe:} szeregi czasowe, klasyfikacja, transfer learning, \ldots
+\noindent \textbf{Słowa kluczowe:} szeregi czasowe, klasyfikacja, transfer learning, uczenie głębokie, modele ensemble, sieci splotowe, wieloźródlowe metody transfer learningu,  \ldots
 \end{abstract}
 }
 
@@ -433,7 +433,7 @@ The architecture of the Residual Network is conceptually similar to the FCN netw
 
 The attention layer, first proposed in~\cite{attention}, assigns weights to each input element representing the importance of the prediction. The weights representing the attention are normalized using the softmax function and then applied to the input data. The weights  are learned by the network. The outputs of the attention layer can be interpreted as a universal representation of the input time series that can adapt to and represent unseen data~\cite{encoder}.
 
-As opposed to the FCN network architecture, the Encoder network is not invariant to the input size. The Dense layer parameters depend on the output size of the attention layer and implicitly on the output size of convolutional layers.  Similarly, as in the former architecture, the convolutional layers enable weight sharing, thus learning shapelets independently of their position in the time series.
+As opposed to the FCN network architecture, the Encoder network is not invariant to the input size. The dense layer parameters depend on the output size of the attention layer and implicitly on the output size of convolutional layers.  Similarly, as in the former architecture, the convolutional layers enable weight sharing, thus learning shapelets independently of their position in the time series.
 
 
 \section{The UCR archive}
@@ -686,7 +686,7 @@ Non-trainable params: 1,024
 \end{verbatim}
 The second parameter in output shape is always equal to \texttt{None}, because the time series length in a batch is not known in advance.
 \section{Hyperparameters}\label{section:hyperparameters}
-The hyperparameters used for the training were identical for all experiments. The hyperparameters were usually left as default. We did not experiment with hyperparameter optimization as we focused on the transfer learning approach. The most important hyperparameters are shown in the table~\ref{table:hyperparams}.
+The hyperparameters used for the training were identical for all experiments. The hyperparameters were usually left as default. We did not experiment with hyperparameter optimization as we focused on the transfer learning approach. The most important hyperparameters are shown in the Table~\ref{table:hyperparams}.
 
 \FloatBarrier
 
@@ -731,7 +731,7 @@ In our case, the prefix function given a class name (as a string) transforms the
 \begin{figure}[h!]
 \centering
 \includegraphics[width=17cm]{imgs/baseline.drawio.png}
-\caption{Illustration of preparing the data for the source classifier in the \textit{ baseline} approach.}
+\caption{Illustration of preparing the data for the source classifier in the \textit{baseline} approach.}
 \label{fig:baseline_dataset}
 \end{figure}
 
@@ -779,7 +779,7 @@ A graphical example of the process can be found in Figure~\ref{fig:ensemble_arch
 In both multi-source learning approaches described above (\textit{baseline} and \textit{ensemble} approaches), we do not impose any restrictions on the source datasets themselves. Neither of the two approaches does not include any rules on how the source datasets correspond to the target dataset. In the experiments conducted in this thesis, two approaches for picking the datasets are proposed. In the first approach, we randomly choose $N$ datasets from a given category corresponding to the target dataset. To illustrate, let us say that the objective is to train a target classifier on the \texttt{InlineSkate} dataset, which belongs to the \texttt{Motion} category in the UCR archive. Then the source datasets are picked randomly from the given category, which could be \texttt{UWaveGestureLibraryX, AsphaltPavementType, ToeSegmentation2, CricketZ, UWaveGestureLibraryZ}.
 
 
-The second approach described was based on a similarity measure. The inter-dataset similarity measure called DTW barycenter averaging was described in section~\ref{DTW_choosing}. The intuition behind the second approach is that usually transfer learning benefits if the domains are similar. In order to measure the similarity between datasets, the DBA distances were computed for all pairs of datasets in a given category. Then, for a given target dataset, $N$ datasets minimalizing the distance to the target dataset were used for pretraining the source network (either in \textit{baseline} or \textit{ensemble} approach). The dataset still belonged to the same UCR category as the target dataset.
+The second approach described was based on a similarity measure. The inter-dataset similarity measure called DTW barycenter averaging was described in section~\ref{DTW_choosing}. The intuition behind the second approach is that usually transfer learning benefits if the domains are similar. In order to measure the similarity between datasets, the DBA distances were computed for all pairs of datasets in a given category. Then, for a given target dataset, $N$ datasets minimizing the distance to the target dataset were used for pretraining the source network (either in \textit{baseline} or \textit{ensemble} approach). The selected datasets still belonged to the same UCR category as the target dataset.
 \section{Environment and code structure}
 The solution was written in Python 3.8, mainly utilizing the library \texttt{Keras} from the \texttt{TensorFlow} library. The structure of the code is as follows:
 
@@ -878,7 +878,7 @@ In the \textit{ensemble} approach, we created an ensemble model from 5~FCN model
 \label{fig:ensemble_acc}
 \end{figure}
 \FloatBarrier
-We also present a win-tie-loss diagram for the \textit{baseline} approach in Figure~\ref{fig:win_tie_loss_ensemble}. We see that in the final epoch, most of the datasets did not benefit from transfer learning, but if they did, the benefit was relatively more significant than in the \textit{baseline} approach.
+We also present a win-tie-loss diagram for the \textit{ensemble} approach in Figure~\ref{fig:win_tie_loss_ensemble}. We see that in the final epoch, most of the datasets did not benefit from transfer learning, but if they did, the benefit was relatively more significant than the damage from negative transfer.
 
 \FloatBarrier
 \begin{figure}[h!t]
@@ -889,7 +889,7 @@ We also present a win-tie-loss diagram for the \textit{baseline} approach in Fig
 We also performed a Wilcoxon test using validation accuracy of experiments conducted with \textit{ensemble} transfer learning and without transfer learning. The alternative hypothesis was that the validation accuracy of results conducted with transfer learning was stochastically greater than without transfer learning. The p-values for results from the $5th$ epoch were lower than $0.05$. Therefore we reject the null hypothesis for the $5th$ epoch, stating that the distributions are centered over the same distribution. However, the Wilcoxon test for distributions from the 10th epoch and two-sided alternative resulted in a high p-value. Therefore there is no statistical evidence of any advantage of this approach in the 10th epoch.
 \label{fig:win_tie_loss_ensemble}
 \end{figure}
-The model used in the ensemble approach consisted of more parameters, thanks to ensembling. This, together with the small sizes of datasets in the UCR archive, might lead to overfitting. As we see in the plot, the gap between accuracy and loss for validation and test split is more significant in the model trained without transfer learning. This may indicate that the models were overfitted. Exposing the models to a larger amount of data in the pre-training phase reduces overfitting. We see that for the transfer learning results, the gap between metrics for validation and train split is smaller. Also, the accuracy of the train split is smaller, which suggests that the overfitting is mitigated.
+The model used in the ensemble approach consisted of more parameters. This, together with the small sizes of datasets in the UCR archive, might lead to overfitting. As we see in the plot, the gap between accuracy and loss for validation and test split is more significant in the model trained without transfer learning. This may indicate that the models were overfitted. Exposing the models to a larger amount of data in the pre-training phase reduces overfitting. We see that for the transfer learning results, the gap between metrics for validation and train split is smaller. Also, the accuracy of the train split is smaller, which suggests that the overfitting is mitigated.
 
 \section{Comparison of\textit{ baseline }and\textit{ ensemble }approaches}
 We see that in both approaches, the results were improved compared to training a network from scratch. Figure~\ref{fig:baseline_vs_ensemble} shows the accuracy and loss per each epoch averaged over several runs (corresponding to target datasets)
@@ -909,7 +909,7 @@ Similarly, as in the two previous sections, where we compared \textit{ensemble} 
 \centering
 \includegraphics[width=17cm]{imgs/baseline_vs_ensemble/win_tie_lose_epoch.png}
 \caption{Win-tie-loss diagram  for\textit{ baseline } and\textit{ ensemble }approach. Dot above the diagonal line means that the run (corresponding to training on a particular dataset)  achieved better results with the \textit{ensemble} approach.}
-We performed a paired Wilcoxon test, with distributions correspoding to  validation accuracies of experiments using \textit{ensemble} and baseline \textit{approach}. The alternative hypothesis was that the distributions are unequal. The p-value for epochs $5th$ and $10th$ were high (see table \ref{table:tests}, therefore we can't reject the hypothesis that the distributions are centered over the same value.
+We performed a paired Wilcoxon test, with distributions correspoding to  validation accuracies of experiments using \textit{ensemble} and baseline \textit{approach}. The alternative hypothesis was that the distributions are unequal. The p-value for epochs $5th$ and $10th$ were high (see Table \ref{table:tests}), therefore we can't reject the hypothesis that the distributions are centered over the same value.
 \label{fig:win_tie_loss_baseline_vs_ensemble}
 \end{figure}
 \FloatBarrier
@@ -955,7 +955,7 @@ The p-value of the Wilcoxon test with the alternative hypothesis that the valida
 \label{fig:random_vs_dba_win_tie_loss}
 \end{figure}
 \FloatBarrier
-There is still room to improve the similarity measure. In order to understand the improvements in accuracy when using similarity score, the correlation between the target classifier accuracy and the dba similarity has been examined. The scatterplot is shown on plot~\ref{fig:acc_vs_dba_sim}.
+There is still room to improve the similarity measure. In order to understand the improvements in accuracy when using similarity score, the correlation between the target classifier accuracy and the DBA similarity has been examined. The scatterplot is shown on plot~\ref{fig:acc_vs_dba_sim}. There is no exact dependency between one factor and another, and the Pearson's correlation is equal to $0.06$.
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
@@ -965,11 +965,11 @@ There is still room to improve the similarity measure. In order to understand th
 \end{figure}
 \FloatBarrier
 \section{Influence of accuracy of the components used in the ensemble on the target classifiers' accuracy}
-This short section evaluates the hypothesis that the better the component model we use in \textit{ensemble} approach, the better the final results on the target classifier. As we see on the plot~\ref{fig:acc_source_vs_acc_target}, which shows the mean accuracy of components (measured on each source dataset, using test split) versus the accuracy of the target classifier (measured on the test split of target dataset). The correlation between the two statistics is very moderate (0.15).
+This short section evaluates the hypothesis that the better the component models we use in \textit{ensemble} approach, the better the final results on the target classifier. The plot~\ref{fig:acc_source_vs_acc_target} shows the mean accuracy of components (measured on each source dataset, using test split) versus the accuracy of the target classifier (measured on the test split of target dataset), The correlation between the two statistics is very moderate (0.15).
 \FloatBarrier
 \begin{figure}[h!t]
 \centering
-\includegraphics[width=15cm]{imgs/ensemble/source_acc_vs_val.png}
+\includegraphics[width=14cm]{imgs/ensemble/source_acc_vs_val.png}
 \caption{The weak influence of the accuracy of classifiers used in the \textit{ensemble} method on the target classifier.}
 \label{fig:acc_source_vs_acc_target}
 \end{figure}
@@ -1012,8 +1012,8 @@ The Wilcoxon test performed using validation accuracies of experiments using $3$
 \item epoch $10th$ -  we reject the null hypothesis in the direction of alternative hypothesis stating that validation accuracy with $5$~source datasets is stochastically greater than with $3$,
 \item epoch $5th$ -  we reject the null hypothesis in the direction of alternative hypothesis stating that validation accuracy with $5$~source datasets is stochastically greater than with $8$~datasets.
 \end{itemize}
-The p-values are described in \ref{table:tests}.
-\section{Wilcoxon tests summary}
+The p-values are described in section \ref{section:tests}.
+\section{Wilcoxon tests summary}\label{section:tests}
 This section contains all Wilcoxon test results conducted in this thesis. The Wilcoxon test was conducted for pairs of distributions of validation accuracy (for a given setting e.g. comparing the DBA selection method and readnom selection method). If a value is bolded, it mean that the p-value is lower than $0.05$~and we reject the null hypothesis, in favour of the alternative hypothesis.
 
 We used the test version which discards \textit{ties} in the data and the exact distribution computation.
@@ -1047,13 +1047,13 @@ We used the test version which discards \textit{ties} in the data and the exact 
 %\FloatBarrier
 \chapter{Conclusions}
 
-In this thesis, we extended the research on transfer learning in time series classification. We recalled the most popular methods used in time series classification and transfer learning. We used the UCR (University of California, Riverside \cite{UCR_archive}) time series archive and performed an explanatory data analysis on the available time series datasets. We described with properties of the source dataset are essential for the transfer learning process. We outlined the phenomenon of negative transfer and strategies for mitigating the effect.
+In this thesis, we extended the research on transfer learning in time series classification. We recalled the most popular methods used in time series classification and transfer learning. We used the UCR (University of California, Riverside \cite{UCR_archive}) time series archive and performed an explanatory data analysis on the available time series datasets. We described which properties of the source dataset are essential for the transfer learning process. We outlined the phenomenon of negative transfer and strategies for mitigating the effect.
 
-We proposed two approaches to multi-source transfer learning: the \textit{baseline} and \textit{ensemble} approach, the second inspired by the success of ensemble classifiers in the time series classification domain. The \textit{baseline} approach can be summarized as pre-training a neural network on a concatenated dataset consisting of multiple datasets and then using the weights from the first layers to initialize the final classifier. In the \textit{ensemble} approach, we train several models, each on a different source dataset. Then we construct an ensemble of those models initialized with the weights obtained from pre-training. We have proven that for both approaches, multi-source transfer learning increased the accuracy of the classifiers. The usage of transfer learning also mitigated overfitting, which is very common for small datasets present in the time series classification domain.
+We proposed two approaches to multi-source transfer learning: the \textit{baseline} and \textit{ensemble} approach, the second inspired by the success of ensemble classifiers in the time series classification domain. The \textit{baseline} approach can be summarized as pre-training a neural network on a concatenated dataset consisting of multiple datasets and then using the weights from the first layers to initialize the final classifier. In the \textit{ensemble} approach, we train several models, each on a different source dataset. Then we construct an ensemble of those models initialized with the weights obtained from pre-training. We have proven that for both approaches, multi-source transfer learning increased the accuracy of the classifiers. The usage of transfer learning also mitigated overfitting, which is common for small datasets present in the time series classification domain.
 
-We also provided technical details on the code structure, preprocessing steps, model architecture, and hyperparameters. We conducted the analysis using the Fully Convolutional Network and used standard preprocessing steps like normalization or resampling. We utilized the property of the Fully Convolutional Network, which makes it possible to use different input lengths in every batch by implementing a custom Keras \texttt{DataGenerator}.
+We also provided technical details on the code structure, preprocessing steps, model architecture, and hyperparameters. We conducted the experiments using the Fully Convolutional Network and used standard preprocessing steps like normalization or resampling. We utilized the property of the Fully Convolutional Network, which makes it possible to use different input lengths in every batch by implementing a custom Keras \texttt{DataGenerator}.
 
-Furthermore, a detailed comparative analysis of the two approaches was conducted. Both \textit{baseline} and \textit{ensemble} approaches proved to be equally efficient in terms of validation accuracy. However, the size of the ensemble model may be a limitation, especially with larger networks, bigger datasets, or environments with limited memory. Furthermore, the \textit{ensemble} approach is slightly slower, as we train multiple classifiers, and the resulting model is bigger. However, training the ensemble's component models can be parallelized, the components can be reused, and time can be saved.
+Furthermore, a detailed comparative analysis of the two approaches was conducted. Both \textit{baseline} and \textit{ensemble} approaches proved to be equally efficient in terms of validation accuracy. However, the size of the ensemble model may be a limitation, especially with larger networks, bigger datasets, or environments with limited memory. Furthermore, the \textit{ensemble} approach is slightly slower, as we train multiple classifiers, and the resulting model is bigger. However, training the component models can be parallelized, the components can be reused, thus time can be saved.
 
 
 We also considered two methods of selecting the datasets for pre-training the source classifiers. In one of the methods, we selected the source datasets in order to minimize the DBA similarity measure to the target dataset. This method was compared to selecting the source dataset randomly from a given category. The method based on the DBA similarity measure has proven to be slightly advantageous compared to choosing the datasets randomly or by trial and error. However, the mean DBA distance between the source datasets and the target dataset is not correlated with the accuracy of the target dataset. We believe that this method may be improved by enhancing the similarity measure.
@@ -1062,7 +1062,7 @@ We also considered two methods of selecting the datasets for pre-training the so
 We also experimented with the number of source datasets. Experiments were conducted using $3$,~$5$, and~$8$~datasets using the \textit{ensemble} approach. All of those settings resulted in decent results, and using $5$~datasets was averagely more effective than using $3$~or $8$~datasets.
 
 \section{Further works}
-As an extension to the work done for this thesis, we may consider an extension to the source dataset selection algorithm. We may consider measuring the similarity of shapelets, as those are the critical attributes learned by convolutional layers.
+As an extension to the work done for this thesis, we may consider improving the source dataset selection algorithm. We may consider measuring the similarity of shapelets, as those are the critical attributes learned by convolutional layers.
 
 Also, architectures other than Fully Convolutional Networks could be used in the future. Both \textit{ ensemble }and\textit{ baseline} approaches generally apply to deep neural networks, in which all layers are trainable. As we focused on the transfer learning aspect and the computational resources were limited, we tested only the Fully Convolutional Network architecture. It may be worth considering performing the same analysis but using a fixed input size network, long short-term memory network, or residual networks. As for other neural network architectures, where not all layers are trainable (e.g., ROCKET~\cite{rocket}), some further work would be required to extend and apply the transfer learning methods.
 

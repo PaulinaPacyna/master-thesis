@@ -7,7 +7,7 @@ from results.utils import Results
 
 class BaselineResults(Results):
     approach_name = "Baseline"
-    distribution_names = ("Baseline", "no transfer learning")
+    distribution_names = ("baseline", "no transfer learning")
     results_root_path = os.path.dirname(__file__).replace("\\", "/")
     first_result_key_name_loss = "baseline_loss"
     first_result_key_name_val_loss = "baseline_val_loss"
