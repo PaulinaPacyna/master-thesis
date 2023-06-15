@@ -702,7 +702,8 @@ The hyperparameters used for the training were identical for all experiments. Th
 \textbf{Hyperparameter}          & \textbf{Value} \\ \hline
 Batch size                       & 32 \\ \hline
 Augmentation rate                & 0.3 \\ \hline
-Learning rate                    & 1e-5 with 0.75 decay over 10 000 steps (exponential decay) \\ \hline
+Learning rate  used for finetuning                  & 1e-5 with 0.75 decay over 10 000 steps (exponential decay) \\ \hline
+Learning rate  used for pre-training                  & 1e-4 with 0.96 decay over 10 000 steps (exponential decay) \\ \hline
 Optimizer                        & Adam \\ \hline
 Validation split rate            & 0.25 \\ \hline
 Number of epochs                 & 10 \\ \hline
