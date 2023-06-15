@@ -1,9 +1,0 @@
-True: UWaveGestureLibraryY_7, predicted UWaveGestureLibraryY_2, 19 times 
-True: CricketY_1, predicted CricketX_9, 17 times 
-True: CricketX_1, predicted CricketX_9, 16 times 
-True: CricketY_8, predicted CricketX_9, 16 times 
-True: CricketX_6, predicted CricketX_8, 16 times 
-True: CricketX_12, predicted CricketX_11, 15 times 
-True: UWaveGestureLibraryY_3, predicted UWaveGestureLibraryY_1, 15 times 
-True: CricketY_6, predicted CricketX_9, 12 times 
-True: CricketX_10, predicted CricketX_8, 12 times 

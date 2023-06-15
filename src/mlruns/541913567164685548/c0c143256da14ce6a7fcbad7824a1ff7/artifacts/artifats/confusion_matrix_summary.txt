@@ -1,4 +1,0 @@
-True: BirdChicken_2, predicted BirdChicken_1, 8 times 
-True: BirdChicken_2, predicted BirdChicken_2, 0 times 
-True: BirdChicken_1, predicted BirdChicken_2, 0 times 
-True: BirdChicken_1, predicted BirdChicken_1, 0 times 

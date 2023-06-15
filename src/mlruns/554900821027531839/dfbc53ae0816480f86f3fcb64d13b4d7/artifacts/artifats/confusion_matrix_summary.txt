@@ -1,9 +1,0 @@
-True: OSULeaf_3, predicted OSULeaf_1, 5 times 
-True: OSULeaf_6, predicted OSULeaf_3, 4 times 
-True: OSULeaf_6, predicted OSULeaf_2, 4 times 
-True: OSULeaf_5, predicted OSULeaf_4, 3 times 
-True: OSULeaf_2, predicted OSULeaf_5, 2 times 
-True: OSULeaf_5, predicted OSULeaf_3, 1 times 
-True: OSULeaf_2, predicted OSULeaf_4, 1 times 
-True: OSULeaf_6, predicted OSULeaf_6, 0 times 
-True: OSULeaf_2, predicted OSULeaf_2, 0 times 

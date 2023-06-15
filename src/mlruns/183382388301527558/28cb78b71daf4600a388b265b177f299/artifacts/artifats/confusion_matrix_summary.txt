@@ -1,9 +1,0 @@
-True: Crop_13, predicted Crop_16, 135 times 
-True: Crop_7, predicted Crop_8, 65 times 
-True: Crop_5, predicted Crop_16, 60 times 
-True: Crop_12, predicted Crop_6, 53 times 
-True: Crop_9, predicted Crop_6, 51 times 
-True: Crop_5, predicted Crop_6, 47 times 
-True: Crop_3, predicted Crop_16, 47 times 
-True: Crop_15, predicted Crop_10, 47 times 
-True: Crop_3, predicted Crop_22, 43 times 

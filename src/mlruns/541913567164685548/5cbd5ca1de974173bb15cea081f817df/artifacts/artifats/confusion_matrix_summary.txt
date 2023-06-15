@@ -1,9 +1,0 @@
-True: Haptics_1, predicted Haptics_5, 16 times 
-True: Haptics_2, predicted Haptics_5, 13 times 
-True: Haptics_4, predicted Haptics_5, 13 times 
-True: Haptics_3, predicted Haptics_5, 13 times 
-True: Haptics_2, predicted Haptics_4, 9 times 
-True: Haptics_4, predicted Haptics_3, 2 times 
-True: Haptics_5, predicted Haptics_3, 1 times 
-True: Haptics_1, predicted Haptics_3, 1 times 
-True: Haptics_4, predicted Haptics_2, 1 times 

@@ -1,6 +1,0 @@
-artifact_location: mlruns/490119298227073255
-creation_time: 1683482226390
-experiment_id: '490119298227073255'
-last_update_time: 1683482226390
-lifecycle_stage: active
-name: Baseline - FCN - random - 5 datasets

@@ -1,9 +1,0 @@
-True: DistalPhalanxTW_7, predicted DistalPhalanxTW_6, 56 times 
-True: MiddlePhalanxTW_6, predicted MiddlePhalanxTW_7, 41 times 
-True: DistalPhalanxTW_3, predicted PhalangesOutlinesCorrect_0, 38 times 
-True: MiddlePhalanxOutlineCorrect_1, predicted MiddlePhalanxTW_8, 32 times 
-True: MiddlePhalanxTW_4, predicted MiddlePhalanxTW_3, 30 times 
-True: DistalPhalanxTW_7, predicted DistalPhalanxTW_5, 26 times 
-True: MiddlePhalanxTW_5, predicted MiddlePhalanxTW_4, 22 times 
-True: ProximalPhalanxOutlineCorrect_1, predicted ProximalPhalanxOutlineCorrect_0, 21 times 
-True: DistalPhalanxTW_4, predicted DistalPhalanxTW_5, 21 times 

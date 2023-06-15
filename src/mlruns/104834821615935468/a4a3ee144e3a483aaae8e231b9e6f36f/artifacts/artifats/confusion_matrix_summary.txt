@@ -1,9 +1,0 @@
-True: Haptics_2, predicted Haptics_4, 55 times 
-True: GunPointAgeSpan_1, predicted GunPointOldVersusYoung_2, 46 times 
-True: UWaveGestureLibraryY_7, predicted UWaveGestureLibraryY_2, 37 times 
-True: GunPoint_1, predicted GunPointOldVersusYoung_2, 35 times 
-True: AllGestureWiimoteY_9, predicted AllGestureWiimoteX_3, 33 times 
-True: GunPoint_1, predicted GunPointMaleVersusFemale_2, 29 times 
-True: AllGestureWiimoteY_3, predicted AllGestureWiimoteX_3, 28 times 
-True: AllGestureWiimoteY_10, predicted AllGestureWiimoteX_8, 28 times 
-True: CricketX_6, predicted CricketX_12, 27 times 

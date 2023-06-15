@@ -1,9 +1,0 @@
-True: Adiac_22, predicted Adiac_14, 17 times 
-True: Adiac_15, predicted Adiac_31, 17 times 
-True: ShapesAll_15, predicted Herring_2, 16 times 
-True: Adiac_35, predicted Adiac_6, 16 times 
-True: Adiac_7, predicted Adiac_14, 15 times 
-True: DiatomSizeReduction_3, predicted DiatomSizeReduction_2, 14 times 
-True: Herring_1, predicted Herring_2, 14 times 
-True: ShapesAll_30, predicted ShapesAll_42, 13 times 
-True: Adiac_13, predicted Adiac_31, 13 times 

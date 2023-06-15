@@ -1,4 +1,0 @@
-True: DistalPhalanxOutlineCorrect_0, predicted DistalPhalanxOutlineCorrect_1, 34 times 
-True: DistalPhalanxOutlineCorrect_1, predicted DistalPhalanxOutlineCorrect_0, 8 times 
-True: DistalPhalanxOutlineCorrect_1, predicted DistalPhalanxOutlineCorrect_1, 0 times 
-True: DistalPhalanxOutlineCorrect_0, predicted DistalPhalanxOutlineCorrect_0, 0 times 

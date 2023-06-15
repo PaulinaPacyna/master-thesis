@@ -1,9 +1,0 @@
-True: UWaveGestureLibraryAll_4, predicted UWaveGestureLibraryAll_5, 46 times 
-True: UWaveGestureLibraryAll_8, predicted UWaveGestureLibraryAll_7, 31 times 
-True: UWaveGestureLibraryAll_3, predicted UWaveGestureLibraryAll_6, 24 times 
-True: UWaveGestureLibraryAll_7, predicted UWaveGestureLibraryAll_8, 19 times 
-True: UWaveGestureLibraryAll_6, predicted UWaveGestureLibraryAll_1, 17 times 
-True: UWaveGestureLibraryAll_1, predicted UWaveGestureLibraryAll_6, 16 times 
-True: UWaveGestureLibraryAll_3, predicted UWaveGestureLibraryAll_1, 16 times 
-True: UWaveGestureLibraryAll_1, predicted UWaveGestureLibraryAll_2, 15 times 
-True: UWaveGestureLibraryAll_3, predicted UWaveGestureLibraryAll_5, 13 times 

@@ -1,9 +1,0 @@
-True: Haptics_4, predicted Haptics_2, 43 times 
-True: GunPointOldVersusYoung_2, predicted GunPointMaleVersusFemale_1, 36 times 
-True: Haptics_5, predicted Haptics_2, 36 times 
-True: GunPointOldVersusYoung_1, predicted GunPoint_1, 35 times 
-True: GunPointAgeSpan_1, predicted GunPoint_1, 33 times 
-True: GunPointMaleVersusFemale_2, predicted GunPoint_1, 32 times 
-True: Haptics_3, predicted Haptics_2, 31 times 
-True: GunPointAgeSpan_2, predicted GunPointMaleVersusFemale_1, 28 times 
-True: Haptics_1, predicted Haptics_2, 27 times 

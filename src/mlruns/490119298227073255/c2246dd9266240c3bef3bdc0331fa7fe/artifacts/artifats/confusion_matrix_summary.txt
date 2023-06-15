@@ -1,9 +1,0 @@
-True: Haptics_2, predicted Haptics_3, 15 times 
-True: Haptics_4, predicted Haptics_3, 13 times 
-True: Haptics_5, predicted Haptics_3, 12 times 
-True: AllGestureWiimoteZ_8, predicted AllGestureWiimoteZ_7, 11 times 
-True: GestureMidAirD3_16, predicted GestureMidAirD3_15, 11 times 
-True: GestureMidAirD3_26, predicted GestureMidAirD3_22, 10 times 
-True: GestureMidAirD3_4, predicted AllGestureWiimoteZ_5, 9 times 
-True: AllGestureWiimoteZ_3, predicted AllGestureWiimoteZ_4, 8 times 
-True: Haptics_1, predicted Haptics_3, 8 times 

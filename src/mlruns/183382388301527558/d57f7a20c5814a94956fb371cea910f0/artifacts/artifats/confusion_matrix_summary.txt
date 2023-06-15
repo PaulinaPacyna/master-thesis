@@ -1,4 +1,0 @@
-True: BinaryHeartbeat_1, predicted BinaryHeartbeat_0, 35 times 
-True: BinaryHeartbeat_0, predicted BinaryHeartbeat_1, 4 times 
-True: BinaryHeartbeat_1, predicted BinaryHeartbeat_1, 0 times 
-True: BinaryHeartbeat_0, predicted BinaryHeartbeat_0, 0 times 

@@ -1,9 +1,0 @@
-True: FaceFour_4, predicted FaceFour_3, 3 times 
-True: FaceFour_4, predicted FaceFour_1, 1 times 
-True: FaceFour_2, predicted FaceFour_4, 1 times 
-True: FaceFour_4, predicted FaceFour_4, 0 times 
-True: FaceFour_4, predicted FaceFour_2, 0 times 
-True: FaceFour_3, predicted FaceFour_4, 0 times 
-True: FaceFour_3, predicted FaceFour_3, 0 times 
-True: FaceFour_3, predicted FaceFour_2, 0 times 
-True: FaceFour_3, predicted FaceFour_1, 0 times 

@@ -1,9 +1,0 @@
-True: Worms_5, predicted Worms_4, 44 times 
-True: AllGestureWiimoteZ_7, predicted AllGestureWiimoteZ_8, 34 times 
-True: AllGestureWiimoteZ_9, predicted AllGestureWiimoteZ_5, 22 times 
-True: AsphaltPavementType_0, predicted AsphaltPavementType_2, 20 times 
-True: AllGestureWiimoteZ_2, predicted AllGestureWiimoteZ_4, 17 times 
-True: WormsTwoClass_2, predicted Worms_2, 15 times 
-True: AllGestureWiimoteZ_10, predicted AllGestureWiimoteZ_6, 15 times 
-True: AllGestureWiimoteZ_4, predicted AllGestureWiimoteZ_3, 14 times 
-True: Worms_1, predicted WormsTwoClass_1, 14 times 

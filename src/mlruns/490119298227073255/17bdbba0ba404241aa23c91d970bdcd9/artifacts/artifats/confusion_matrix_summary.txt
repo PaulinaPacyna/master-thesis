@@ -1,9 +1,0 @@
-True: GestureMidAirD2_20, predicted GestureMidAirD2_21, 54 times 
-True: GestureMidAirD2_15, predicted GestureMidAirD2_12, 50 times 
-True: GestureMidAirD2_9, predicted GestureMidAirD2_18, 49 times 
-True: GestureMidAirD2_18, predicted GestureMidAirD2_9, 47 times 
-True: GestureMidAirD2_12, predicted GestureMidAirD2_15, 46 times 
-True: GestureMidAirD2_6, predicted GestureMidAirD2_7, 44 times 
-True: GestureMidAirD2_2, predicted GestureMidAirD2_1, 44 times 
-True: UWaveGestureLibraryZ_7, predicted UWaveGestureLibraryZ_8, 41 times 
-True: GestureMidAirD2_14, predicted GestureMidAirD2_13, 40 times 

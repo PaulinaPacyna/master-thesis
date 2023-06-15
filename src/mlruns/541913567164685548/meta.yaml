@@ -1,6 +1,0 @@
-artifact_location: mlruns/541913567164685548
-creation_time: 1683396829448
-experiment_id: '541913567164685548'
-last_update_time: 1683396829448
-lifecycle_stage: active
-name: No transfer learning - ensemble - FCN model

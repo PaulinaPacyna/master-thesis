@@ -1,9 +1,0 @@
-True: GestureMidAirD1_14, predicted GestureMidAirD1_16, 15 times 
-True: GestureMidAirD1_3, predicted GestureMidAirD1_4, 15 times 
-True: GestureMidAirD1_13, predicted GestureMidAirD1_15, 14 times 
-True: GestureMidAirD1_4, predicted GestureMidAirD1_2, 13 times 
-True: GestureMidAirD1_18, predicted GestureMidAirD1_4, 13 times 
-True: GestureMidAirD1_12, predicted GestureMidAirD1_11, 11 times 
-True: GunPointOldVersusYoung_2, predicted GunPointAgeSpan_2, 10 times 
-True: GestureMidAirD1_17, predicted GestureMidAirD1_15, 9 times 
-True: GestureMidAirD1_10, predicted GestureMidAirD1_6, 8 times 

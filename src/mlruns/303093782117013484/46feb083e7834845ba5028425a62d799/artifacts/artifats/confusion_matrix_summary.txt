@@ -1,9 +1,0 @@
-True: CricketY_1, predicted CricketY_9, 13 times 
-True: CricketY_2, predicted CricketY_3, 5 times 
-True: CricketY_12, predicted CricketY_3, 4 times 
-True: CricketY_11, predicted CricketY_3, 4 times 
-True: CricketY_8, predicted CricketY_10, 4 times 
-True: CricketY_11, predicted CricketY_6, 4 times 
-True: CricketY_12, predicted CricketY_7, 4 times 
-True: CricketY_8, predicted CricketY_9, 4 times 
-True: CricketY_6, predicted CricketY_9, 3 times 

@@ -1,9 +1,0 @@
-True: FruitFlies_1, predicted FruitFlies_0, 894 times 
-True: FruitFlies_0, predicted FruitFlies_1, 111 times 
-True: FruitFlies_2, predicted FruitFlies_0, 80 times 
-True: FruitFlies_2, predicted FruitFlies_1, 28 times 
-True: FruitFlies_1, predicted FruitFlies_2, 10 times 
-True: FruitFlies_0, predicted FruitFlies_2, 5 times 
-True: FruitFlies_2, predicted FruitFlies_2, 0 times 
-True: FruitFlies_1, predicted FruitFlies_1, 0 times 
-True: FruitFlies_0, predicted FruitFlies_0, 0 times 

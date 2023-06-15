@@ -1,9 +1,0 @@
-True: GesturePebbleZ1_2, predicted GesturePebbleZ1_3, 5 times 
-True: GesturePebbleZ1_2, predicted GesturePebbleZ1_6, 4 times 
-True: GesturePebbleZ1_3, predicted GesturePebbleZ1_4, 2 times 
-True: GesturePebbleZ1_5, predicted GesturePebbleZ1_1, 2 times 
-True: GesturePebbleZ1_6, predicted GesturePebbleZ1_2, 1 times 
-True: GesturePebbleZ1_3, predicted GesturePebbleZ1_3, 0 times 
-True: GesturePebbleZ1_3, predicted GesturePebbleZ1_2, 0 times 
-True: GesturePebbleZ1_3, predicted GesturePebbleZ1_1, 0 times 
-True: GesturePebbleZ1_2, predicted GesturePebbleZ1_5, 0 times 

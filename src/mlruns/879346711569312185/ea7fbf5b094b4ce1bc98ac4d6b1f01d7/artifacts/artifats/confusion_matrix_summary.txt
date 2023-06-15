@@ -1,4 +1,0 @@
-True: HandOutlines_1, predicted HandOutlines_0, 55 times 
-True: HandOutlines_0, predicted HandOutlines_1, 42 times 
-True: HandOutlines_1, predicted HandOutlines_1, 0 times 
-True: HandOutlines_0, predicted HandOutlines_0, 0 times 

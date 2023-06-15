@@ -1,9 +1,0 @@
-True: GunPointMaleVersusFemale_1, predicted GunPointOldVersusYoung_2, 41 times 
-True: UWaveGestureLibraryY_2, predicted UWaveGestureLibraryY_7, 35 times 
-True: UWaveGestureLibraryY_4, predicted UWaveGestureLibraryY_3, 34 times 
-True: GunPointAgeSpan_1, predicted GunPointOldVersusYoung_2, 32 times 
-True: GunPointAgeSpan_1, predicted GunPoint_1, 31 times 
-True: GunPointMaleVersusFemale_2, predicted GunPointOldVersusYoung_2, 31 times 
-True: GunPointAgeSpan_2, predicted GunPointOldVersusYoung_2, 27 times 
-True: GunPointOldVersusYoung_1, predicted GunPoint_1, 26 times 
-True: GunPoint_2, predicted GunPointAgeSpan_2, 26 times 

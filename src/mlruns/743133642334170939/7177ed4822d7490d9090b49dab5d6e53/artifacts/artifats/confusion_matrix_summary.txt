@@ -1,9 +1,0 @@
-True: Adiac_16, predicted Adiac_37, 13 times 
-True: Adiac_4, predicted Adiac_10, 11 times 
-True: SwedishLeaf_9, predicted SwedishLeaf_1, 11 times 
-True: SwedishLeaf_3, predicted SwedishLeaf_1, 11 times 
-True: Adiac_2, predicted Adiac_10, 10 times 
-True: Adiac_27, predicted Adiac_5, 10 times 
-True: DiatomSizeReduction_1, predicted DiatomSizeReduction_2, 9 times 
-True: ShapesAll_55, predicted ShapesAll_21, 9 times 
-True: Adiac_31, predicted Adiac_37, 8 times 

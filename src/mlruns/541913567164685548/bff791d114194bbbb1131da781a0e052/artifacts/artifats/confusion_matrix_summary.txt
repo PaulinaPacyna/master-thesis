@@ -1,4 +1,0 @@
-True: AsphaltRegularity_0, predicted AsphaltRegularity_1, 178 times 
-True: AsphaltRegularity_1, predicted AsphaltRegularity_0, 2 times 
-True: AsphaltRegularity_1, predicted AsphaltRegularity_1, 0 times 
-True: AsphaltRegularity_0, predicted AsphaltRegularity_0, 0 times 

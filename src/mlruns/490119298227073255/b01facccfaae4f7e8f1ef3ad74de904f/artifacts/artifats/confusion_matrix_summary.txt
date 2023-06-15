@@ -1,9 +1,0 @@
-True: UWaveGestureLibraryY_7, predicted UWaveGestureLibraryY_8, 67 times 
-True: WormsTwoClass_1, predicted WormsTwoClass_2, 55 times 
-True: UWaveGestureLibraryY_7, predicted UWaveGestureLibraryY_2, 41 times 
-True: UWaveGestureLibraryY_4, predicted UWaveGestureLibraryY_5, 37 times 
-True: UWaveGestureLibraryY_4, predicted UWaveGestureLibraryY_3, 33 times 
-True: UWaveGestureLibraryY_6, predicted UWaveGestureLibraryY_3, 31 times 
-True: GunPointOldVersusYoung_2, predicted GunPointOldVersusYoung_1, 27 times 
-True: UWaveGestureLibraryY_3, predicted UWaveGestureLibraryY_8, 22 times 
-True: UWaveGestureLibraryY_1, predicted UWaveGestureLibraryY_3, 19 times 

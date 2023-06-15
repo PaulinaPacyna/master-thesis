@@ -1,9 +1,0 @@
-True: DucksAndGeese_0, predicted DucksAndGeese_4, 5 times 
-True: DucksAndGeese_3, predicted DucksAndGeese_1, 5 times 
-True: DucksAndGeese_0, predicted DucksAndGeese_1, 3 times 
-True: DucksAndGeese_3, predicted DucksAndGeese_4, 1 times 
-True: DucksAndGeese_2, predicted DucksAndGeese_4, 1 times 
-True: DucksAndGeese_2, predicted DucksAndGeese_1, 1 times 
-True: DucksAndGeese_4, predicted DucksAndGeese_4, 0 times 
-True: DucksAndGeese_1, predicted DucksAndGeese_4, 0 times 
-True: DucksAndGeese_0, predicted DucksAndGeese_2, 0 times 

@@ -1,4 +1,0 @@
-True: RightWhaleCalls_0, predicted RightWhaleCalls_1, 506 times 
-True: RightWhaleCalls_1, predicted RightWhaleCalls_0, 77 times 
-True: RightWhaleCalls_1, predicted RightWhaleCalls_1, 0 times 
-True: RightWhaleCalls_0, predicted RightWhaleCalls_0, 0 times 

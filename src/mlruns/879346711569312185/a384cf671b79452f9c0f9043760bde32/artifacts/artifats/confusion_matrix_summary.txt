@@ -1,4 +1,0 @@
-True: MiddlePhalanxOutlineCorrect_0, predicted MiddlePhalanxOutlineCorrect_1, 34 times 
-True: MiddlePhalanxOutlineCorrect_1, predicted MiddlePhalanxOutlineCorrect_0, 4 times 
-True: MiddlePhalanxOutlineCorrect_1, predicted MiddlePhalanxOutlineCorrect_1, 0 times 
-True: MiddlePhalanxOutlineCorrect_0, predicted MiddlePhalanxOutlineCorrect_0, 0 times 

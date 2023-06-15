@@ -1,9 +1,0 @@
-True: FacesUCR_14, predicted FacesUCR_7, 6 times 
-True: FacesUCR_13, predicted FacesUCR_5, 4 times 
-True: FacesUCR_11, predicted FacesUCR_2, 3 times 
-True: FacesUCR_14, predicted FacesUCR_3, 3 times 
-True: FacesUCR_6, predicted FacesUCR_4, 2 times 
-True: FacesUCR_6, predicted FacesUCR_12, 2 times 
-True: FacesUCR_13, predicted FacesUCR_14, 2 times 
-True: FacesUCR_7, predicted FacesUCR_12, 2 times 
-True: FacesUCR_5, predicted FacesUCR_12, 1 times 

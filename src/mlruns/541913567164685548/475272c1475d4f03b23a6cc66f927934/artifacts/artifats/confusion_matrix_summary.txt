@@ -1,9 +1,0 @@
-True: Fish_1, predicted Fish_3, 4 times 
-True: Fish_3, predicted Fish_4, 4 times 
-True: Fish_1, predicted Fish_2, 1 times 
-True: Fish_4, predicted Fish_3, 1 times 
-True: Fish_7, predicted Fish_7, 0 times 
-True: Fish_2, predicted Fish_7, 0 times 
-True: Fish_4, predicted Fish_1, 0 times 
-True: Fish_3, predicted Fish_7, 0 times 
-True: Fish_3, predicted Fish_6, 0 times 

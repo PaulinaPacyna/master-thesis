@@ -1,9 +1,0 @@
-True: UWaveGestureLibraryY_5, predicted UWaveGestureLibraryZ_5, 40 times 
-True: UWaveGestureLibraryZ_2, predicted UWaveGestureLibraryX_2, 34 times 
-True: UWaveGestureLibraryX_5, predicted UWaveGestureLibraryZ_4, 29 times 
-True: AllGestureWiimoteX_6, predicted AllGestureWiimoteX_1, 28 times 
-True: UWaveGestureLibraryZ_7, predicted UWaveGestureLibraryX_8, 27 times 
-True: AllGestureWiimoteX_10, predicted AllGestureWiimoteX_9, 26 times 
-True: UWaveGestureLibraryY_4, predicted UWaveGestureLibraryY_3, 25 times 
-True: AllGestureWiimoteX_5, predicted AllGestureWiimoteX_1, 24 times 
-True: AllGestureWiimoteX_6, predicted AllGestureWiimoteX_9, 23 times 

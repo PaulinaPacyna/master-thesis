@@ -1,9 +1,0 @@
-True: SwedishLeaf_9, predicted SwedishLeaf_1, 11 times 
-True: SwedishLeaf_5, predicted SwedishLeaf_15, 5 times 
-True: SwedishLeaf_8, predicted SwedishLeaf_12, 5 times 
-True: SwedishLeaf_13, predicted SwedishLeaf_5, 3 times 
-True: SwedishLeaf_3, predicted SwedishLeaf_1, 3 times 
-True: SwedishLeaf_5, predicted SwedishLeaf_13, 3 times 
-True: SwedishLeaf_6, predicted SwedishLeaf_12, 3 times 
-True: SwedishLeaf_1, predicted SwedishLeaf_9, 2 times 
-True: SwedishLeaf_1, predicted SwedishLeaf_3, 2 times 

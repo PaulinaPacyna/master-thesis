@@ -1,4 +1,0 @@
-True: ToeSegmentation1_1, predicted ToeSegmentation1_0, 4 times 
-True: ToeSegmentation1_1, predicted ToeSegmentation1_1, 0 times 
-True: ToeSegmentation1_0, predicted ToeSegmentation1_1, 0 times 
-True: ToeSegmentation1_0, predicted ToeSegmentation1_0, 0 times 

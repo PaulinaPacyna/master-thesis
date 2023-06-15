@@ -1,9 +1,0 @@
-True: CricketZ_7, predicted AllGestureWiimoteX_6, 44 times 
-True: CricketX_5, predicted AllGestureWiimoteX_6, 39 times 
-True: UWaveGestureLibraryX_7, predicted AllGestureWiimoteY_1, 38 times 
-True: AsphaltRegularity_0, predicted AsphaltRegularity_1, 38 times 
-True: CricketZ_5, predicted AllGestureWiimoteX_6, 37 times 
-True: UWaveGestureLibraryX_5, predicted AllGestureWiimoteY_1, 37 times 
-True: CricketX_7, predicted AllGestureWiimoteX_6, 32 times 
-True: AllGestureWiimoteX_8, predicted AllGestureWiimoteY_10, 31 times 
-True: CricketX_2, predicted AllGestureWiimoteY_1, 31 times 

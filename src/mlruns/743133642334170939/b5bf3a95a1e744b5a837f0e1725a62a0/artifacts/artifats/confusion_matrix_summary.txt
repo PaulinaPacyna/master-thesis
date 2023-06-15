@@ -1,9 +1,0 @@
-True: CricketY_1, predicted CricketY_9, 15 times 
-True: Worms_1, predicted WormsTwoClass_1, 14 times 
-True: Worms_3, predicted WormsTwoClass_2, 12 times 
-True: Worms_4, predicted WormsTwoClass_1, 12 times 
-True: WormsTwoClass_2, predicted Worms_5, 12 times 
-True: AllGestureWiimoteX_9, predicted AllGestureWiimoteX_6, 10 times 
-True: Worms_4, predicted Worms_5, 10 times 
-True: AllGestureWiimoteX_6, predicted AllGestureWiimoteX_9, 10 times 
-True: CricketY_8, predicted CricketY_9, 10 times 

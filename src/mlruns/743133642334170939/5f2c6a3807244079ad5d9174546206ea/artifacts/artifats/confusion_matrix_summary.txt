@@ -1,9 +1,0 @@
-True: FaceAll_2, predicted FaceAll_4, 10 times 
-True: ShapesAll_55, predicted ShapesAll_21, 10 times 
-True: ShapesAll_9, predicted BirdChicken_1, 10 times 
-True: SwedishLeaf_1, predicted SwedishLeaf_9, 9 times 
-True: BirdChicken_1, predicted ShapesAll_2, 8 times 
-True: SwedishLeaf_3, predicted SwedishLeaf_9, 8 times 
-True: ShapesAll_41, predicted ShapesAll_17, 7 times 
-True: ShapesAll_59, predicted ShapesAll_29, 7 times 
-True: ShapesAll_40, predicted ShapesAll_59, 7 times 

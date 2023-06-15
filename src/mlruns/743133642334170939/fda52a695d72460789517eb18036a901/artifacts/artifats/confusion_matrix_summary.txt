@@ -1,9 +1,0 @@
-True: FaceAll_14, predicted FaceAll_3, 6 times 
-True: FaceAll_4, predicted FaceAll_2, 4 times 
-True: FaceAll_14, predicted FaceAll_2, 3 times 
-True: FaceAll_10, predicted FaceAll_12, 3 times 
-True: FaceAll_4, predicted FaceAll_14, 2 times 
-True: FaceAll_3, predicted FaceAll_8, 2 times 
-True: FaceAll_1, predicted FaceAll_2, 2 times 
-True: FaceAll_10, predicted FaceAll_3, 1 times 
-True: FaceAll_8, predicted FaceAll_14, 1 times 

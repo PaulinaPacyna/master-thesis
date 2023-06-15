@@ -1,9 +1,0 @@
-True: FiftyWords_50, predicted FiftyWords_4, 23 times 
-True: MiddlePhalanxTW_5, predicted MiddlePhalanxTW_6, 20 times 
-True: ProximalPhalanxTW_6, predicted ProximalPhalanxTW_5, 19 times 
-True: ProximalPhalanxTW_3, predicted ProximalPhalanxTW_4, 17 times 
-True: FiftyWords_41, predicted FiftyWords_37, 17 times 
-True: FiftyWords_29, predicted FiftyWords_34, 15 times 
-True: FiftyWords_9, predicted FiftyWords_33, 13 times 
-True: ProximalPhalanxTW_7, predicted ProximalPhalanxTW_8, 12 times 
-True: MiddlePhalanxOutlineCorrect_1, predicted MiddlePhalanxTW_4, 11 times 

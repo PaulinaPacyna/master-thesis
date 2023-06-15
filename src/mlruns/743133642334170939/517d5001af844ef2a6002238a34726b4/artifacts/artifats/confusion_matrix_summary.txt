@@ -1,9 +1,0 @@
-True: ProximalPhalanxTW_5, predicted ProximalPhalanxTW_6, 16 times 
-True: WordSynonyms_25, predicted WordSynonyms_15, 16 times 
-True: WordSynonyms_17, predicted WordSynonyms_19, 16 times 
-True: ProximalPhalanxTW_7, predicted ProximalPhalanxTW_8, 15 times 
-True: ProximalPhalanxOutlineCorrect_0, predicted ProximalPhalanxTW_8, 12 times 
-True: DistalPhalanxOutlineCorrect_0, predicted DistalPhalanxOutlineCorrect_1, 11 times 
-True: WordSynonyms_17, predicted ArrowHead_0, 10 times 
-True: ArrowHead_1, predicted ArrowHead_2, 9 times 
-True: WordSynonyms_5, predicted WordSynonyms_14, 9 times 

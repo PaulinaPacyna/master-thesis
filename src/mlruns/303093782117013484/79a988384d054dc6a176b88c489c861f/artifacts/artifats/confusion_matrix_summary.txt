@@ -1,9 +1,0 @@
-True: GestureMidAirD2_18, predicted GestureMidAirD2_9, 5 times 
-True: GestureMidAirD2_17, predicted GestureMidAirD2_23, 4 times 
-True: GestureMidAirD2_6, predicted GestureMidAirD2_7, 4 times 
-True: GestureMidAirD2_9, predicted GestureMidAirD2_24, 4 times 
-True: GestureMidAirD2_4, predicted GestureMidAirD2_24, 3 times 
-True: GestureMidAirD2_13, predicted GestureMidAirD2_14, 3 times 
-True: GestureMidAirD2_25, predicted GestureMidAirD2_3, 3 times 
-True: GestureMidAirD2_22, predicted GestureMidAirD2_19, 2 times 
-True: GestureMidAirD2_4, predicted GestureMidAirD2_17, 2 times 

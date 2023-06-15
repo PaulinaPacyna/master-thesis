@@ -1,4 +1,0 @@
-True: Herring_1, predicted Herring_2, 14 times 
-True: Herring_2, predicted Herring_1, 2 times 
-True: Herring_2, predicted Herring_2, 0 times 
-True: Herring_1, predicted Herring_1, 0 times 

@@ -1,4 +1,0 @@
-True: PhalangesOutlinesCorrect_1, predicted PhalangesOutlinesCorrect_0, 118 times 
-True: PhalangesOutlinesCorrect_0, predicted PhalangesOutlinesCorrect_1, 21 times 
-True: PhalangesOutlinesCorrect_1, predicted PhalangesOutlinesCorrect_1, 0 times 
-True: PhalangesOutlinesCorrect_0, predicted PhalangesOutlinesCorrect_0, 0 times 
