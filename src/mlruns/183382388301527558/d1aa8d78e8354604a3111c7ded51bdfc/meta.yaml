@@ -1,0 +1,15 @@
+artifact_uri: mlruns/183382388301527558/d1aa8d78e8354604a3111c7ded51bdfc/artifacts
+end_time: 1682527192152
+entry_point_name: ''
+experiment_id: '183382388301527558'
+lifecycle_stage: active
+run_id: d1aa8d78e8354604a3111c7ded51bdfc
+run_name: Worms
+run_uuid: d1aa8d78e8354604a3111c7ded51bdfc
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682527052703
+status: 3
+tags: []
+user_id: root

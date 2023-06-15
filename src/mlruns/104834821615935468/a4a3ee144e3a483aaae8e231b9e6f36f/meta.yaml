@@ -1,0 +1,15 @@
+artifact_uri: mlruns/104834821615935468/a4a3ee144e3a483aaae8e231b9e6f36f/artifacts
+end_time: 1683645588048
+entry_point_name: ''
+experiment_id: '104834821615935468'
+lifecycle_stage: active
+run_id: a4a3ee144e3a483aaae8e231b9e6f36f
+run_name: 'Source model: UWaveGestureLibraryZ'
+run_uuid: a4a3ee144e3a483aaae8e231b9e6f36f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1683644158304
+status: 3
+tags: []
+user_id: root

@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/94c4fc60984c48f38173e7dee196b303/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 94c4fc60984c48f38173e7dee196b303
+run_name: silent-horse-954
+run_uuid: 94c4fc60984c48f38173e7dee196b303
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685478990556
+status: 1
+tags: []
+user_id: Pina

@@ -1,0 +1,9 @@
+True: AllGestureWiimoteZ_8, predicted AllGestureWiimoteZ_7, 20 times 
+True: Haptics_2, predicted Haptics_5, 18 times 
+True: GesturePebbleZ1_2, predicted GesturePebbleZ1_4, 18 times 
+True: Haptics_1, predicted Haptics_3, 15 times 
+True: GesturePebbleZ1_1, predicted GesturePebbleZ1_5, 14 times 
+True: Haptics_4, predicted Haptics_5, 12 times 
+True: AllGestureWiimoteZ_3, predicted AllGestureWiimoteZ_9, 11 times 
+True: AllGestureWiimoteZ_10, predicted AllGestureWiimoteZ_3, 10 times 
+True: Haptics_4, predicted Haptics_3, 10 times 

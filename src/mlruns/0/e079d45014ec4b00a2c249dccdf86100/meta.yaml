@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/e079d45014ec4b00a2c249dccdf86100/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: e079d45014ec4b00a2c249dccdf86100
+run_name: orderly-bass-713
+run_uuid: e079d45014ec4b00a2c249dccdf86100
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1686424957081
+status: 1
+tags: []
+user_id: Pina

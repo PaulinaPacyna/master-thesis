@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/987e3480a6424a3d93d2d3e9ec432c2a/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 987e3480a6424a3d93d2d3e9ec432c2a
+run_name: bemused-fly-117
+run_uuid: 987e3480a6424a3d93d2d3e9ec432c2a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685569770306
+status: 1
+tags: []
+user_id: Pina

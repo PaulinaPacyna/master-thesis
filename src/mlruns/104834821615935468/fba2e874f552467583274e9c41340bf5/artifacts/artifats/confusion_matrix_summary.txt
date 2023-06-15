@@ -1,0 +1,9 @@
+True: GunPointMaleVersusFemale_1, predicted AllGestureWiimoteX_7, 69 times 
+True: GunPoint_1, predicted AllGestureWiimoteX_7, 67 times 
+True: GunPointAgeSpan_1, predicted AllGestureWiimoteX_7, 66 times 
+True: AllGestureWiimoteX_5, predicted AllGestureWiimoteX_10, 55 times 
+True: GunPointAgeSpan_2, predicted AllGestureWiimoteX_7, 55 times 
+True: UWaveGestureLibraryY_7, predicted UWaveGestureLibraryY_2, 52 times 
+True: AllGestureWiimoteX_4, predicted AllGestureWiimoteX_3, 50 times 
+True: GunPointOldVersusYoung_1, predicted AllGestureWiimoteX_7, 50 times 
+True: CricketX_1, predicted CricketX_2, 49 times 

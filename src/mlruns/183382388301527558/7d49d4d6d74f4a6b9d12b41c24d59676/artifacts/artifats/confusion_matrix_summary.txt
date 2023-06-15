@@ -1,0 +1,9 @@
+True: Phoneme_26, predicted Phoneme_3, 15 times 
+True: Phoneme_33, predicted Phoneme_26, 12 times 
+True: Phoneme_10, predicted Phoneme_35, 10 times 
+True: Phoneme_34, predicted Phoneme_18, 10 times 
+True: Phoneme_24, predicted Phoneme_23, 10 times 
+True: Phoneme_8, predicted Phoneme_32, 9 times 
+True: Phoneme_32, predicted Phoneme_14, 8 times 
+True: Phoneme_32, predicted Phoneme_35, 8 times 
+True: Phoneme_37, predicted Phoneme_13, 8 times 

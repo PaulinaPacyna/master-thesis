@@ -1,0 +1,15 @@
+artifact_uri: mlruns/528548208530565493/974d4a0c276e4411ab7dbeea8047f719/artifacts
+end_time: 1683631516445
+entry_point_name: ''
+experiment_id: '528548208530565493'
+lifecycle_stage: active
+run_id: 974d4a0c276e4411ab7dbeea8047f719
+run_name: ToeSegmentation2
+run_uuid: 974d4a0c276e4411ab7dbeea8047f719
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1683631380371
+status: 3
+tags: []
+user_id: root

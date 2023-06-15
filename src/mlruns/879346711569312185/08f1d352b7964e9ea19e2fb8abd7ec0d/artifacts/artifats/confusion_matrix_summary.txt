@@ -1,0 +1,9 @@
+True: DistalPhalanxTW_4, predicted DistalPhalanxTW_5, 14 times 
+True: DistalPhalanxTW_6, predicted DistalPhalanxTW_7, 11 times 
+True: DistalPhalanxTW_5, predicted DistalPhalanxTW_4, 8 times 
+True: DistalPhalanxTW_7, predicted DistalPhalanxTW_8, 8 times 
+True: DistalPhalanxTW_5, predicted DistalPhalanxTW_7, 7 times 
+True: DistalPhalanxTW_7, predicted DistalPhalanxTW_5, 6 times 
+True: DistalPhalanxTW_3, predicted DistalPhalanxTW_4, 3 times 
+True: DistalPhalanxTW_6, predicted DistalPhalanxTW_5, 3 times 
+True: DistalPhalanxTW_4, predicted DistalPhalanxTW_3, 3 times 

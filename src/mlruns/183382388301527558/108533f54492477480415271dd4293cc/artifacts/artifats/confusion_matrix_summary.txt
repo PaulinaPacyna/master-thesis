@@ -1,0 +1,9 @@
+True: WordSynonyms_23, predicted WordSynonyms_3, 9 times 
+True: WordSynonyms_15, predicted WordSynonyms_2, 6 times 
+True: WordSynonyms_7, predicted WordSynonyms_22, 5 times 
+True: WordSynonyms_16, predicted WordSynonyms_11, 5 times 
+True: WordSynonyms_13, predicted WordSynonyms_22, 5 times 
+True: WordSynonyms_8, predicted WordSynonyms_11, 5 times 
+True: WordSynonyms_9, predicted WordSynonyms_10, 5 times 
+True: WordSynonyms_24, predicted WordSynonyms_3, 5 times 
+True: WordSynonyms_7, predicted WordSynonyms_9, 5 times 

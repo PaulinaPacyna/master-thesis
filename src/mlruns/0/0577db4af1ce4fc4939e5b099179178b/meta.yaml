@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/0577db4af1ce4fc4939e5b099179178b/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 0577db4af1ce4fc4939e5b099179178b
+run_name: tasteful-snipe-540
+run_uuid: 0577db4af1ce4fc4939e5b099179178b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685569263975
+status: 1
+tags: []
+user_id: Pina

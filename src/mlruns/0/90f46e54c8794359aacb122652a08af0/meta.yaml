@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/90f46e54c8794359aacb122652a08af0/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 90f46e54c8794359aacb122652a08af0
+run_name: agreeable-panda-371
+run_uuid: 90f46e54c8794359aacb122652a08af0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685024164464
+status: 1
+tags: []
+user_id: Pina

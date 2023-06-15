@@ -1,0 +1,9 @@
+True: MiddlePhalanxTW_7, predicted MiddlePhalanxTW_8, 19 times 
+True: MiddlePhalanxTW_6, predicted MiddlePhalanxTW_4, 17 times 
+True: MiddlePhalanxTW_5, predicted MiddlePhalanxTW_4, 10 times 
+True: MiddlePhalanxTW_4, predicted MiddlePhalanxTW_3, 6 times 
+True: MiddlePhalanxTW_7, predicted MiddlePhalanxTW_6, 6 times 
+True: MiddlePhalanxTW_7, predicted MiddlePhalanxTW_4, 6 times 
+True: MiddlePhalanxTW_7, predicted MiddlePhalanxTW_5, 5 times 
+True: MiddlePhalanxTW_3, predicted MiddlePhalanxTW_4, 4 times 
+True: MiddlePhalanxTW_6, predicted MiddlePhalanxTW_3, 4 times 

@@ -1,0 +1,15 @@
+artifact_uri: mlruns/104834821615935468/c8652cd3030248b08a016de8addc709a/artifacts
+end_time: 1683633338491
+entry_point_name: ''
+experiment_id: '104834821615935468'
+lifecycle_stage: active
+run_id: c8652cd3030248b08a016de8addc709a
+run_name: 'Destination model: CricketX'
+run_uuid: c8652cd3030248b08a016de8addc709a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1683633218518
+status: 3
+tags: []
+user_id: root

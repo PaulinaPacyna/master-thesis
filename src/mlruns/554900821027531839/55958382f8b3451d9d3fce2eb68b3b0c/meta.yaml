@@ -1,0 +1,15 @@
+artifact_uri: mlruns/554900821027531839/55958382f8b3451d9d3fce2eb68b3b0c/artifacts
+end_time: 1685400592160
+entry_point_name: ''
+experiment_id: '554900821027531839'
+lifecycle_stage: active
+run_id: 55958382f8b3451d9d3fce2eb68b3b0c
+run_name: ArrowHead
+run_uuid: 55958382f8b3451d9d3fce2eb68b3b0c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685400471839
+status: 3
+tags: []
+user_id: root

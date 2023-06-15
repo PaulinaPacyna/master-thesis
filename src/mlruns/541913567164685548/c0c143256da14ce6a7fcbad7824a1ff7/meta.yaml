@@ -1,0 +1,15 @@
+artifact_uri: mlruns/541913567164685548/c0c143256da14ce6a7fcbad7824a1ff7/artifacts
+end_time: 1685395319956
+entry_point_name: ''
+experiment_id: '541913567164685548'
+lifecycle_stage: active
+run_id: c0c143256da14ce6a7fcbad7824a1ff7
+run_name: BirdChicken
+run_uuid: c0c143256da14ce6a7fcbad7824a1ff7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685395247980
+status: 3
+tags: []
+user_id: root

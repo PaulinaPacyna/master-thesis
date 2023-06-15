@@ -1,0 +1,15 @@
+artifact_uri: mlruns/743133642334170939/f4ca1364983943aa9fec60f54f5e8aa0/artifacts
+end_time: 1685403073841
+entry_point_name: ''
+experiment_id: '743133642334170939'
+lifecycle_stage: active
+run_id: f4ca1364983943aa9fec60f54f5e8aa0
+run_name: 'Destination model: DiatomSizeReduction'
+run_uuid: f4ca1364983943aa9fec60f54f5e8aa0
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685402983503
+status: 3
+tags: []
+user_id: root

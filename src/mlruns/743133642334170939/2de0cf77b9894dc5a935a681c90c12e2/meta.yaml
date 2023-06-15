@@ -1,0 +1,15 @@
+artifact_uri: mlruns/743133642334170939/2de0cf77b9894dc5a935a681c90c12e2/artifacts
+end_time: 1685416550234
+entry_point_name: ''
+experiment_id: '743133642334170939'
+lifecycle_stage: active
+run_id: 2de0cf77b9894dc5a935a681c90c12e2
+run_name: 'Source model: ProximalPhalanxOutlineCorrect'
+run_uuid: 2de0cf77b9894dc5a935a681c90c12e2
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685416104192
+status: 3
+tags: []
+user_id: root

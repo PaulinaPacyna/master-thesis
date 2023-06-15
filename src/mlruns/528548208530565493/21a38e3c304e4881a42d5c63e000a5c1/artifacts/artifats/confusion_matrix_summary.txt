@@ -1,0 +1,9 @@
+True: GunPointMaleVersusFemale_2, predicted GunPointAgeSpan_1, 26 times 
+True: GunPointOldVersusYoung_2, predicted GunPointAgeSpan_2, 21 times 
+True: GunPointAgeSpan_1, predicted GunPoint_1, 20 times 
+True: GunPointOldVersusYoung_1, predicted GunPoint_2, 18 times 
+True: GunPointAgeSpan_2, predicted GunPoint_2, 17 times 
+True: GunPointOldVersusYoung_2, predicted GunPointMaleVersusFemale_2, 17 times 
+True: GunPointOldVersusYoung_2, predicted GunPointMaleVersusFemale_1, 15 times 
+True: GunPointMaleVersusFemale_1, predicted GunPoint_1, 15 times 
+True: GunPointAgeSpan_1, predicted GunPointMaleVersusFemale_1, 15 times 

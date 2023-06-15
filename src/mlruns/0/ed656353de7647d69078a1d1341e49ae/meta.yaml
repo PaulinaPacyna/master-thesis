@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/ed656353de7647d69078a1d1341e49ae/artifacts
+end_time: 1683487585099
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: ed656353de7647d69078a1d1341e49ae
+run_name: tasteful-moth-35
+run_uuid: ed656353de7647d69078a1d1341e49ae
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1683485327745
+status: 3
+tags: []
+user_id: Pina

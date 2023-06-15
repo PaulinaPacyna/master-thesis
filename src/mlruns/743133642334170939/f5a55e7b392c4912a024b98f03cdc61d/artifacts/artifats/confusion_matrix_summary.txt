@@ -1,0 +1,9 @@
+True: DistalPhalanxTW_6, predicted DistalPhalanxTW_7, 39 times 
+True: DistalPhalanxTW_4, predicted DistalPhalanxTW_5, 35 times 
+True: MiddlePhalanxTW_3, predicted MiddlePhalanxTW_4, 30 times 
+True: ProximalPhalanxTW_7, predicted ProximalPhalanxTW_8, 29 times 
+True: MiddlePhalanxTW_5, predicted MiddlePhalanxTW_7, 29 times 
+True: ProximalPhalanxTW_5, predicted ProximalPhalanxTW_4, 25 times 
+True: MiddlePhalanxTW_7, predicted MiddlePhalanxTW_5, 24 times 
+True: MiddlePhalanxTW_5, predicted MiddlePhalanxTW_4, 23 times 
+True: MiddlePhalanxTW_7, predicted MiddlePhalanxTW_8, 21 times 

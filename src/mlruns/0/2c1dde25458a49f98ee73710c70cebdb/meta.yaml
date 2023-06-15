@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/2c1dde25458a49f98ee73710c70cebdb/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 2c1dde25458a49f98ee73710c70cebdb
+run_name: delightful-robin-426
+run_uuid: 2c1dde25458a49f98ee73710c70cebdb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1686395293357
+status: 1
+tags: []
+user_id: Pina

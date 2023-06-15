@@ -1,0 +1,15 @@
+artifact_uri: mlruns/303093782117013484/9c528c2f16524bf99dfb2f92315dba7e/artifacts
+end_time: 1685469295129
+entry_point_name: ''
+experiment_id: '303093782117013484'
+lifecycle_stage: active
+run_id: 9c528c2f16524bf99dfb2f92315dba7e
+run_name: ProximalPhalanxTW
+run_uuid: 9c528c2f16524bf99dfb2f92315dba7e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685469137568
+status: 3
+tags: []
+user_id: root

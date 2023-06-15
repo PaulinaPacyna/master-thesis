@@ -1,0 +1,15 @@
+artifact_uri: mlruns/528548208530565493/10139081736e4aba8650182ee4095eb7/artifacts
+end_time: 1683630010115
+entry_point_name: ''
+experiment_id: '528548208530565493'
+lifecycle_stage: active
+run_id: 10139081736e4aba8650182ee4095eb7
+run_name: GunPointOldVersusYoung
+run_uuid: 10139081736e4aba8650182ee4095eb7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1683629847408
+status: 3
+tags: []
+user_id: root

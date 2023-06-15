@@ -1,0 +1,9 @@
+True: GestureMidAirD3_10, predicted GestureMidAirD3_22, 55 times 
+True: GestureMidAirD3_2, predicted GestureMidAirD3_26, 54 times 
+True: GunPointOldVersusYoung_1, predicted GestureMidAirD3_26, 49 times 
+True: GestureMidAirD3_8, predicted GestureMidAirD3_22, 47 times 
+True: GestureMidAirD3_5, predicted GestureMidAirD3_22, 46 times 
+True: GestureMidAirD3_4, predicted GestureMidAirD3_22, 45 times 
+True: GestureMidAirD3_23, predicted GestureMidAirD3_22, 44 times 
+True: GestureMidAirD3_3, predicted GestureMidAirD3_22, 42 times 
+True: GestureMidAirD3_15, predicted GestureMidAirD3_16, 41 times 

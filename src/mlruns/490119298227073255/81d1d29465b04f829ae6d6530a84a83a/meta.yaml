@@ -1,0 +1,15 @@
+artifact_uri: mlruns/490119298227073255/81d1d29465b04f829ae6d6530a84a83a/artifacts
+end_time: 1683485252853
+entry_point_name: ''
+experiment_id: '490119298227073255'
+lifecycle_stage: active
+run_id: 81d1d29465b04f829ae6d6530a84a83a
+run_name: 'Destination model: AllGestureWiimoteX'
+run_uuid: 81d1d29465b04f829ae6d6530a84a83a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1683485112312
+status: 3
+tags: []
+user_id: root

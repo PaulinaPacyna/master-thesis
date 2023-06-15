@@ -1,0 +1,15 @@
+artifact_uri: mlruns/879346711569312185/4e51e26772334b89935fd1a1b66cc32c/artifacts
+end_time: 1685472153524
+entry_point_name: ''
+experiment_id: '879346711569312185'
+lifecycle_stage: active
+run_id: 4e51e26772334b89935fd1a1b66cc32c
+run_name: Adiac
+run_uuid: 4e51e26772334b89935fd1a1b66cc32c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685471179054
+status: 3
+tags: []
+user_id: root

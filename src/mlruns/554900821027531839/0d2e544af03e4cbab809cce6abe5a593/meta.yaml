@@ -1,0 +1,15 @@
+artifact_uri: mlruns/554900821027531839/0d2e544af03e4cbab809cce6abe5a593/artifacts
+end_time: 1685400903407
+entry_point_name: ''
+experiment_id: '554900821027531839'
+lifecycle_stage: active
+run_id: 0d2e544af03e4cbab809cce6abe5a593
+run_name: Colposcopy
+run_uuid: 0d2e544af03e4cbab809cce6abe5a593
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685400787448
+status: 3
+tags: []
+user_id: root

@@ -1,0 +1,9 @@
+True: CricketY_9, predicted CricketY_1, 41 times 
+True: CricketY_8, predicted CricketY_10, 39 times 
+True: GesturePebbleZ1_5, predicted GesturePebbleZ1_1, 27 times 
+True: GesturePebbleZ1_6, predicted GesturePebbleZ1_2, 25 times 
+True: UWaveGestureLibraryX_7, predicted UWaveGestureLibraryX_1, 21 times 
+True: CricketY_6, predicted CricketY_12, 20 times 
+True: CricketY_3, predicted CricketY_12, 18 times 
+True: UWaveGestureLibraryX_6, predicted UWaveGestureLibraryX_1, 15 times 
+True: UWaveGestureLibraryX_8, predicted UWaveGestureLibraryX_1, 15 times 

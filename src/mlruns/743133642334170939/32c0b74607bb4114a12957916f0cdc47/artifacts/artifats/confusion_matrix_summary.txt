@@ -1,0 +1,9 @@
+True: Fish_6, predicted Fish_1, 9 times 
+True: Fish_1, predicted Fish_3, 4 times 
+True: Fish_3, predicted Fish_4, 4 times 
+True: Fish_6, predicted Fish_5, 3 times 
+True: Fish_7, predicted Fish_4, 2 times 
+True: Fish_7, predicted Fish_1, 2 times 
+True: Fish_1, predicted Fish_2, 1 times 
+True: Fish_1, predicted Fish_4, 1 times 
+True: Fish_6, predicted Fish_4, 1 times 

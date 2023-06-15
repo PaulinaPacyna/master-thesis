@@ -1,0 +1,4 @@
+True: GunPointMaleVersusFemale_2, predicted GunPointMaleVersusFemale_2, 0 times 
+True: GunPointMaleVersusFemale_2, predicted GunPointMaleVersusFemale_1, 0 times 
+True: GunPointMaleVersusFemale_1, predicted GunPointMaleVersusFemale_2, 0 times 
+True: GunPointMaleVersusFemale_1, predicted GunPointMaleVersusFemale_1, 0 times 

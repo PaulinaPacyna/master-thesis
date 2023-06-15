@@ -1,0 +1,15 @@
+artifact_uri: mlruns/743133642334170939/5f2c6a3807244079ad5d9174546206ea/artifacts
+end_time: 1685418892737
+entry_point_name: ''
+experiment_id: '743133642334170939'
+lifecycle_stage: active
+run_id: 5f2c6a3807244079ad5d9174546206ea
+run_name: 'Source model: Symbols'
+run_uuid: 5f2c6a3807244079ad5d9174546206ea
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685418283395
+status: 3
+tags: []
+user_id: root

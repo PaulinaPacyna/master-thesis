@@ -1,0 +1,9 @@
+True: CricketX_9, predicted CricketX_1, 40 times 
+True: CricketX_8, predicted CricketX_6, 34 times 
+True: UWaveGestureLibraryX_4, predicted UWaveGestureLibraryZ_5, 34 times 
+True: AllGestureWiimoteY_2, predicted AllGestureWiimoteX_2, 32 times 
+True: AllGestureWiimoteY_7, predicted AllGestureWiimoteY_8, 30 times 
+True: CricketX_12, predicted CricketX_2, 27 times 
+True: UWaveGestureLibraryX_8, predicted UWaveGestureLibraryZ_7, 26 times 
+True: UWaveGestureLibraryZ_6, predicted UWaveGestureLibraryX_3, 26 times 
+True: CricketX_10, predicted CricketX_12, 26 times 

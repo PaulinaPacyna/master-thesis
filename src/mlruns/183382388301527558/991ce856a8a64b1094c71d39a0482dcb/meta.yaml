@@ -1,0 +1,15 @@
+artifact_uri: mlruns/183382388301527558/991ce856a8a64b1094c71d39a0482dcb/artifacts
+end_time: 1685396212088
+entry_point_name: ''
+experiment_id: '183382388301527558'
+lifecycle_stage: active
+run_id: 991ce856a8a64b1094c71d39a0482dcb
+run_name: HandOutlines
+run_uuid: 991ce856a8a64b1094c71d39a0482dcb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685395802903
+status: 3
+tags: []
+user_id: root

@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/d7f73ece839940b2a8f42c437a393f3f/artifacts
+end_time: 1686239646639
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: d7f73ece839940b2a8f42c437a393f3f
+run_name: illustrious-kite-69
+run_uuid: d7f73ece839940b2a8f42c437a393f3f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1686239364218
+status: 3
+tags: []
+user_id: Pina

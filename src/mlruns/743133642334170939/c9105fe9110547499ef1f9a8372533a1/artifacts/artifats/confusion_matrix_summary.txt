@@ -1,0 +1,9 @@
+True: AllGestureWiimoteZ_10, predicted AllGestureWiimoteZ_6, 10 times 
+True: AllGestureWiimoteZ_4, predicted AllGestureWiimoteZ_3, 9 times 
+True: AllGestureWiimoteZ_2, predicted AllGestureWiimoteZ_6, 8 times 
+True: AllGestureWiimoteZ_8, predicted AllGestureWiimoteZ_7, 8 times 
+True: AllGestureWiimoteZ_7, predicted AllGestureWiimoteZ_8, 7 times 
+True: AllGestureWiimoteZ_3, predicted AllGestureWiimoteZ_4, 7 times 
+True: AllGestureWiimoteZ_9, predicted AllGestureWiimoteZ_5, 7 times 
+True: AllGestureWiimoteZ_3, predicted AllGestureWiimoteZ_5, 6 times 
+True: AllGestureWiimoteZ_3, predicted AllGestureWiimoteZ_10, 4 times 

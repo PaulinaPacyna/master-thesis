@@ -1,0 +1,39 @@
+Model: "model_188"
+__________________________________________________________________________________________________
+ Layer (type)                   Output Shape         Param #     Connected to                     
+==================================================================================================
+ input_21 (InputLayer)          [(None, None, 1)]    0           []                               
+                                                                                                  
+ model_180 (Functional)         (None, 6)            266886      ['input_21[0][0]']               
+                                                                                                  
+ model_181 (Functional)         (None, 6)            266886      ['input_21[0][0]']               
+                                                                                                  
+ model_182 (Functional)         (None, 6)            266886      ['input_21[0][0]']               
+                                                                                                  
+ model_183 (Functional)         (None, 6)            266886      ['input_21[0][0]']               
+                                                                                                  
+ model_184 (Functional)         (None, 6)            266886      ['input_21[0][0]']               
+                                                                                                  
+ model_185 (Functional)         (None, 6)            266886      ['input_21[0][0]']               
+                                                                                                  
+ model_186 (Functional)         (None, 6)            266886      ['input_21[0][0]']               
+                                                                                                  
+ model_187 (Functional)         (None, 6)            266886      ['input_21[0][0]']               
+                                                                                                  
+ add_20 (Add)                   (None, 6)            0           ['model_180[0][0]',              
+                                                                  'model_181[0][0]',              
+                                                                  'model_182[0][0]',              
+                                                                  'model_183[0][0]',              
+                                                                  'model_184[0][0]',              
+                                                                  'model_185[0][0]',              
+                                                                  'model_186[0][0]',              
+                                                                  'model_187[0][0]']              
+                                                                                                  
+ tf.math.truediv_20 (TFOpLambda  (None, 6)           0           ['add_20[0][0]']                 
+ )                                                                                                
+                                                                                                  
+==================================================================================================
+Total params: 2,135,088
+Trainable params: 2,126,896
+Non-trainable params: 8,192
+__________________________________________________________________________________________________

@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/dd6d488a34a6477e8a0e8740c998a459/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: dd6d488a34a6477e8a0e8740c998a459
+run_name: melodic-gnat-774
+run_uuid: dd6d488a34a6477e8a0e8740c998a459
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682450438595
+status: 1
+tags: []
+user_id: Pina

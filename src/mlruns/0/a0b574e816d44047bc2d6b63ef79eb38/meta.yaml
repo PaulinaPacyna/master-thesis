@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/a0b574e816d44047bc2d6b63ef79eb38/artifacts
+end_time: 1685558014251
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: a0b574e816d44047bc2d6b63ef79eb38
+run_name: invincible-croc-951
+run_uuid: a0b574e816d44047bc2d6b63ef79eb38
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685557180589
+status: 3
+tags: []
+user_id: Pina

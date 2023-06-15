@@ -1,0 +1,15 @@
+artifact_uri: mlruns/541913567164685548/3058335764bc409180491b849fba555c/artifacts
+end_time: 1685398111751
+entry_point_name: ''
+experiment_id: '541913567164685548'
+lifecycle_stage: active
+run_id: 3058335764bc409180491b849fba555c
+run_name: DistalPhalanxOutlineAgeGroup
+run_uuid: 3058335764bc409180491b849fba555c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685397994456
+status: 3
+tags: []
+user_id: root

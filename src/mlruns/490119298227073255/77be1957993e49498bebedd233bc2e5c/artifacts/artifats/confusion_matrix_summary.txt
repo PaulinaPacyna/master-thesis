@@ -1,0 +1,9 @@
+True: InlineSkate_4, predicted InlineSkate_2, 61 times 
+True: InlineSkate_3, predicted InlineSkate_2, 45 times 
+True: InlineSkate_2, predicted InlineSkate_1, 37 times 
+True: InlineSkate_5, predicted InlineSkate_2, 34 times 
+True: UWaveGestureLibraryY_2, predicted UWaveGestureLibraryY_7, 34 times 
+True: UWaveGestureLibraryY_8, predicted UWaveGestureLibraryY_7, 32 times 
+True: UWaveGestureLibraryY_4, predicted UWaveGestureLibraryY_3, 20 times 
+True: InlineSkate_6, predicted InlineSkate_4, 16 times 
+True: UWaveGestureLibraryY_5, predicted UWaveGestureLibraryY_4, 14 times 

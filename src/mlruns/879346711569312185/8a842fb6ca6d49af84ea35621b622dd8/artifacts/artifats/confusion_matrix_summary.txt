@@ -1,0 +1,9 @@
+True: ArrowHead_2, predicted ArrowHead_1, 6 times 
+True: ArrowHead_1, predicted ArrowHead_2, 4 times 
+True: ArrowHead_1, predicted ArrowHead_0, 1 times 
+True: ArrowHead_2, predicted ArrowHead_2, 0 times 
+True: ArrowHead_2, predicted ArrowHead_0, 0 times 
+True: ArrowHead_1, predicted ArrowHead_1, 0 times 
+True: ArrowHead_0, predicted ArrowHead_2, 0 times 
+True: ArrowHead_0, predicted ArrowHead_1, 0 times 
+True: ArrowHead_0, predicted ArrowHead_0, 0 times 

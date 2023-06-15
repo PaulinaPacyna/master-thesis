@@ -1,0 +1,9 @@
+True: GesturePebbleZ1_1, predicted GesturePebbleZ2_1, 15 times 
+True: GestureMidAirD3_4, predicted GestureMidAirD3_24, 13 times 
+True: GestureMidAirD3_9, predicted GestureMidAirD3_7, 13 times 
+True: CricketY_9, predicted CricketY_1, 13 times 
+True: GestureMidAirD3_13, predicted GestureMidAirD3_11, 12 times 
+True: GesturePebbleZ1_4, predicted GesturePebbleZ2_4, 12 times 
+True: GestureMidAirD3_15, predicted GestureMidAirD3_16, 10 times 
+True: CricketY_6, predicted CricketY_12, 10 times 
+True: GestureMidAirD3_23, predicted GestureMidAirD3_2, 9 times 

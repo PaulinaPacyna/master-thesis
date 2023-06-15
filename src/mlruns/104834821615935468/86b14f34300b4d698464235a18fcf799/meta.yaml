@@ -1,0 +1,15 @@
+artifact_uri: mlruns/104834821615935468/86b14f34300b4d698464235a18fcf799/artifacts
+end_time: 1683647252446
+entry_point_name: ''
+experiment_id: '104834821615935468'
+lifecycle_stage: active
+run_id: 86b14f34300b4d698464235a18fcf799
+run_name: 'Destination model: InlineSkate'
+run_uuid: 86b14f34300b4d698464235a18fcf799
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1683647059806
+status: 3
+tags: []
+user_id: root

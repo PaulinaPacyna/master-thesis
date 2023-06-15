@@ -1,0 +1,4 @@
+True: BeetleFly_1, predicted BeetleFly_2, 2 times 
+True: BeetleFly_2, predicted BeetleFly_2, 0 times 
+True: BeetleFly_2, predicted BeetleFly_1, 0 times 
+True: BeetleFly_1, predicted BeetleFly_1, 0 times 

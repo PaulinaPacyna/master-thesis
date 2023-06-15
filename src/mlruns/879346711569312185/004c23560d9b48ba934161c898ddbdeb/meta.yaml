@@ -1,0 +1,15 @@
+artifact_uri: mlruns/879346711569312185/004c23560d9b48ba934161c898ddbdeb/artifacts
+end_time: 1683979628072
+entry_point_name: ''
+experiment_id: '879346711569312185'
+lifecycle_stage: active
+run_id: 004c23560d9b48ba934161c898ddbdeb
+run_name: CricketY
+run_uuid: 004c23560d9b48ba934161c898ddbdeb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1683979469093
+status: 3
+tags: []
+user_id: root

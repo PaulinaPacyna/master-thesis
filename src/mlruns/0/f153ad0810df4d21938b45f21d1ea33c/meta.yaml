@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/f153ad0810df4d21938b45f21d1ea33c/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: f153ad0810df4d21938b45f21d1ea33c
+run_name: traveling-bass-882
+run_uuid: f153ad0810df4d21938b45f21d1ea33c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685026413360
+status: 1
+tags: []
+user_id: Pina

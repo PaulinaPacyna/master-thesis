@@ -1,0 +1,15 @@
+artifact_uri: mlruns/303093782117013484/af26f4e2a2a04a118d815902a886887f/artifacts
+end_time: 1685468964626
+entry_point_name: ''
+experiment_id: '303093782117013484'
+lifecycle_stage: active
+run_id: af26f4e2a2a04a118d815902a886887f
+run_name: ProximalPhalanxOutlineAgeGroup
+run_uuid: af26f4e2a2a04a118d815902a886887f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685468809364
+status: 3
+tags: []
+user_id: root

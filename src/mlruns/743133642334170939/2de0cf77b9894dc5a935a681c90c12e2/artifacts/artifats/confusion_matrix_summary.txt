@@ -1,0 +1,9 @@
+True: ProximalPhalanxTW_3, predicted ProximalPhalanxOutlineAgeGroup_1, 85 times 
+True: ProximalPhalanxTW_8, predicted ProximalPhalanxTW_7, 51 times 
+True: MiddlePhalanxOutlineAgeGroup_1, predicted MiddlePhalanxOutlineAgeGroup_2, 42 times 
+True: MiddlePhalanxOutlineCorrect_0, predicted PhalangesOutlinesCorrect_0, 37 times 
+True: ProximalPhalanxOutlineAgeGroup_1, predicted ProximalPhalanxTW_4, 37 times 
+True: ProximalPhalanxOutlineAgeGroup_2, predicted ProximalPhalanxTW_5, 36 times 
+True: ProximalPhalanxOutlineAgeGroup_3, predicted ProximalPhalanxTW_7, 36 times 
+True: ProximalPhalanxTW_8, predicted ProximalPhalanxOutlineAgeGroup_3, 31 times 
+True: MiddlePhalanxOutlineCorrect_1, predicted MiddlePhalanxOutlineAgeGroup_2, 30 times 

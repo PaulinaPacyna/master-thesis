@@ -1,0 +1,15 @@
+artifact_uri: mlruns/303093782117013484/52d79e53f0904b5f86996d79b5f1a519/artifacts
+end_time: 1685462899434
+entry_point_name: ''
+experiment_id: '303093782117013484'
+lifecycle_stage: active
+run_id: 52d79e53f0904b5f86996d79b5f1a519
+run_name: FaceFour
+run_uuid: 52d79e53f0904b5f86996d79b5f1a519
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685462795934
+status: 3
+tags: []
+user_id: root

@@ -1,0 +1,15 @@
+artifact_uri: mlruns/879346711569312185/f6a24b32c1d545d8bc6d555169c0eb3d/artifacts
+end_time: 1685476989632
+entry_point_name: ''
+experiment_id: '879346711569312185'
+lifecycle_stage: active
+run_id: f6a24b32c1d545d8bc6d555169c0eb3d
+run_name: Herring
+run_uuid: f6a24b32c1d545d8bc6d555169c0eb3d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685476885497
+status: 3
+tags: []
+user_id: root

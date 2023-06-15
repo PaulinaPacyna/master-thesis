@@ -1,0 +1,15 @@
+artifact_uri: mlruns/541913567164685548/a92a6d7b0dc341a08c29b57bc893b6ee/artifacts
+end_time: 1685399189247
+entry_point_name: ''
+experiment_id: '541913567164685548'
+lifecycle_stage: active
+run_id: a92a6d7b0dc341a08c29b57bc893b6ee
+run_name: FacesUCR
+run_uuid: a92a6d7b0dc341a08c29b57bc893b6ee
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685398827579
+status: 3
+tags: []
+user_id: root

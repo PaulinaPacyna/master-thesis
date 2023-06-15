@@ -1,0 +1,9 @@
+True: SwedishLeaf_3, predicted SwedishLeaf_9, 17 times 
+True: SwedishLeaf_11, predicted SwedishLeaf_9, 15 times 
+True: Fish_5, predicted ShapesAll_53, 14 times 
+True: DiatomSizeReduction_2, predicted ShapesAll_36, 13 times 
+True: Fish_2, predicted ShapesAll_60, 12 times 
+True: SwedishLeaf_1, predicted SwedishLeaf_9, 11 times 
+True: ShapesAll_18, predicted ShapesAll_12, 11 times 
+True: ShapesAll_47, predicted ShapesAll_24, 11 times 
+True: SwedishLeaf_15, predicted SwedishLeaf_9, 10 times 

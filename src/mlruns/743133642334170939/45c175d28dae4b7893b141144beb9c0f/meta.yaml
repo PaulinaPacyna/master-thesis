@@ -1,0 +1,15 @@
+artifact_uri: mlruns/743133642334170939/45c175d28dae4b7893b141144beb9c0f/artifacts
+end_time: 1685398220066
+entry_point_name: ''
+experiment_id: '743133642334170939'
+lifecycle_stage: active
+run_id: 45c175d28dae4b7893b141144beb9c0f
+run_name: 'Source model: BeetleFly'
+run_uuid: 45c175d28dae4b7893b141144beb9c0f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685397402679
+status: 3
+tags: []
+user_id: root

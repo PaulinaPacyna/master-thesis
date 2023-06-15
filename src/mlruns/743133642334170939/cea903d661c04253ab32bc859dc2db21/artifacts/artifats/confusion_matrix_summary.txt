@@ -1,0 +1,9 @@
+True: FiftyWords_43, predicted FiftyWords_16, 18 times 
+True: FiftyWords_23, predicted FiftyWords_27, 13 times 
+True: DistalPhalanxOutlineCorrect_1, predicted DistalPhalanxOutlineCorrect_0, 11 times 
+True: FiftyWords_15, predicted FiftyWords_35, 10 times 
+True: FiftyWords_46, predicted FiftyWords_45, 10 times 
+True: FiftyWords_13, predicted FiftyWords_46, 9 times 
+True: ShapesAll_55, predicted ShapesAll_7, 9 times 
+True: ShapesAll_59, predicted ShapesAll_11, 8 times 
+True: ShapesAll_6, predicted ShapesAll_60, 8 times 

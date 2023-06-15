@@ -1,0 +1,9 @@
+True: ProximalPhalanxTW_7, predicted ProximalPhalanxTW_8, 16 times 
+True: ProximalPhalanxTW_5, predicted ProximalPhalanxTW_6, 11 times 
+True: ProximalPhalanxTW_4, predicted ProximalPhalanxTW_3, 9 times 
+True: ProximalPhalanxTW_7, predicted ProximalPhalanxTW_6, 9 times 
+True: ProximalPhalanxTW_4, predicted ProximalPhalanxTW_5, 5 times 
+True: ProximalPhalanxTW_6, predicted ProximalPhalanxTW_5, 5 times 
+True: ProximalPhalanxTW_5, predicted ProximalPhalanxTW_4, 2 times 
+True: ProximalPhalanxTW_5, predicted ProximalPhalanxTW_3, 0 times 
+True: ProximalPhalanxTW_4, predicted ProximalPhalanxTW_8, 0 times 

@@ -1,0 +1,15 @@
+artifact_uri: mlruns/303093782117013484/79a988384d054dc6a176b88c489c861f/artifacts
+end_time: 1683486887866
+entry_point_name: ''
+experiment_id: '303093782117013484'
+lifecycle_stage: active
+run_id: 79a988384d054dc6a176b88c489c861f
+run_name: GestureMidAirD2
+run_uuid: 79a988384d054dc6a176b88c489c861f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1683486772231
+status: 3
+tags: []
+user_id: root

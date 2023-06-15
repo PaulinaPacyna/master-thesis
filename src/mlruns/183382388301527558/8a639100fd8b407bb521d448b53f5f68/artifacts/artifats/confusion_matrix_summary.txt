@@ -1,0 +1,9 @@
+True: Adiac_1, predicted Adiac_13, 10 times 
+True: Adiac_2, predicted Adiac_18, 9 times 
+True: Adiac_20, predicted Adiac_26, 7 times 
+True: Adiac_21, predicted Adiac_13, 7 times 
+True: Adiac_15, predicted Adiac_13, 6 times 
+True: Adiac_32, predicted Adiac_26, 6 times 
+True: Adiac_33, predicted Adiac_20, 5 times 
+True: Adiac_19, predicted Adiac_18, 5 times 
+True: Adiac_31, predicted Adiac_13, 5 times 

@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/0549fb130bb045df819ebfe2243d87e3/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 0549fb130bb045df819ebfe2243d87e3
+run_name: persistent-stag-924
+run_uuid: 0549fb130bb045df819ebfe2243d87e3
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685430310144
+status: 1
+tags: []
+user_id: Pina

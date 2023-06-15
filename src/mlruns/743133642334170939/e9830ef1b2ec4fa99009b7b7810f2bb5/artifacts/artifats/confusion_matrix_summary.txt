@@ -1,0 +1,9 @@
+True: UWaveGestureLibraryZ_8, predicted UWaveGestureLibraryZ_7, 33 times 
+True: CricketZ_8, predicted CricketZ_10, 33 times 
+True: UWaveGestureLibraryX_4, predicted UWaveGestureLibraryY_5, 31 times 
+True: UWaveGestureLibraryZ_6, predicted UWaveGestureLibraryY_6, 30 times 
+True: UWaveGestureLibraryX_4, predicted UWaveGestureLibraryZ_5, 28 times 
+True: UWaveGestureLibraryZ_5, predicted UWaveGestureLibraryY_5, 26 times 
+True: UWaveGestureLibraryX_5, predicted UWaveGestureLibraryZ_3, 25 times 
+True: UWaveGestureLibraryY_7, predicted UWaveGestureLibraryY_8, 24 times 
+True: CricketZ_1, predicted CricketZ_9, 24 times 

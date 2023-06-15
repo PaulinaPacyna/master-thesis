@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/488a8eb347a341ecb94e4c6965731590/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 488a8eb347a341ecb94e4c6965731590
+run_name: fortunate-snail-679
+run_uuid: 488a8eb347a341ecb94e4c6965731590
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685030063641
+status: 1
+tags: []
+user_id: Pina

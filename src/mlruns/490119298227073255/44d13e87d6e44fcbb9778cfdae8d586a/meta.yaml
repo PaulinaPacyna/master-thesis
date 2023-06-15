@@ -1,0 +1,15 @@
+artifact_uri: mlruns/490119298227073255/44d13e87d6e44fcbb9778cfdae8d586a/artifacts
+end_time: 1683489501915
+entry_point_name: ''
+experiment_id: '490119298227073255'
+lifecycle_stage: active
+run_id: 44d13e87d6e44fcbb9778cfdae8d586a
+run_name: 'Source model: AsphaltRegularity'
+run_uuid: 44d13e87d6e44fcbb9778cfdae8d586a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1683488915055
+status: 3
+tags: []
+user_id: root

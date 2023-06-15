@@ -1,0 +1,4 @@
+True: Yoga_1, predicted Yoga_2, 122 times 
+True: Yoga_2, predicted Yoga_1, 35 times 
+True: Yoga_2, predicted Yoga_2, 0 times 
+True: Yoga_1, predicted Yoga_1, 0 times 

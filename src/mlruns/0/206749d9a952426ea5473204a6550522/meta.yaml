@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/206749d9a952426ea5473204a6550522/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 206749d9a952426ea5473204a6550522
+run_name: respected-grub-297
+run_uuid: 206749d9a952426ea5473204a6550522
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685022621130
+status: 1
+tags: []
+user_id: Pina

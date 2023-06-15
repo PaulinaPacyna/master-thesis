@@ -1,0 +1,9 @@
+True: InlineSkate_3, predicted InlineSkate_1, 74 times 
+True: AllGestureWiimoteY_10, predicted CricketY_10, 70 times 
+True: AllGestureWiimoteY_3, predicted CricketY_10, 68 times 
+True: UWaveGestureLibraryX_1, predicted CricketY_10, 66 times 
+True: InlineSkate_2, predicted InlineSkate_1, 63 times 
+True: AllGestureWiimoteY_4, predicted CricketY_10, 63 times 
+True: CricketY_7, predicted CricketY_10, 63 times 
+True: CricketY_3, predicted CricketY_8, 63 times 
+True: UWaveGestureLibraryZ_2, predicted CricketY_10, 61 times 

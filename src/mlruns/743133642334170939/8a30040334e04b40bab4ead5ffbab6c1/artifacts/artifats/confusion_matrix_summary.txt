@@ -1,0 +1,9 @@
+True: FiftyWords_10, predicted FiftyWords_28, 14 times 
+True: ShapesAll_58, predicted ShapesAll_11, 14 times 
+True: ShapesAll_22, predicted ShapesAll_46, 14 times 
+True: FiftyWords_22, predicted FiftyWords_42, 13 times 
+True: FiftyWords_19, predicted FiftyWords_40, 13 times 
+True: ShapesAll_10, predicted ShapesAll_46, 12 times 
+True: FiftyWords_41, predicted FiftyWords_40, 12 times 
+True: FiftyWords_35, predicted WordSynonyms_23, 12 times 
+True: WordSynonyms_9, predicted WordSynonyms_3, 11 times 

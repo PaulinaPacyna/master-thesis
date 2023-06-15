@@ -1,0 +1,9 @@
+True: DiatomSizeReduction_3, predicted DiatomSizeReduction_4, 4 times 
+True: DiatomSizeReduction_4, predicted DiatomSizeReduction_4, 0 times 
+True: DiatomSizeReduction_4, predicted DiatomSizeReduction_3, 0 times 
+True: DiatomSizeReduction_4, predicted DiatomSizeReduction_2, 0 times 
+True: DiatomSizeReduction_4, predicted DiatomSizeReduction_1, 0 times 
+True: DiatomSizeReduction_3, predicted DiatomSizeReduction_3, 0 times 
+True: DiatomSizeReduction_3, predicted DiatomSizeReduction_2, 0 times 
+True: DiatomSizeReduction_3, predicted DiatomSizeReduction_1, 0 times 
+True: DiatomSizeReduction_2, predicted DiatomSizeReduction_4, 0 times 

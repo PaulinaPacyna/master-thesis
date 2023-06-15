@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/ee970546547a4db686deeac24e23f225/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: ee970546547a4db686deeac24e23f225
+run_name: unique-mule-583
+run_uuid: ee970546547a4db686deeac24e23f225
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1683398708470
+status: 1
+tags: []
+user_id: Pina

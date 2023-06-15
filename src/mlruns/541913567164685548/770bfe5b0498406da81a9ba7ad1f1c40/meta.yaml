@@ -1,0 +1,15 @@
+artifact_uri: mlruns/541913567164685548/770bfe5b0498406da81a9ba7ad1f1c40/artifacts
+end_time: 1683406319306
+entry_point_name: ''
+experiment_id: '541913567164685548'
+lifecycle_stage: active
+run_id: 770bfe5b0498406da81a9ba7ad1f1c40
+run_name: GunPointAgeSpan
+run_uuid: 770bfe5b0498406da81a9ba7ad1f1c40
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1683406205848
+status: 3
+tags: []
+user_id: root

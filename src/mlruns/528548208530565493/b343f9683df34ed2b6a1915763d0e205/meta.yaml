@@ -1,0 +1,15 @@
+artifact_uri: mlruns/528548208530565493/b343f9683df34ed2b6a1915763d0e205/artifacts
+end_time: 1685476152878
+entry_point_name: ''
+experiment_id: '528548208530565493'
+lifecycle_stage: active
+run_id: b343f9683df34ed2b6a1915763d0e205
+run_name: FaceAll
+run_uuid: b343f9683df34ed2b6a1915763d0e205
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685475700652
+status: 3
+tags: []
+user_id: root

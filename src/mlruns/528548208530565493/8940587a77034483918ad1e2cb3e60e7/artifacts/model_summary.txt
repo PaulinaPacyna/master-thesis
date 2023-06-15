@@ -1,0 +1,39 @@
+Model: "model_125"
+__________________________________________________________________________________________________
+ Layer (type)                   Output Shape         Param #     Connected to                     
+==================================================================================================
+ input_14 (InputLayer)          [(None, None, 1)]    0           []                               
+                                                                                                  
+ model_117 (Functional)         (None, 6)            266886      ['input_14[0][0]']               
+                                                                                                  
+ model_118 (Functional)         (None, 6)            266886      ['input_14[0][0]']               
+                                                                                                  
+ model_119 (Functional)         (None, 6)            266886      ['input_14[0][0]']               
+                                                                                                  
+ model_120 (Functional)         (None, 6)            266886      ['input_14[0][0]']               
+                                                                                                  
+ model_121 (Functional)         (None, 6)            266886      ['input_14[0][0]']               
+                                                                                                  
+ model_122 (Functional)         (None, 6)            266886      ['input_14[0][0]']               
+                                                                                                  
+ model_123 (Functional)         (None, 6)            266886      ['input_14[0][0]']               
+                                                                                                  
+ model_124 (Functional)         (None, 6)            266886      ['input_14[0][0]']               
+                                                                                                  
+ add_13 (Add)                   (None, 6)            0           ['model_117[0][0]',              
+                                                                  'model_118[0][0]',              
+                                                                  'model_119[0][0]',              
+                                                                  'model_120[0][0]',              
+                                                                  'model_121[0][0]',              
+                                                                  'model_122[0][0]',              
+                                                                  'model_123[0][0]',              
+                                                                  'model_124[0][0]']              
+                                                                                                  
+ tf.math.truediv_13 (TFOpLambda  (None, 6)           0           ['add_13[0][0]']                 
+ )                                                                                                
+                                                                                                  
+==================================================================================================
+Total params: 2,135,088
+Trainable params: 2,126,896
+Non-trainable params: 8,192
+__________________________________________________________________________________________________

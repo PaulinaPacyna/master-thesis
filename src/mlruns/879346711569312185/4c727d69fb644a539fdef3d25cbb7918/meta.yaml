@@ -1,0 +1,15 @@
+artifact_uri: mlruns/879346711569312185/4c727d69fb644a539fdef3d25cbb7918/artifacts
+end_time: 1685474946708
+entry_point_name: ''
+experiment_id: '879346711569312185'
+lifecycle_stage: active
+run_id: 4c727d69fb644a539fdef3d25cbb7918
+run_name: DistalPhalanxOutlineCorrect
+run_uuid: 4c727d69fb644a539fdef3d25cbb7918
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685474798041
+status: 3
+tags: []
+user_id: root

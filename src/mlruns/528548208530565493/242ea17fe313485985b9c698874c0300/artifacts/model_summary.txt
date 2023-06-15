@@ -1,0 +1,39 @@
+Model: "model_287"
+__________________________________________________________________________________________________
+ Layer (type)                   Output Shape         Param #     Connected to                     
+==================================================================================================
+ input_32 (InputLayer)          [(None, None, 1)]    0           []                               
+                                                                                                  
+ model_279 (Functional)         (None, 25)           269337      ['input_32[0][0]']               
+                                                                                                  
+ model_280 (Functional)         (None, 25)           269337      ['input_32[0][0]']               
+                                                                                                  
+ model_281 (Functional)         (None, 25)           269337      ['input_32[0][0]']               
+                                                                                                  
+ model_282 (Functional)         (None, 25)           269337      ['input_32[0][0]']               
+                                                                                                  
+ model_283 (Functional)         (None, 25)           269337      ['input_32[0][0]']               
+                                                                                                  
+ model_284 (Functional)         (None, 25)           269337      ['input_32[0][0]']               
+                                                                                                  
+ model_285 (Functional)         (None, 25)           269337      ['input_32[0][0]']               
+                                                                                                  
+ model_286 (Functional)         (None, 25)           269337      ['input_32[0][0]']               
+                                                                                                  
+ add_31 (Add)                   (None, 25)           0           ['model_279[0][0]',              
+                                                                  'model_280[0][0]',              
+                                                                  'model_281[0][0]',              
+                                                                  'model_282[0][0]',              
+                                                                  'model_283[0][0]',              
+                                                                  'model_284[0][0]',              
+                                                                  'model_285[0][0]',              
+                                                                  'model_286[0][0]']              
+                                                                                                  
+ tf.math.truediv_31 (TFOpLambda  (None, 25)          0           ['add_31[0][0]']                 
+ )                                                                                                
+                                                                                                  
+==================================================================================================
+Total params: 2,154,696
+Trainable params: 2,146,504
+Non-trainable params: 8,192
+__________________________________________________________________________________________________

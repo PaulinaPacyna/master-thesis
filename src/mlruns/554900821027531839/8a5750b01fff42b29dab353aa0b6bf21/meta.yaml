@@ -1,0 +1,15 @@
+artifact_uri: mlruns/554900821027531839/8a5750b01fff42b29dab353aa0b6bf21/artifacts
+end_time: 1685466543519
+entry_point_name: ''
+experiment_id: '554900821027531839'
+lifecycle_stage: active
+run_id: 8a5750b01fff42b29dab353aa0b6bf21
+run_name: SwedishLeaf
+run_uuid: 8a5750b01fff42b29dab353aa0b6bf21
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685466309772
+status: 3
+tags: []
+user_id: root

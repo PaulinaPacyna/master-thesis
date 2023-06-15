@@ -1,0 +1,4 @@
+True: WormsTwoClass_1, predicted WormsTwoClass_2, 16 times 
+True: WormsTwoClass_2, predicted WormsTwoClass_1, 3 times 
+True: WormsTwoClass_2, predicted WormsTwoClass_2, 0 times 
+True: WormsTwoClass_1, predicted WormsTwoClass_1, 0 times 

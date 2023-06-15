@@ -1,0 +1,15 @@
+artifact_uri: mlruns/183382388301527558/dcf8e9ece90947a4978eb14e84d6794e/artifacts
+end_time: 1682494782841
+entry_point_name: ''
+experiment_id: '183382388301527558'
+lifecycle_stage: active
+run_id: dcf8e9ece90947a4978eb14e84d6794e
+run_name: CatsDogs
+run_uuid: dcf8e9ece90947a4978eb14e84d6794e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682494339632
+status: 3
+tags: []
+user_id: root

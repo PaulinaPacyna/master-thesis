@@ -1,0 +1,9 @@
+True: Symbols_2, predicted Symbols_1, 1 times 
+True: Symbols_6, predicted Symbols_6, 0 times 
+True: Symbols_2, predicted Symbols_4, 0 times 
+True: Symbols_3, predicted Symbols_4, 0 times 
+True: Symbols_3, predicted Symbols_3, 0 times 
+True: Symbols_3, predicted Symbols_2, 0 times 
+True: Symbols_3, predicted Symbols_1, 0 times 
+True: Symbols_2, predicted Symbols_6, 0 times 
+True: Symbols_2, predicted Symbols_5, 0 times 

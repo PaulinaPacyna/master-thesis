@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/60234802670d44f28c771e4e2abdf98c/artifacts
+end_time: 1685557148790
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 60234802670d44f28c771e4e2abdf98c
+run_name: wistful-fowl-904
+run_uuid: 60234802670d44f28c771e4e2abdf98c
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685556600194
+status: 3
+tags: []
+user_id: Pina

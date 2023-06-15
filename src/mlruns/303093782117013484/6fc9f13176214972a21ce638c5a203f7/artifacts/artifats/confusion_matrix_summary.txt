@@ -1,0 +1,9 @@
+True: MedicalImages_2, predicted MedicalImages_3, 12 times 
+True: MedicalImages_9, predicted MedicalImages_1, 7 times 
+True: MedicalImages_10, predicted MedicalImages_1, 6 times 
+True: MedicalImages_1, predicted MedicalImages_9, 6 times 
+True: MedicalImages_2, predicted MedicalImages_4, 5 times 
+True: MedicalImages_9, predicted MedicalImages_10, 5 times 
+True: MedicalImages_4, predicted MedicalImages_2, 5 times 
+True: MedicalImages_9, predicted MedicalImages_8, 4 times 
+True: MedicalImages_9, predicted MedicalImages_7, 4 times 

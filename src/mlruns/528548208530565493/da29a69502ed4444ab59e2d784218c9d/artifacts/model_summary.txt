@@ -1,0 +1,39 @@
+Model: "model_152"
+__________________________________________________________________________________________________
+ Layer (type)                   Output Shape         Param #     Connected to                     
+==================================================================================================
+ input_17 (InputLayer)          [(None, None, 1)]    0           []                               
+                                                                                                  
+ model_144 (Functional)         (None, 2)            266370      ['input_17[0][0]']               
+                                                                                                  
+ model_145 (Functional)         (None, 2)            266370      ['input_17[0][0]']               
+                                                                                                  
+ model_146 (Functional)         (None, 2)            266370      ['input_17[0][0]']               
+                                                                                                  
+ model_147 (Functional)         (None, 2)            266370      ['input_17[0][0]']               
+                                                                                                  
+ model_148 (Functional)         (None, 2)            266370      ['input_17[0][0]']               
+                                                                                                  
+ model_149 (Functional)         (None, 2)            266370      ['input_17[0][0]']               
+                                                                                                  
+ model_150 (Functional)         (None, 2)            266370      ['input_17[0][0]']               
+                                                                                                  
+ model_151 (Functional)         (None, 2)            266370      ['input_17[0][0]']               
+                                                                                                  
+ add_16 (Add)                   (None, 2)            0           ['model_144[0][0]',              
+                                                                  'model_145[0][0]',              
+                                                                  'model_146[0][0]',              
+                                                                  'model_147[0][0]',              
+                                                                  'model_148[0][0]',              
+                                                                  'model_149[0][0]',              
+                                                                  'model_150[0][0]',              
+                                                                  'model_151[0][0]']              
+                                                                                                  
+ tf.math.truediv_16 (TFOpLambda  (None, 2)           0           ['add_16[0][0]']                 
+ )                                                                                                
+                                                                                                  
+==================================================================================================
+Total params: 2,130,960
+Trainable params: 2,122,768
+Non-trainable params: 8,192
+__________________________________________________________________________________________________

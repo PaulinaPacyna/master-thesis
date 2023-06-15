@@ -1,0 +1,9 @@
+True: Adiac_23, predicted Adiac_34, 11 times 
+True: ShapesAll_34, predicted ShapesAll_17, 11 times 
+True: Adiac_26, predicted Adiac_10, 10 times 
+True: Adiac_16, predicted Adiac_14, 10 times 
+True: Adiac_3, predicted Adiac_10, 9 times 
+True: Adiac_21, predicted Adiac_10, 9 times 
+True: SwedishLeaf_9, predicted SwedishLeaf_1, 9 times 
+True: Adiac_8, predicted Adiac_10, 8 times 
+True: Adiac_37, predicted Adiac_34, 8 times 

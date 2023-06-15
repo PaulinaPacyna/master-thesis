@@ -1,0 +1,4 @@
+True: CatsDogs_1, predicted CatsDogs_0, 24 times 
+True: CatsDogs_0, predicted CatsDogs_1, 11 times 
+True: CatsDogs_1, predicted CatsDogs_1, 0 times 
+True: CatsDogs_0, predicted CatsDogs_0, 0 times 

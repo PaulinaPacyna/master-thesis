@@ -1,0 +1,15 @@
+artifact_uri: mlruns/743133642334170939/476bf853feac40299c7c119faa1627f7/artifacts
+end_time: 1682566178481
+entry_point_name: ''
+experiment_id: '743133642334170939'
+lifecycle_stage: active
+run_id: 476bf853feac40299c7c119faa1627f7
+run_name: 'Destination model: AsphaltPavementType'
+run_uuid: 476bf853feac40299c7c119faa1627f7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682565937529
+status: 3
+tags: []
+user_id: root

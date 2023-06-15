@@ -1,0 +1,7 @@
+artifact_location: mlruns/743133642334170939
+creation_time: 1682539695201
+experiment_id: '743133642334170939'
+last_update_time: 1683482177131
+lifecycle_stage: active
+name: Baseline - FCN - dba similiarity - 5 datasets
+tags: {}

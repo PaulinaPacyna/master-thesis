@@ -1,0 +1,4 @@
+True: ProximalPhalanxOutlineCorrect_1, predicted ProximalPhalanxOutlineCorrect_0, 39 times 
+True: ProximalPhalanxOutlineCorrect_0, predicted ProximalPhalanxOutlineCorrect_1, 13 times 
+True: ProximalPhalanxOutlineCorrect_1, predicted ProximalPhalanxOutlineCorrect_1, 0 times 
+True: ProximalPhalanxOutlineCorrect_0, predicted ProximalPhalanxOutlineCorrect_0, 0 times 

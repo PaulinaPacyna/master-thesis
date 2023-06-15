@@ -1,0 +1,15 @@
+artifact_uri: mlruns/879346711569312185/0578418e6db34a48bc91b5bd9afdf0d5/artifacts
+end_time: 1685476032914
+entry_point_name: ''
+experiment_id: '879346711569312185'
+lifecycle_stage: active
+run_id: 0578418e6db34a48bc91b5bd9afdf0d5
+run_name: Fish
+run_uuid: 0578418e6db34a48bc91b5bd9afdf0d5
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685475900295
+status: 3
+tags: []
+user_id: root

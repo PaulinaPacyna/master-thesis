@@ -1,0 +1,9 @@
+True: UrbanSound_5, predicted UrbanSound_0, 67 times 
+True: UrbanSound_9, predicted UrbanSound_0, 56 times 
+True: UrbanSound_6, predicted UrbanSound_3, 45 times 
+True: UrbanSound_2, predicted UrbanSound_0, 37 times 
+True: UrbanSound_1, predicted UrbanSound_3, 32 times 
+True: UrbanSound_3, predicted UrbanSound_0, 24 times 
+True: UrbanSound_5, predicted UrbanSound_7, 23 times 
+True: UrbanSound_1, predicted UrbanSound_0, 23 times 
+True: UrbanSound_6, predicted UrbanSound_7, 22 times 

@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/afb0fe6dba704ae8a3136f18dcc18c33/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: afb0fe6dba704ae8a3136f18dcc18c33
+run_name: beautiful-shrimp-251
+run_uuid: afb0fe6dba704ae8a3136f18dcc18c33
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1686258360373
+status: 1
+tags: []
+user_id: Pina

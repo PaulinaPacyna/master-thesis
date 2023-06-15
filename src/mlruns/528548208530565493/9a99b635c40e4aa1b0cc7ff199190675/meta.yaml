@@ -1,0 +1,15 @@
+artifact_uri: mlruns/528548208530565493/9a99b635c40e4aa1b0cc7ff199190675/artifacts
+end_time: 1685485680779
+entry_point_name: ''
+experiment_id: '528548208530565493'
+lifecycle_stage: active
+run_id: 9a99b635c40e4aa1b0cc7ff199190675
+run_name: ShapesAll
+run_uuid: 9a99b635c40e4aa1b0cc7ff199190675
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685485209883
+status: 3
+tags: []
+user_id: root

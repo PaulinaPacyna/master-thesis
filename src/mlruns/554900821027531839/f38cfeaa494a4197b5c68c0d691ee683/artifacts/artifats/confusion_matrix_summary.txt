@@ -1,0 +1,9 @@
+True: MiddlePhalanxOutlineAgeGroup_2, predicted MiddlePhalanxOutlineAgeGroup_1, 19 times 
+True: MiddlePhalanxOutlineAgeGroup_1, predicted MiddlePhalanxOutlineAgeGroup_2, 12 times 
+True: MiddlePhalanxOutlineAgeGroup_3, predicted MiddlePhalanxOutlineAgeGroup_2, 5 times 
+True: MiddlePhalanxOutlineAgeGroup_3, predicted MiddlePhalanxOutlineAgeGroup_1, 4 times 
+True: MiddlePhalanxOutlineAgeGroup_3, predicted MiddlePhalanxOutlineAgeGroup_3, 0 times 
+True: MiddlePhalanxOutlineAgeGroup_2, predicted MiddlePhalanxOutlineAgeGroup_3, 0 times 
+True: MiddlePhalanxOutlineAgeGroup_2, predicted MiddlePhalanxOutlineAgeGroup_2, 0 times 
+True: MiddlePhalanxOutlineAgeGroup_1, predicted MiddlePhalanxOutlineAgeGroup_3, 0 times 
+True: MiddlePhalanxOutlineAgeGroup_1, predicted MiddlePhalanxOutlineAgeGroup_1, 0 times 

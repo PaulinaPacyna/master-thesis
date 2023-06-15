@@ -1,0 +1,15 @@
+artifact_uri: mlruns/541913567164685548/0ab0d15f5fb140bdaf20ff673db0b18a/artifacts
+end_time: 1685402998508
+entry_point_name: ''
+experiment_id: '541913567164685548'
+lifecycle_stage: active
+run_id: 0ab0d15f5fb140bdaf20ff673db0b18a
+run_name: MixedShapesRegularTrain
+run_uuid: 0ab0d15f5fb140bdaf20ff673db0b18a
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685401739067
+status: 3
+tags: []
+user_id: root

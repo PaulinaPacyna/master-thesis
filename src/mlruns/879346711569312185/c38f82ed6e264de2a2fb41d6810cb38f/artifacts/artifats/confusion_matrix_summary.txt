@@ -1,0 +1,9 @@
+True: InlineSkate_3, predicted InlineSkate_6, 10 times 
+True: InlineSkate_5, predicted InlineSkate_7, 9 times 
+True: InlineSkate_4, predicted InlineSkate_5, 6 times 
+True: InlineSkate_6, predicted InlineSkate_5, 5 times 
+True: InlineSkate_5, predicted InlineSkate_6, 5 times 
+True: InlineSkate_3, predicted InlineSkate_1, 5 times 
+True: InlineSkate_6, predicted InlineSkate_7, 4 times 
+True: InlineSkate_5, predicted InlineSkate_3, 4 times 
+True: InlineSkate_7, predicted InlineSkate_3, 4 times 

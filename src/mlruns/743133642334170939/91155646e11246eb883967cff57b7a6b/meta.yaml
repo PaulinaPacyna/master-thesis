@@ -1,0 +1,15 @@
+artifact_uri: mlruns/743133642334170939/91155646e11246eb883967cff57b7a6b/artifacts
+end_time: 1685414885265
+entry_point_name: ''
+experiment_id: '743133642334170939'
+lifecycle_stage: active
+run_id: 91155646e11246eb883967cff57b7a6b
+run_name: 'Source model: OSULeaf'
+run_uuid: 91155646e11246eb883967cff57b7a6b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685414249022
+status: 3
+tags: []
+user_id: root

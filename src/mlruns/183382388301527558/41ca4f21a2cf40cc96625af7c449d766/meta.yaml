@@ -1,0 +1,15 @@
+artifact_uri: mlruns/183382388301527558/41ca4f21a2cf40cc96625af7c449d766/artifacts
+end_time: 1682521772252
+entry_point_name: ''
+experiment_id: '183382388301527558'
+lifecycle_stage: active
+run_id: 41ca4f21a2cf40cc96625af7c449d766
+run_name: UrbanSound
+run_uuid: 41ca4f21a2cf40cc96625af7c449d766
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1682520124896
+status: 3
+tags: []
+user_id: root

@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/0679f712d9194217a3f9ba28eb52feed/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 0679f712d9194217a3f9ba28eb52feed
+run_name: intrigued-conch-777
+run_uuid: 0679f712d9194217a3f9ba28eb52feed
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685522838791
+status: 1
+tags: []
+user_id: Pina

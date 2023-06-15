@@ -1,0 +1,37 @@
+Model: "model_27"
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ input_55 (InputLayer)       [(None, None, 1)]         0         
+                                                                 
+ conv1d_81 (Conv1D)          (None, None, 128)         1536      
+                                                                 
+ batch_normalization_81 (Bat  (None, None, 128)        512       
+ chNormalization)                                                
+                                                                 
+ activation_81 (Activation)  (None, None, 128)         0         
+                                                                 
+ conv1d_82 (Conv1D)          (None, None, 256)         164096    
+                                                                 
+ batch_normalization_82 (Bat  (None, None, 256)        1024      
+ chNormalization)                                                
+                                                                 
+ activation_82 (Activation)  (None, None, 256)         0         
+                                                                 
+ conv1d_83 (Conv1D)          (None, None, 128)         98432     
+                                                                 
+ batch_normalization_83 (Bat  (None, None, 128)        512       
+ chNormalization)                                                
+                                                                 
+ activation_83 (Activation)  (None, None, 128)         0         
+                                                                 
+ global_average_pooling1d_27  (None, 128)              0         
+  (GlobalAveragePooling1D)                                       
+                                                                 
+ dense_27 (Dense)            (None, 6)                 774       
+                                                                 
+=================================================================
+Total params: 266,886
+Trainable params: 265,862
+Non-trainable params: 1,024
+_________________________________________________________________

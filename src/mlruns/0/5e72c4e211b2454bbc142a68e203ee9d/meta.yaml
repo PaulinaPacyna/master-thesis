@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/5e72c4e211b2454bbc142a68e203ee9d/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 5e72c4e211b2454bbc142a68e203ee9d
+run_name: serious-rat-93
+run_uuid: 5e72c4e211b2454bbc142a68e203ee9d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685027574117
+status: 1
+tags: []
+user_id: Pina

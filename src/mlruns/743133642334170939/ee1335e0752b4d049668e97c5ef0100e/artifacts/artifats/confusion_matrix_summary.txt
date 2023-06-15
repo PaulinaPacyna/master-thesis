@@ -1,0 +1,9 @@
+True: ShapesAll_20, predicted ShapesAll_11, 31 times 
+True: ShapesAll_57, predicted ShapesAll_9, 23 times 
+True: ShapesAll_50, predicted ShapesAll_51, 22 times 
+True: ShapesAll_22, predicted ShapesAll_60, 21 times 
+True: ShapesAll_51, predicted ShapesAll_44, 20 times 
+True: Herring_2, predicted ShapesAll_42, 19 times 
+True: ShapesAll_59, predicted ShapesAll_44, 19 times 
+True: Herring_1, predicted ShapesAll_42, 18 times 
+True: ShapesAll_40, predicted ShapesAll_35, 16 times 

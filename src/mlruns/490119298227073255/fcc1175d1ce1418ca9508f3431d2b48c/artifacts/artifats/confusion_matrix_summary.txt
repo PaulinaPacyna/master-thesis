@@ -1,0 +1,9 @@
+True: GestureMidAirD1_16, predicted GestureMidAirD1_14, 28 times 
+True: UWaveGestureLibraryZ_7, predicted UWaveGestureLibraryZ_8, 25 times 
+True: GestureMidAirD1_3, predicted GestureMidAirD1_4, 20 times 
+True: GestureMidAirD1_14, predicted GestureMidAirD1_16, 17 times 
+True: GestureMidAirD1_21, predicted GestureMidAirD1_7, 14 times 
+True: GestureMidAirD1_22, predicted GestureMidAirD1_5, 14 times 
+True: GestureMidAirD1_12, predicted GestureMidAirD1_11, 12 times 
+True: GestureMidAirD1_19, predicted GestureMidAirD1_5, 12 times 
+True: AllGestureWiimoteX_1, predicted AllGestureWiimoteX_10, 12 times 

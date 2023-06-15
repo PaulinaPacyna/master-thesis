@@ -1,0 +1,15 @@
+artifact_uri: mlruns/743133642334170939/a8e7d393a6164d0bb09c9834051f8908/artifacts
+end_time: 1685404584542
+entry_point_name: ''
+experiment_id: '743133642334170939'
+lifecycle_stage: active
+run_id: a8e7d393a6164d0bb09c9834051f8908
+run_name: 'Destination model: DistalPhalanxTW'
+run_uuid: a8e7d393a6164d0bb09c9834051f8908
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685404482033
+status: 3
+tags: []
+user_id: root

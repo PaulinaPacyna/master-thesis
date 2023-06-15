@@ -1,0 +1,15 @@
+artifact_uri: mlruns/541913567164685548/77d06e58c10540438775fa7db0db734f/artifacts
+end_time: 1685399427766
+entry_point_name: ''
+experiment_id: '541913567164685548'
+lifecycle_stage: active
+run_id: 77d06e58c10540438775fa7db0db734f
+run_name: FiftyWords
+run_uuid: 77d06e58c10540438775fa7db0db734f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685399189279
+status: 3
+tags: []
+user_id: root

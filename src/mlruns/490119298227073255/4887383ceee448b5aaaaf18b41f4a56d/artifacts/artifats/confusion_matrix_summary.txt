@@ -1,0 +1,9 @@
+True: GesturePebbleZ2_5, predicted GesturePebbleZ2_1, 56 times 
+True: GunPointMaleVersusFemale_2, predicted GunPointAgeSpan_2, 41 times 
+True: UWaveGestureLibraryZ_3, predicted UWaveGestureLibraryZ_4, 37 times 
+True: GunPointAgeSpan_2, predicted GunPointMaleVersusFemale_1, 36 times 
+True: GesturePebbleZ2_6, predicted GesturePebbleZ2_2, 35 times 
+True: GunPointAgeSpan_1, predicted GunPointMaleVersusFemale_1, 34 times 
+True: GunPointMaleVersusFemale_2, predicted GunPointAgeSpan_1, 25 times 
+True: AsphaltObstacles_1, predicted AsphaltObstacles_3, 23 times 
+True: AsphaltObstacles_0, predicted AsphaltObstacles_2, 22 times 

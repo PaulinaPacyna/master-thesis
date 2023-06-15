@@ -1,0 +1,15 @@
+artifact_uri: mlruns/879346711569312185/f86e7dc026e84279a540efe52ad6336d/artifacts
+end_time: 1685480871763
+entry_point_name: ''
+experiment_id: '879346711569312185'
+lifecycle_stage: active
+run_id: f86e7dc026e84279a540efe52ad6336d
+run_name: WordSynonyms
+run_uuid: f86e7dc026e84279a540efe52ad6336d
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685480692375
+status: 3
+tags: []
+user_id: root

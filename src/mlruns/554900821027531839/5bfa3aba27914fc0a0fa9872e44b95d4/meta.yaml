@@ -1,0 +1,15 @@
+artifact_uri: mlruns/554900821027531839/5bfa3aba27914fc0a0fa9872e44b95d4/artifacts
+end_time: 1683468104182
+entry_point_name: ''
+experiment_id: '554900821027531839'
+lifecycle_stage: active
+run_id: 5bfa3aba27914fc0a0fa9872e44b95d4
+run_name: WormsTwoClass
+run_uuid: 5bfa3aba27914fc0a0fa9872e44b95d4
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1683467860298
+status: 3
+tags: []
+user_id: root

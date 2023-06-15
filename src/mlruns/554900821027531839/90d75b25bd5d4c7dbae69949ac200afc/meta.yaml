@@ -1,0 +1,15 @@
+artifact_uri: mlruns/554900821027531839/90d75b25bd5d4c7dbae69949ac200afc/artifacts
+end_time: 1683462456511
+entry_point_name: ''
+experiment_id: '554900821027531839'
+lifecycle_stage: active
+run_id: 90d75b25bd5d4c7dbae69949ac200afc
+run_name: GunPointMaleVersusFemale
+run_uuid: 90d75b25bd5d4c7dbae69949ac200afc
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1683462330322
+status: 3
+tags: []
+user_id: root

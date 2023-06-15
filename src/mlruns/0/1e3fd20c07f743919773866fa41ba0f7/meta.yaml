@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/1e3fd20c07f743919773866fa41ba0f7/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 1e3fd20c07f743919773866fa41ba0f7
+run_name: unequaled-shrike-664
+run_uuid: 1e3fd20c07f743919773866fa41ba0f7
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685024844883
+status: 1
+tags: []
+user_id: Pina

@@ -1,0 +1,9 @@
+True: AsphaltPavementType_0, predicted AsphaltPavementType_1, 27 times 
+True: AsphaltPavementType_0, predicted AsphaltPavementType_2, 20 times 
+True: AsphaltPavementType_1, predicted AsphaltPavementType_0, 19 times 
+True: AsphaltPavementType_1, predicted AsphaltPavementType_2, 16 times 
+True: AsphaltPavementType_2, predicted AsphaltPavementType_2, 0 times 
+True: AsphaltPavementType_2, predicted AsphaltPavementType_1, 0 times 
+True: AsphaltPavementType_2, predicted AsphaltPavementType_0, 0 times 
+True: AsphaltPavementType_1, predicted AsphaltPavementType_1, 0 times 
+True: AsphaltPavementType_0, predicted AsphaltPavementType_0, 0 times 

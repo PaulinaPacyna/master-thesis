@@ -1,0 +1,9 @@
+True: Colposcopy_3, predicted Colposcopy_2, 8 times 
+True: Colposcopy_1, predicted Colposcopy_2, 5 times 
+True: Colposcopy_4, predicted Colposcopy_2, 5 times 
+True: Colposcopy_2, predicted Colposcopy_3, 4 times 
+True: Colposcopy_4, predicted Colposcopy_5, 4 times 
+True: Colposcopy_4, predicted Colposcopy_1, 4 times 
+True: Colposcopy_5, predicted Colposcopy_1, 3 times 
+True: Colposcopy_0, predicted Colposcopy_3, 3 times 
+True: Colposcopy_3, predicted Colposcopy_5, 2 times 

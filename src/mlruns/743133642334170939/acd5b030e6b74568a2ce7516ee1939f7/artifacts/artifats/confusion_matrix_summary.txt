@@ -1,0 +1,9 @@
+True: FiftyWords_18, predicted FiftyWords_34, 18 times 
+True: WordSynonyms_7, predicted WordSynonyms_5, 15 times 
+True: FiftyWords_40, predicted FiftyWords_20, 12 times 
+True: FiftyWords_42, predicted FiftyWords_28, 12 times 
+True: WordSynonyms_19, predicted WordSynonyms_8, 12 times 
+True: WordSynonyms_21, predicted WordSynonyms_14, 11 times 
+True: FiftyWords_50, predicted FiftyWords_17, 11 times 
+True: FiftyWords_49, predicted FiftyWords_7, 11 times 
+True: FiftyWords_19, predicted FiftyWords_36, 11 times 

@@ -1,0 +1,9 @@
+True: GestureMidAirD3_1, predicted GestureMidAirD3_15, 38 times 
+True: GesturePebbleZ1_1, predicted GesturePebbleZ1_5, 32 times 
+True: GesturePebbleZ2_5, predicted GesturePebbleZ1_5, 30 times 
+True: GesturePebbleZ2_6, predicted GesturePebbleZ1_6, 23 times 
+True: GestureMidAirD3_20, predicted GestureMidAirD3_21, 23 times 
+True: GestureMidAirD3_6, predicted AllGestureWiimoteX_4, 22 times 
+True: GestureMidAirD3_12, predicted GestureMidAirD3_23, 21 times 
+True: GesturePebbleZ1_4, predicted GesturePebbleZ2_4, 21 times 
+True: GestureMidAirD3_16, predicted GestureMidAirD3_15, 20 times 

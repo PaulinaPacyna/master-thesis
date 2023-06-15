@@ -1,0 +1,9 @@
+True: InsectWingbeatSound_6, predicted InsectWingbeatSound_4, 39 times 
+True: InsectWingbeatSound_3, predicted InsectWingbeatSound_4, 26 times 
+True: InsectWingbeatSound_9, predicted InsectWingbeatSound_1, 22 times 
+True: InsectWingbeatSound_8, predicted InsectWingbeatSound_4, 19 times 
+True: InsectWingbeatSound_5, predicted InsectWingbeatSound_7, 16 times 
+True: InsectWingbeatSound_7, predicted InsectWingbeatSound_1, 15 times 
+True: InsectWingbeatSound_10, predicted InsectWingbeatSound_2, 14 times 
+True: InsectWingbeatSound_5, predicted InsectWingbeatSound_1, 14 times 
+True: InsectWingbeatSound_5, predicted InsectWingbeatSound_9, 14 times 

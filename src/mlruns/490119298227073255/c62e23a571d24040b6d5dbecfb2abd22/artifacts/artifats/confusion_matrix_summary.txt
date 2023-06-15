@@ -1,0 +1,9 @@
+True: UWaveGestureLibraryZ_7, predicted UWaveGestureLibraryZ_8, 50 times 
+True: UWaveGestureLibraryZ_3, predicted UWaveGestureLibraryZ_4, 43 times 
+True: GunPoint_2, predicted GunPointMaleVersusFemale_1, 30 times 
+True: CricketZ_9, predicted CricketZ_1, 30 times 
+True: GunPoint_1, predicted GunPointMaleVersusFemale_2, 30 times 
+True: UWaveGestureLibraryAll_5, predicted UWaveGestureLibraryAll_4, 30 times 
+True: GunPointOldVersusYoung_2, predicted GunPointMaleVersusFemale_1, 29 times 
+True: GunPointAgeSpan_2, predicted GunPointMaleVersusFemale_1, 29 times 
+True: CricketZ_6, predicted CricketZ_8, 27 times 

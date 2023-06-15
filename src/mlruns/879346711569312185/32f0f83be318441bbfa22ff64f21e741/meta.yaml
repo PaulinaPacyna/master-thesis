@@ -1,0 +1,15 @@
+artifact_uri: mlruns/879346711569312185/32f0f83be318441bbfa22ff64f21e741/artifacts
+end_time: 1685481332155
+entry_point_name: ''
+experiment_id: '879346711569312185'
+lifecycle_stage: active
+run_id: 32f0f83be318441bbfa22ff64f21e741
+run_name: Yoga
+run_uuid: 32f0f83be318441bbfa22ff64f21e741
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685480871807
+status: 3
+tags: []
+user_id: root

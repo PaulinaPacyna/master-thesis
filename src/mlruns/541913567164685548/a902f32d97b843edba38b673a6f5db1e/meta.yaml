@@ -1,0 +1,15 @@
+artifact_uri: mlruns/541913567164685548/a902f32d97b843edba38b673a6f5db1e/artifacts
+end_time: 1685401322140
+entry_point_name: ''
+experiment_id: '541913567164685548'
+lifecycle_stage: active
+run_id: a902f32d97b843edba38b673a6f5db1e
+run_name: MedicalImages
+run_uuid: a902f32d97b843edba38b673a6f5db1e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685401119869
+status: 3
+tags: []
+user_id: root

@@ -1,0 +1,15 @@
+artifact_uri: mlruns/743133642334170939/ba89f9f539a44e98a85bc8f20d90a15b/artifacts
+end_time: 1685411679918
+entry_point_name: ''
+experiment_id: '743133642334170939'
+lifecycle_stage: active
+run_id: ba89f9f539a44e98a85bc8f20d90a15b
+run_name: 'Destination model: MiddlePhalanxOutlineCorrect'
+run_uuid: ba89f9f539a44e98a85bc8f20d90a15b
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685411552145
+status: 3
+tags: []
+user_id: root

@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/db963a011d774bbd8123bee312d618e9/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: db963a011d774bbd8123bee312d618e9
+run_name: amazing-crow-194
+run_uuid: db963a011d774bbd8123bee312d618e9
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685025234837
+status: 1
+tags: []
+user_id: Pina

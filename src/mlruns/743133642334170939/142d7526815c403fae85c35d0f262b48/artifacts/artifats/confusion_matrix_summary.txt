@@ -1,0 +1,9 @@
+True: MixedShapesSmallTrain_1, predicted MixedShapesSmallTrain_3, 10 times 
+True: MixedShapesSmallTrain_4, predicted MixedShapesSmallTrain_1, 7 times 
+True: MixedShapesSmallTrain_1, predicted MixedShapesSmallTrain_4, 6 times 
+True: MixedShapesSmallTrain_4, predicted MixedShapesSmallTrain_3, 5 times 
+True: MixedShapesSmallTrain_3, predicted MixedShapesSmallTrain_4, 4 times 
+True: MixedShapesSmallTrain_2, predicted MixedShapesSmallTrain_3, 4 times 
+True: MixedShapesSmallTrain_5, predicted MixedShapesSmallTrain_3, 3 times 
+True: MixedShapesSmallTrain_5, predicted MixedShapesSmallTrain_1, 2 times 
+True: MixedShapesSmallTrain_3, predicted MixedShapesSmallTrain_1, 2 times 

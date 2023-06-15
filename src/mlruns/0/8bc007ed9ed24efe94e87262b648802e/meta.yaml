@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/8bc007ed9ed24efe94e87262b648802e/artifacts
+end_time: 1686239315234
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 8bc007ed9ed24efe94e87262b648802e
+run_name: capricious-rat-565
+run_uuid: 8bc007ed9ed24efe94e87262b648802e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1686236127186
+status: 3
+tags: []
+user_id: Pina

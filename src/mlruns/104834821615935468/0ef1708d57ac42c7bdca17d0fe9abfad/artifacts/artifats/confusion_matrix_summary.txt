@@ -1,0 +1,9 @@
+True: AsphaltObstacles_1, predicted AsphaltObstacles_3, 22 times 
+True: AsphaltObstacles_0, predicted AsphaltObstacles_2, 15 times 
+True: AsphaltObstacles_2, predicted AsphaltObstacles_0, 5 times 
+True: AsphaltObstacles_2, predicted AsphaltObstacles_3, 4 times 
+True: AsphaltObstacles_3, predicted AsphaltObstacles_3, 0 times 
+True: AsphaltObstacles_3, predicted AsphaltObstacles_2, 0 times 
+True: AsphaltObstacles_3, predicted AsphaltObstacles_1, 0 times 
+True: AsphaltObstacles_3, predicted AsphaltObstacles_0, 0 times 
+True: AsphaltObstacles_2, predicted AsphaltObstacles_2, 0 times 

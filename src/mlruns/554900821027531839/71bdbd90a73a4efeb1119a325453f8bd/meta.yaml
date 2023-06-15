@@ -1,0 +1,15 @@
+artifact_uri: mlruns/554900821027531839/71bdbd90a73a4efeb1119a325453f8bd/artifacts
+end_time: 1683462873220
+entry_point_name: ''
+experiment_id: '554900821027531839'
+lifecycle_stage: active
+run_id: 71bdbd90a73a4efeb1119a325453f8bd
+run_name: Haptics
+run_uuid: 71bdbd90a73a4efeb1119a325453f8bd
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1683462589507
+status: 3
+tags: []
+user_id: root

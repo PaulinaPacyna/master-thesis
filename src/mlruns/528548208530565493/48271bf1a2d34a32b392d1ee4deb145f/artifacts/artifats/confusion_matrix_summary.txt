@@ -1,0 +1,9 @@
+True: CricketZ_12, predicted CricketZ_8, 8 times 
+True: CricketZ_1, predicted CricketZ_11, 7 times 
+True: CricketZ_11, predicted CricketZ_3, 7 times 
+True: CricketZ_11, predicted CricketZ_8, 6 times 
+True: CricketZ_3, predicted CricketZ_11, 5 times 
+True: CricketZ_2, predicted CricketZ_12, 4 times 
+True: CricketZ_10, predicted CricketZ_8, 3 times 
+True: CricketZ_8, predicted CricketZ_10, 3 times 
+True: CricketZ_6, predicted CricketZ_8, 2 times 

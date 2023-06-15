@@ -1,0 +1,15 @@
+artifact_uri: mlruns/541913567164685548/5c1b6506a7084910b2a32ae700cdecdb/artifacts
+end_time: 1683414239070
+entry_point_name: ''
+experiment_id: '541913567164685548'
+lifecycle_stage: active
+run_id: 5c1b6506a7084910b2a32ae700cdecdb
+run_name: DucksAndGeese
+run_uuid: 5c1b6506a7084910b2a32ae700cdecdb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1683413942067
+status: 3
+tags: []
+user_id: root

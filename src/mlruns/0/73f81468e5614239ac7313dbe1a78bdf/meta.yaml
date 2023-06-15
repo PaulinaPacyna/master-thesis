@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/73f81468e5614239ac7313dbe1a78bdf/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: 73f81468e5614239ac7313dbe1a78bdf
+run_name: tasteful-bee-340
+run_uuid: 73f81468e5614239ac7313dbe1a78bdf
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1686246141585
+status: 1
+tags: []
+user_id: Pina

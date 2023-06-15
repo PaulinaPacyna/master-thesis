@@ -1,0 +1,9 @@
+True: DistalPhalanxOutlineAgeGroup_1, predicted DistalPhalanxTW_3, 91 times 
+True: DistalPhalanxTW_5, predicted DistalPhalanxOutlineAgeGroup_2, 62 times 
+True: DistalPhalanxOutlineAgeGroup_3, predicted DistalPhalanxTW_8, 57 times 
+True: DistalPhalanxTW_3, predicted DistalPhalanxOutlineAgeGroup_1, 57 times 
+True: DistalPhalanxTW_6, predicted DistalPhalanxOutlineAgeGroup_2, 53 times 
+True: DistalPhalanxTW_4, predicted DistalPhalanxOutlineAgeGroup_2, 36 times 
+True: DistalPhalanxTW_7, predicted DistalPhalanxOutlineAgeGroup_2, 32 times 
+True: MiddlePhalanxOutlineCorrect_1, predicted MiddlePhalanxOutlineAgeGroup_3, 31 times 
+True: DistalPhalanxTW_4, predicted DistalPhalanxOutlineAgeGroup_1, 31 times 

@@ -1,0 +1,15 @@
+artifact_uri: mlruns/303093782117013484/4067bc40aa7943adb4c4d665562d21d4/artifacts
+end_time: 1683487139087
+entry_point_name: ''
+experiment_id: '303093782117013484'
+lifecycle_stage: active
+run_id: 4067bc40aa7943adb4c4d665562d21d4
+run_name: GesturePebbleZ1
+run_uuid: 4067bc40aa7943adb4c4d665562d21d4
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1683487014881
+status: 3
+tags: []
+user_id: root

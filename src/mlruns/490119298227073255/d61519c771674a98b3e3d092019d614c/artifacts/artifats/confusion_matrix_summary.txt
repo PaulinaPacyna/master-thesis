@@ -1,0 +1,9 @@
+True: CricketY_9, predicted CricketY_1, 31 times 
+True: Worms_4, predicted Worms_5, 21 times 
+True: GunPointOldVersusYoung_1, predicted GunPointMaleVersusFemale_1, 16 times 
+True: Worms_1, predicted WormsTwoClass_1, 16 times 
+True: CricketY_12, predicted CricketY_1, 15 times 
+True: GunPointMaleVersusFemale_2, predicted GunPoint_2, 14 times 
+True: GunPointOldVersusYoung_2, predicted GunPoint_1, 13 times 
+True: GunPointAgeSpan_1, predicted GunPointMaleVersusFemale_1, 13 times 
+True: GunPointAgeSpan_2, predicted GunPointMaleVersusFemale_1, 12 times 

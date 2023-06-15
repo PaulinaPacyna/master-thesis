@@ -1,0 +1,9 @@
+True: UWaveGestureLibraryAll_3, predicted UWaveGestureLibraryAll_6, 35 times 
+True: AllGestureWiimoteY_8, predicted AllGestureWiimoteY_7, 31 times 
+True: AllGestureWiimoteY_5, predicted AllGestureWiimoteY_4, 25 times 
+True: UWaveGestureLibraryAll_7, predicted UWaveGestureLibraryAll_8, 21 times 
+True: AllGestureWiimoteY_4, predicted AllGestureWiimoteY_6, 18 times 
+True: AsphaltObstacles_1, predicted AsphaltObstacles_3, 17 times 
+True: UWaveGestureLibraryAll_4, predicted UWaveGestureLibraryAll_5, 17 times 
+True: UWaveGestureLibraryAll_4, predicted UWaveGestureLibraryAll_6, 15 times 
+True: AsphaltObstacles_2, predicted AsphaltObstacles_0, 14 times 

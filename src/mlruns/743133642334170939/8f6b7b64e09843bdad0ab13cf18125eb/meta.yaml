@@ -1,0 +1,15 @@
+artifact_uri: mlruns/743133642334170939/8f6b7b64e09843bdad0ab13cf18125eb/artifacts
+end_time: 1685412232876
+entry_point_name: ''
+experiment_id: '743133642334170939'
+lifecycle_stage: active
+run_id: 8f6b7b64e09843bdad0ab13cf18125eb
+run_name: 'Destination model: MiddlePhalanxTW'
+run_uuid: 8f6b7b64e09843bdad0ab13cf18125eb
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685412129358
+status: 3
+tags: []
+user_id: root

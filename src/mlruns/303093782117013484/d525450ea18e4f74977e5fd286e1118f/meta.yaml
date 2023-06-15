@@ -1,0 +1,15 @@
+artifact_uri: mlruns/303093782117013484/d525450ea18e4f74977e5fd286e1118f/artifacts
+end_time: 1683485417416
+entry_point_name: ''
+experiment_id: '303093782117013484'
+lifecycle_stage: active
+run_id: d525450ea18e4f74977e5fd286e1118f
+run_name: AsphaltObstacles
+run_uuid: d525450ea18e4f74977e5fd286e1118f
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1683485241631
+status: 3
+tags: []
+user_id: root

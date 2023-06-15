@@ -1,0 +1,9 @@
+True: WormsTwoClass_2, predicted Worms_3, 10 times 
+True: Worms_1, predicted WormsTwoClass_1, 10 times 
+True: WormsTwoClass_2, predicted Worms_5, 7 times 
+True: WormsTwoClass_2, predicted Worms_4, 7 times 
+True: Worms_4, predicted Worms_5, 6 times 
+True: Worms_3, predicted Worms_2, 5 times 
+True: Worms_1, predicted Worms_5, 5 times 
+True: Worms_1, predicted Worms_2, 4 times 
+True: Worms_5, predicted Worms_4, 4 times 

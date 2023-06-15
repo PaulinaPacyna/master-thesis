@@ -1,0 +1,15 @@
+artifact_uri: mlflow-artifacts:/0/b0006713b0bc4854b7396f5a8acc051e/artifacts
+end_time: null
+entry_point_name: ''
+experiment_id: '0'
+lifecycle_stage: active
+run_id: b0006713b0bc4854b7396f5a8acc051e
+run_name: powerful-crane-286
+run_uuid: b0006713b0bc4854b7396f5a8acc051e
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1685571170841
+status: 1
+tags: []
+user_id: Pina

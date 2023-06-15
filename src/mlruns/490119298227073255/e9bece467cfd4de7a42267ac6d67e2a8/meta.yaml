@@ -1,0 +1,15 @@
+artifact_uri: mlruns/490119298227073255/e9bece467cfd4de7a42267ac6d67e2a8/artifacts
+end_time: 1683497811680
+entry_point_name: ''
+experiment_id: '490119298227073255'
+lifecycle_stage: active
+run_id: e9bece467cfd4de7a42267ac6d67e2a8
+run_name: 'Source model: GunPoint'
+run_uuid: e9bece467cfd4de7a42267ac6d67e2a8
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1683497561090
+status: 3
+tags: []
+user_id: root

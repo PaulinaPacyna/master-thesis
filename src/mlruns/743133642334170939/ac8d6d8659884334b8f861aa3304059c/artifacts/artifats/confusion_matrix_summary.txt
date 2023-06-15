@@ -1,0 +1,9 @@
+True: ProximalPhalanxTW_8, predicted ProximalPhalanxOutlineAgeGroup_3, 15 times 
+True: FiftyWords_18, predicted FiftyWords_28, 11 times 
+True: FiftyWords_15, predicted FiftyWords_35, 11 times 
+True: FiftyWords_38, predicted FiftyWords_16, 10 times 
+True: ProximalPhalanxOutlineAgeGroup_1, predicted ProximalPhalanxTW_3, 10 times 
+True: FiftyWords_37, predicted FiftyWords_41, 10 times 
+True: FiftyWords_31, predicted FiftyWords_41, 10 times 
+True: FiftyWords_45, predicted FiftyWords_14, 9 times 
+True: FiftyWords_35, predicted FiftyWords_48, 9 times 

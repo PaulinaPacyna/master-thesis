@@ -1,0 +1,9 @@
+True: ShapesAll_48, predicted ShapesAll_13, 6 times 
+True: ShapesAll_40, predicted ShapesAll_1, 5 times 
+True: ShapesAll_42, predicted ShapesAll_6, 4 times 
+True: ShapesAll_14, predicted ShapesAll_26, 4 times 
+True: ShapesAll_11, predicted ShapesAll_20, 4 times 
+True: ShapesAll_36, predicted ShapesAll_60, 4 times 
+True: ShapesAll_18, predicted ShapesAll_10, 4 times 
+True: ShapesAll_34, predicted ShapesAll_13, 4 times 
+True: ShapesAll_40, predicted ShapesAll_10, 3 times 
